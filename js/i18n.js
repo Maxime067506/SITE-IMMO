@@ -167,6 +167,8 @@ const I18N = {
     "stat.bath":         "Salle de bain",
     "stat.baths":        "Salles de bain",
     "stat.rating":       "Note Airbnb",
+    "amenity.wifi":      "Wi-Fi haut débit",
+    "amenity.ac":        "Climatisation",
 
     "desc.nearby":       "À proximité — tout est à pied",
 
@@ -500,6 +502,8 @@ const I18N = {
     "stat.bath":         "Bathroom",
     "stat.baths":        "Bathrooms",
     "stat.rating":       "Airbnb rating",
+    "amenity.wifi":      "High-speed Wi-Fi",
+    "amenity.ac":        "Air conditioning",
 
     "desc.nearby":       "Nearby — everything within walking distance",
 

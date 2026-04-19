@@ -36,7 +36,7 @@ APTS = [
         "desc_title_pre": "Un balcon,", "desc_title_em": "la Riviera.",
         "desc_intro": "Idéalement situé à une minute du tramway, cet appartement au design soigné offre un emplacement de rêve à deux pas du port de Nice, de la place Garibaldi, de la Coulée Verte du Vieux-Nice et des plages.",
         "desc_body": "Profitez d'une literie française de qualité, d'un équipement complet et d'un grand balcon exposé plein sud avec vue sur les toits de Nice. L'espace optimisé accueille jusqu'à 4 voyageurs dans une ambiance moderne et lumineuse.",
-        "guests": 4, "bedrooms": 1, "beds": 2, "bathrooms": 1,
+        "guests": 4, "bedrooms": 1, "beds": 2, "bathrooms": 1, "sofa_bed": True,
         "rating": "4,87", "reviews": 75,
         "lat": 43.70150, "lon": 7.28010,
         "airbnb": "https://www.airbnb.fr/rooms/1361669686960380718",
@@ -64,7 +64,7 @@ APTS = [
         "desc_title_pre": "Même port,", "desc_title_em": "autre esprit.",
         "desc_intro": "Cet appartement au design soigné offre un emplacement de rêve à deux pas du port de Nice, de la place Garibaldi, de la Coulée Verte du Vieux-Nice et des plages.",
         "desc_body": "Profitez d'une literie française de qualité, d'un équipement complet et d'un grand balcon exposé plein sud avec vue sur les toits.",
-        "guests": 4, "bedrooms": 1, "beds": 2, "bathrooms": 1,
+        "guests": 4, "bedrooms": 1, "beds": 2, "bathrooms": 1, "sofa_bed": True,
         "rating": "4,88", "reviews": 64,
         "lat": 43.70160, "lon": 7.28020,
         "airbnb": "https://www.airbnb.fr/rooms/1361686663866337495",
@@ -92,7 +92,7 @@ APTS = [
         "desc_title_pre": "Au cœur", "desc_title_em": "de Nice.",
         "desc_intro": "Bienvenue dans cet appartement moderne et confortable, en plein cœur de Nice. À seulement une minute du tramway et de l'avenue Jean Médecin.",
         "desc_body": "Un espace optimisé pour 6 personnes : une chambre avec lit double, une mezzanine avec lit double, un canapé-lit dans le salon. Commerces, restaurants et attractions à quelques pas.",
-        "guests": 6, "bedrooms": 2, "beds": 3, "bathrooms": 1,
+        "guests": 6, "bedrooms": 1, "beds": 3, "bathrooms": 1, "sofa_bed": True, "mezzanine": True,
         "rating": "4,84", "reviews": 25,
         "lat": 43.70410, "lon": 7.26530,
         "airbnb": "https://www.airbnb.fr/rooms/1563266584925477319",
@@ -120,7 +120,7 @@ APTS = [
         "desc_title_pre": "Charme", "desc_title_em": "Art Déco.",
         "desc_intro": "Superbe studio rénové, idéalement situé face à la gare de Nice, à 3 min des transports et 10 min de la place Masséna.",
         "desc_body": "Spacieux et tout équipé, il offre jusqu'à 4 couchages avec un véritable lit escamotable. Exposé plein sud, il est baigné de lumière toute la journée.",
-        "guests": 4, "bedrooms": "Studio", "beds": 2, "bathrooms": 1,
+        "guests": 4, "bedrooms": "Studio", "beds": 2, "bathrooms": 1, "sofa_bed": True,
         "rating": "4,86", "reviews": 43,
         "lat": 43.7039, "lon": 7.2618,
         "airbnb": "https://www.airbnb.fr/rooms/1361628609886141688",
@@ -148,7 +148,7 @@ APTS = [
         "desc_title_pre": "Ultra", "desc_title_em": "design.",
         "desc_intro": "T2 ultra design, entièrement neuf, en plein centre de Nice. Mobilier moderne haut de gamme, déco soignée jusqu'aux derniers détails.",
         "desc_body": "Climatisation, TV écran plat, cuisine équipée. Chambre séparée avec literie premium. À 2 min de Jean Médecin et du tram, 5 min de la gare, 15 min des plages.",
-        "guests": 4, "bedrooms": 1, "beds": 2, "bathrooms": 1,
+        "guests": 4, "bedrooms": 1, "beds": 2, "bathrooms": 1, "sofa_bed": True,
         "rating": "4,94", "reviews": 16,
         "lat": 43.70060, "lon": 7.26180,
         "airbnb": "https://www.airbnb.fr/rooms/1446914329011561138",
@@ -176,7 +176,7 @@ APTS = [
         "desc_title_pre": "Tout", "desc_title_em": "Nice à pied.",
         "desc_intro": "Séjournez dans ce superbe appartement entièrement rénové, idéalement situé à 5 min à pied de la gare, des transports, du centre.",
         "desc_body": "Climatisé et tout équipé, il peut accueillir jusqu'à 4 personnes. Son emplacement parfait vous permet de profiter pleinement de Nice entre promenades, restaurants et boutiques.",
-        "guests": 4, "bedrooms": 1, "beds": 1, "bathrooms": 1,
+        "guests": 4, "bedrooms": 1, "beds": 2, "bathrooms": 1, "sofa_bed": True,
         "rating": "4,69", "reviews": 52,
         "lat": 43.70100, "lon": 7.25900,
         "airbnb": "https://www.airbnb.fr/rooms/1361447215596892211",
@@ -205,7 +205,7 @@ APTS = [
         "desc_title_pre": "Design", "desc_title_em": "neuf.",
         "desc_intro": "T2 super design, entièrement neuf, en plein centre de Nice. Mobilier moderne, déco soignée, climatisation, cuisine équipée.",
         "desc_body": "Chambre séparée avec literie haut de gamme. À 2 min de Jean Médecin et du tram, 5 min de la gare SNCF, 15 min des plages.",
-        "guests": 4, "bedrooms": 1, "beds": 2, "bathrooms": 1,
+        "guests": 4, "bedrooms": 1, "beds": 2, "bathrooms": 1, "sofa_bed": True,
         "rating": "4,81", "reviews": 21,
         "lat": 43.70050, "lon": 7.26170,
         "airbnb": "https://www.airbnb.fr/rooms/1447097634568506909",
@@ -238,7 +238,7 @@ TPL = """<!doctype html>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="css/style.css?v=b8" />
-  <link rel="stylesheet" href="css/sejour.css?v=b5" />
+  <link rel="stylesheet" href="css/sejour.css?v=b6" />
 </head>
 <body class="sejour-page">
 
@@ -305,10 +305,30 @@ TPL = """<!doctype html>
   <section class="sejour-stats" data-overlay="2">
     <div class="stats-inner">
       <div class="stat-cell"><span class="stat-label" data-i18n="stat.guests">Voyageurs</span><strong class="stat-value">{guests}</strong></div>
-      <div class="stat-cell"><span class="stat-label" data-i18n="{bedroom_key}">{bedroom_label}</span><strong class="stat-value">{bedrooms}</strong></div>
-      <div class="stat-cell"><span class="stat-label" data-i18n="stat.beds">Lits</span><strong class="stat-value">{beds}</strong></div>
+      <div class="stat-cell"><span class="stat-label" data-i18n="{bedroom_key}">{bedroom_label}</span><strong class="stat-value">{bedrooms_html}</strong></div>
+      <div class="stat-cell"><span class="stat-label" data-i18n="stat.beds">Lits</span><strong class="stat-value">{beds_html}</strong></div>
       <div class="stat-cell"><span class="stat-label" data-i18n="{bath_key}">{bath_label}</span><strong class="stat-value">{bathrooms}</strong></div>
       <div class="stat-cell"><span class="stat-label" data-i18n="stat.rating">Note Airbnb</span><strong class="stat-value">{rating}<em>/5</em></strong></div>
+    </div>
+    <!-- Équipements inclus partout : Wi-Fi + Climatisation -->
+    <div class="stats-amenities" aria-label="Équipements inclus">
+      <span class="amenity">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M2 9a15 15 0 0 1 20 0"/>
+          <path d="M5 12.5a10 10 0 0 1 14 0"/>
+          <path d="M8.5 16a5 5 0 0 1 7 0"/>
+          <circle cx="12" cy="19.5" r="1.1" fill="currentColor"/>
+        </svg>
+        <span data-i18n="amenity.wifi">Wi-Fi haut débit</span>
+      </span>
+      <span class="amenity">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="5" width="18" height="10" rx="2"/>
+          <path d="M6 10h12M6 13h12"/>
+          <path d="M8 18v1M12 18v2M16 18v1"/>
+        </svg>
+        <span data-i18n="amenity.ac">Climatisation</span>
+      </span>
     </div>
   </section>
 
@@ -425,7 +445,7 @@ TPL = """<!doctype html>
   </footer>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="js/i18n.js?v=b3"></script>
+  <script src="js/i18n.js?v=b4"></script>
   <script src="js/app.js?v=b9"></script>
   <script src="js/video-bg.js?v=b9"></script>
   <script>
@@ -607,6 +627,18 @@ for apt in APTS:
     ba_plural = isinstance(ba, int) and ba > 1
     apt_map["bath_key"]      = "stat.baths"     if ba_plural else "stat.bath"
     apt_map["bath_label"]    = "Salles de bain" if ba_plural else "Salle de bain"
+
+    # HTML enrichi : chambres avec mezzanine ("+ mezz.") si présent,
+    # lits avec "dont canapé" si un canapé-lit est inclus
+    bedrooms_html = f'{br}'
+    if apt.get("mezzanine"):
+        bedrooms_html = f'{br}<em>+ mezz.</em>'
+    apt_map["bedrooms_html"] = bedrooms_html
+
+    beds_html = f'{apt["beds"]}'
+    if apt.get("sofa_bed"):
+        beds_html = f'{apt["beds"]}<em>dont canapé</em>'
+    apt_map["beds_html"] = beds_html
 
     # 4 progress bars (pour les 4 premières narratives : salon → vue → chambre → cuisine)
     apt_map["progress_bars"] = "\n".join(

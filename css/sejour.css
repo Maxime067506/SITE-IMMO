@@ -125,7 +125,25 @@
   font-family:var(--f-serif);font-weight:300;font-style:italic;
   font-size:clamp(44px, 5vw, 72px);line-height:1;letter-spacing:-.03em;color:var(--ink);
 }
-.stat-value em{color:var(--accent-dk);font-size:.45em;font-weight:400;margin-left:4px}
+.stat-value em{color:var(--accent-dk);font-size:.45em;font-weight:400;margin-left:4px;font-style:italic}
+
+/* ============== AMENITIES (Wi-Fi + Clim sous les stats) ============== */
+.stats-amenities{
+  max-width:var(--container);margin:0 auto;
+  padding:clamp(14px, 2vw, 24px) var(--gutter) clamp(36px, 4vw, 60px);
+  display:flex;justify-content:center;align-items:center;gap:clamp(24px, 5vw, 60px);
+  flex-wrap:wrap;
+  border-top:1px solid var(--line-soft);
+  margin-top:clamp(24px, 3vw, 40px);
+}
+.stats-amenities .amenity{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--f-sans);font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink-soft);font-weight:500;
+}
+.stats-amenities .amenity svg{
+  color:var(--accent-dk);flex-shrink:0;
+}
 
 /* ============== DESCRIPTION ============== */
 .sejour-desc{
