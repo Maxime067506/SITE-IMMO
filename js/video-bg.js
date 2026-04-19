@@ -589,16 +589,23 @@
   }
 
   function boot() {
-    inject();
-    attachObservers();
-    watchBreakpoint();
-    decorateBreathZones();
-    initNiceClock();
-    initKinetic();
-    initScoreRoll();
-    initManifesto();
-    initReviewsCarousel();
-    initHeroSafetyNet();
+    // Safari iOS — chaque init est wrappé en try/catch isolé. Si une fonction throw
+    // (iframe YouTube bloquée, localStorage privé, feature non supportée…), les suivantes
+    // tournent quand même. Évite qu'UN bug casse TOUT le site.
+    const safe = (name, fn) => {
+      try { fn(); }
+      catch (e) { console.warn('[boot] ' + name + ' threw:', e); }
+    };
+    safe('inject', inject);
+    safe('attachObservers', attachObservers);
+    safe('watchBreakpoint', watchBreakpoint);
+    safe('decorateBreathZones', decorateBreathZones);
+    safe('initNiceClock', initNiceClock);
+    safe('initKinetic', initKinetic);
+    safe('initScoreRoll', initScoreRoll);
+    safe('initManifesto', initManifesto);
+    safe('initReviewsCarousel', initReviewsCarousel);
+    safe('initHeroSafetyNet', initHeroSafetyNet);
   }
 
   // Safari iOS — si l'animation CSS 'hero-in' ne s'applique pas (bug occasionnel
