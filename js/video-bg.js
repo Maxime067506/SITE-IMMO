@@ -384,6 +384,23 @@
     }, { threshold: 0.3, rootMargin: '-5% 0px' });
 
     titles.forEach(t => io.observe(t));
+
+    // Safari iOS — filet de sécurité 2.5s.
+    // Si un titre déjà visible n'a pas reçu kinetic-in (bug IO parfois sur Safari
+    // pour les éléments déjà en viewport au load), on force la révélation.
+    setTimeout(() => {
+      titles.forEach((t) => {
+        if (!t.classList.contains('kinetic-in')) {
+          const rect = t.getBoundingClientRect();
+          const inView = rect.top < window.innerHeight && rect.bottom > 0;
+          if (inView) {
+            const delay = parseInt(t.dataset.kineticDelay || '0', 10);
+            reveal(t, delay);
+            io.unobserve(t);
+          }
+        }
+      });
+    }, 2500);
   }
 
   /* ============================================================
@@ -581,6 +598,22 @@
     initScoreRoll();
     initManifesto();
     initReviewsCarousel();
+    initHeroSafetyNet();
+  }
+
+  // Safari iOS — si l'animation CSS 'hero-in' ne s'applique pas (bug occasionnel
+  // avec fill-mode 'forwards' + keyframe 'to'-only), on force la visibilité après 2s.
+  function initHeroSafetyNet() {
+    setTimeout(() => {
+      const items = document.querySelectorAll('.hero-film-content > *');
+      items.forEach((el) => {
+        const cs = getComputedStyle(el);
+        if (parseFloat(cs.opacity) < 0.05) {
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+        }
+      });
+    }, 2000);
   }
 
   if (document.readyState === 'loading') {
