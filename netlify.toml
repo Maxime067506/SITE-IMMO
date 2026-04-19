@@ -1,0 +1,75 @@
+# Netlify — Delfosse Properties
+
+[build]
+  publish = "."
+
+# Sécurité + cache
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), camera=(), microphone=()"
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Redirections conviviales
+[[redirects]]
+  from = "/login"
+  to   = "/login.html"
+  status = 200
+
+[[redirects]]
+  from = "/espace"
+  to   = "/espace.html"
+  status = 200
+
+[[redirects]]
+  from = "/port"
+  to   = "/sejour-01.html"
+  status = 301
+
+[[redirects]]
+  from = "/jumeau"
+  to   = "/sejour-02.html"
+  status = 301
+
+[[redirects]]
+  from = "/notre-dame"
+  to   = "/sejour-03.html"
+  status = 301
+
+[[redirects]]
+  from = "/art-deco"
+  to   = "/sejour-04.html"
+  status = 301
+
+[[redirects]]
+  from = "/ultra-design"
+  to   = "/sejour-05.html"
+  status = 301
+
+[[redirects]]
+  from = "/dernier"
+  to   = "/sejour-06.html"
+  status = 301
+
+[[redirects]]
+  from = "/design"
+  to   = "/sejour-07.html"
+  status = 301

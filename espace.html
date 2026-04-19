@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0c0c0a" />
+  <title>Mon espace — Delfosse Properties</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css?v=b4" />
+  <link rel="stylesheet" href="css/auth.css?v=b3" />
+</head>
+<body class="espace-page">
+
+  <!-- HEADER application -->
+  <header class="site-header is-scrolled" id="siteHeader">
+    <a href="index.html" class="brand-word" aria-label="Delfosse Properties">
+      <span class="brand-mono">Delfosse</span>
+      <span class="brand-sub">Properties</span>
+    </a>
+    <nav class="nav" aria-label="Espace">
+      <a href="#acces" data-i18n="espace.nav.access">Accès</a>
+      <a href="#guide" data-i18n="espace.nav.guide">Guide</a>
+      <a href="#wifi" data-i18n="espace.nav.wifi">Wifi</a>
+      <a href="#inventaire" data-i18n="espace.nav.inventory">Inventaire</a>
+      <a href="#conciergerie" data-i18n="espace.nav.contacts">Contacts</a>
+      <a href="#reglement" data-i18n="espace.nav.rules">Règlement</a>
+      <a href="#videos" data-i18n="espace.nav.videos">Vidéos</a>
+    </nav>
+    <div class="header-cta">
+      <div class="lang-switch" role="group" aria-label="Langue">
+        <button type="button" data-lang="fr" class="is-active">FR</button>
+        <span class="lang-sep">·</span>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+      <span class="user-chip" id="userChip">—</span>
+      <button class="btn btn-ghost logout-btn" id="logoutBtn" data-i18n="espace.logout">Déconnexion</button>
+    </div>
+  </header>
+
+  <!-- BANNER personnalisé -->
+  <section class="espace-banner">
+    <img id="propImg" src="" alt="" />
+    <div class="espace-banner-overlay"></div>
+    <div class="espace-banner-content">
+      <p class="eyebrow light"><span class="eyebrow-num">✻</span> <span id="statusLabel" data-i18n="espace.status.confirmed">Séjour confirmé</span></p>
+      <h1 class="display light"><span id="greeting">Bonsoir</span>,<br/><em id="firstname">—</em></h1>
+      <p class="lede light">
+        <span data-i18n="espace.banner.pre">Votre séjour à</span> <strong id="propertyInline">—</strong> <span data-i18n="espace.banner.post">est orchestré.</span><br/>
+        <span data-i18n="espace.banner.sub">Retrouvez ci-dessous toutes les informations utiles, prêtes pour votre arrivée.</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION — ACCÈS -->
+  <section class="section espace-section dark" id="acces">
+    <header class="section-head">
+      <p class="eyebrow light"><span class="eyebrow-num">01</span> <span data-i18n="espace.access.eyebrow">Accès & codes</span></p>
+      <h2 class="h-display" style="color:var(--bg)" data-i18n="espace.access.title" data-i18n-html="true">Entrez, <em style="color:var(--accent)">c'est chez vous.</em></h2>
+    </header>
+
+    <div class="access-grid">
+      <div class="access-card">
+        <span class="access-label" data-i18n="espace.access.code">Code d'arrivée</span>
+        <div class="big-code" id="arrivalCode">••••</div>
+        <p data-i18n="espace.access.codeHint">À composer sur le clavier de l'entrée principale. Le code est valide dès votre jour d'arrivée à 15 h et durant tout votre séjour.</p>
+      </div>
+      <div class="access-card">
+        <span class="access-label">WiFi</span>
+        <div class="kv"><span data-i18n="espace.wifi.network">Réseau</span><strong id="wifiSsid">—</strong></div>
+        <div class="kv"><span data-i18n="espace.wifi.password">Mot de passe</span><strong id="wifiPass" class="copy-field" title="Cliquer pour copier">—</strong></div>
+        <p class="hint" data-i18n="espace.wifi.clickHint">Cliquez sur le mot de passe pour le copier.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION — GUIDE TOURISTIQUE -->
+  <section class="section espace-section" id="guide">
+    <header class="section-head">
+      <p class="eyebrow"><span class="eyebrow-num">02</span> <span data-i18n="espace.guide.eyebrow">Guide</span></p>
+      <h2 class="h-display" data-i18n="espace.guide.title" data-i18n-html="true">Votre <em>guide niçois.</em></h2>
+      <p class="guide-intro" data-i18n="espace.guide.intro">
+        Nos favoris testés et retestés à Nice — à table, à pied, en tram, en bord de mer.
+        Le guide complet est consultable ci-dessous et téléchargeable en PDF pour emporter hors ligne.
+      </p>
+    </header>
+
+    <div class="guide-viewer">
+      <div class="guide-head">
+        <div class="guide-meta">
+          <span class="guide-meta-label" data-i18n="espace.guide.official">Guide officiel</span>
+          <strong data-i18n="espace.guide.name">Nice · FR & EN</strong>
+          <span class="guide-meta-sub" data-i18n="espace.guide.updated">Mis à jour Avril 2026 · 2,9 MB</span>
+        </div>
+        <a href="doc/guide-nice.pdf" download="Guide Nice FR EN.pdf" class="btn-gold guide-download">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M12 3v14M5 12l7 7 7-7M5 21h14"/></svg>
+          <span data-i18n="espace.guide.download">Télécharger le PDF</span>
+        </a>
+      </div>
+
+      <div class="guide-pdfjs" id="guidePdfjs" aria-live="polite">
+        <div class="guide-pdf-loading" id="guidePdfLoading">
+          <span class="guide-pdf-spinner" aria-hidden="true"></span>
+          <span data-i18n="guide.loading">Chargement du guide…</span>
+        </div>
+        <div class="guide-pdf-pages" id="guidePdfPages"></div>
+        <div class="guide-pdf-error" id="guidePdfError" hidden>
+          <p data-i18n="guide.fallback">L'affichage du guide a échoué. Téléchargez-le directement :</p>
+          <a href="doc/guide-nice.pdf" download="Guide Nice FR EN.pdf" class="btn btn-primary">Télécharger</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION — WIFI -->
+  <section class="section espace-section dark" id="wifi">
+    <header class="section-head">
+      <p class="eyebrow light"><span class="eyebrow-num">03</span> <span data-i18n="espace.wifi.eyebrow">Connexion Wifi</span></p>
+      <h2 class="h-display" style="color:var(--bg)" data-i18n="espace.wifi.title" data-i18n-html="true">Restez <em style="color:var(--accent)">connectés.</em></h2>
+    </header>
+
+    <div class="wifi-grid">
+      <!-- Carte identifiants -->
+      <div class="wifi-card">
+        <span class="wifi-label" data-i18n="espace.wifi.network">Réseau</span>
+        <div class="wifi-field">
+          <strong class="wifi-value wifi-mono" id="wifiSsidBig">—</strong>
+          <button type="button" class="wifi-copy" data-copy="ssid" aria-label="Copier le SSID">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+            <span data-i18n="espace.wifi.copy">Copier</span>
+          </button>
+        </div>
+
+        <span class="wifi-label" data-i18n="espace.wifi.password">Mot de passe</span>
+        <div class="wifi-field">
+          <strong class="wifi-value wifi-mono" id="wifiPassBig">—</strong>
+          <button type="button" class="wifi-copy" data-copy="pass" aria-label="Copier le mot de passe">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+            <span data-i18n="espace.wifi.copy">Copier</span>
+          </button>
+        </div>
+
+        <div class="wifi-steps">
+          <h4 data-i18n="espace.wifi.stepsTitle">3 étapes</h4>
+          <ol>
+            <li data-i18n="espace.wifi.step1">Scannez le QR code avec l'appareil photo</li>
+            <li data-i18n="espace.wifi.step2">Ou ouvrez les paramètres Wifi du téléphone</li>
+            <li data-i18n="espace.wifi.step3">Connectez-vous au réseau indiqué ci-dessus</li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Carte QR code -->
+      <div class="wifi-qr-card">
+        <div class="wifi-qr" id="wifiQr">
+          <div class="wifi-qr-placeholder" data-i18n="espace.wifi.qrLoading">Chargement du QR…</div>
+        </div>
+        <p class="wifi-qr-caption" data-i18n="espace.wifi.qrCaption">Scannez pour vous connecter</p>
+      </div>
+    </div>
+
+    <div class="wifi-help">
+      <h4 data-i18n="espace.wifi.helpTitle">En cas de problème</h4>
+      <ul>
+        <li data-i18n="espace.wifi.help1">Redémarrez la box (prise secteur, 20 secondes)</li>
+        <li data-i18n="espace.wifi.help2">Rapprochez-vous du routeur</li>
+        <li data-i18n="espace.wifi.help3">Vérifiez que le mot de passe ne contient pas d'espace</li>
+        <li data-i18n="espace.wifi.help4" data-i18n-html="true">Contactez la conciergerie (bouton <strong>Appeler</strong> dans la section Conciergerie)</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SECTION — INVENTAIRE -->
+  <section class="section espace-section" id="inventaire">
+    <header class="section-head">
+      <p class="eyebrow"><span class="eyebrow-num">04</span> <span data-i18n="espace.inv.eyebrow">Inventaire</span></p>
+      <h2 class="h-display" data-i18n="espace.inv.title" data-i18n-html="true">Tout ce que vous <em>trouverez.</em></h2>
+      <p class="inv-intro" data-i18n="espace.inv.intro">Organisé par pièce. Les consommables fournis pour votre arrivée sont renouvelés à chaque ménage.</p>
+    </header>
+
+    <div class="inv-rooms" id="invRooms">
+
+      <!-- Cuisine -->
+      <details class="inv-room" open>
+        <summary>
+          <span class="inv-room-label" data-i18n="espace.inv.kitchen">Cuisine</span>
+          <span class="inv-room-count" data-i18n="espace.inv.kitchenSub">— équipement complet</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" class="inv-chev" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <ul class="inv-list">
+          <li><span class="inv-q">1</span><span>Four encastrable</span></li>
+          <li><span class="inv-q">1</span><span>Plaques de cuisson induction</span></li>
+          <li><span class="inv-q">1</span><span>Lave-vaisselle</span></li>
+          <li><span class="inv-q">1</span><span>Réfrigérateur + congélateur</span></li>
+          <li><span class="inv-q">1</span><span>Micro-ondes</span></li>
+          <li><span class="inv-q">1</span><span>Machine à café (capsules fournies)</span></li>
+          <li><span class="inv-q">1</span><span>Bouilloire</span></li>
+          <li><span class="inv-q">1</span><span>Grille-pain</span></li>
+          <li><span class="inv-q">4+</span><span>Casseroles & poêles</span></li>
+          <li><span class="inv-q">—</span><span>Vaisselle complète (6 personnes)</span></li>
+          <li><span class="inv-q">—</span><span>Ustensiles de cuisine</span></li>
+          <li><span class="inv-q">✓</span><span>Sel, poivre, huile d'olive, vinaigre, café, thé, sucre</span></li>
+        </ul>
+      </details>
+
+      <!-- Salle de bain -->
+      <details class="inv-room">
+        <summary>
+          <span class="inv-room-label" data-i18n="espace.inv.bath">Salle de bain</span>
+          <span class="inv-room-count" data-i18n="espace.inv.bathSub">— linge haut de gamme</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" class="inv-chev" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <ul class="inv-list">
+          <li><span class="inv-q">2 par pers.</span><span>Serviettes bain &amp; visage</span></li>
+          <li><span class="inv-q">1</span><span>Sèche-cheveux</span></li>
+          <li><span class="inv-q">1</span><span>Tapis de bain</span></li>
+          <li><span class="inv-q">✓</span><span>Gel douche, shampoing, savon (produits français)</span></li>
+          <li><span class="inv-q">✓</span><span>Rouleau papier toilette supplémentaire</span></li>
+          <li><span class="inv-q">1</span><span>Porte-savon &amp; distributeurs</span></li>
+        </ul>
+      </details>
+
+      <!-- Chambre -->
+      <details class="inv-room">
+        <summary>
+          <span class="inv-room-label" data-i18n="espace.inv.bedroom">Chambre</span>
+          <span class="inv-room-count" data-i18n="espace.inv.bedroomSub">— literie française</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" class="inv-chev" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <ul class="inv-list">
+          <li><span class="inv-q">—</span><span>Literie 160x200 cm ou 140x190 selon apart</span></li>
+          <li><span class="inv-q">2</span><span>Oreillers par personne</span></li>
+          <li><span class="inv-q">1</span><span>Parure de lit premium (fournie &amp; changée)</span></li>
+          <li><span class="inv-q">1</span><span>Couette 4 saisons</span></li>
+          <li><span class="inv-q">—</span><span>Penderie, cintres, tiroirs rangement</span></li>
+          <li><span class="inv-q">1</span><span>Miroir pleine hauteur</span></li>
+          <li><span class="inv-q">2</span><span>Tables de chevet + lampes</span></li>
+        </ul>
+      </details>
+
+      <!-- Salon -->
+      <details class="inv-room">
+        <summary>
+          <span class="inv-room-label" data-i18n="espace.inv.living">Salon</span>
+          <span class="inv-room-count" data-i18n="espace.inv.livingSub">— détente</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" class="inv-chev" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <ul class="inv-list">
+          <li><span class="inv-q">1</span><span>TV écran plat connectée (Netflix)</span></li>
+          <li><span class="inv-q">1</span><span>Enceinte Bluetooth</span></li>
+          <li><span class="inv-q">—</span><span>Livres &amp; magazines</span></li>
+          <li><span class="inv-q">—</span><span>Guide du quartier (exemplaire imprimé)</span></li>
+          <li><span class="inv-q">1</span><span>Canapé + fauteuil</span></li>
+          <li><span class="inv-q">1</span><span>Table basse</span></li>
+        </ul>
+      </details>
+
+      <!-- Équipements -->
+      <details class="inv-room">
+        <summary>
+          <span class="inv-room-label" data-i18n="espace.inv.equip">Équipements techniques</span>
+          <span class="inv-room-count" data-i18n="espace.inv.equipSub">— tout confort</span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" class="inv-chev" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <ul class="inv-list">
+          <li><span class="inv-q">✓</span><span>Climatisation réversible (chaud / froid)</span></li>
+          <li><span class="inv-q">1</span><span>Lave-linge</span></li>
+          <li><span class="inv-q">1</span><span>Sèche-linge ou étendoir selon apart</span></li>
+          <li><span class="inv-q">1</span><span>Fer à repasser + table</span></li>
+          <li><span class="inv-q">1</span><span>Aspirateur</span></li>
+          <li><span class="inv-q">✓</span><span>Produits d'entretien &amp; ménage de base</span></li>
+          <li><span class="inv-q">✓</span><span>Wifi fibre haut débit</span></li>
+        </ul>
+      </details>
+
+    </div>
+
+    <div class="inv-footer">
+      <a href="mailto:hello@delfosse-properties.fr?subject=Signalement%20inventaire%20-%20[Votre%20nom]" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M12 8v5M12 16v.01M4.93 19.07A10 10 0 1 1 19.07 4.93 10 10 0 0 1 4.93 19.07z"/></svg>
+        <span data-i18n="espace.inv.report">Signaler un manque</span>
+      </a>
+      <p class="inv-note" data-i18n="espace.inv.note" data-i18n-html="true">
+        Vous trouvez qu'il manque quelque chose ? <em>Faites-le nous savoir, nous nous en occupons.</em>
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION — CONTACTS (anciennement Conciergerie) -->
+  <section class="section espace-section" id="conciergerie">
+    <header class="section-head">
+      <p class="eyebrow"><span class="eyebrow-num">05</span> <span data-i18n="espace.contacts.eyebrow">Vos contacts</span></p>
+      <h2 class="h-display" data-i18n="espace.contacts.title" data-i18n-html="true">Trois interlocuteurs, <em>une équipe dédiée.</em></h2>
+    </header>
+
+    <div class="contacts-grid">
+
+      <!-- Maxime — Propriétaire -->
+      <article class="contact-card">
+        <div class="contact-avatar" aria-hidden="true">M</div>
+        <div class="contact-body">
+          <p class="contact-role" data-i18n="espace.contacts.role.owner">Propriétaire</p>
+          <h3 class="contact-name">Maxime</h3>
+          <p class="contact-phone">+33 6 26 67 17 67</p>
+          <div class="contact-actions">
+            <a href="tel:+33626671767" class="btn btn-primary contact-call">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
+              <span data-i18n="espace.contacts.call">Appeler</span>
+            </a>
+            <a href="https://wa.me/33626671767" target="_blank" rel="noopener" class="btn contact-whatsapp">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.002-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413"/></svg>
+              <span>WhatsApp</span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Margaux — Co-hôte -->
+      <article class="contact-card">
+        <div class="contact-avatar" aria-hidden="true">Ma</div>
+        <div class="contact-body">
+          <p class="contact-role" data-i18n="espace.contacts.role.cohost">Co-hôte</p>
+          <h3 class="contact-name">Margaux</h3>
+          <p class="contact-phone">+33 6 64 64 57 11</p>
+          <div class="contact-actions">
+            <a href="tel:+33664645711" class="btn btn-primary contact-call">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
+              <span data-i18n="espace.contacts.call">Appeler</span>
+            </a>
+            <a href="https://wa.me/33664645711" target="_blank" rel="noopener" class="btn contact-whatsapp">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.002-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413"/></svg>
+              <span>WhatsApp</span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Khaoula — Femme de ménage -->
+      <article class="contact-card">
+        <div class="contact-avatar" aria-hidden="true">K</div>
+        <div class="contact-body">
+          <p class="contact-role" data-i18n="espace.contacts.role.housekeeper">Femme de ménage</p>
+          <h3 class="contact-name">Khaoula</h3>
+          <p class="contact-phone">+33 7 71 32 74 81</p>
+          <div class="contact-actions">
+            <a href="tel:+33771327481" class="btn btn-primary contact-call">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
+              <span data-i18n="espace.contacts.call">Appeler</span>
+            </a>
+            <a href="https://wa.me/33771327481" target="_blank" rel="noopener" class="btn contact-whatsapp">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.002-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413"/></svg>
+              <span>WhatsApp</span>
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <p class="contacts-note" data-i18n="espace.contacts.note" data-i18n-html="true">
+      Disponibles <em>7h à 23h</em> · Urgences 24/7 · Réponse WhatsApp habituelle sous 30 minutes.
+    </p>
+  </section>
+
+  <!-- SECTION — RÈGLEMENT INTÉRIEUR -->
+  <section class="section espace-section alt" id="reglement">
+    <header class="section-head">
+      <p class="eyebrow"><span class="eyebrow-num">06</span> <span data-i18n="espace.rules.eyebrow">Règlement intérieur</span></p>
+      <h2 class="h-display" data-i18n="espace.rules.title" data-i18n-html="true">Quelques règles, <em>pour le confort de tous.</em></h2>
+      <p class="rules-intro" data-i18n="espace.rules.intro">
+        Notre engagement : un séjour paisible, respectueux du voisinage et de l'appartement.
+      </p>
+    </header>
+
+    <div class="rules-grid">
+      <article class="rule-card">
+        <span class="rule-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </span>
+        <h3 data-i18n="espace.rules.r1.t">Arrivée & départ</h3>
+        <p data-i18n="espace.rules.r1.d">Arrivée à partir de 16 h · départ avant 11 h. Check-in tardif possible sur demande à Margaux.</p>
+      </article>
+
+      <article class="rule-card">
+        <span class="rule-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M19.07 4.93A10 10 0 0 0 4.93 19.07M4.93 4.93l14.14 14.14"/><circle cx="12" cy="12" r="10"/></svg>
+        </span>
+        <h3 data-i18n="espace.rules.r2.t">Pas de fêtes</h3>
+        <p data-i18n="espace.rules.r2.d">Fêtes, soirées et rassemblements supplémentaires strictement interdits. Appartement réservé aux voyageurs enregistrés.</p>
+      </article>
+
+      <article class="rule-card">
+        <span class="rule-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 6v12M3 6h14a4 4 0 0 1 4 4v2a4 4 0 0 1-4 4H3M7 2v4"/></svg>
+        </span>
+        <h3 data-i18n="espace.rules.r3.t">Non-fumeur</h3>
+        <p data-i18n="espace.rules.r3.d">Appartement entièrement non-fumeur, balcon compris. Un nettoyage spécifique de 250 € sera facturé en cas de non-respect.</p>
+      </article>
+
+      <article class="rule-card">
+        <span class="rule-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 18V5l12-2v13M6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18 19a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+        </span>
+        <h3 data-i18n="espace.rules.r4.t">Silence après 22 h</h3>
+        <p data-i18n="espace.rules.r4.d">Respect du voisinage : musique et voix modérées après 22 h. Les murs ne sont pas insonorisés comme à l'hôtel.</p>
+      </article>
+
+      <article class="rule-card">
+        <span class="rule-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+        </span>
+        <h3 data-i18n="espace.rules.r5.t">Tri des déchets</h3>
+        <p data-i18n="espace.rules.r5.d">Les 3 bacs de tri (papier · verre · ménager) sont indiqués dans la cuisine. Vidés avant le départ, merci.</p>
+      </article>
+
+      <article class="rule-card">
+        <span class="rule-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </span>
+        <h3 data-i18n="espace.rules.r6.t">Clés & code d'accès</h3>
+        <p data-i18n="espace.rules.r6.d">Gardez le code d'arrivée confidentiel. La perte des clés entraîne un remplacement de serrure facturé 180 €.</p>
+      </article>
+
+      <article class="rule-card">
+        <span class="rule-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M4.5 12 12 4.5 19.5 12 12 19.5z"/></svg>
+        </span>
+        <h3 data-i18n="espace.rules.r7.t">Animaux</h3>
+        <p data-i18n="espace.rules.r7.d">Animaux non autorisés sauf accord écrit préalable de Maxime. Merci de nous prévenir en amont si vous envisagez d'en amener.</p>
+      </article>
+
+      <article class="rule-card">
+        <span class="rule-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </span>
+        <h3 data-i18n="espace.rules.r8.t">État au départ</h3>
+        <p data-i18n="espace.rules.r8.d">Vaisselle propre · poubelles vidées · fenêtres fermées · climatisation éteinte. Un ménage complet est inclus après votre départ.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- SECTION — VIDÉOS TUTORIELS -->
+  <section class="section espace-section" id="videos">
+    <header class="section-head">
+      <p class="eyebrow"><span class="eyebrow-num">07</span> <span data-i18n="espace.videos.eyebrow">Vidéos tutoriels</span></p>
+      <h2 class="h-display" data-i18n="espace.videos.title" data-i18n-html="true">Les bons gestes, <em>en images.</em></h2>
+      <p class="videos-intro" data-i18n="espace.videos.intro">
+        Quelques démonstrations courtes pour vous rendre autonome sur les équipements de l'appartement.
+      </p>
+    </header>
+
+    <div class="videos-grid">
+      <article class="video-card" data-video="canape-lit">
+        <div class="video-frame">
+          <video controls playsinline preload="metadata" poster="">
+            <source src="doc/videos/canape-lit.mp4" type="video/mp4" />
+            <p>Votre navigateur ne supporte pas la vidéo. <a href="doc/videos/canape-lit.mp4">Télécharger</a></p>
+          </video>
+          <div class="video-coming" hidden>
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+            <span data-i18n="espace.videos.comingSoon">Vidéo bientôt disponible</span>
+          </div>
+        </div>
+        <div class="video-body">
+          <span class="video-num">01</span>
+          <h3 data-i18n="espace.videos.sofa.t">Déplier le canapé-lit</h3>
+          <p data-i18n="espace.videos.sofa.d">30 secondes — comment ouvrir le lit, installer les draps et replier le matin.</p>
+        </div>
+      </article>
+    </div>
+
+    <p class="videos-note" data-i18n="espace.videos.note">
+      D'autres tutoriels arrivent : lave-linge, sèche-linge, climatisation, cafetière. À très bientôt.
+    </p>
+  </section>
+
+  <!-- FOOTER léger -->
+  <footer class="espace-foot">
+    <span>© 2026 Delfosse Properties</span>
+    <span><a href="index.html" data-i18n="espace.foot.back">Retour au site</a></span>
+  </footer>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/auth.js?v=b8"></script>
+  <script src="js/i18n.js?v=b3"></script>
+  <script>
+    const user = DP.requireAuth();
+    if (!user) { /* redirect déjà déclenché */ }
+
+    // Remplissage des données
+    const $ = (id) => document.getElementById(id);
+    const hour = new Date().getHours();
+    const greet = hour < 6 ? 'Bonne nuit' : hour < 12 ? 'Bonjour' : hour < 18 ? 'Bon après-midi' : 'Bonsoir';
+    $('greeting').textContent = greet;
+    $('firstname').textContent = user.firstname + '.';
+    $('propertyInline').textContent = user.property;
+    $('statusLabel').textContent = user.status;
+    $('userChip').textContent = user.firstname[0] + '. ' + user.name.split(' ').slice(-1)[0];
+    $('propImg').src = user.image;
+    $('propImg').alt = user.property;
+
+    // Helper safe-set : ignore les éléments absents du DOM (sections retirées)
+    const setText = (id, val) => { const el = $(id); if (el) el.textContent = val; };
+    const setAttr = (id, attr, val) => { const el = $(id); if (el) el[attr] = val; };
+
+    // Optionnellement, sections encore présentes : Accès (arrival code + wifi)
+    setText('arrivalCode', user.arrival_code);
+    setText('wifiSsid', user.wifi_ssid);
+    setText('wifiPass', user.wifi_pass);
+
+    // === Nouveau bloc Wifi dédié (SSID + mdp en gros + QR code) ===
+    if ($('wifiSsidBig')) $('wifiSsidBig').textContent = user.wifi_ssid;
+    if ($('wifiPassBig')) $('wifiPassBig').textContent = user.wifi_pass;
+    // Génération du QR via api.qrserver.com (pas de lib, image unique)
+    const wifiQr = $('wifiQr');
+    if (wifiQr) {
+      const qrPayload = `WIFI:T:WPA;S:${user.wifi_ssid};P:${user.wifi_pass};;`;
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=320x320&margin=10&data=${encodeURIComponent(qrPayload)}`;
+      const img = document.createElement('img');
+      img.alt = 'QR code Wifi — scan pour se connecter';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.src = qrUrl;
+      img.onerror = () => { wifiQr.innerHTML = '<div class="wifi-qr-placeholder">QR indisponible</div>'; };
+      wifiQr.innerHTML = '';
+      wifiQr.appendChild(img);
+    }
+
+    // Contacts (Maxime / Margaux / Khaoula) sont statiques dans le HTML
+    // — pas d'injection dynamique nécessaire.
+
+    // Vidéo canapé-lit : si le fichier n'est pas encore présent, affiche le placeholder "bientôt disponible"
+    document.querySelectorAll('.video-card').forEach((card) => {
+      const video = card.querySelector('video');
+      const coming = card.querySelector('.video-coming');
+      if (!video || !coming) return;
+      // On laisse le navigateur tenter de charger la source.
+      // Si erreur (404 / fichier absent), on montre le placeholder.
+      video.addEventListener('error', () => {
+        video.style.display = 'none';
+        coming.hidden = false;
+      }, { once: true });
+      // Le tag <source> pose aussi un événement error sur la source elle-même
+      video.querySelectorAll('source').forEach((s) => {
+        s.addEventListener('error', () => {
+          video.style.display = 'none';
+          coming.hidden = false;
+        });
+      });
+      // Timeout de sécurité : si aucune métadonnée chargée au bout de 2.5s, on bascule
+      setTimeout(() => {
+        if (video.readyState === 0) {
+          video.style.display = 'none';
+          coming.hidden = false;
+        }
+      }, 2500);
+    });
+
+    // Copier wifi password
+    const toast = $('toast');
+    const showToast = (msg) => {
+      toast.textContent = msg;
+      toast.classList.add('in');
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => toast.classList.remove('in'), 2200);
+    };
+    $('wifiPass').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(user.wifi_pass);
+        showToast('Mot de passe WiFi copié');
+      } catch { showToast('Copie impossible'); }
+    });
+
+    // === Nouveaux boutons Copier dans la section Wifi dédiée ===
+    document.querySelectorAll('.wifi-copy').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const kind = btn.dataset.copy;
+        const val = kind === 'ssid' ? user.wifi_ssid : user.wifi_pass;
+        try {
+          await navigator.clipboard.writeText(val);
+          btn.classList.add('is-copied');
+          const span = btn.querySelector('span');
+          const original = span.textContent;
+          span.textContent = 'Copié';
+          showToast(kind === 'ssid' ? 'Réseau copié' : 'Mot de passe copié');
+          setTimeout(() => {
+            btn.classList.remove('is-copied');
+            span.textContent = original;
+          }, 2000);
+        } catch {
+          showToast('Copie impossible');
+        }
+      });
+    });
+
+    // Logout
+    $('logoutBtn').addEventListener('click', () => {
+      DP.logout();
+      document.body.classList.add('is-leaving');
+      setTimeout(() => window.location.href = 'index.html', 380);
+    });
+  </script>
+
+  <!-- PDF.js viewer : rend le guide en canvas, 100% cross-browser (Chrome/Safari/Firefox/mobile) -->
+  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+  <script>
+    (() => {
+      const pagesEl   = document.getElementById('guidePdfPages');
+      const loadingEl = document.getElementById('guidePdfLoading');
+      const errorEl   = document.getElementById('guidePdfError');
+      if (!pagesEl || !window.pdfjsLib) return;
+
+      // Configure worker
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+
+      const PDF_URL = 'doc/guide-nice.pdf';
+      const renderScale = Math.min(2, window.devicePixelRatio || 1) * 1.2;
+
+      const renderPage = (page, pageNum) => {
+        const viewport = page.getViewport({ scale: renderScale });
+        const canvas = document.createElement('canvas');
+        canvas.className = 'guide-pdf-canvas';
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+        canvas.setAttribute('role', 'img');
+        canvas.setAttribute('aria-label', `Page ${pageNum}`);
+        const ctx = canvas.getContext('2d');
+        pagesEl.appendChild(canvas);
+        return page.render({ canvasContext: ctx, viewport }).promise;
+      };
+
+      const loadPDF = async () => {
+        try {
+          const pdf = await pdfjsLib.getDocument(PDF_URL).promise;
+          loadingEl.style.display = 'none';
+          // Rendre les pages une par une (progressif, évite un lag bloquant)
+          for (let i = 1; i <= pdf.numPages; i++) {
+            const page = await pdf.getPage(i);
+            await renderPage(page, i);
+          }
+        } catch (err) {
+          console.error('PDF.js error', err);
+          loadingEl.style.display = 'none';
+          errorEl.hidden = false;
+        }
+      };
+
+      // Charge au scroll approchant la section (économise la bande passante)
+      const guideSection = document.getElementById('guide');
+      if (guideSection && 'IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              loadPDF();
+              io.disconnect();
+            }
+          });
+        }, { rootMargin: '200px 0px' });
+        io.observe(guideSection);
+      } else {
+        loadPDF();
+      }
+    })();
+  </script>
+</body>
+</html>

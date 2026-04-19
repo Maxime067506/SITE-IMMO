@@ -1,0 +1,10 @@
+# Redirections propres pour partage d'URLs
+/login          /login.html    200
+/espace         /espace.html   200
+/port           /sejour-01.html 301
+/jumeau         /sejour-02.html 301
+/notre-dame     /sejour-03.html 301
+/art-deco       /sejour-04.html 301
+/ultra-design   /sejour-05.html 301
+/dernier        /sejour-06.html 301
+/design         /sejour-07.html 301

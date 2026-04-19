@@ -1,0 +1,65 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": false,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "geolocation=(), camera=(), microphone=()" }
+      ]
+    },
+    {
+      "source": "/(index\\.html)?",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/(.*\\.html)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/css/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/js/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/img/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/doc/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    }
+  ],
+  "rewrites": [
+    { "source": "/login",  "destination": "/login.html" },
+    { "source": "/espace", "destination": "/espace.html" }
+  ],
+  "redirects": [
+    { "source": "/port",         "destination": "/sejour-01.html", "permanent": true },
+    { "source": "/jumeau",       "destination": "/sejour-02.html", "permanent": true },
+    { "source": "/notre-dame",   "destination": "/sejour-03.html", "permanent": true },
+    { "source": "/art-deco",     "destination": "/sejour-04.html", "permanent": true },
+    { "source": "/ultra-design", "destination": "/sejour-05.html", "permanent": true },
+    { "source": "/dernier",      "destination": "/sejour-06.html", "permanent": true },
+    { "source": "/design",       "destination": "/sejour-07.html", "permanent": true }
+  ]
+}

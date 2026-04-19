@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0A1628" />
+  <meta name="description" content="Notre appartement avenue Notre-Dame — Hyper centre · 6 voyageurs. 27 avenue Notre-Dame, Nice." />
+  <title>Fiche N° III · Notre appartement avenue Notre-Dame — Delfosse Properties</title>
+
+  <link rel="preload" as="image" href="img/nice-sunset.jpg" fetchpriority="high" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="css/style.css?v=b4" />
+  <link rel="stylesheet" href="css/sejour.css?v=b3" />
+</head>
+<body class="sejour-page">
+
+  <header class="site-header is-scrolled" id="siteHeader">
+    <a href="index.html" class="brand-word">
+      <span class="brand-mono">Delfosse</span>
+      <span class="brand-sub">Properties</span>
+    </a>
+    <nav class="nav" aria-label="Principal">
+      <a href="index.html#sejours" data-i18n="nav.allStays">Tous les séjours</a>
+      <a href="index.html#carte" data-i18n="nav.map">Carte</a>
+      <a href="index.html#avis" data-i18n="nav.reviews">Avis</a>
+      <a href="index.html#carousel" class="nav-cta" data-i18n="carousel.eyebrow">Réserver</a>
+      <span class="nice-clock nice-clock--nav" aria-hidden="true" title="Heure locale de Nice">Nice · --:--</span>
+    </nav>
+    <div class="header-cta">
+      <span class="nice-clock nice-clock--header" aria-hidden="true" title="Heure locale de Nice">Nice · --:--</span>
+      <div class="lang-switch" role="group" aria-label="Langue">
+        <button type="button" data-lang="fr" class="is-active">FR</button>
+        <span class="lang-sep">·</span>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+      <a href="login.html" class="login-link">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
+        </svg>
+        <span data-i18n="nav.space">Espace</span>
+      </a>
+      <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <section class="sejour-top" data-overlay="1">
+    <a href="index.html#sejours" class="back-link" data-i18n="fiche.backLink">← Retour aux séjours</a>
+    <div class="top-meta">
+      <span class="top-num">Fiche N° III — MMXXVI</span>
+      <span class="top-rating">★ 4,84 · 25 <span data-i18n="fiche.reviews">avis</span></span>
+    </div>
+  </section>
+
+  <section class="sejour-hero" data-overlay="1">
+    <div class="hero-title">
+      <p class="eyebrow"><span class="eyebrow-num">III</span> <span data-i18n="stay.3.loc">Hyper centre · 6 voyageurs</span></p>
+      <h1 class="display" data-i18n="apt.3.heroTitle" data-i18n-html="true">Notre appartement <em>avenue Notre-Dame.</em></h1>
+      <p class="sub" data-i18n="stay.3.sub">Famille · 6 voyageurs · mezzanine</p>
+      <p class="addr">27 avenue Notre-Dame · Nice</p>
+      <p class="lede" data-i18n="stay.3.lede">Appartement familial moderne avec mezzanine, en plein cœur de Nice, à une minute du tramway et de l'avenue Jean Médecin.</p>
+      <div class="hero-cta">
+        <a href="https://www.airbnb.fr/rooms/1563266584925477319" target="_blank" rel="noopener" class="btn btn-gold" data-i18n="cta.bookAirbnb">Réserver sur Airbnb</a>
+        <span class="rating-row">★ 4,84 · 25 <span data-i18n="fiche.reviews">avis</span></span>
+      </div>
+    </div>
+
+    <div class="hero-image" id="heroImage">
+      <div class="hero-progress" aria-hidden="true">
+        <span class="bar is-active"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </div>
+      <div class="slide is-active"><img src="img/airbnb/03-basilique/photo-01.jpg" alt=""  /></div>
+      <div class="slide"><img src="img/airbnb/03-basilique/photo-02.jpg" alt="" loading="lazy" /></div>
+      <div class="slide"><img src="img/airbnb/03-basilique/photo-03.jpg" alt="" loading="lazy" /></div>
+      <div class="slide"><img src="img/airbnb/03-basilique/photo-04.jpg" alt="" loading="lazy" /></div>
+    </div>
+  </section>
+
+  <section class="sejour-stats" data-overlay="2">
+    <div class="stats-inner">
+      <div class="stat-cell"><span class="stat-label" data-i18n="stat.guests">Voyageurs</span><strong class="stat-value">6</strong></div>
+      <div class="stat-cell"><span class="stat-label" data-i18n="stat.bedrooms">Chambres</span><strong class="stat-value">2</strong></div>
+      <div class="stat-cell"><span class="stat-label" data-i18n="stat.beds">Lits</span><strong class="stat-value">3</strong></div>
+      <div class="stat-cell"><span class="stat-label" data-i18n="stat.bath">Salle de bain</span><strong class="stat-value">1</strong></div>
+      <div class="stat-cell"><span class="stat-label" data-i18n="stat.rating">Note Airbnb</span><strong class="stat-value">4,84<em>/5</em></strong></div>
+    </div>
+  </section>
+
+  <section class="sejour-desc" data-overlay="1">
+    <div>
+      <p class="eyebrow"><span class="eyebrow-num">II</span> <span data-i18n="sec.desc">Description</span></p>
+      <h2 class="h-display" data-i18n="apt.3.title" data-i18n-html="true">Au cœur<br/><em>de Nice.</em></h2>
+    </div>
+    <div>
+      <p class="intro" data-i18n="apt.3.intro">Bienvenue dans cet appartement moderne et confortable, en plein cœur de Nice. À seulement une minute du tramway et de l'avenue Jean Médecin.</p>
+      <p data-i18n="apt.3.body">Un espace optimisé pour 6 personnes : une chambre avec lit double, une mezzanine avec lit double, un canapé-lit dans le salon. Commerces, restaurants et attractions à quelques pas.</p>
+
+      <h3 data-i18n="desc.nearby">À proximité — tout est à pied</h3>
+      <ul>
+        <li><span>Tramway L1</span> 1 min à pied</li>
+        <li><span>Basilique Notre-Dame</span> À côté</li>
+        <li><span>Vieux Nice & Masséna</span> 5 min à pied</li>
+        <li><span>Gare de Nice</span> 5 min à pied</li>
+        <li><span>Avenue Jean Médecin</span> 1 min à pied</li>
+        <li><span>Aéroport par tram</span> 25 min</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sejour-gallery" data-overlay="2">
+    <header class="section-head">
+      <p class="eyebrow"><span class="eyebrow-num">III</span> <span data-i18n="sec.gallery">Galerie</span></p>
+      <h2 class="h-display" data-i18n="sec.galleryTitle" data-i18n-html="true">Le lieu <em>en images.</em></h2>
+    </header>
+
+    <!-- Layout Airbnb : 1 hero à gauche + grille 2x2 à droite (desktop),
+         1 hero plein cadre + strip horizontal miniatures (mobile). -->
+    <div class="ab-gallery" id="abGallery">
+      <button class="ab-cell ab-hero" type="button" data-i="0" aria-label="Voir photo 1"><img src="img/airbnb/03-basilique/photo-01.jpg" alt="" fetchpriority="high" /><span class="ab-mobile-counter">1 / 8</span></button>
+      <button class="ab-cell ab-thumb" type="button" data-i="1" aria-label="Voir photo 2"><img src="img/airbnb/03-basilique/photo-02.jpg" alt="" loading="lazy" /></button>
+      <button class="ab-cell ab-thumb" type="button" data-i="2" aria-label="Voir photo 3"><img src="img/airbnb/03-basilique/photo-03.jpg" alt="" loading="lazy" /></button>
+      <button class="ab-cell ab-thumb" type="button" data-i="3" aria-label="Voir photo 4"><img src="img/airbnb/03-basilique/photo-04.jpg" alt="" loading="lazy" /></button>
+      <button class="ab-cell ab-thumb" type="button" data-i="4" aria-label="Voir photo 5"><img src="img/airbnb/03-basilique/photo-05.jpg" alt="" loading="lazy" /></button>
+      <button class="ab-showall" type="button" data-i="0" aria-label="Voir toutes les photos">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        <span><span data-i18n="fiche.seeAll">Voir les</span> 08 <span data-i18n="fiche.photos">photos</span></span>
+      </button>
+    </div>
+
+    <div class="ab-strip" id="abStrip" role="region" aria-label="Miniatures photos">
+      <button class="ab-strip-cell" type="button" data-i="1" aria-label="Voir photo 2"><img src="img/airbnb/03-basilique/photo-02.jpg" alt="" loading="lazy" /></button>
+      <button class="ab-strip-cell" type="button" data-i="2" aria-label="Voir photo 3"><img src="img/airbnb/03-basilique/photo-03.jpg" alt="" loading="lazy" /></button>
+      <button class="ab-strip-cell" type="button" data-i="3" aria-label="Voir photo 4"><img src="img/airbnb/03-basilique/photo-04.jpg" alt="" loading="lazy" /></button>
+      <button class="ab-strip-cell" type="button" data-i="4" aria-label="Voir photo 5"><img src="img/airbnb/03-basilique/photo-05.jpg" alt="" loading="lazy" /></button>
+      <button class="ab-strip-cell" type="button" data-i="5" aria-label="Voir photo 6"><img src="img/airbnb/03-basilique/photo-06.jpg" alt="" loading="lazy" /></button>
+      <button class="ab-strip-cell" type="button" data-i="6" aria-label="Voir photo 7"><img src="img/airbnb/03-basilique/photo-07.jpg" alt="" loading="lazy" /></button>
+      <button class="ab-strip-cell" type="button" data-i="7" aria-label="Voir photo 8"><img src="img/airbnb/03-basilique/photo-08.jpg" alt="" loading="lazy" /></button>
+    </div>
+
+    <!-- Pool complet (lightbox data source) -->
+    <div class="ab-pool" hidden>
+      <a class="gallery-item" data-i="0" href="img/airbnb/03-basilique/photo-01.jpg"><img src="img/airbnb/03-basilique/photo-01.jpg" alt="" loading="lazy" /></a>
+      <a class="gallery-item" data-i="1" href="img/airbnb/03-basilique/photo-02.jpg"><img src="img/airbnb/03-basilique/photo-02.jpg" alt="" loading="lazy" /></a>
+      <a class="gallery-item" data-i="2" href="img/airbnb/03-basilique/photo-03.jpg"><img src="img/airbnb/03-basilique/photo-03.jpg" alt="" loading="lazy" /></a>
+      <a class="gallery-item" data-i="3" href="img/airbnb/03-basilique/photo-04.jpg"><img src="img/airbnb/03-basilique/photo-04.jpg" alt="" loading="lazy" /></a>
+      <a class="gallery-item" data-i="4" href="img/airbnb/03-basilique/photo-05.jpg"><img src="img/airbnb/03-basilique/photo-05.jpg" alt="" loading="lazy" /></a>
+      <a class="gallery-item" data-i="5" href="img/airbnb/03-basilique/photo-06.jpg"><img src="img/airbnb/03-basilique/photo-06.jpg" alt="" loading="lazy" /></a>
+      <a class="gallery-item" data-i="6" href="img/airbnb/03-basilique/photo-07.jpg"><img src="img/airbnb/03-basilique/photo-07.jpg" alt="" loading="lazy" /></a>
+      <a class="gallery-item" data-i="7" href="img/airbnb/03-basilique/photo-08.jpg"><img src="img/airbnb/03-basilique/photo-08.jpg" alt="" loading="lazy" /></a>
+    </div>
+  </section>
+
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Galerie">
+    <div class="lightbox-top">
+      <span id="lbCounter">01 / 08</span>
+      <strong id="lbNum">N° I</strong>
+      <em id="lbName">Notre appartement avenue Notre-Dame</em>
+    </div>
+    <button class="lightbox-close" id="lbClose" aria-label="Fermer">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M6 6l12 12M18 6l-12 12"/></svg>
+    </button>
+    <button class="lightbox-nav lightbox-prev" id="lbPrev" aria-label="Précédent">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>
+    </button>
+    <button class="lightbox-nav lightbox-next" id="lbNext" aria-label="Suivant">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+    <div class="lightbox-stage">
+      <img class="lightbox-image" id="lbImg" src="" alt="" />
+    </div>
+    <div class="lightbox-thumbs" id="lbThumbs"></div>
+  </div>
+
+  <section class="sejour-map" data-overlay="2">
+    <header class="section-head">
+      <p class="eyebrow"><span class="eyebrow-num">IV</span> <span data-i18n="sec.location">Localisation</span></p>
+      <h2 class="h-display">27 avenue Notre-Dame <em>— Hyper centre.</em></h2>
+    </header>
+    <div class="carte-3d" id="carte3d">
+      <div class="carte-meta" aria-hidden="true">
+        <span class="rec"></span>
+        <span>Plan · 27 avenue Notre-Dame, Nice</span>
+      </div>
+      <div id="niceMap" class="carte-canvas" data-lat="43.7041" data-lon="7.2653" data-label="Notre appartement avenue Notre-Dame"></div>
+      <div class="carte-compass" aria-hidden="true">
+        <span>N</span>
+        <svg viewBox="0 0 40 40" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+          <circle cx="20" cy="20" r="18"/>
+          <path d="M20 4 L23 18 L20 16 L17 18 Z" fill="currentColor"/>
+          <path d="M20 36 L23 22 L20 24 L17 22 Z"/>
+        </svg>
+      </div>
+    </div>
+    <div class="map-legend">
+      <div><span>Tramway L1</span><span>1 min à pied</span></div>
+      <div><span>Basilique Notre-Dame</span><span>À côté</span></div>
+      <div><span>Vieux Nice & Masséna</span><span>5 min à pied</span></div>
+      <div><span>Gare de Nice</span><span>5 min à pied</span></div>
+    </div>
+  </section>
+
+  <section class="sejour-cta" data-overlay="3">
+    <div class="cta-wrap">
+      <p class="eyebrow light"><span class="eyebrow-num">V</span> <span data-i18n="sec.cta">Disponible sur Airbnb</span></p>
+      <h2 class="h-display" data-i18n="apt.3.cta" data-i18n-html="true">Réservez<br/><em>Avenue Notre-Dame.</em></h2>
+      <p class="rating">★ 4,84 · 25 <span data-i18n="fiche.reviews">avis</span></p>
+      <a href="https://www.airbnb.fr/rooms/1563266584925477319" target="_blank" rel="noopener" class="btn btn-gold btn-big" data-i18n="cta.seeDates">Voir les disponibilités</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="foot-grid">
+      <div>
+        <div class="brand-word brand-footer">
+          <span class="brand-mono">Delfosse</span>
+          <span class="brand-sub">Properties</span>
+        </div>
+        <p class="foot-tag" data-i18n="foot.tag">Séjours d'exception, à Nice sur la French Riviera.</p>
+      </div>
+      <div>
+        <h4 data-i18n="foot.navTitle">Navigation</h4>
+        <ul>
+          <li><a href="index.html#sejours" data-i18n="nav.allStays">Tous les séjours</a></li>
+          <li><a href="index.html#carte" data-i18n="nav.map">Carte</a></li>
+          <li><a href="index.html#avis" data-i18n="nav.reviews">Avis</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© MMXXVI Delfosse Properties · <span data-i18n="foot.city">Nice, French Riviera</span></span>
+      <span><a href="#" data-i18n="foot.legal">Mentions légales</a> · <a href="#" data-i18n="foot.tos">CGV</a> · <a href="#" data-i18n="foot.privacy">Confidentialité</a></span>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="js/i18n.js?v=b3"></script>
+  <script src="js/app.js?v=b8"></script>
+  <script src="js/video-bg.js?v=b5"></script>
+  <script>
+    /* Hero slideshow Ken Burns + progress bars */
+    (() => {
+      const root = document.getElementById('heroImage');
+      if (!root) return;
+      const slides = [...root.querySelectorAll('.slide')];
+      const bars = [...root.querySelectorAll('.hero-progress .bar')];
+      if (slides.length < 2) return;
+      let idx = 0, timer = null, paused = false;
+      const DUR = 5000;
+      const show = (i) => {
+        slides[idx].classList.remove('is-active');
+        bars[idx]?.classList.remove('is-active');
+        bars[idx]?.classList.add('is-done');
+        idx = (i + slides.length) % slides.length;
+        if (idx === 0) bars.forEach(b => b.classList.remove('is-done', 'is-active'));
+        slides[idx].classList.add('is-active');
+        bars[idx]?.classList.add('is-active');
+        clearTimeout(timer);
+        if (!paused) timer = setTimeout(() => show(idx + 1), DUR);
+      };
+      root.addEventListener('mouseenter', () => { paused = true; clearTimeout(timer); });
+      root.addEventListener('mouseleave', () => { paused = false; timer = setTimeout(() => show(idx + 1), DUR); });
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        timer = setTimeout(() => show(1), DUR);
+      }
+    })();
+  </script>
+  <script>
+    /* Carte Leaflet */
+    (() => {
+      const canvas = document.getElementById('niceMap');
+      if (!canvas || !window.L) return;
+      const lat = parseFloat(canvas.dataset.lat);
+      const lon = parseFloat(canvas.dataset.lon);
+      const map = L.map(canvas, {
+        center: [lat, lon], zoom: 16,
+        zoomControl: true, scrollWheelZoom: false, attributionControl: false,
+      });
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+      const icon = L.divIcon({
+        className: 'dp-marker-wrap',
+        html: '<div class="dp-marker is-active">03</div>',
+        iconSize: [44, 44], iconAnchor: [22, 22],
+      });
+      L.marker([lat, lon], { icon }).addTo(map);
+      setTimeout(() => map.invalidateSize(), 200);
+    })();
+  </script>
+  <script>
+    /* Lightbox premium */
+    (() => {
+      const items = [...document.querySelectorAll('.gallery-item')];
+      if (!items.length) return;
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lbImg');
+      const lbCounter = document.getElementById('lbCounter');
+      const lbClose = document.getElementById('lbClose');
+      const lbPrev = document.getElementById('lbPrev');
+      const lbNext = document.getElementById('lbNext');
+      const thumbs = document.getElementById('lbThumbs');
+      const total = items.length;
+      const roman = ['I','II','III','IV','V','VI','VII','VIII','IX','X'];
+
+      items.forEach((item, i) => {
+        const img = item.querySelector('img');
+        const t = document.createElement('img');
+        t.className = 'lightbox-thumb';
+        t.src = img.src;
+        t.alt = '';
+        t.addEventListener('click', () => show(i));
+        thumbs.appendChild(t);
+      });
+      const thumbEls = [...thumbs.children];
+
+      let idx = 0;
+      const preloadAround = (i) => {
+        for (let k = 1; k <= 2; k++) {
+          [(i + k) % total, (i - k + total) % total].forEach((n) => {
+            const href = items[n].getAttribute('href');
+            if (href) new Image().src = href;
+          });
+        }
+      };
+      const show = (i) => {
+        idx = (i + total) % total;
+        lbImg.classList.add('swapping');
+        setTimeout(() => {
+          lbImg.src = items[idx].getAttribute('href');
+          lbImg.classList.remove('swapping');
+        }, 150);
+        lbCounter.textContent = `${String(idx + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+        document.getElementById('lbNum').textContent = `N° ${roman[idx] || idx + 1}`;
+        thumbEls.forEach((t, k) => t.classList.toggle('is-active', k === idx));
+        const active = thumbEls[idx];
+        if (active) active.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        preloadAround(idx);
+      };
+
+      const open = (i) => {
+        show(i);
+        lb.classList.add('open');
+        lb.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      };
+      const close = () => {
+        lb.classList.remove('open');
+        lb.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      };
+
+      items.forEach((a, i) => a.addEventListener('click', (e) => { e.preventDefault(); open(i); }));
+      // Bind des cellules visibles (Airbnb layout) + strip mobile + bouton "Voir toutes les photos"
+      document.querySelectorAll('.ab-cell, .ab-strip-cell, .ab-showall').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const i = parseInt(btn.dataset.i || '0', 10);
+          open(i);
+        });
+      });
+      lbClose.addEventListener('click', close);
+      lbPrev.addEventListener('click', () => show(idx - 1));
+      lbNext.addEventListener('click', () => show(idx + 1));
+      lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
+
+      // Swipe-down close (mobile)
+      let swipeStart = null;
+      lb.addEventListener('touchstart', (e) => {
+        swipeStart = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now() };
+      }, { passive: true });
+      lb.addEventListener('touchend', (e) => {
+        if (!swipeStart) return;
+        const dx = e.changedTouches[0].clientX - swipeStart.x;
+        const dy = e.changedTouches[0].clientY - swipeStart.y;
+        const dt = Date.now() - swipeStart.t;
+        if (Math.abs(dy) > Math.abs(dx) && dy > 80 && dt < 450) {
+          close();
+        } else if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+          show(idx + (dx < 0 ? 1 : -1));
+        }
+        swipeStart = null;
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (!lb.classList.contains('open')) return;
+        if (e.key === 'Escape') close();
+        if (e.key === 'ArrowRight') show(idx + 1);
+        if (e.key === 'ArrowLeft')  show(idx - 1);
+      });
+
+      let touchX = 0;
+      lb.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; }, { passive: true });
+      lb.addEventListener('touchend', (e) => {
+        const dx = e.changedTouches[0].clientX - touchX;
+        if (Math.abs(dx) > 50) show(idx + (dx < 0 ? 1 : -1));
+      });
+    })();
+  </script>
+</body>
+</html>
