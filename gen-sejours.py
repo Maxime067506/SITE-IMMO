@@ -238,7 +238,7 @@ TPL = """<!doctype html>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="css/style.css?v=b8" />
-  <link rel="stylesheet" href="css/sejour.css?v=b6" />
+  <link rel="stylesheet" href="css/sejour.css?v=b8" />
 </head>
 <body class="sejour-page">
 
@@ -281,7 +281,7 @@ TPL = """<!doctype html>
     </div>
   </section>
 
-  <section class="sejour-hero" data-overlay="1">
+  <section class="sejour-hero sejour-hero--solo" data-overlay="1">
     <div class="hero-title">
       <p class="eyebrow"><span class="eyebrow-num">{roman}</span> <span data-i18n="stay.{no_int}.loc">{loc_eye}</span></p>
       <h1 class="display" data-i18n="apt.{no_int}.heroTitle" data-i18n-html="true">{name_first}<em>{name_italic}</em></h1>
@@ -293,12 +293,44 @@ TPL = """<!doctype html>
         <span class="rating-row">★ {rating} · {reviews} <span data-i18n="fiche.reviews">avis</span></span>
       </div>
     </div>
+  </section>
 
-    <div class="hero-image" id="heroImage">
-      <div class="hero-progress" aria-hidden="true">
-{progress_bars}
+  <!-- Galerie coverflow — juste sous le hero (à la place de l'ancien diaporama) -->
+  <section class="sejour-coverflow" data-overlay="2">
+    <header class="section-head">
+      <p class="eyebrow light"><span class="eyebrow-num">II</span> <span data-i18n="sec.gallery">Galerie</span></p>
+      <h2 class="h-display" data-i18n="sec.galleryTitle" data-i18n-html="true">Le lieu <em>en images.</em></h2>
+    </header>
+
+    <div class="cf-track" id="ficheCfTrack" tabindex="0" role="group" aria-label="Galerie photos de l'appartement">
+      <div class="cf-stage" id="ficheCfStage"
+           data-photo-dir="{photo_dir}"
+           data-photo-count="{total_photos}"
+           data-photo-version="{photo_version}"
+           aria-live="polite"></div>
+    </div>
+
+    <div class="cf-controls">
+      <div class="cf-counter">
+        <span id="ficheCfCur">01</span>
+        <span class="cf-sep">/</span>
+        <span class="cf-tot">{total_photos_padded}</span>
       </div>
-{hero_slides}
+
+      <div class="cf-dots" id="ficheCfDots" role="tablist" aria-label="Sélection photo"></div>
+
+      <div class="cf-arrows">
+        <button type="button" class="cf-arrow cf-prev-fiche" aria-label="Photo précédente">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M15 6l-6 6 6 6"/>
+          </svg>
+        </button>
+        <button type="button" class="cf-arrow cf-next-fiche" aria-label="Photo suivante">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 6l6 6-6 6"/>
+          </svg>
+        </button>
+      </div>
     </div>
   </section>
 
@@ -334,7 +366,7 @@ TPL = """<!doctype html>
 
   <section class="sejour-desc" data-overlay="1">
     <div>
-      <p class="eyebrow"><span class="eyebrow-num">II</span> <span data-i18n="sec.desc">Description</span></p>
+      <p class="eyebrow"><span class="eyebrow-num">III</span> <span data-i18n="sec.desc">Description</span></p>
       <h2 class="h-display" data-i18n="apt.{no_int}.title" data-i18n-html="true">{desc_title_pre}<br/><em>{desc_title_em}</em></h2>
     </div>
     <div>
@@ -345,44 +377,6 @@ TPL = """<!doctype html>
       <ul>
 {nearby_html}
       </ul>
-    </div>
-  </section>
-
-  <section class="sejour-coverflow" data-overlay="2">
-    <header class="section-head">
-      <p class="eyebrow light"><span class="eyebrow-num">III</span> <span data-i18n="sec.gallery">Galerie</span></p>
-      <h2 class="h-display" data-i18n="sec.galleryTitle" data-i18n-html="true">Le lieu <em>en images.</em></h2>
-    </header>
-
-    <div class="cf-track" id="ficheCfTrack" tabindex="0" role="group" aria-label="Galerie photos de l'appartement">
-      <div class="cf-stage" id="ficheCfStage"
-           data-photo-dir="{photo_dir}"
-           data-photo-count="{total_photos}"
-           data-photo-version="{photo_version}"
-           aria-live="polite"></div>
-    </div>
-
-    <div class="cf-controls">
-      <div class="cf-counter">
-        <span id="ficheCfCur">01</span>
-        <span class="cf-sep">/</span>
-        <span class="cf-tot">{total_photos_padded}</span>
-      </div>
-
-      <div class="cf-dots" id="ficheCfDots" role="tablist" aria-label="Sélection photo"></div>
-
-      <div class="cf-arrows">
-        <button type="button" class="cf-arrow cf-prev-fiche" aria-label="Photo précédente">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M15 6l-6 6 6 6"/>
-          </svg>
-        </button>
-        <button type="button" class="cf-arrow cf-next-fiche" aria-label="Photo suivante">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M9 6l6 6-6 6"/>
-          </svg>
-        </button>
-      </div>
     </div>
   </section>
 
@@ -629,15 +623,16 @@ for apt in APTS:
     apt_map["bath_label"]    = "Salles de bain" if ba_plural else "Salle de bain"
 
     # HTML enrichi : chambres avec mezzanine ("+ mezz.") si présent,
-    # lits avec "dont canapé" si un canapé-lit est inclus
+    # lits avec "dont canapé-lit king size" si un canapé-lit est inclus.
+    # La classe stat-note force un retour à la ligne sous le chiffre principal.
     bedrooms_html = f'{br}'
     if apt.get("mezzanine"):
-        bedrooms_html = f'{br}<em>+ mezz.</em>'
+        bedrooms_html = f'{br}<em class="stat-note">+ mezzanine</em>'
     apt_map["bedrooms_html"] = bedrooms_html
 
     beds_html = f'{apt["beds"]}'
     if apt.get("sofa_bed"):
-        beds_html = f'{apt["beds"]}<em>dont canapé</em>'
+        beds_html = f'{apt["beds"]}<em class="stat-note">dont canapé-lit king size</em>'
     apt_map["beds_html"] = beds_html
 
     # 4 progress bars (pour les 4 premières narratives : salon → vue → chambre → cuisine)
