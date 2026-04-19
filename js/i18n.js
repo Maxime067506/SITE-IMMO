@@ -255,6 +255,10 @@ const I18N = {
     "espace.access.title":     "Entrez, <em style=\"color:var(--accent)\">c'est chez vous.</em>",
     "espace.access.code":      "Code d'arrivée",
     "espace.access.codeHint":  "À composer sur le clavier de l'entrée principale. Le code est valide dès votre jour d'arrivée à 15 h et durant tout votre séjour.",
+    "espace.access.boxCode":     "Code de la boîte",
+    "espace.access.boxHint":     "Composez ce code sur la boîte à clés au 1 rue Badat pour récupérer le trousseau.",
+    "espace.access.laundryCode": "Code laverie 24/24",
+    "espace.access.laundryHint": "Accès à la laverie en libre-service située à proximité, ouverte 24 h / 24.",
     /* Guide */
     "espace.guide.eyebrow":    "Guide",
     "espace.guide.title":      "Votre <em>guide niçois.</em>",
@@ -590,6 +594,10 @@ const I18N = {
     "espace.access.title":     "Come in, <em style=\"color:var(--accent)\">you're home.</em>",
     "espace.access.code":      "Arrival code",
     "espace.access.codeHint":  "Enter on the keypad at the main entrance. The code is valid from 3 pm on your arrival day throughout your stay.",
+    "espace.access.boxCode":     "Key-box code",
+    "espace.access.boxHint":     "Enter this code on the key lockbox at 1 rue Badat to retrieve the keys.",
+    "espace.access.laundryCode": "24/7 laundry code",
+    "espace.access.laundryHint": "Access to the self-service laundry nearby, open 24 hours a day.",
     /* Guide */
     "espace.guide.eyebrow":    "Guide",
     "espace.guide.title":      "Your <em>Nice guide.</em>",

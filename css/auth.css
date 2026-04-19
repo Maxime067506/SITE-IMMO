@@ -202,9 +202,314 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
 }
 .info-sub{font-size:13px;color:var(--ink-muted);letter-spacing:.02em}
 
-/* Access grid */
+/* ============== ARRIVÉE — Visionneuse photos + carte itinéraire ============== */
+.arrival-grid{
+  max-width:var(--container);margin:0 auto 40px;
+  display:grid;grid-template-columns:1fr 1fr;gap:var(--s-4);
+  padding:0;
+}
+@media (max-width: 820px){
+  .arrival-grid{grid-template-columns:1fr;gap:24px}
+}
+.arrival-photos,
+.arrival-map{
+  background:rgba(10,22,40,.42);
+  border:1px solid rgba(201,169,97,.22);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+}
+
+/* Header commun */
+.apv-head, .apm-head{
+  padding:20px 24px 18px;
+  border-bottom:1px solid rgba(245,237,224,.08);
+}
+.apv-eyebrow, .apm-eyebrow{
+  font-family:var(--f-sans);font-size:10px;letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(245,237,224,.55);display:block;margin-bottom:6px;font-weight:500;
+}
+.apv-head h3, .apm-head h3{
+  font-family:var(--f-serif);font-weight:400;font-style:italic;
+  font-size:clamp(22px, 2vw, 26px);color:#F5EDE0;margin:0;
+}
+
+/* ---------- COVERFLOW 3D PHOTOS D'ARRIVÉE ---------- */
+.arrival-coverflow{
+  position:relative;
+  padding:0 0 16px;
+  background:#0A1628;
+  isolation:isolate;
+  flex:1 1 auto;
+}
+.arrival-coverflow .cf-track{
+  width:100%;
+  height:clamp(340px, 48vh, 480px);
+  perspective:1800px;
+  perspective-origin:50% 45%;
+  position:relative;
+}
+.arrival-coverflow .cf-stage{
+  position:absolute;inset:0;
+  transform-style:preserve-3d;
+}
+.arrival-cf-card{
+  position:absolute;left:50%;top:50%;
+  height:clamp(300px, 42vh, 420px);
+  width:clamp(220px, 60%, 320px);
+  border-radius:10px;
+  overflow:hidden;cursor:pointer;
+  background:#0d1b30;
+  border:1px solid rgba(245,237,224,.18);
+  box-shadow:0 24px 60px -30px rgba(0,0,0,.55);
+  opacity:0;
+  transform:translate(-50%, -50%) translate3d(0,0,-80px) scale(.7);
+  transition:
+    transform 900ms cubic-bezier(.22,1,.36,1),
+    opacity   700ms cubic-bezier(.22,1,.36,1),
+    box-shadow 600ms cubic-bezier(.22,1,.36,1);
+  user-select:none;-webkit-user-select:none;
+  -webkit-user-drag:none;-webkit-touch-callout:none;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+}
+.arrival-cf-card.is-current{
+  box-shadow:
+    0 50px 110px -30px rgba(0,0,0,.7),
+    0 0 0 1px rgba(201,169,97,.28);
+}
+.arrival-cf-img{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;background-repeat:no-repeat;
+  pointer-events:none;
+}
+/* Voile dégradé bas pour lisibilité caption */
+.arrival-cf-card::after{
+  content:"";position:absolute;inset:auto 0 0 0;height:50%;z-index:2;
+  pointer-events:none;
+  background:linear-gradient(to top,
+    rgba(10,22,40,.92) 0%,
+    rgba(10,22,40,.4)  55%,
+    transparent 100%);
+}
+.arrival-cf-caption{
+  position:absolute;inset:auto 0 0 0;z-index:3;
+  padding:16px 18px 20px;
+  color:#F5EDE0;
+  text-shadow:0 2px 10px rgba(0,0,0,.5);
+  pointer-events:none;
+  display:flex;flex-direction:column;gap:4px;
+}
+.arrival-cf-caption .cap-fr{
+  font-family:var(--f-serif);font-style:italic;font-weight:400;
+  font-size:14px;line-height:1.35;color:#F5EDE0;
+}
+.arrival-cf-caption .cap-en{
+  font-family:var(--f-sans);font-weight:400;
+  font-size:11px;letter-spacing:.04em;line-height:1.4;
+  color:rgba(245,237,224,.7);
+  text-transform:none;
+}
+/* Icône "voir en grand" sur carte active */
+.arrival-cf-zoom{
+  position:absolute;top:12px;right:12px;z-index:4;
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(10,22,40,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(245,237,224,.3);
+  color:#F5EDE0;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:scale(.85);
+  transition:opacity .4s var(--ease), transform .4s var(--ease), background .3s var(--ease);
+  pointer-events:none;
+}
+.arrival-cf-card.is-current .arrival-cf-zoom{
+  opacity:.95;transform:scale(1);
+}
+.arrival-cf-card.is-current:hover .arrival-cf-zoom{
+  background:var(--accent);color:#0A1628;border-color:var(--accent);
+}
+
+/* Contrôles (compteur, dots, flèches) */
+.arrival-coverflow .cf-controls{
+  margin-top:clamp(18px, 3vw, 28px);
+  padding:0 clamp(16px, 3vw, 28px);
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+}
+.arrival-coverflow .cf-counter{
+  font-family:var(--f-serif);font-weight:300;color:#F5EDE0;
+  display:inline-flex;align-items:baseline;gap:8px;
+}
+.arrival-coverflow .cf-counter #arrivalCfCur{
+  font-style:italic;font-size:clamp(30px, 3vw, 42px);line-height:1;
+}
+.arrival-coverflow .cf-sep{font-size:18px;color:rgba(201,169,97,.5);font-style:normal}
+.arrival-coverflow .cf-tot{
+  font-family:var(--f-sans);font-size:11px;letter-spacing:.25em;
+  color:rgba(245,237,224,.55);
+}
+.arrival-coverflow .cf-dots{
+  display:flex;align-items:center;gap:6px;flex:1 1 auto;justify-content:center;flex-wrap:wrap;
+}
+.arrival-coverflow .cf-dot{
+  width:18px;height:2px;border:0;padding:0;
+  background:rgba(245,237,224,.3);cursor:pointer;
+  transition:width .5s var(--ease-cine), background .5s var(--ease-cine);
+}
+.arrival-coverflow .cf-dot.is-active{width:42px;background:#F5EDE0}
+.arrival-coverflow .cf-arrows{display:inline-flex;gap:8px}
+.arrival-coverflow .cf-arrow{
+  width:38px;height:38px;border-radius:50%;
+  background:transparent;color:#F5EDE0;
+  border:1px solid rgba(245,237,224,.35);
+  display:inline-flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:background .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease);
+}
+.arrival-coverflow .cf-arrow:hover{background:#F5EDE0;color:#0A1628;border-color:#F5EDE0}
+
+@media (max-width: 820px){
+  .arrival-coverflow .cf-track{height:clamp(320px, 50vh, 420px)}
+  .arrival-cf-card{
+    height:clamp(280px, 44vh, 380px);
+    width:clamp(220px, 72%, 320px);
+  }
+}
+
+.apv-empty{
+  padding:60px 30px;text-align:center;color:rgba(245,237,224,.65);
+  display:none;flex-direction:column;align-items:center;gap:12px;
+}
+.apv-empty-icon{font-size:32px;opacity:.5}
+.apv-empty p{margin:0;font-size:13px;letter-spacing:.1em;max-width:32ch;line-height:1.5}
+
+/* ============== LIGHTBOX PHOTOS D'ARRIVÉE ============== */
+.arrival-lightbox{
+  position:fixed;inset:0;z-index:1000;
+  background:rgba(6,14,28,.94);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  display:flex;align-items:center;justify-content:center;
+  padding:clamp(16px, 4vw, 60px);
+  opacity:0;pointer-events:none;
+  transition:opacity .4s var(--ease-cine);
+}
+.arrival-lightbox.is-open{opacity:1;pointer-events:auto}
+.arrival-lightbox[aria-hidden="true"]{visibility:hidden}
+.arrival-lightbox.is-open[aria-hidden="false"]{visibility:visible}
+
+.alb-stage{
+  width:min(1100px, 92vw);
+  height:min(80vh, 760px);
+  background-position:center;background-size:contain;background-repeat:no-repeat;
+  user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;
+}
+.alb-caption{
+  position:absolute;bottom:clamp(30px, 5vw, 70px);left:0;right:0;
+  padding:0 clamp(60px, 8vw, 120px);
+  text-align:center;
+  color:#F5EDE0;
+  pointer-events:none;
+}
+.alb-caption-fr{
+  font-family:var(--f-serif);font-style:italic;font-weight:400;
+  font-size:clamp(18px, 2vw, 26px);line-height:1.3;
+  margin:0 0 8px;color:#F5EDE0;
+  text-shadow:0 2px 14px rgba(0,0,0,.55);
+}
+.alb-caption-en{
+  font-family:var(--f-sans);font-weight:400;
+  font-size:clamp(12px, 1.1vw, 14px);
+  letter-spacing:.04em;line-height:1.4;
+  color:rgba(245,237,224,.72);
+  margin:0;text-shadow:0 2px 10px rgba(0,0,0,.4);
+}
+.alb-close{
+  position:absolute;top:clamp(16px, 2.5vw, 32px);right:clamp(16px, 2.5vw, 32px);
+  z-index:3;
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(10,22,40,.6);
+  border:1px solid rgba(245,237,224,.3);color:#F5EDE0;
+  display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  transition:background .3s var(--ease), border-color .3s var(--ease);
+}
+.alb-close:hover{background:var(--accent);color:#0A1628;border-color:var(--accent)}
+.alb-nav{
+  position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+  width:48px;height:48px;border-radius:50%;
+  background:rgba(10,22,40,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(245,237,224,.3);color:#F5EDE0;
+  display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  transition:background .3s var(--ease), border-color .3s var(--ease);
+}
+.alb-nav:hover{background:var(--accent);color:#0A1628;border-color:var(--accent)}
+.alb-prev{left:clamp(12px, 3vw, 40px)}
+.alb-next{right:clamp(12px, 3vw, 40px)}
+.alb-counter{
+  position:absolute;top:clamp(16px, 2.5vw, 32px);left:50%;transform:translateX(-50%);
+  z-index:3;
+  font-family:var(--f-sans);font-size:12px;letter-spacing:.28em;
+  color:rgba(245,237,224,.85);text-transform:uppercase;font-weight:500;
+}
+@media (max-width: 640px){
+  .alb-stage{height:min(70vh, 560px)}
+  .alb-caption{padding:0 clamp(50px, 12vw, 80px)}
+  .alb-caption-fr{font-size:16px}
+  .alb-caption-en{font-size:11px}
+}
+
+/* ---------- CARTE ITINÉRAIRE ---------- */
+.apm-route{
+  display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap;
+  font-family:var(--f-sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(245,237,224,.8);font-weight:500;
+}
+.apm-step{display:inline-flex;align-items:center;gap:8px}
+.pin{
+  width:20px;height:20px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-weight:600;font-size:10px;font-family:var(--f-sans);letter-spacing:0;
+  flex-shrink:0;
+}
+.pin-a{background:var(--accent);color:#0A1628}
+.pin-b{background:#1EC770;color:#fff}
+.apm-dash{
+  color:rgba(245,237,224,.35);letter-spacing:0;font-size:12px;user-select:none;
+}
+.apm-canvas{
+  height:360px;width:100%;
+  background:#0A1628;
+  flex:1 1 auto;
+}
+.apm-canvas .leaflet-tile-pane{filter:saturate(.78) brightness(.92)}
+@media (max-width: 820px){
+  .apm-canvas{height:300px}
+  .apv-viewer{aspect-ratio:3/2}
+}
+/* Markers personnalisés */
+.apm-marker{
+  background:transparent;border:0;
+}
+.apm-marker-dot{
+  width:30px;height:30px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--f-sans);font-weight:600;font-size:12px;color:#fff;
+  box-shadow:0 6px 20px -4px rgba(0,0,0,.5), 0 0 0 3px rgba(10,22,40,.95);
+}
+.apm-marker-dot.is-a{background:var(--accent)}
+.apm-marker-dot.is-b{background:#1EC770}
+
+/* ============== Access grid (code + wifi — gardé) ============== */
 .access-grid{
   display:grid;grid-template-columns:1fr 1fr;gap:var(--s-4);
+}
+/* Variante 3 colonnes (boîte + laverie + wifi) */
+.access-grid--3{
+  grid-template-columns:repeat(3, 1fr);
+}
+@media (max-width: 1024px){
+  .access-grid--3{grid-template-columns:1fr 1fr}
+}
+@media (max-width: 640px){
+  .access-grid,
+  .access-grid--3{grid-template-columns:1fr}
 }
 .access-card{
   padding:var(--s-5);

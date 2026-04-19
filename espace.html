@@ -10,7 +10,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=b8" />
-  <link rel="stylesheet" href="css/auth.css?v=b3" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="css/auth.css?v=b6" />
 </head>
 <body class="espace-page">
 
@@ -57,15 +58,94 @@
   <!-- SECTION — ACCÈS -->
   <section class="section espace-section dark" id="acces">
     <header class="section-head">
-      <p class="eyebrow light"><span class="eyebrow-num">01</span> <span data-i18n="espace.access.eyebrow">Accès & codes</span></p>
+      <p class="eyebrow light"><span class="eyebrow-num">01</span> <span data-i18n="espace.access.eyebrow">Accès & arrivée</span></p>
       <h2 class="h-display" style="color:var(--bg)" data-i18n="espace.access.title" data-i18n-html="true">Entrez, <em style="color:var(--accent)">c'est chez vous.</em></h2>
     </header>
 
-    <div class="access-grid">
+    <!-- Bloc haut : Coverflow photos d'arrivée + Carte itinéraire piéton -->
+    <div class="arrival-grid" id="arrivalGrid" hidden>
+      <!-- Gauche : coverflow 3D photos arrivée (style identique galerie fiches) -->
+      <div class="arrival-photos">
+        <div class="apv-head">
+          <span class="apv-eyebrow" data-i18n="espace.arrival.stepsLabel">Étape par étape</span>
+          <h3 data-i18n="espace.arrival.stepsTitle">Récupérer la clé</h3>
+        </div>
+
+        <div class="arrival-coverflow">
+          <div class="cf-track" id="arrivalCfTrack" tabindex="0" role="group" aria-label="Photos de l'arrivée">
+            <div class="cf-stage" id="arrivalCfStage" aria-live="polite"></div>
+          </div>
+          <div class="cf-controls">
+            <div class="cf-counter">
+              <span id="arrivalCfCur">01</span>
+              <span class="cf-sep">/</span>
+              <span class="cf-tot" id="arrivalCfTot">00</span>
+            </div>
+            <div class="cf-dots" id="arrivalCfDots" role="tablist" aria-label="Sélection photo"></div>
+            <div class="cf-arrows">
+              <button type="button" class="cf-arrow cf-prev-arrival" aria-label="Photo précédente">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+              </button>
+              <button type="button" class="cf-arrow cf-next-arrival" aria-label="Photo suivante">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="apv-empty" id="apvEmpty">
+          <span class="apv-empty-icon" aria-hidden="true">📷</span>
+          <p data-i18n="espace.arrival.photosSoon">Les photos d'arrivée seront disponibles prochainement.</p>
+        </div>
+      </div>
+
+      <!-- Droite : carte Leaflet avec itinéraire piéton -->
+      <div class="arrival-map">
+        <div class="apm-head">
+          <span class="apm-eyebrow" data-i18n="espace.arrival.routeLabel">Itinéraire piéton</span>
+          <h3 id="apmDuration" data-i18n="espace.arrival.walking">1 min à pied</h3>
+          <div class="apm-route">
+            <div class="apm-step"><span class="pin pin-a">A</span><span id="apmFrom">Point de rendez-vous</span></div>
+            <span class="apm-dash" aria-hidden="true">— — —</span>
+            <div class="apm-step"><span class="pin pin-b">B</span><span id="apmTo">Appartement</span></div>
+          </div>
+        </div>
+        <div id="arrivalMap" class="apm-canvas"></div>
+      </div>
+    </div>
+
+    <!-- Lightbox plein écran — photos d'arrivée en grand -->
+    <div class="arrival-lightbox" id="arrivalLightbox" aria-hidden="true" role="dialog" aria-label="Photo agrandie">
+      <button type="button" class="alb-close" id="albClose" aria-label="Fermer">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
+          <path d="M6 6l12 12M18 6l-12 12"/>
+        </svg>
+      </button>
+      <button type="button" class="alb-nav alb-prev" id="albPrev" aria-label="Photo précédente">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+      </button>
+      <button type="button" class="alb-nav alb-next" id="albNext" aria-label="Photo suivante">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+      <div class="alb-stage" id="albStage" aria-live="polite"></div>
+      <div class="alb-caption">
+        <p class="alb-caption-fr" id="albCaptionFr"></p>
+        <p class="alb-caption-en" id="albCaptionEn"></p>
+      </div>
+      <div class="alb-counter"><span id="albCur">01</span> / <span id="albTot">02</span></div>
+    </div>
+
+    <!-- Codes & Wifi : 3 cartes -->
+    <div class="access-grid access-grid--3">
       <div class="access-card">
-        <span class="access-label" data-i18n="espace.access.code">Code d'arrivée</span>
-        <div class="big-code" id="arrivalCode">••••</div>
-        <p data-i18n="espace.access.codeHint">À composer sur le clavier de l'entrée principale. Le code est valide dès votre jour d'arrivée à 15 h et durant tout votre séjour.</p>
+        <span class="access-label" data-i18n="espace.access.boxCode">Code de la boîte</span>
+        <div class="big-code" id="boxCode">••••</div>
+        <p data-i18n="espace.access.boxHint">Composez ce code sur la boîte à clés au 1 rue Badat pour récupérer le trousseau.</p>
+      </div>
+      <div class="access-card">
+        <span class="access-label" data-i18n="espace.access.laundryCode">Code laverie 24/24</span>
+        <div class="big-code" id="laundryCode">••••</div>
+        <p data-i18n="espace.access.laundryHint">Accès à la laverie en libre-service située à proximité, ouverte 24 h / 24.</p>
       </div>
       <div class="access-card">
         <span class="access-label">WiFi</span>
@@ -485,8 +565,9 @@
   <!-- Toast -->
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script src="js/auth.js?v=b8"></script>
-  <script src="js/i18n.js?v=b4"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="js/auth.js?v=b10"></script>
+  <script src="js/i18n.js?v=b5"></script>
   <script>
     const user = DP.requireAuth();
     if (!user) { /* redirect déjà déclenché */ }
@@ -507,8 +588,9 @@
     const setText = (id, val) => { const el = $(id); if (el) el.textContent = val; };
     const setAttr = (id, attr, val) => { const el = $(id); if (el) el[attr] = val; };
 
-    // Optionnellement, sections encore présentes : Accès (arrival code + wifi)
-    setText('arrivalCode', user.arrival_code);
+    // Accès : codes boîte + laverie + wifi
+    setText('boxCode',      user.box_code      || user.arrival_code || '••••');
+    setText('laundryCode',  user.laundry_code  || '••••');
     setText('wifiSsid', user.wifi_ssid);
     setText('wifiPass', user.wifi_pass);
 
@@ -532,6 +614,9 @@
 
     // Contacts (Maxime / Margaux / Khaoula) sont statiques dans le HTML
     // — pas d'injection dynamique nécessaire.
+
+    // === ARRIVÉE : Visionneuse photos + Carte Leaflet avec itinéraire piéton ===
+    initArrivalModule(user);
 
     // Vidéo canapé-lit : si le fichier n'est pas encore présent, affiche le placeholder "bientôt disponible"
     document.querySelectorAll('.video-card').forEach((card) => {
@@ -603,6 +688,310 @@
       document.body.classList.add('is-leaving');
       setTimeout(() => window.location.href = 'index.html', 380);
     });
+
+    /* ============================================================
+       MODULE ARRIVÉE — visionneuse photos + carte itinéraire piéton
+       ============================================================ */
+    function initArrivalModule(user){
+      const grid    = document.getElementById('arrivalGrid');
+      if (!grid) return;
+
+      const photos = Array.isArray(user.arrival_photos) ? user.arrival_photos : [];
+      const hasMap = (
+        typeof user.arrival_pickup_lat === 'number' &&
+        typeof user.arrival_dest_lat   === 'number'
+      );
+
+      // Si aucune donnée arrivée → on cache le module entier
+      if (!hasMap && photos.length === 0) {
+        grid.hidden = true;
+        return;
+      }
+      grid.hidden = false;
+
+      /* ---- COVERFLOW 3D PHOTOS D'ARRIVÉE ---- */
+      const cfTrack = document.getElementById('arrivalCfTrack');
+      const cfStage = document.getElementById('arrivalCfStage');
+      const cfCur   = document.getElementById('arrivalCfCur');
+      const cfTot   = document.getElementById('arrivalCfTot');
+      const cfDots  = document.getElementById('arrivalCfDots');
+      const cfPrev  = document.querySelector('.cf-prev-arrival');
+      const cfNext  = document.querySelector('.cf-next-arrival');
+      const emptyEl = document.getElementById('apvEmpty');
+      const wrap    = document.querySelector('.arrival-coverflow');
+
+      if (photos.length === 0) {
+        if (wrap) wrap.style.display = 'none';
+        if (emptyEl) emptyEl.style.display = 'flex';
+      } else if (cfStage) {
+        if (emptyEl) emptyEl.style.display = 'none';
+
+        const TOTAL = photos.length;
+        const mqMobile = window.matchMedia('(max-width: 760px)');
+
+        const LAYERS_DESKTOP = [
+          { tx: 0,   tz: 0,    ry: 0,  scale: 1.00, opacity: 1.00 },
+          { tx: 210, tz: -160, ry: 28, scale: 0.82, opacity: 0.78 },
+          { tx: 360, tz: -340, ry: 44, scale: 0.64, opacity: 0.30 },
+          { tx: 480, tz: -520, ry: 52, scale: 0.50, opacity: 0.06 },
+        ];
+        const LAYERS_MOBILE = LAYERS_DESKTOP.map((l, i) => ({
+          ...l,
+          tx: l.tx * 0.85, tz: l.tz * 0.55, ry: l.ry * 0.5,
+          scale: i === 0 ? 1 : (i === 1 ? 0.76 : l.scale * 0.7),
+          opacity: i === 0 ? 1 : (i === 1 ? 0.5 : 0),
+        }));
+        const getLayers = () => mqMobile.matches ? LAYERS_MOBILE : LAYERS_DESKTOP;
+
+        cfTot.textContent = String(TOTAL).padStart(2, '0');
+
+        // Build cards + dots
+        const cards = photos.map((p, i) => {
+          const a = document.createElement('article');
+          a.className = 'cf-card fcf-card arrival-cf-card';
+          a.dataset.i = i;
+          a.setAttribute('aria-label', p.caption_fr || p.caption || `Photo ${i + 1}`);
+          // background-image = protection anti "Save image as"
+          // Captions bilingues : FR principale + EN italique
+          const fr = p.caption_fr || p.caption || '';
+          const en = p.caption_en || '';
+          a.innerHTML = `
+            <div class="arrival-cf-img" style="background-image:url('${p.src}')"></div>
+            <div class="arrival-cf-caption">
+              <span class="cap-fr">${fr}</span>
+              ${en ? `<span class="cap-en">${en}</span>` : ''}
+            </div>
+            <div class="arrival-cf-zoom" aria-hidden="true" title="Voir en grand">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="7"/>
+                <path d="M20 20l-3.5-3.5M11 8v6M8 11h6"/>
+              </svg>
+            </div>
+          `;
+          a.addEventListener('click', () => {
+            const idx = cards.indexOf(a);
+            if (idx !== active) {
+              goTo(idx);
+            } else {
+              // Clic sur la carte active = ouvre lightbox plein écran
+              openLightbox(idx);
+            }
+          });
+          // Anti-copie
+          a.addEventListener('contextmenu', (e) => e.preventDefault());
+          a.addEventListener('dragstart', (e) => e.preventDefault());
+          cfStage.appendChild(a);
+          return a;
+        });
+
+        const dots = photos.map((_, i) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'cf-dot';
+          b.setAttribute('aria-label', `Photo ${i + 1}`);
+          b.addEventListener('click', () => goTo(i));
+          cfDots.appendChild(b);
+          return b;
+        });
+
+        let active = 0;
+
+        const signedDelta = (i) => {
+          let d = i - active;
+          const half = TOTAL / 2;
+          if (d >  half) d -= TOTAL;
+          if (d < -half) d += TOTAL;
+          return d;
+        };
+
+        const applyLayout = () => {
+          const layers = getLayers();
+          cards.forEach((card, i) => {
+            const d = signedDelta(i);
+            const absD = Math.abs(d);
+            const sign = d === 0 ? 0 : (d > 0 ? 1 : -1);
+            const layer = layers[Math.min(absD, layers.length - 1)];
+            const tx = sign * layer.tx;
+            const tz = layer.tz;
+            const ry = -sign * layer.ry;
+            const opacity = absD > 3 ? 0 : layer.opacity;
+            card.style.transform =
+              `translate(-50%, -50%) translate3d(${tx}px, 0, ${tz}px) rotateY(${ry}deg) scale(${layer.scale})`;
+            card.style.opacity = opacity;
+            card.style.zIndex = 100 - absD;
+            card.classList.toggle('is-current', d === 0);
+          });
+          dots.forEach((b, i) => b.classList.toggle('is-active', i === active));
+          cfCur.textContent = String(active + 1).padStart(2, '0');
+        };
+
+        const goTo = (i) => {
+          active = ((i % TOTAL) + TOTAL) % TOTAL;
+          applyLayout();
+        };
+        const next = () => goTo(active + 1);
+        const prev = () => goTo(active - 1);
+
+        cfPrev?.addEventListener('click', prev);
+        cfNext?.addEventListener('click', next);
+
+        cfTrack?.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowRight') { e.preventDefault(); next(); }
+          if (e.key === 'ArrowLeft')  { e.preventDefault(); prev(); }
+        });
+
+        // Swipe tactile
+        let tx = 0, ty = 0, tt = 0;
+        cfTrack?.addEventListener('touchstart', (e) => {
+          tx = e.touches[0].clientX; ty = e.touches[0].clientY; tt = Date.now();
+        }, { passive: true });
+        cfTrack?.addEventListener('touchend', (e) => {
+          const dx = e.changedTouches[0].clientX - tx;
+          const dy = e.changedTouches[0].clientY - ty;
+          const dt = Date.now() - tt;
+          const swipe = Math.abs(dx) > Math.abs(dy) && (Math.abs(dx) > 40 || (Math.abs(dx) > 20 && dt < 250));
+          if (swipe) {
+            (dx < 0 ? next : prev)();
+            if ('vibrate' in navigator) { try { navigator.vibrate(8); } catch(_){} }
+          }
+        });
+
+        mqMobile.addEventListener?.('change', applyLayout);
+        window.addEventListener('resize', applyLayout, { passive: true });
+
+        applyLayout();
+
+        /* ---- LIGHTBOX : click sur carte active = plein écran ---- */
+        const lb       = document.getElementById('arrivalLightbox');
+        const lbStage  = document.getElementById('albStage');
+        const lbCapFr  = document.getElementById('albCaptionFr');
+        const lbCapEn  = document.getElementById('albCaptionEn');
+        const lbCur    = document.getElementById('albCur');
+        const lbTot    = document.getElementById('albTot');
+        const lbClose  = document.getElementById('albClose');
+        const lbPrev   = document.getElementById('albPrev');
+        const lbNext   = document.getElementById('albNext');
+
+        let lbIdx = 0;
+        const lbRender = () => {
+          const p = photos[lbIdx];
+          if (!p) return;
+          lbStage.style.backgroundImage = `url('${p.src}')`;
+          lbCapFr.textContent = p.caption_fr || p.caption || '';
+          lbCapEn.textContent = p.caption_en || '';
+          lbCur.textContent = String(lbIdx + 1).padStart(2, '0');
+          lbTot.textContent = String(photos.length).padStart(2, '0');
+          lbPrev.style.display = photos.length > 1 ? '' : 'none';
+          lbNext.style.display = photos.length > 1 ? '' : 'none';
+        };
+        const openLightbox = (i) => {
+          lbIdx = i;
+          lbRender();
+          lb.setAttribute('aria-hidden', 'false');
+          lb.classList.add('is-open');
+          document.body.style.overflow = 'hidden';
+        };
+        const closeLightbox = () => {
+          lb.setAttribute('aria-hidden', 'true');
+          lb.classList.remove('is-open');
+          document.body.style.overflow = '';
+        };
+        const lbGo = (delta) => {
+          lbIdx = ((lbIdx + delta) % photos.length + photos.length) % photos.length;
+          lbRender();
+        };
+
+        lbClose.addEventListener('click', closeLightbox);
+        lbPrev.addEventListener('click', () => lbGo(-1));
+        lbNext.addEventListener('click', () => lbGo(1));
+        lb.addEventListener('click', (e) => {
+          // Clic sur le fond (hors stage/caption/nav) = close
+          if (e.target === lb) closeLightbox();
+        });
+        document.addEventListener('keydown', (e) => {
+          if (!lb.classList.contains('is-open')) return;
+          if (e.key === 'Escape') closeLightbox();
+          if (e.key === 'ArrowRight') lbGo(1);
+          if (e.key === 'ArrowLeft') lbGo(-1);
+        });
+        // Anti-copie sur lightbox
+        lbStage.addEventListener('contextmenu', (e) => e.preventDefault());
+        lbStage.addEventListener('dragstart', (e) => e.preventDefault());
+
+      }
+
+      /* ---- CARTE LEAFLET + ITINÉRAIRE OSRM ---- */
+      if (!hasMap || !window.L) return;
+
+      const mapEl = document.getElementById('arrivalMap');
+      if (!mapEl) return;
+
+      // Labels en haut de carte
+      document.getElementById('apmFrom').textContent = user.arrival_pickup_addr || 'Départ';
+      document.getElementById('apmTo').textContent   = user.arrival_dest_addr   || 'Arrivée';
+
+      const from = [user.arrival_pickup_lat, user.arrival_pickup_lon];
+      const to   = [user.arrival_dest_lat,   user.arrival_dest_lon];
+
+      const map = L.map(mapEl, {
+        zoomControl: true,
+        scrollWheelZoom: false,
+        dragging: !L.Browser.mobile, // évite conflit scroll-page sur mobile
+        tap: true,
+      }).setView([(from[0]+to[0])/2, (from[1]+to[1])/2], 18);
+
+      // Tuiles Carto Voyager — rendu élégant compatible design navy/or
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+        attribution: '© OpenStreetMap contributors · © Carto',
+        maxZoom: 19,
+        subdomains: 'abcd',
+      }).addTo(map);
+
+      // Markers A (départ) et B (arrivée)
+      const markerIcon = (letter, variant) => L.divIcon({
+        className: 'apm-marker',
+        html: `<div class="apm-marker-dot is-${variant}">${letter}</div>`,
+        iconSize: [30, 30],
+        iconAnchor: [15, 15],
+      });
+      L.marker(from, { icon: markerIcon('A', 'a'), title: user.arrival_pickup_addr }).addTo(map);
+      L.marker(to,   { icon: markerIcon('B', 'b'), title: user.arrival_dest_addr }).addTo(map);
+
+      // Fetch route piéton via OSRM public
+      const url = `https://router.project-osrm.org/route/v1/foot/${from[1]},${from[0]};${to[1]},${to[0]}?overview=full&geometries=geojson`;
+      fetch(url)
+        .then(r => r.json())
+        .then(data => {
+          if (!data.routes || !data.routes.length) throw new Error('No route');
+          const route = data.routes[0];
+          const coords = route.geometry.coordinates.map(c => [c[1], c[0]]);
+          // Tracé du chemin
+          L.polyline(coords, {
+            color: '#C9A961', weight: 5, opacity: .92,
+            lineCap: 'round', lineJoin: 'round',
+          }).addTo(map);
+          // Ombre sous le tracé
+          L.polyline(coords, {
+            color: '#0A1628', weight: 9, opacity: .22,
+          }).addTo(map).bringToBack();
+          // Ajuste la vue
+          const bounds = L.latLngBounds(coords);
+          map.fitBounds(bounds, { padding: [40, 40] });
+          // Durée + distance dans le header
+          const durMin = Math.max(1, Math.round(route.duration / 60));
+          const distM  = Math.round(route.distance);
+          const dur = document.getElementById('apmDuration');
+          if (dur) dur.textContent = `${durMin} min à pied · ${distM} m`;
+        })
+        .catch(() => {
+          // Fallback : trace une ligne droite entre A et B
+          L.polyline([from, to], {
+            color: '#C9A961', weight: 4, opacity: .7, dashArray: '6 6',
+          }).addTo(map);
+          const bounds = L.latLngBounds([from, to]);
+          map.fitBounds(bounds, { padding: [60, 60] });
+        });
+    }
   </script>
 
   <!-- PDF.js viewer : rend le guide en canvas, 100% cross-browser (Chrome/Safari/Firefox/mobile) -->

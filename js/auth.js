@@ -17,7 +17,8 @@ const DP_USERS = {
     dates_in: "12 juillet 2026", dates_out: "19 juillet 2026",
     nights: 7, guests: 4, total: "2 380 €", status: "Confirmé",
     wifi_ssid: "Delfosse-Amiral", wifi_pass: "portbarla06",
-    arrival_code: "2847",
+    box_code: "0190",             // Code de la boîte à clés
+    laundry_code: "1235*",        // Code de la laverie 24/24
     concierge_name: "Sophie Laurent",
     concierge_phone: "+33 6 12 34 56 78",
     concierge_mail:  "sophie@delfosse-properties.fr",
@@ -25,6 +26,26 @@ const DP_USERS = {
     rating: "4,87", reviews: 75,
     image: "img/airbnb/01-amiral/photo-01.jpg",
     nearby: "Tramway 1 min · Port face · Garibaldi 3 min · Vieux Nice 5 min",
+    /* Arrivée — point de rendez-vous + appart */
+    arrival_pickup_addr: "1 rue Badat · Point de rendez-vous",
+    arrival_pickup_lat: 43.7025422,
+    arrival_pickup_lon: 7.2817368,
+    arrival_dest_addr:   "5 rue Barla · Appartement",
+    arrival_dest_lat:    43.7023835,
+    arrival_dest_lon:    7.2814790,
+    /* Photos étapes d'arrivée (dans doc/arrival/01-port/) — captions bilingues */
+    arrival_photos: [
+      {
+        src: "doc/arrival/01-port/step-01.jpg",
+        caption_fr: "1 rue Badat — point de récupération de la clé",
+        caption_en: "1 rue Badat — key pickup location",
+      },
+      {
+        src: "doc/arrival/01-port/step-02.jpg",
+        caption_fr: "5 rue Barla — entrée de l'appartement",
+        caption_en: "5 rue Barla — apartment entrance",
+      },
+    ],
     extras: [
       { label: "Dégustation huîtres au port",   status: "Réservé — 13 juillet, 12 h 30" },
       { label: "Transfert aéroport Nice",       status: "Confirmé — 12 juillet, 15 h 30" },
