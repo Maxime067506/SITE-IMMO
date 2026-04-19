@@ -747,3 +747,155 @@ targets.forEach(el => io.observe(el));
   // Démarre l'autoplay
   scheduleAutoplay();
 })();
+
+/* ============================================================
+   FICHE COVERFLOW — galerie photos d'un appartement
+   Reprend la mécanique du home coverflow mais avec des photos pures
+   (pas d'overlay numéro/tag/meta). 1 seul appart, 8 photos.
+   ============================================================ */
+(() => {
+  const stage = document.getElementById('ficheCfStage');
+  if (!stage) return; // pas sur une fiche → on skip
+
+  const track    = document.getElementById('ficheCfTrack');
+  const cur      = document.getElementById('ficheCfCur');
+  const dotsWrap = document.getElementById('ficheCfDots');
+  const btnPrev  = document.querySelector('.cf-prev-fiche');
+  const btnNext  = document.querySelector('.cf-next-fiche');
+
+  const dir   = stage.dataset.photoDir;
+  const count = parseInt(stage.dataset.photoCount || '8', 10);
+  const ver   = stage.dataset.photoVersion || '';
+  const verQs = ver ? `?v=${ver}` : '';
+
+  if (!dir || !count) return;
+
+  const TOTAL    = count;
+  const reduced  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const mqMobile = window.matchMedia('(max-width: 760px)');
+
+  const LAYERS_DESKTOP = [
+    { tx: 0,    tz: 0,     ry: 0,  scale: 1.00, opacity: 1.00 },
+    { tx: 230,  tz: -160,  ry: 30, scale: 0.84, opacity: 0.82 },
+    { tx: 420,  tz: -340,  ry: 46, scale: 0.68, opacity: 0.38 },
+    { tx: 580,  tz: -520,  ry: 54, scale: 0.54, opacity: 0.10 },
+  ];
+  const LAYERS_MOBILE = LAYERS_DESKTOP.map((l, i) => ({
+    ...l,
+    tx: l.tx * 0.88, tz: l.tz * 0.55, ry: l.ry * 0.55,
+    scale: i === 0 ? 1 : (i === 1 ? 0.78 : l.scale * 0.7),
+    opacity: i === 0 ? 1 : (i === 1 ? 0.52 : 0),
+  }));
+  const getLayers = () => (mqMobile.matches ? LAYERS_MOBILE : LAYERS_DESKTOP);
+
+  // Build cards : simple <article class="cf-card fcf-card"><img></article>
+  const cards = [];
+  for (let i = 1; i <= count; i++) {
+    const a = document.createElement('article');
+    a.className = 'cf-card fcf-card';
+    a.dataset.i = i - 1;
+    a.setAttribute('aria-label', `Photo ${i} sur ${count}`);
+    const pad = String(i).padStart(2, '0');
+    a.innerHTML = `<img src="img/airbnb/${dir}/photo-${pad}.jpg${verQs}" alt="" draggable="false" loading="lazy" decoding="async" />`;
+    a.addEventListener('click', () => {
+      const idx = cards.indexOf(a);
+      if (idx === active) return; // tap sur active = no-op (pas de lightbox pour l'instant)
+      goTo(idx);
+    });
+    stage.appendChild(a);
+    cards.push(a);
+  }
+
+  // Dots
+  const dots = cards.map((_, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'cf-dot';
+    b.setAttribute('role', 'tab');
+    b.setAttribute('aria-label', `Photo ${i + 1}`);
+    b.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(b);
+    return b;
+  });
+
+  let active = 0;
+
+  const signedDelta = (i) => {
+    let d = i - active;
+    const half = TOTAL / 2;
+    if (d >  half) d -= TOTAL;
+    if (d < -half) d += TOTAL;
+    return d;
+  };
+
+  function applyLayout() {
+    const layers = getLayers();
+    cards.forEach((card, i) => {
+      const d = signedDelta(i);
+      const absD = Math.abs(d);
+      const sign = d === 0 ? 0 : (d > 0 ? 1 : -1);
+      const layer = layers[Math.min(absD, layers.length - 1)];
+      const tx = sign * layer.tx;
+      const tz = layer.tz;
+      const ry = -sign * layer.ry;
+      const opacity = absD > 3 ? 0 : layer.opacity;
+      const zIndex = 100 - absD;
+      card.style.transform =
+        `translate(-50%, -50%) translate3d(${tx}px, 0, ${tz}px) rotateY(${ry}deg) scale(${layer.scale})`;
+      card.style.opacity = opacity;
+      card.style.zIndex = zIndex;
+      card.classList.toggle('is-current', d === 0);
+      card.setAttribute('aria-hidden', d !== 0 ? 'true' : 'false');
+    });
+    dots.forEach((b, i) => b.classList.toggle('is-active', i === active));
+    if (cur) cur.textContent = String(active + 1).padStart(2, '0');
+  }
+
+  function goTo(i) {
+    active = ((i % TOTAL) + TOTAL) % TOTAL;
+    applyLayout();
+  }
+  const next = () => goTo(active + 1);
+  const prev = () => goTo(active - 1);
+
+  btnPrev?.addEventListener('click', prev);
+  btnNext?.addEventListener('click', next);
+
+  track?.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') { e.preventDefault(); next(); }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); prev(); }
+  });
+
+  // Swipe tactile
+  let touchStart = { x: 0, y: 0, t: 0 };
+  track?.addEventListener('touchstart', (e) => {
+    touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now() };
+  }, { passive: true });
+  track?.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStart.x;
+    const dy = e.changedTouches[0].clientY - touchStart.y;
+    const dt = Date.now() - touchStart.t;
+    const horizontal = Math.abs(dx) > Math.abs(dy);
+    const swipe = horizontal && (Math.abs(dx) > 40 || (Math.abs(dx) > 20 && dt < 250));
+    if (swipe) {
+      (dx < 0 ? next : prev)();
+      if ('vibrate' in navigator) { try { navigator.vibrate(10); } catch(_) {} }
+    }
+  });
+
+  // Wheel horizontal
+  let wheelLock = false;
+  track?.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+    e.preventDefault();
+    if (wheelLock) return;
+    (e.deltaX > 0 ? next : prev)();
+    wheelLock = true;
+    setTimeout(() => (wheelLock = false), 550);
+  }, { passive: false });
+
+  mqMobile.addEventListener?.('change', applyLayout);
+  window.addEventListener('resize', applyLayout, { passive: true });
+
+  applyLayout();
+})();

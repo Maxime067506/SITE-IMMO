@@ -7,13 +7,13 @@
   <meta name="description" content="Notre dernier appartement — Musiciens · 4 voyageurs · rénové. 24D rue Gounod, Nice." />
   <title>Fiche N° VI · Notre dernier appartement — Delfosse Properties</title>
 
-  <link rel="preload" as="image" href="img/nice-sunset.jpg" fetchpriority="high" />
+  <link rel="preload" as="image" href="img/airbnb/01-amiral/photo-01.jpg" fetchpriority="high" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="css/style.css?v=b7" />
-  <link rel="stylesheet" href="css/sejour.css?v=b4" />
+  <link rel="stylesheet" href="css/style.css?v=b8" />
+  <link rel="stylesheet" href="css/sejour.css?v=b5" />
 </head>
 <body class="sejour-page">
 
@@ -115,67 +115,43 @@
     </div>
   </section>
 
-  <section class="sejour-gallery" data-overlay="2">
+  <section class="sejour-coverflow" data-overlay="2">
     <header class="section-head">
-      <p class="eyebrow"><span class="eyebrow-num">III</span> <span data-i18n="sec.gallery">Galerie</span></p>
+      <p class="eyebrow light"><span class="eyebrow-num">III</span> <span data-i18n="sec.gallery">Galerie</span></p>
       <h2 class="h-display" data-i18n="sec.galleryTitle" data-i18n-html="true">Le lieu <em>en images.</em></h2>
     </header>
 
-    <!-- Layout Airbnb : 1 hero à gauche + grille 2x2 à droite (desktop),
-         1 hero plein cadre + strip horizontal miniatures (mobile). -->
-    <div class="ab-gallery" id="abGallery">
-      <button class="ab-cell ab-hero" type="button" data-i="0" aria-label="Voir photo 1"><img src="img/airbnb/07-crescendo/photo-01.jpg" alt="" fetchpriority="high" /><span class="ab-mobile-counter">1 / 7</span></button>
-      <button class="ab-cell ab-thumb" type="button" data-i="1" aria-label="Voir photo 2"><img src="img/airbnb/07-crescendo/photo-02.jpg" alt="" loading="lazy" /></button>
-      <button class="ab-cell ab-thumb" type="button" data-i="2" aria-label="Voir photo 3"><img src="img/airbnb/07-crescendo/photo-03.jpg" alt="" loading="lazy" /></button>
-      <button class="ab-cell ab-thumb" type="button" data-i="3" aria-label="Voir photo 4"><img src="img/airbnb/07-crescendo/photo-04.jpg" alt="" loading="lazy" /></button>
-      <button class="ab-cell ab-thumb" type="button" data-i="4" aria-label="Voir photo 5"><img src="img/airbnb/07-crescendo/photo-05.jpg" alt="" loading="lazy" /></button>
-      <button class="ab-showall" type="button" data-i="0" aria-label="Voir toutes les photos">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-        <span><span data-i18n="fiche.seeAll">Voir les</span> 07 <span data-i18n="fiche.photos">photos</span></span>
-      </button>
+    <div class="cf-track" id="ficheCfTrack" tabindex="0" role="group" aria-label="Galerie photos de l'appartement">
+      <div class="cf-stage" id="ficheCfStage"
+           data-photo-dir="07-crescendo"
+           data-photo-count="07"
+           data-photo-version=""
+           aria-live="polite"></div>
     </div>
 
-    <div class="ab-strip" id="abStrip" role="region" aria-label="Miniatures photos">
-      <button class="ab-strip-cell" type="button" data-i="1" aria-label="Voir photo 2"><img src="img/airbnb/07-crescendo/photo-02.jpg" alt="" loading="lazy" /></button>
-      <button class="ab-strip-cell" type="button" data-i="2" aria-label="Voir photo 3"><img src="img/airbnb/07-crescendo/photo-03.jpg" alt="" loading="lazy" /></button>
-      <button class="ab-strip-cell" type="button" data-i="3" aria-label="Voir photo 4"><img src="img/airbnb/07-crescendo/photo-04.jpg" alt="" loading="lazy" /></button>
-      <button class="ab-strip-cell" type="button" data-i="4" aria-label="Voir photo 5"><img src="img/airbnb/07-crescendo/photo-05.jpg" alt="" loading="lazy" /></button>
-      <button class="ab-strip-cell" type="button" data-i="5" aria-label="Voir photo 6"><img src="img/airbnb/07-crescendo/photo-06.jpg" alt="" loading="lazy" /></button>
-      <button class="ab-strip-cell" type="button" data-i="6" aria-label="Voir photo 7"><img src="img/airbnb/07-crescendo/photo-07.jpg" alt="" loading="lazy" /></button>
-    </div>
+    <div class="cf-controls">
+      <div class="cf-counter">
+        <span id="ficheCfCur">01</span>
+        <span class="cf-sep">/</span>
+        <span class="cf-tot">07</span>
+      </div>
 
-    <!-- Pool complet (lightbox data source) -->
-    <div class="ab-pool" hidden>
-      <a class="gallery-item" data-i="0" href="img/airbnb/07-crescendo/photo-01.jpg"><img src="img/airbnb/07-crescendo/photo-01.jpg" alt="" loading="lazy" /></a>
-      <a class="gallery-item" data-i="1" href="img/airbnb/07-crescendo/photo-02.jpg"><img src="img/airbnb/07-crescendo/photo-02.jpg" alt="" loading="lazy" /></a>
-      <a class="gallery-item" data-i="2" href="img/airbnb/07-crescendo/photo-03.jpg"><img src="img/airbnb/07-crescendo/photo-03.jpg" alt="" loading="lazy" /></a>
-      <a class="gallery-item" data-i="3" href="img/airbnb/07-crescendo/photo-04.jpg"><img src="img/airbnb/07-crescendo/photo-04.jpg" alt="" loading="lazy" /></a>
-      <a class="gallery-item" data-i="4" href="img/airbnb/07-crescendo/photo-05.jpg"><img src="img/airbnb/07-crescendo/photo-05.jpg" alt="" loading="lazy" /></a>
-      <a class="gallery-item" data-i="5" href="img/airbnb/07-crescendo/photo-06.jpg"><img src="img/airbnb/07-crescendo/photo-06.jpg" alt="" loading="lazy" /></a>
-      <a class="gallery-item" data-i="6" href="img/airbnb/07-crescendo/photo-07.jpg"><img src="img/airbnb/07-crescendo/photo-07.jpg" alt="" loading="lazy" /></a>
+      <div class="cf-dots" id="ficheCfDots" role="tablist" aria-label="Sélection photo"></div>
+
+      <div class="cf-arrows">
+        <button type="button" class="cf-arrow cf-prev-fiche" aria-label="Photo précédente">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M15 6l-6 6 6 6"/>
+          </svg>
+        </button>
+        <button type="button" class="cf-arrow cf-next-fiche" aria-label="Photo suivante">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 6l6 6-6 6"/>
+          </svg>
+        </button>
+      </div>
     </div>
   </section>
-
-  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Galerie">
-    <div class="lightbox-top">
-      <span id="lbCounter">01 / 07</span>
-      <strong id="lbNum">N° I</strong>
-      <em id="lbName">Notre dernier appartement</em>
-    </div>
-    <button class="lightbox-close" id="lbClose" aria-label="Fermer">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M6 6l12 12M18 6l-12 12"/></svg>
-    </button>
-    <button class="lightbox-nav lightbox-prev" id="lbPrev" aria-label="Précédent">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>
-    </button>
-    <button class="lightbox-nav lightbox-next" id="lbNext" aria-label="Suivant">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
-    </button>
-    <div class="lightbox-stage">
-      <img class="lightbox-image" id="lbImg" src="" alt="" />
-    </div>
-    <div class="lightbox-thumbs" id="lbThumbs"></div>
-  </div>
 
   <section class="sejour-map" data-overlay="2">
     <header class="section-head">
@@ -240,8 +216,8 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="js/i18n.js?v=b3"></script>
-  <script src="js/app.js?v=b8"></script>
-  <script src="js/video-bg.js?v=b8"></script>
+  <script src="js/app.js?v=b9"></script>
+  <script src="js/video-bg.js?v=b9"></script>
   <script>
     /* Hero slideshow Ken Burns + progress bars */
     (() => {

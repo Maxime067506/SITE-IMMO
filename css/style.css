@@ -1312,9 +1312,12 @@ ul{list-style:none;margin:0;padding:0}
     overflow-wrap:normal;
   }
   .hero-film-content .lede{font-size:15px;max-width:32ch}
-  .scroll-hint{bottom:18px;font-size:9px;letter-spacing:.24em}
-  .scroll-hint-line{height:36px}
+  /* Scroll hint caché sur mobile : les boutons "Voir les séjours" / "Notre philosophie"
+     font déjà office de CTA. Ça évite le chevauchement avec le contenu hero. */
+  .scroll-hint{display:none}
   .hero-film-credit{display:none}
+  /* Ajuste aussi le padding bas du hero content pour qu'il respire */
+  .hero-film-content{padding-bottom:clamp(60px, 14vw, 100px)}
   /* Meta : deux lignes propres — film + GPS */
   .hero-film-meta{
     top:74px;font-size:10px;letter-spacing:.22em;

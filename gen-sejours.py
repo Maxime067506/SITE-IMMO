@@ -237,8 +237,8 @@ TPL = """<!doctype html>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="css/style.css?v=b3" />
-  <link rel="stylesheet" href="css/sejour.css?v=b3" />
+  <link rel="stylesheet" href="css/style.css?v=b8" />
+  <link rel="stylesheet" href="css/sejour.css?v=b5" />
 </head>
 <body class="sejour-page">
 
@@ -328,52 +328,43 @@ TPL = """<!doctype html>
     </div>
   </section>
 
-  <section class="sejour-gallery" data-overlay="2">
+  <section class="sejour-coverflow" data-overlay="2">
     <header class="section-head">
-      <p class="eyebrow"><span class="eyebrow-num">III</span> <span data-i18n="sec.gallery">Galerie</span></p>
+      <p class="eyebrow light"><span class="eyebrow-num">III</span> <span data-i18n="sec.gallery">Galerie</span></p>
       <h2 class="h-display" data-i18n="sec.galleryTitle" data-i18n-html="true">Le lieu <em>en images.</em></h2>
     </header>
 
-    <!-- Layout Airbnb : 1 hero à gauche + grille 2x2 à droite (desktop),
-         1 hero plein cadre + strip horizontal miniatures (mobile). -->
-    <div class="ab-gallery" id="abGallery">
-{ab_main}
-      <button class="ab-showall" type="button" data-i="0" aria-label="Voir toutes les photos">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-        <span><span data-i18n="fiche.seeAll">Voir les</span> {total_photos} <span data-i18n="fiche.photos">photos</span></span>
-      </button>
+    <div class="cf-track" id="ficheCfTrack" tabindex="0" role="group" aria-label="Galerie photos de l'appartement">
+      <div class="cf-stage" id="ficheCfStage"
+           data-photo-dir="{photo_dir}"
+           data-photo-count="{total_photos}"
+           data-photo-version="{photo_version}"
+           aria-live="polite"></div>
     </div>
 
-    <div class="ab-strip" id="abStrip" role="region" aria-label="Miniatures photos">
-{ab_strip}
-    </div>
+    <div class="cf-controls">
+      <div class="cf-counter">
+        <span id="ficheCfCur">01</span>
+        <span class="cf-sep">/</span>
+        <span class="cf-tot">{total_photos_padded}</span>
+      </div>
 
-    <!-- Pool complet (lightbox data source) -->
-    <div class="ab-pool" hidden>
-{ab_pool}
+      <div class="cf-dots" id="ficheCfDots" role="tablist" aria-label="Sélection photo"></div>
+
+      <div class="cf-arrows">
+        <button type="button" class="cf-arrow cf-prev-fiche" aria-label="Photo précédente">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M15 6l-6 6 6 6"/>
+          </svg>
+        </button>
+        <button type="button" class="cf-arrow cf-next-fiche" aria-label="Photo suivante">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 6l6 6-6 6"/>
+          </svg>
+        </button>
+      </div>
     </div>
   </section>
-
-  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Galerie">
-    <div class="lightbox-top">
-      <span id="lbCounter">01 / {total_photos}</span>
-      <strong id="lbNum">N° I</strong>
-      <em id="lbName">{name}</em>
-    </div>
-    <button class="lightbox-close" id="lbClose" aria-label="Fermer">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M6 6l12 12M18 6l-12 12"/></svg>
-    </button>
-    <button class="lightbox-nav lightbox-prev" id="lbPrev" aria-label="Précédent">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg>
-    </button>
-    <button class="lightbox-nav lightbox-next" id="lbNext" aria-label="Suivant">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg>
-    </button>
-    <div class="lightbox-stage">
-      <img class="lightbox-image" id="lbImg" src="" alt="" />
-    </div>
-    <div class="lightbox-thumbs" id="lbThumbs"></div>
-  </div>
 
   <section class="sejour-map" data-overlay="2">
     <header class="section-head">
@@ -435,8 +426,8 @@ TPL = """<!doctype html>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="js/i18n.js?v=b3"></script>
-  <script src="js/app.js?v=b3"></script>
-  <script src="js/video-bg.js?v=b3"></script>
+  <script src="js/app.js?v=b9"></script>
+  <script src="js/video-bg.js?v=b9"></script>
   <script>
     /* Hero slideshow Ken Burns + progress bars */
     (() => {{
@@ -645,47 +636,16 @@ for apt in APTS:
         legend_items.append(f"      <div><span>{n}</span><span>{d}</span></div>")
     apt_map["map_legend"] = "\n".join(legend_items)
 
-    # === Galerie Airbnb-style ===
-    total_ph = apt["photos"]
-    d = apt["dir"]
-
-    def photo_src(i):
-        return f'img/airbnb/{d}/photo-{i:02d}.jpg'
-
-    # 1) Main layout : hero (photo 01) + 4 thumbs (02-05)
-    ab_main_parts = [
-        f'      <button class="ab-cell ab-hero" type="button" data-i="0" aria-label="Voir photo 1">'
-        f'<img src="{photo_src(1)}" alt="" fetchpriority="high" />'
-        f'<span class="ab-mobile-counter">1 / {total_ph}</span>'
-        f'</button>'
-    ]
-    for i in range(2, min(6, total_ph + 1)):  # photos 2..5
-        ab_main_parts.append(
-            f'      <button class="ab-cell ab-thumb" type="button" data-i="{i-1}" aria-label="Voir photo {i}">'
-            f'<img src="{photo_src(i)}" alt="" loading="lazy" />'
-            f'</button>'
-        )
-    apt_map["ab_main"] = "\n".join(ab_main_parts)
-
-    # 2) Strip mobile : toutes les photos 2..N
-    strip_parts = []
-    for i in range(2, total_ph + 1):
-        strip_parts.append(
-            f'      <button class="ab-strip-cell" type="button" data-i="{i-1}" aria-label="Voir photo {i}">'
-            f'<img src="{photo_src(i)}" alt="" loading="lazy" />'
-            f'</button>'
-        )
-    apt_map["ab_strip"] = "\n".join(strip_parts)
-
-    # 3) Pool : toutes les photos (source de vérité pour la lightbox)
-    pool_parts = []
-    for i in range(1, total_ph + 1):
-        pool_parts.append(
-            f'      <a class="gallery-item" data-i="{i-1}" href="{photo_src(i)}">'
-            f'<img src="{photo_src(i)}" alt="" loading="lazy" />'
-            f'</a>'
-        )
-    apt_map["ab_pool"] = "\n".join(pool_parts)
+    # === Galerie coverflow : infos brutes pour le JS ===
+    apt_map["photo_dir"] = apt["dir"]
+    apt_map["total_photos_padded"] = f'{apt["photos"]:02d}'
+    # Version de cache-bust par apart (aligné avec les photos effectivement remplacées)
+    PHOTO_VERSIONS = {
+        "02-commodore": "c1",   # N°02 — replaced 2026-04-18
+        "05-adagio":    "d1",   # N°07 appart design — replaced 2026-04-18
+        "06-scherzo":   "e3",   # N°05 ultra design — replaced 2026-04-18 (+ swap hero)
+    }
+    apt_map["photo_version"] = PHOTO_VERSIONS.get(apt["dir"], "")
 
     html = TPL.format(**apt_map)
     out = os.path.join(SITE, f'sejour-{apt["no"]}.html')
