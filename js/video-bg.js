@@ -76,30 +76,12 @@
       poster.classList.add('is-kenburns');
     }
 
-    // Iframe vidéo YouTube (sauf reduced-motion)
-    if (!reducedMotion) {
-      const frame = document.createElement('iframe');
-      frame.className = 'vbg-frame';
-      frame.title = 'Ambiance Nice — Delfosse Properties';
-      frame.setAttribute('aria-hidden', 'true');
-      frame.setAttribute('tabindex', '-1');
-      frame.loading = 'eager';
-      frame.allow = 'autoplay; encrypted-media';
-      const params = [
-        'autoplay=1', 'mute=1', 'loop=1',
-        `playlist=${YOUTUBE_ID}`,
-        'controls=0', 'showinfo=0', 'rel=0',
-        'iv_load_policy=3', 'modestbranding=1',
-        'playsinline=1', 'disablekb=1', 'fs=0',
-        'enablejsapi=1',
-      ].join('&');
-      frame.src = `https://www.youtube-nocookie.com/embed/${YOUTUBE_ID}?${params}`;
-      frame.addEventListener('load', () => {
-        // Fade out poster quand l'iframe a répondu
-        setTimeout(() => poster.classList.add('is-hidden'), 1400);
-      });
-      wrap.appendChild(frame);
-    }
+    // Iframe vidéo YouTube désactivée.
+    // Raison : Safari iOS "Prevent Cross-Site Tracking" (activé par défaut)
+    // bloque l'iframe youtube-nocookie.com, casse le JS downstream, casse la mise en page.
+    // Chrome iOS n'a pas cette protection → semble marcher, mais on perd 50% des visiteurs iPhone.
+    // Solution robuste : poster statique + Ken Burns CSS. Marche partout, sans tracking.
+    // Pour remettre un fond vidéo plus tard : hoster un .mp4 local (voir chat).
 
     // Overlay piloté + grain
     const overlay = document.createElement('div');
@@ -110,17 +92,7 @@
     grain.className = 'vbg-grain';
     grain.setAttribute('aria-hidden', 'true');
 
-    // Bouton pause / play
-    const ctrl = document.createElement('button');
-    ctrl.type = 'button';
-    ctrl.className = 'vbg-control';
-    ctrl.setAttribute('aria-label', 'Mettre la vidéo en pause');
-    ctrl.setAttribute('title', 'Vidéo d\u2019ambiance · Pause');
-    ctrl.innerHTML = `
-      <span class="pulse" aria-hidden="true"></span>
-      <svg viewBox="0 0 24 24" aria-hidden="true" class="ico-pause"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg>
-      <svg viewBox="0 0 24 24" aria-hidden="true" class="ico-play" style="display:none"><path d="M7 4l14 8-14 8V4z"/></svg>
-    `;
+    // Bouton pause/play supprimé (plus de vidéo à contrôler).
 
     // Sticky booking bar (mobile uniquement, cachée desktop via CSS)
     // Pointe vers la section carousel (réservation Airbnb)
@@ -145,7 +117,6 @@
       document.body.appendChild(overlay);
       document.body.appendChild(grain);
     }
-    document.body.appendChild(ctrl);
     document.body.appendChild(stickyBar);
 
     // Masque la sticky bar quand la section carousel est visible (conversion déjà en vue)
@@ -158,12 +129,6 @@
       }, { threshold: 0.15 });
       obs.observe(carouselSection);
     }
-
-    // Restore état pause / play persistant
-    const paused = localStorage.getItem(STORAGE_KEY) === '1';
-    if (paused) setPaused(true);
-
-    ctrl.addEventListener('click', () => togglePause());
 
     // Default state : niveau 0 (tout à 0)
     setLevel(0, /*instant*/ true);

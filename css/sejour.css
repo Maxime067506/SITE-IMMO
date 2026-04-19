@@ -497,13 +497,91 @@
 
 /* ============== RESPONSIVE ============== */
 @media (max-width: 820px){
-  .sejour-hero{grid-template-columns:1fr;gap:var(--s-4);min-height:auto}
+  .sejour-hero{grid-template-columns:1fr;gap:var(--s-4);min-height:auto;padding:var(--s-4) var(--gutter) 0}
   .hero-image{aspect-ratio:4/5;min-height:auto}
-  .sejour-desc{grid-template-columns:1fr}
-  .stats-inner{grid-template-columns:repeat(2, 1fr)}
-  .stat-cell{border-right:0;border-bottom:1px solid var(--line-soft);padding-bottom:var(--s-3)}
+  .sejour-desc{grid-template-columns:1fr;padding:var(--s-6) var(--gutter);gap:var(--s-4)}
+  .stats-inner{grid-template-columns:repeat(2, 1fr);padding:var(--s-4) var(--gutter);gap:var(--s-3)}
+  .stat-cell{border-right:0;border-bottom:1px solid var(--line-soft);padding:0 0 var(--s-3)}
   .stat-cell:nth-child(2){border-right:0}
-  .sejour-top{font-size:9px;letter-spacing:.22em}
+  .stat-cell:nth-last-child(-n+2){border-bottom:0;padding-bottom:0}
+  .sejour-top{
+    font-size:9px;letter-spacing:.22em;
+    padding:var(--s-4) var(--gutter) 0;
+    flex-wrap:wrap;gap:var(--s-2);
+  }
+  .top-meta{gap:12px}
+}
+
+/* ============== MOBILE — alignement fiches ============== */
+@media (max-width: 640px){
+  /* Conteneurs : padding horizontal cohérent partout */
+  .sejour-top,
+  .sejour-hero,
+  .sejour-desc,
+  .sejour-gallery,
+  .stats-inner{
+    padding-left:clamp(18px, 5vw, 28px);
+    padding-right:clamp(18px, 5vw, 28px);
+  }
+
+  /* Bandeau du haut : stack vertical propre */
+  .sejour-top{
+    flex-direction:column;align-items:flex-start;gap:10px;
+    padding-top:16px;
+  }
+  .top-meta{justify-content:flex-start;gap:14px}
+
+  /* Hero : padding cohérent, titres sans débordement */
+  .sejour-hero{padding-top:20px;gap:24px}
+  .hero-title{padding:16px 0 0}
+  .hero-title .display{
+    font-size:clamp(38px, 11vw, 54px);
+    line-height:1.0;letter-spacing:-.025em;
+    word-break:keep-all;overflow-wrap:normal;
+  }
+  .hero-title .sub{font-size:clamp(18px, 5vw, 22px);margin-bottom:20px}
+  .hero-title .addr{margin-bottom:24px;font-size:10px}
+  .hero-title .lede{font-size:15px;line-height:1.6;margin-bottom:20px}
+  .hero-title .hero-cta{gap:14px}
+  .hero-title .rating-row{font-size:10px}
+  .btn-gold{width:auto;align-self:flex-start}
+
+  /* Stats : 2 colonnes égales, valeurs alignées */
+  .sejour-stats{margin-top:40px}
+  .stats-inner{gap:18px 16px}
+  .stat-cell{align-content:start;gap:6px;padding-bottom:18px}
+  .stat-value{font-size:clamp(34px, 10vw, 48px)}
+  .stat-label{font-size:9px;letter-spacing:.22em}
+
+  /* Description : padding cohérent + titre sans débordement */
+  .sejour-desc{padding-top:56px;padding-bottom:56px;gap:20px}
+  .sejour-desc .h-display{
+    font-size:clamp(34px, 9vw, 44px);line-height:1.05;
+  }
+  .sejour-desc .intro{font-size:16px;line-height:1.55}
+  .sejour-desc p{font-size:14px;line-height:1.7}
+  .sejour-desc h3{
+    font-size:20px;margin-top:32px;gap:10px;
+    flex-wrap:wrap;
+  }
+  .sejour-desc h3::before{transform:translateY(-5px)}
+  .sejour-desc li{
+    flex-direction:column;gap:4px;
+    padding:12px 0;font-size:14px;
+  }
+  .sejour-desc li span{font-size:9px}
+
+  /* Galerie : padding cohérent avec le reste */
+  .sejour-gallery{padding-top:40px;padding-bottom:40px}
+  .sejour-gallery .section-head{margin-bottom:24px}
+  .sejour-gallery .section-head .h-display{
+    font-size:clamp(34px, 9vw, 44px);line-height:1.05;
+  }
+
+  /* CTA finale */
+  .cta-wrap{padding:60px clamp(18px, 5vw, 28px)}
+  .cta-wrap .h-display{font-size:clamp(32px, 9vw, 42px);line-height:1.1}
+  .btn-big{padding:16px 32px;font-size:11px}
 }
 
 @media (prefers-reduced-motion: reduce){
