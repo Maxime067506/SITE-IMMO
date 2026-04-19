@@ -1826,6 +1826,35 @@ body.has-video-bg .carte-canvas .leaflet-tile-pane{
 }
 
 /* ============================================================
+   SAFARI iOS — FORCE VISIBILITÉ DU HERO
+   Override de sécurité après tous les autres sélecteurs.
+   Si pour une raison quelconque (animation bloquée, kinetic figé, stacking context
+   capricieux), le contenu du hero reste caché, ces !important le forcent visible.
+   Le seul coût : les fade-in subtils sont désactivés sur les éléments concernés.
+   ============================================================ */
+.hero-film{
+  min-height: 100vh !important;
+  min-height: 100svh !important;
+}
+.hero-film-content,
+.hero-film-content > *,
+.hero-film-content .eyebrow,
+.hero-film-content h1,
+.hero-film-content .lede,
+.hero-film-content .hero-actions,
+.hero-film-content .hero-actions > *{
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+  animation: none !important;
+}
+/* Kinetic words : force visibility aussi (si IO ne trigger pas) */
+.hero-film-content [data-kinetic] .kw{
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* ============================================================
    DIRECTION B — Verre fumé de Rolls
    Système de transparence global avec vidéo en fond permanent.
    Les overlays sont pilotés par js/video-bg.js via CSS vars.
