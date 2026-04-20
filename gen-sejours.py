@@ -237,7 +237,7 @@ TPL = """<!doctype html>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="css/style.css?v=b8" />
+  <link rel="stylesheet" href="css/style.css?v=b9" />
   <link rel="stylesheet" href="css/sejour.css?v=b8" />
 </head>
 <body class="sejour-page">
@@ -261,11 +261,11 @@ TPL = """<!doctype html>
         <span class="lang-sep">·</span>
         <button type="button" data-lang="en">EN</button>
       </div>
-      <a href="login.html" class="login-link">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <a href="login.html" class="btn-connect" aria-label="Accéder à l'espace voyageur">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/>
         </svg>
-        <span data-i18n="nav.space">Espace</span>
+        <span data-i18n="nav.login">Connexion</span>
       </a>
       <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -439,7 +439,7 @@ TPL = """<!doctype html>
   </footer>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="js/i18n.js?v=b4"></script>
+  <script src="js/i18n.js?v=b6"></script>
   <script src="js/app.js?v=b9"></script>
   <script src="js/video-bg.js?v=b9"></script>
   <script>

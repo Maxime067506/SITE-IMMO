@@ -275,7 +275,7 @@ ul{list-style:none;margin:0;padding:0}
   opacity:1;
 }
 
-/* Lien Espace voyageur */
+/* Lien Espace voyageur (legacy) */
 .login-link{
   display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 14px;
   font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;
@@ -286,6 +286,38 @@ ul{list-style:none;margin:0;padding:0}
 .login-link svg{flex:0 0 auto;opacity:.8}
 .site-header.on-dark .login-link{color:rgba(255,255,255,.85)}
 .site-header.on-dark .login-link:hover{color:var(--white)}
+
+/* Bouton CONNEXION — version visible, dorée, sur fond verre fumé */
+.btn-connect{
+  display:inline-flex;align-items:center;gap:8px;
+  min-height:38px;padding:8px 18px;
+  font-family:var(--f-sans);font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:500;
+  color:var(--nvy-deep);
+  background:#C9A961;
+  border:1px solid #C9A961;
+  border-radius:999px;
+  transition:background var(--t-med) var(--ease), color var(--t-med) var(--ease), transform var(--t-med) var(--ease), box-shadow var(--t-med) var(--ease);
+  box-shadow:0 6px 18px -6px rgba(201,169,97,.35);
+}
+.btn-connect:hover{
+  background:#F5EDE0;color:var(--nvy-deep);border-color:#F5EDE0;
+  transform:translateY(-1px);
+  box-shadow:0 10px 26px -6px rgba(245,237,224,.3);
+}
+.btn-connect svg{flex:0 0 auto;opacity:.9}
+/* Sur fond vidéo/navy : contraste gold cream */
+body.has-video-bg .btn-connect,
+.site-header.on-dark .btn-connect{
+  background:#C9A961;color:var(--nvy-deep);border-color:#C9A961;
+}
+body.has-video-bg .btn-connect:hover,
+.site-header.on-dark .btn-connect:hover{
+  background:#F5EDE0;color:var(--nvy-deep);border-color:#F5EDE0;
+}
+@media (max-width: 520px){
+  .btn-connect{padding:7px 12px;font-size:10px;letter-spacing:.2em}
+  .btn-connect svg{width:12px;height:12px}
+}
 
 /* Switch langue FR / EN */
 .lang-switch{

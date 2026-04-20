@@ -169,6 +169,7 @@ const I18N = {
     "stat.rating":       "Note Airbnb",
     "amenity.wifi":      "Wi-Fi haut débit",
     "amenity.ac":        "Climatisation",
+    "nav.login":         "Connexion",
 
     "desc.nearby":       "À proximité — tout est à pied",
 
@@ -222,6 +223,15 @@ const I18N = {
     /* ============== ESPACE PRIVATIF ============== */
     "espace.logout":           "Déconnexion",
     /* Nav */
+    "espace.toc.eyebrow":      "Sommaire",
+    "espace.toc.title":        "Tout, <em>à portée de clic.</em>",
+    "espace.toc.access":       "Accès & arrivée",
+    "espace.toc.guide":        "Guide Nice",
+    "espace.toc.wifi":         "Wi-Fi",
+    "espace.toc.inventory":    "Inventaire",
+    "espace.toc.contacts":     "Contacts",
+    "espace.toc.rules":        "Règlement",
+    "espace.toc.videos":       "Vidéos",
     "espace.nav.access":       "Accès",
     "espace.nav.guide":        "Guide",
     "espace.nav.wifi":         "Wifi",
@@ -316,7 +326,7 @@ const I18N = {
     "espace.rules.title":     "Quelques règles, <em>pour le confort de tous.</em>",
     "espace.rules.intro":     "Notre engagement : un séjour paisible, respectueux du voisinage et de l'appartement.",
     "espace.rules.r1.t":      "Arrivée & départ",
-    "espace.rules.r1.d":      "Arrivée à partir de 16 h · départ avant 11 h. Check-in tardif possible sur demande à Margaux.",
+    "espace.rules.r1.d":      "Arrivée à partir de 15 h · départ avant 11 h. Check-in tardif possible sur demande.",
     "espace.rules.r2.t":      "Pas de fêtes",
     "espace.rules.r2.d":      "Fêtes, soirées et rassemblements supplémentaires strictement interdits. Appartement réservé aux voyageurs enregistrés.",
     "espace.rules.r3.t":      "Non-fumeur",
@@ -328,7 +338,7 @@ const I18N = {
     "espace.rules.r6.t":      "Clés & code d'accès",
     "espace.rules.r6.d":      "Gardez le code d'arrivée confidentiel. La perte des clés entraîne un remplacement de serrure facturé 180 €.",
     "espace.rules.r7.t":      "Animaux",
-    "espace.rules.r7.d":      "Animaux non autorisés sauf accord écrit préalable de Maxime. Merci de nous prévenir en amont si vous envisagez d'en amener.",
+    "espace.rules.r7.d":      "Animaux autorisés. Merci simplement de nous prévenir en amont pour que nous puissions adapter l'accueil.",
     "espace.rules.r8.t":      "État au départ",
     "espace.rules.r8.d":      "Vaisselle propre · poubelles vidées · fenêtres fermées · climatisation éteinte. Un ménage complet est inclus après votre départ.",
     /* Vidéos tutoriels */
@@ -508,6 +518,7 @@ const I18N = {
     "stat.rating":       "Airbnb rating",
     "amenity.wifi":      "High-speed Wi-Fi",
     "amenity.ac":        "Air conditioning",
+    "nav.login":         "Log in",
 
     "desc.nearby":       "Nearby — everything within walking distance",
 
@@ -561,6 +572,15 @@ const I18N = {
     /* ============== GUEST AREA ============== */
     "espace.logout":           "Logout",
     /* Nav */
+    "espace.toc.eyebrow":      "Overview",
+    "espace.toc.title":        "Everything, <em>a tap away.</em>",
+    "espace.toc.access":       "Access & arrival",
+    "espace.toc.guide":        "Nice guide",
+    "espace.toc.wifi":         "Wi-Fi",
+    "espace.toc.inventory":    "Inventory",
+    "espace.toc.contacts":     "Contacts",
+    "espace.toc.rules":        "House rules",
+    "espace.toc.videos":       "Videos",
     "espace.nav.access":       "Access",
     "espace.nav.guide":        "Guide",
     "espace.nav.wifi":         "Wifi",
@@ -655,7 +675,7 @@ const I18N = {
     "espace.rules.title":     "A few rules, <em>for everyone's comfort.</em>",
     "espace.rules.intro":     "Our commitment: a peaceful stay, respectful of neighbours and the apartment.",
     "espace.rules.r1.t":      "Check-in & check-out",
-    "espace.rules.r1.d":      "Arrival from 4pm · departure before 11am. Late check-in possible upon request to Margaux.",
+    "espace.rules.r1.d":      "Arrival from 3pm · departure before 11am. Late check-in possible upon request.",
     "espace.rules.r2.t":      "No parties",
     "espace.rules.r2.d":      "Parties, gatherings and additional guests are strictly forbidden. The apartment is reserved for registered guests only.",
     "espace.rules.r3.t":      "Non-smoking",
@@ -667,7 +687,7 @@ const I18N = {
     "espace.rules.r6.t":      "Keys & access code",
     "espace.rules.r6.d":      "Keep your arrival code confidential. Lost keys entail a €180 lock-replacement fee.",
     "espace.rules.r7.t":      "Pets",
-    "espace.rules.r7.d":      "Pets not allowed without prior written agreement from Maxime. Please let us know in advance if you plan to bring one.",
+    "espace.rules.r7.d":      "Pets are welcome. Please just let us know in advance so we can prepare accordingly.",
     "espace.rules.r8.t":      "Departure condition",
     "espace.rules.r8.d":      "Clean dishes · empty bins · windows closed · air conditioning off. A full cleaning is included after your departure.",
     /* Video tutorials */
