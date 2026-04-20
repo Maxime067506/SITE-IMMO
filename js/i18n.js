@@ -249,7 +249,7 @@ const I18N = {
     "espace.stay.title":       "Tout ce qu'il faut savoir.",
     "espace.stay.property":    "Propriété",
     "espace.stay.arrival":     "Arrivée",
-    "espace.stay.arrivalSub":  "À partir de 16 h",
+    "espace.stay.arrivalSub":  "À partir de 15 h",
     "espace.stay.departure":   "Départ",
     "espace.stay.departureSub":"Avant 11 h",
     "espace.stay.duration":    "Durée",
@@ -398,7 +398,7 @@ const I18N = {
     "tag.design":  "Design",
     "tag.ultra":   "Ultra design",
     "tag.last":    "Latest",
-    "tag.popular": "Popular",
+    "tag.popular": "Favourite",
     "tag.renov":   "Renovated",
 
     /* ---- STAY DATA ---- */
@@ -408,7 +408,7 @@ const I18N = {
     "stay.1.loc":  "Nice port · 4 guests",
     "stay.1.lede": "South-facing balcony overlooking the port, steps from Garibaldi and the Old Town.",
 
-    "stay.2.name": "Its port twin",
+    "stay.2.name": "The port twin",
     "stay.2.sub":  "Rooftop views of Nice",
     "stay.2.meta": "5 rue Barla · Port · 4 guests · ★ 4.88",
     "stay.2.loc":  "Nice port · 4 guests",
@@ -527,7 +527,7 @@ const I18N = {
 
     /* ---- Apartments ---- */
     "apt.1.heroTitle":   "Our port <em>apartment.</em>",
-    "apt.2.heroTitle":   "Its port <em>twin.</em>",
+    "apt.2.heroTitle":   "The port <em>twin.</em>",
     "apt.3.heroTitle":   "Our Notre-Dame <em>avenue apartment.</em>",
     "apt.4.heroTitle":   "Our Art <em>Deco apartment.</em>",
     "apt.5.heroTitle":   "Our ultra <em>design apartment.</em>",
@@ -598,7 +598,7 @@ const I18N = {
     "espace.stay.title":       "Everything you need to know.",
     "espace.stay.property":    "Property",
     "espace.stay.arrival":     "Arrival",
-    "espace.stay.arrivalSub":  "From 4 pm",
+    "espace.stay.arrivalSub":  "From 3 pm",
     "espace.stay.departure":   "Departure",
     "espace.stay.departureSub":"Before 11 am",
     "espace.stay.duration":    "Duration",
