@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=c2" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="css/auth.css?v=c4" />
+  <link rel="stylesheet" href="css/auth.css?v=c6" />
 </head>
 <body class="espace-page">
 
@@ -25,7 +25,6 @@
       <a href="#acces" data-i18n="espace.nav.access">Accès</a>
       <a href="#guide" data-i18n="espace.nav.guide">Guide</a>
       <a href="#wifi" data-i18n="espace.nav.wifi">Wifi</a>
-      <a href="#inventaire" data-i18n="espace.nav.inventory">Inventaire</a>
       <a href="#conciergerie" data-i18n="espace.nav.contacts">Contacts</a>
       <a href="#reglement" data-i18n="espace.nav.rules">Règlement</a>
       <a href="#videos" data-i18n="espace.nav.videos">Vidéos</a>
@@ -83,32 +82,25 @@
         <span class="toc-num">03</span>
         <span class="toc-label" data-i18n="espace.toc.wifi">Wi-Fi</span>
       </a>
-      <a href="#inventaire" class="toc-chip">
-        <span class="toc-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-        </span>
-        <span class="toc-num">04</span>
-        <span class="toc-label" data-i18n="espace.toc.inventory">Inventaire</span>
-      </a>
       <a href="#conciergerie" class="toc-chip">
         <span class="toc-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         </span>
-        <span class="toc-num">05</span>
+        <span class="toc-num">04</span>
         <span class="toc-label" data-i18n="espace.toc.contacts">Contacts</span>
       </a>
       <a href="#reglement" class="toc-chip">
         <span class="toc-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 13h6M9 17h4"/></svg>
         </span>
-        <span class="toc-num">06</span>
+        <span class="toc-num">05</span>
         <span class="toc-label" data-i18n="espace.toc.rules">Règlement</span>
       </a>
       <a href="#videos" class="toc-chip">
         <span class="toc-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
         </span>
-        <span class="toc-num">07</span>
+        <span class="toc-num">06</span>
         <span class="toc-label" data-i18n="espace.toc.videos">Vidéos</span>
       </a>
     </div>
@@ -194,8 +186,8 @@
       <div class="alb-counter"><span id="albCur">01</span> / <span id="albTot">02</span></div>
     </div>
 
-    <!-- Codes & Wifi : 3 cartes -->
-    <div class="access-grid access-grid--3">
+    <!-- Codes boîte + laverie (le Wifi a sa propre section dédiée ci-dessous) -->
+    <div class="access-grid">
       <div class="access-card">
         <span class="access-label" data-i18n="espace.access.boxCode">Code de la boîte</span>
         <div class="big-code" id="boxCode">••••</div>
@@ -205,12 +197,6 @@
         <span class="access-label" data-i18n="espace.access.laundryCode">Code laverie 24/24</span>
         <div class="big-code" id="laundryCode">••••</div>
         <p data-i18n="espace.access.laundryHint">Accès à la laverie en libre-service située à proximité, ouverte 24 h / 24.</p>
-      </div>
-      <div class="access-card">
-        <span class="access-label">WiFi</span>
-        <div class="kv"><span data-i18n="espace.wifi.network">Réseau</span><strong id="wifiSsid">—</strong></div>
-        <div class="kv"><span data-i18n="espace.wifi.password">Mot de passe</span><strong id="wifiPass" class="copy-field" title="Cliquer pour copier">—</strong></div>
-        <p class="hint" data-i18n="espace.wifi.clickHint">Cliquez sur le mot de passe pour le copier.</p>
       </div>
     </div>
   </section>
@@ -311,126 +297,10 @@
     </div>
   </section>
 
-  <!-- SECTION — INVENTAIRE -->
-  <section class="section espace-section" id="inventaire">
-    <header class="section-head">
-      <p class="eyebrow"><span class="eyebrow-num">04</span> <span data-i18n="espace.inv.eyebrow">Inventaire</span></p>
-      <h2 class="h-display" data-i18n="espace.inv.title" data-i18n-html="true">Tout ce que vous <em>trouverez.</em></h2>
-      <p class="inv-intro" data-i18n="espace.inv.intro">Organisé par pièce. Les consommables fournis pour votre arrivée sont renouvelés à chaque ménage.</p>
-    </header>
-
-    <div class="inv-rooms" id="invRooms">
-
-      <!-- Cuisine -->
-      <details class="inv-room" open>
-        <summary>
-          <span class="inv-room-label" data-i18n="espace.inv.kitchen">Cuisine</span>
-          <span class="inv-room-count" data-i18n="espace.inv.kitchenSub">— équipement complet</span>
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" class="inv-chev" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-        </summary>
-        <ul class="inv-list">
-          <li><span class="inv-q">1</span><span>Four encastrable</span></li>
-          <li><span class="inv-q">1</span><span>Plaques de cuisson induction</span></li>
-          <li><span class="inv-q">1</span><span>Lave-vaisselle</span></li>
-          <li><span class="inv-q">1</span><span>Réfrigérateur + congélateur</span></li>
-          <li><span class="inv-q">1</span><span>Micro-ondes</span></li>
-          <li><span class="inv-q">1</span><span>Machine à café (capsules fournies)</span></li>
-          <li><span class="inv-q">1</span><span>Bouilloire</span></li>
-          <li><span class="inv-q">1</span><span>Grille-pain</span></li>
-          <li><span class="inv-q">4+</span><span>Casseroles & poêles</span></li>
-          <li><span class="inv-q">—</span><span>Vaisselle complète (6 personnes)</span></li>
-          <li><span class="inv-q">—</span><span>Ustensiles de cuisine</span></li>
-          <li><span class="inv-q">✓</span><span>Sel, poivre, huile d'olive, vinaigre, café, thé, sucre</span></li>
-        </ul>
-      </details>
-
-      <!-- Salle de bain -->
-      <details class="inv-room">
-        <summary>
-          <span class="inv-room-label" data-i18n="espace.inv.bath">Salle de bain</span>
-          <span class="inv-room-count" data-i18n="espace.inv.bathSub">— linge haut de gamme</span>
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" class="inv-chev" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-        </summary>
-        <ul class="inv-list">
-          <li><span class="inv-q">2 par pers.</span><span>Serviettes bain &amp; visage</span></li>
-          <li><span class="inv-q">1</span><span>Sèche-cheveux</span></li>
-          <li><span class="inv-q">1</span><span>Tapis de bain</span></li>
-          <li><span class="inv-q">✓</span><span>Gel douche, shampoing, savon (produits français)</span></li>
-          <li><span class="inv-q">✓</span><span>Rouleau papier toilette supplémentaire</span></li>
-          <li><span class="inv-q">1</span><span>Porte-savon &amp; distributeurs</span></li>
-        </ul>
-      </details>
-
-      <!-- Chambre -->
-      <details class="inv-room">
-        <summary>
-          <span class="inv-room-label" data-i18n="espace.inv.bedroom">Chambre</span>
-          <span class="inv-room-count" data-i18n="espace.inv.bedroomSub">— literie française</span>
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" class="inv-chev" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-        </summary>
-        <ul class="inv-list">
-          <li><span class="inv-q">—</span><span>Literie 160x200 cm ou 140x190 selon apart</span></li>
-          <li><span class="inv-q">2</span><span>Oreillers par personne</span></li>
-          <li><span class="inv-q">1</span><span>Parure de lit premium (fournie &amp; changée)</span></li>
-          <li><span class="inv-q">1</span><span>Couette 4 saisons</span></li>
-          <li><span class="inv-q">—</span><span>Penderie, cintres, tiroirs rangement</span></li>
-          <li><span class="inv-q">1</span><span>Miroir pleine hauteur</span></li>
-          <li><span class="inv-q">2</span><span>Tables de chevet + lampes</span></li>
-        </ul>
-      </details>
-
-      <!-- Salon -->
-      <details class="inv-room">
-        <summary>
-          <span class="inv-room-label" data-i18n="espace.inv.living">Salon</span>
-          <span class="inv-room-count" data-i18n="espace.inv.livingSub">— détente</span>
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" class="inv-chev" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-        </summary>
-        <ul class="inv-list">
-          <li><span class="inv-q">1</span><span>TV écran plat connectée (Netflix)</span></li>
-          <li><span class="inv-q">1</span><span>Enceinte Bluetooth</span></li>
-          <li><span class="inv-q">—</span><span>Livres &amp; magazines</span></li>
-          <li><span class="inv-q">—</span><span>Guide du quartier (exemplaire imprimé)</span></li>
-          <li><span class="inv-q">1</span><span>Canapé + fauteuil</span></li>
-          <li><span class="inv-q">1</span><span>Table basse</span></li>
-        </ul>
-      </details>
-
-      <!-- Équipements -->
-      <details class="inv-room">
-        <summary>
-          <span class="inv-room-label" data-i18n="espace.inv.equip">Équipements techniques</span>
-          <span class="inv-room-count" data-i18n="espace.inv.equipSub">— tout confort</span>
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" class="inv-chev" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-        </summary>
-        <ul class="inv-list">
-          <li><span class="inv-q">✓</span><span>Climatisation réversible (chaud / froid)</span></li>
-          <li><span class="inv-q">1</span><span>Lave-linge</span></li>
-          <li><span class="inv-q">1</span><span>Sèche-linge ou étendoir selon apart</span></li>
-          <li><span class="inv-q">1</span><span>Fer à repasser + table</span></li>
-          <li><span class="inv-q">1</span><span>Aspirateur</span></li>
-          <li><span class="inv-q">✓</span><span>Produits d'entretien &amp; ménage de base</span></li>
-          <li><span class="inv-q">✓</span><span>Wifi fibre haut débit</span></li>
-        </ul>
-      </details>
-
-    </div>
-
-    <div class="inv-footer">
-      <a href="mailto:hello@delfosse-properties.fr?subject=Signalement%20inventaire%20-%20[Votre%20nom]" class="btn btn-primary">
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M12 8v5M12 16v.01M4.93 19.07A10 10 0 1 1 19.07 4.93 10 10 0 0 1 4.93 19.07z"/></svg>
-        <span data-i18n="espace.inv.report">Signaler un manque</span>
-      </a>
-      <p class="inv-note" data-i18n="espace.inv.note" data-i18n-html="true">
-        Vous trouvez qu'il manque quelque chose ? <em>Faites-le nous savoir, nous nous en occupons.</em>
-      </p>
-    </div>
-  </section>
-
   <!-- SECTION — CONTACTS (anciennement Conciergerie) -->
   <section class="section espace-section" id="conciergerie">
     <header class="section-head">
-      <p class="eyebrow"><span class="eyebrow-num">05</span> <span data-i18n="espace.contacts.eyebrow">Vos contacts</span></p>
+      <p class="eyebrow"><span class="eyebrow-num">04</span> <span data-i18n="espace.contacts.eyebrow">Vos contacts</span></p>
       <h2 class="h-display" data-i18n="espace.contacts.title" data-i18n-html="true">Trois interlocuteurs, <em>une équipe dédiée.</em></h2>
     </header>
 
@@ -506,7 +376,7 @@
   <!-- SECTION — RÈGLEMENT INTÉRIEUR -->
   <section class="section espace-section alt" id="reglement">
     <header class="section-head">
-      <p class="eyebrow"><span class="eyebrow-num">06</span> <span data-i18n="espace.rules.eyebrow">Règlement intérieur</span></p>
+      <p class="eyebrow"><span class="eyebrow-num">05</span> <span data-i18n="espace.rules.eyebrow">Règlement intérieur</span></p>
       <h2 class="h-display" data-i18n="espace.rules.title" data-i18n-html="true">Quelques règles, <em>pour le confort de tous.</em></h2>
       <p class="rules-intro" data-i18n="espace.rules.intro">
         Notre engagement : un séjour paisible, respectueux du voisinage et de l'appartement.
@@ -567,7 +437,7 @@
   <!-- SECTION — VIDÉOS TUTORIELS -->
   <section class="section espace-section" id="videos">
     <header class="section-head">
-      <p class="eyebrow"><span class="eyebrow-num">07</span> <span data-i18n="espace.videos.eyebrow">Vidéos tutoriels</span></p>
+      <p class="eyebrow"><span class="eyebrow-num">06</span> <span data-i18n="espace.videos.eyebrow">Vidéos tutoriels</span></p>
       <h2 class="h-display" data-i18n="espace.videos.title" data-i18n-html="true">Les bons gestes, <em>en images.</em></h2>
       <p class="videos-intro" data-i18n="espace.videos.intro">
         Quelques démonstrations courtes pour vous rendre autonome sur les équipements de l'appartement.
@@ -609,7 +479,7 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="js/auth.js?v=b10"></script>
+  <script src="js/auth.js?v=c8"></script>
   <script src="js/i18n.js?v=c2"></script>
   <script>
     const user = DP.requireAuth();

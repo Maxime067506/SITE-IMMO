@@ -27,3 +27,8 @@ npm-debug.log*
 
 # Node (au cas où plus tard)
 node_modules/
+
+# Outils admin (contiennent les mots de passe en clair — NE JAMAIS pousser)
+tools/*
+!tools/README.md
+!tools/.gitkeep

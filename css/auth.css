@@ -101,6 +101,18 @@
 .auth-help a{border-bottom:1px solid var(--line);color:var(--ink)}
 .auth-help a:hover{border-bottom-color:var(--ink)}
 
+/* Badge chiffrement — assurance subtile sous le CTA */
+.auth-secured{
+  display:inline-flex;align-items:center;gap:8px;
+  margin-top:var(--s-4);padding:8px 14px;
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--accent-dk);
+  border:1px solid var(--line);border-radius:999px;
+  background:var(--bg-alt);
+  font-weight:500;
+}
+.auth-secured svg{opacity:.85}
+
 .auth-hint{
   margin-top:var(--s-5);padding:var(--s-3);
   border:1px solid var(--line);background:var(--bg-alt);

@@ -1,223 +1,128 @@
 /* ============================================================
-   Delfosse Properties — Authentification voyageurs
-   7 séjours = 7 comptes. Les données reflètent les vraies
-   informations collectées sur chaque annonce Airbnb.
-   (Démo : identifiants en clair. En prod → backend + bcrypt.)
+   Delfosse Properties — Authentification voyageurs (mode sécurisé)
+
+   Chaque profil est chiffré AES-256-GCM avec une clé dérivée du
+   mot de passe du voyageur (PBKDF2-SHA256, 200 000 itérations,
+   sel unique par utilisateur).
+
+   Sans le mot de passe, les données (Wi-Fi, codes, téléphones,
+   numéros Airbnb, etc.) sont IMPOSSIBLES à lire — même avec
+   accès au code source.
+
+   Pour ajouter/modifier un utilisateur :
+   → éditer tools/encrypt-users.js (dossier non versionné)
+   → lancer `node tools/encrypt-users.js`
+   → copier le bloc DP_USERS_ENC généré ici-même
    ============================================================ */
 
-const DP_USERS = {
-
-  /* N°01 — Notre appartement du port (ex L'Amiral) */
+const DP_USERS_ENC = {
   "martin": {
-    password: "port2026",
-    name: "Famille Martin", firstname: "Claire",
-    property: "Notre appartement du port", property_no: "N°01",
-    property_sub: "Vue sur les toits de Nice",
-    location: "5 rue Barla · Port de Nice",
-    dates_in: "12 juillet 2026", dates_out: "19 juillet 2026",
-    nights: 7, guests: 4, total: "2 380 €", status: "Confirmé",
-    wifi_ssid: "Delfosse-Amiral", wifi_pass: "portbarla06",
-    box_code: "0190",             // Code de la boîte à clés
-    laundry_code: "1235*",        // Code de la laverie 24/24
-    concierge_name: "Sophie Laurent",
-    concierge_phone: "+33 6 12 34 56 78",
-    concierge_mail:  "sophie@delfosse-properties.fr",
-    airbnb: "https://www.airbnb.fr/rooms/1361669686960380718",
-    rating: "4,87", reviews: 75,
-    image: "img/airbnb/01-amiral/photo-01.jpg",
-    nearby: "Tramway 1 min · Port face · Garibaldi 3 min · Vieux Nice 5 min",
-    /* Arrivée — point de rendez-vous + appart */
-    arrival_pickup_addr: "1 rue Badat · Point de rendez-vous",
-    arrival_pickup_lat: 43.7025422,
-    arrival_pickup_lon: 7.2817368,
-    arrival_dest_addr:   "5 rue Barla · Appartement",
-    arrival_dest_lat:    43.7023835,
-    arrival_dest_lon:    7.2814790,
-    /* Photos étapes d'arrivée (dans doc/arrival/01-port/) — captions bilingues */
-    arrival_photos: [
-      {
-        src: "doc/arrival/01-port/step-01.jpg",
-        caption_fr: "1 rue Badat — point de récupération de la clé",
-        caption_en: "1 rue Badat — key pickup location",
-      },
-      {
-        src: "doc/arrival/01-port/step-02.jpg",
-        caption_fr: "5 rue Barla — entrée de l'appartement",
-        caption_en: "5 rue Barla — apartment entrance",
-      },
-    ],
-    extras: [
-      { label: "Dégustation huîtres au port",   status: "Réservé — 13 juillet, 12 h 30" },
-      { label: "Transfert aéroport Nice",       status: "Confirmé — 12 juillet, 15 h 30" },
-      { label: "Ménage intermédiaire",          status: "Planifié — 16 juillet" }
-    ]
+    "salt": "R2o4Skfw4X+ambX4FwurwA==",
+    "iv": "QhUjmBsZiEU+3Zpg",
+    "data": "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"
   },
-
-  /* N°02 — Son jumeau du port (ex Le Commodore) */
   "nguyen": {
-    password: "jumeau2026",
-    name: "Famille Nguyen", firstname: "Linh",
-    property: "Son jumeau du port", property_no: "N°02",
-    property_sub: "Vue sur les toits de Nice",
-    location: "5 rue Barla · Port de Nice",
-    dates_in: "22 août 2026", dates_out: "29 août 2026",
-    nights: 7, guests: 4, total: "2 450 €", status: "En préparation",
-    wifi_ssid: "Delfosse-Commodore", wifi_pass: "commodore06",
-    arrival_code: "7103",
-    concierge_name: "Antoine Perez",
-    concierge_phone: "+33 6 55 44 33 22",
-    concierge_mail:  "antoine@delfosse-properties.fr",
-    airbnb: "https://www.airbnb.fr/rooms/1361686663866337495",
-    rating: "4,88", reviews: 64,
-    image: "img/airbnb/02-commodore/photo-01.jpg?v=c1",
-    nearby: "Tramway 1 min · Port face · Garibaldi 3 min · Vieux Nice 5 min",
-    extras: [
-      { label: "Sortie bateau avec skipper",    status: "Confirmé — 24 août" },
-      { label: "Location vélos électriques",    status: "Réservé — 23 août" }
-    ]
+    "salt": "J2I7i2oNxe6JWN8E1dux2Q==",
+    "iv": "X+y8Db5Q3CIyCdxo",
+    "data": "fTZjzSdAyMJCnmvyGAzsbTwhNVUMLnrT8cDwRmxL2ttIIJEOjcgqdCKRL/d3BfOmnnygorImHivF8kAuVAQzgK7k/sp9GJhi9oyKDYuCJvA/Hn+zct33KRyvgSfYlC3KaFJOumdU7daMhrd3QOYMq2bbR+OHNP8pwqoqnDN3RntqHbKP1WXmYvDzd2Iy8FYh4Vp2Q/B7s4IIB0yQpGvB8eFZQxkMSE+IvsDIZE+wVZmFgNWR9UjcWx7JevUGV0F5SZ4wJXH334ykJUsjHAGBseiNyRsxlmEoyWfhtc60k/Yvlq9ZH5Lu8+64DEHoThLFMEleEkZNl0MXJVpKg6hhNV/NZqVwbf5gBWN7OaaJsQpLsopHHfK5bKFxbSvnd2YsfqVq+09+05xEbKQh4LHh/lx9nKT5TgcMAhhoZ0tUlpYcu7dMJ2Ie2fDj/MQCIYYR8ahKDHtWGocyd7kfKsvsAXsX69yZ5g2X7H39y+lGhci2PhK8UrZMS/whENndk1DPsbqayFc7HEsA6nPh5tLbywW2aC6CYh8NRNZgKc9VMSwSRiG06bPUTZ3rfQRbT2WZnZ7eiu1cp8OIrdm7KOt1CJiXthibOFSGb3vF/xBz9aOs8TWhgTRkfYi5fI3X++L3eLZU6C+VO0+WGc9ZgLCPlt1TKmOXnmUphysY2bYvUXvLipRK6dWIfbD/kjnNsYTiZPDbDpNgZmn6+ilLwSZ38iQNPvLcoRGwqkRk6SR1mF3FfvJr0bM4zl/Glo2OuW11ihloWchHnWUGmOAR2qwujrvUXBAbINnTjTNU3Lk5d4unwBzsuMHJIlQpyjs95SsNB9vhPFmGVj1xxkML+JeCmwSJhomzkM+UeBa+P9yn7fCeGXtiLwAPJF+rKNtF0j22aOED7VoROk4qoGd0HbbmDYqNzfZrTsXLQtaEZd+NTB1Xi/M51dWUonT5pDlX0EHczKSXuTJisw19bPMC3qYeRiakWxG9mouZ83+2qR7mVcupqGpKxXjPjdI2qWEPkUC5AIpquJGxxVGcUpRSHQ10LRfuTTFVOYftAUWGxB3jTTTl8yQKEcHQBxOIiirV5Y1YV7rxed6OswB1BuYPM2k3bLvu+YYzMKvblSBSqJ5oEJ5oxKFEetnewkE/JB8XU+WgTuEbtKCa/qx/zJHmc9L37PuFNfKY7u7FxHZAvgPwJUMyIj2D"
   },
-
-  /* N°03 — Notre appartement avenue Notre-Dame */
   "dupont": {
-    password: "notredame2026",
-    name: "M. Dupont", firstname: "Jean",
-    property: "Notre appartement avenue Notre-Dame", property_no: "N°03",
-    property_sub: "Famille · 6 voyageurs",
-    location: "27 avenue Notre-Dame · Hyper centre",
-    dates_in: "3 mai 2026", dates_out: "7 mai 2026",
-    nights: 4, guests: 6, total: "1 980 €", status: "Confirmé",
-    wifi_ssid: "Delfosse-Basilique", wifi_pass: "notredame27",
-    arrival_code: "5912",
-    concierge_name: "Marc Dubois",
-    concierge_phone: "+33 6 98 76 54 32",
-    concierge_mail:  "marc@delfosse-properties.fr",
-    airbnb: "https://www.airbnb.fr/rooms/1563266584925477319",
-    rating: "4,84", reviews: 25,
-    image: "img/airbnb/03-basilique/photo-01.jpg",
-    nearby: "Tramway 1 min · Vieux Nice 5 min · Gare 5 min · Jean Médecin 1 min",
-    extras: [
-      { label: "Table étoilée Le Chantecler",   status: "Réservé — 4 mai, 20 h 30" },
-      { label: "Visite privée du MAMAC",        status: "Confirmé — 5 mai, 10 h" }
-    ]
+    "salt": "16KfGyWR4MVTnKzuxGQZsA==",
+    "iv": "U8GMfFm+DkXB6fnG",
+    "data": "ZDzLYdkmh3DtURbx6hCQS/oUj6ASYfIQoGS0K4f3TbND9NkNyDCuWKngjIXnWkt9jF8sUrawftJggGHqupSMPbqO57xrPHcDytS7ZiqCcZWcJcdmpFzQRlvBWkOrF2o23D2RBFF8t2CQXgE8kme1AB0n0cQIhujC/sVGC2xodpHedmZGgZlaq5SXrBXDXru70OPuet3JsXXdn0KGMe1ACwQj2oPOyd8oFQR3Tn1uSNtsVx1EAqCwKr5El7mHaM00hjDsGdsIjVJqm4n2FpmAmV4hse+L+Qt/w7JNZGtl6oMlPu6fOK3zlTlCFNb4MiklA6U4W5q7NlYr0kqRDQvdjHP5RHRsslW5Gd3LhQaLVmR6g4aWZqJhg/BRJXTpwllJzxBZ7dzDsgPA4eiJLXr25hYwqi8GNJSQUAKl2p3v22u3M15hoBdzcaAGqJUzQF5pOdIKQjpCq93snmVoZKVQtwUTeRgrdA5vXbegJquKY+Wj1902oomt4ZftLl/whJaBwa+gE9kz2Yg8cql6sM2dNUxOxLMSS3g+JcGQUX9QmO/YsRWfCsqSWXLu1vHEBlhxaTI42P3ZTg80y8A+hwN1kFFJZLH3korn0qMFYXvsH5FzEH2r2wNsX4apPxj6z3/4X4s+ON4FMMXZmUmuDKAsPX66Z/2xrKTaFq4S0PmeXse7fMniGJ8rmWo3b5lPNnIsW3xF7vegQFw7Cs7nLALofXXECuIPOVHwGvP1bSAcBoacZB9rdKtG8iHJJPSgQWqpoQDgP1EikAKqQxn/5S0zx+UuS9ZcniKEskT181r3x5UoTtpeZuqOiKYaebOFSAYlt199/Jf/g4DPmv3IRPoRLfczyrHw/XxYV1bgBHZHohfSEE+YTdFhCD4Ze9sviQV3TpzcL1UR8NDIysaDKnLIKiVhmlL7OlWn2PhZ3tJXZ4p3G8Kn56SMv82jQ1DPdcB9pTH8QxB/W85BtXRKL4JMkYFi8g+583pKzpNQSNpOqh4GwM1Swgo2V5Y+l3CdnWwgLD2YtkG9cz+AT+oAhvqdi5r5PGDXObKNmJqoJ/Pk8bI4ycPT5tfi7C9T/kWwoeO11SScuzlr+6goJO6Y9z2k4Qn986P8VuFq9VZU4KJtJDcvDggKcMOSTGHgFi0tFckcOmY2kVEev0e7LbWD3fXDPrO5S8gIp6fJovFaFycZlvVs1SIamhFbbh5qKPw="
   },
-
-  /* N°04 — Notre appartement Art Déco (ex Le Transatlantique) */
   "rousseau": {
-    password: "artdeco2026",
-    name: "Famille Rousseau", firstname: "Émilie",
-    property: "Notre appartement Art Déco", property_no: "N°04",
-    property_sub: "Quartier de la Gare",
-    location: "Face à la gare · Nice",
-    dates_in: "10 juin 2026", dates_out: "17 juin 2026",
-    nights: 7, guests: 4, total: "2 180 €", status: "Confirmé",
-    wifi_ssid: "Delfosse-ArtDeco", wifi_pass: "transat1930",
-    arrival_code: "4621",
-    concierge_name: "Julien Morel",
-    concierge_phone: "+33 6 78 90 12 34",
-    concierge_mail:  "julien@delfosse-properties.fr",
-    airbnb: "https://www.airbnb.fr/rooms/1361628609886141688",
-    rating: "4,86", reviews: 43,
-    image: "img/airbnb/04-transatlantique/photo-01.jpg",
-    nearby: "Gare face · Transports 3 min · Masséna 10 min · Vieux Nice 12 min",
-    extras: [
-      { label: "Cours de cuisine niçoise",      status: "Réservé — 12 juin, 15 h" },
-      { label: "Visite Villa Masséna",          status: "Confirmé — 14 juin, 11 h" }
-    ]
+    "salt": "S/0qPJvgHSS31T5QEdh1rQ==",
+    "iv": "BxoutzLK5UaYMK/I",
+    "data": "RyShF9QJGtelBqjKJzckqhmMsosQXz4sMhrH1hg4SWyzX0PQnB1hf7PoN6DFu19qOr4TBjvWjAlKcKytbNi0ESieZWHeUt+f2UKgFnSCv5KxmjF5cdoHSjSYONWXFSeawVXkfQu7cl/cNaNq38RNEprtIhHEgTZKgzhZ1Mw8d1iP4eH/Ww+VSCV7TC0JwAyC9ZVSQtpTkfLESr31gGLTnrHvltgprJgTcQZSSn47Eend/MNOltMRGLfz8I+I7bn8kmdLZgiK6SDvwUDSQGlMW3sTWFmoAglBSV2HikBjaynJehj5bBdimofqkewcd/6uqkNh6b621Vp7Z18WAY02ghPjiSxP3+wr0quNyC48yjuShUylHfPltdVQBiekFUfMUdcuOBHGEZAuT66UGWY/EaCCRPPbTOI1WiA/065g0TzRRYGXdw6syi8Q8CdT3CwURiqykHpnVejgN15bvsquAtSI9VcXp4nny4Ya/cMiOEpnk8fp5FIehczhbpq+lDJnazuJ2Y6k0c7Nr0AcRNuKZoZ9huRwrq39gxOxAXCx2Lhf0aSQGS4QLEzYCx0N9JMOF71W5UYaZiDZB0Gpz8mFt1IJ3f735oqdiFx+WNAFHQkXzXmiXcH4YjeMG5arlNbrvSAu6YH3jHsutLl5e+Y4exEmSVuxXyRp600VL6aUJLjA9x0+mjhtmkhvKG8wUq8QogddiuQTzzz/3YoaiFM/cyU59rCpm6gtLBdXhMhzE2fFY5bqMoX5NS1Kf/03P8gcMG0Qkqq83OaVU5G8OF0+vugXlsI6UbV3vJtgC7eT9KCoWu4HxnXGUrNROm+BhY7mRRc0kNM/4SCQh8Nm51P3d3oYBAGaSlhVYpnKo4mG1rbhDLk9MHVKJu2YDkj/dGQaVwUK9UrDh9bRV6Crxyrk3JqJsmy/Aq2EDj86rttI9ckZMUjuaShSDh3poClm5t8B31INoPNrpbXpYgqhyGhE88gLaQEZuSkugVFHjxKbRG6A7p6fXNjMEFeu4jdz/USOM0JBBoe/A+PR2ZlPlsLg+Ga1BrVpF64qZ5PZY14Rph+k9feM44zmlGnb/Mt1MpGwITuvxmfdRT14/SJGbUyeSb+vtPFeWb0j+CAFS5Zy+FdSogCbopGGQ3NBfIfsz3NW90nBBzvxdPuz/7MMGn7ndvNbx/sOiU9VEcym6qcT6pw+A5E="
   },
-
-  /* N°05 — Notre appartement ultra design (ex Le Scherzo) */
   "bernard": {
-    password: "ultra2026",
-    name: "Famille Bernard", firstname: "Alexandre",
-    property: "Notre appartement ultra design", property_no: "N°05",
-    property_sub: "Quartier des Musiciens",
-    location: "41 avenue Georges Clemenceau · Musiciens",
-    dates_in: "26 décembre 2026", dates_out: "2 janvier 2027",
-    nights: 7, guests: 4, total: "2 840 €", status: "Confirmé",
-    wifi_ssid: "Delfosse-Ultra", wifi_pass: "clemenceau41",
-    arrival_code: "9384",
-    concierge_name: "Camille Richard",
-    concierge_phone: "+33 6 45 67 89 01",
-    concierge_mail:  "camille@delfosse-properties.fr",
-    airbnb: "https://www.airbnb.fr/rooms/1446914329011561138",
-    rating: "4,94", reviews: 16,
-    image: "img/airbnb/06-scherzo/photo-01.jpg?v=e3",
-    nearby: "Tramway 2 min · Jean Médecin 2 min · Gare 5 min · Plage 15 min",
-    extras: [
-      { label: "Réveillon traiteur privé",      status: "Menu validé" },
-      { label: "Brunch du 1er janvier",         status: "Réservé — 10 h 30" },
-      { label: "Spa à domicile",                status: "Planifié — 28 déc." }
-    ]
+    "salt": "p5zCk4aGWqlAfQlhwFNjrQ==",
+    "iv": "rSU9/9SAYXWCkTJ1",
+    "data": "2rIJEQm69FQvQEK3aRz9LN0nb2RoHvajexZ+78bGwE1JvRLvMHMN7UPScH2LNdyEbc98cT0R83BMZHu+Dr6AH5BLWXAcGeQmBh9RIXAV+Si6it0OYSyva3NER3y8Ds4E9I0Ihil6TKJXTgefTEVniitcOG776bmyH6kEE7+gFIpBEkxVtMMSXaWW79gsoDcMt+U0N7NwkKHco1T7F30ANzdvu978pCVFgNsB4wTvMQBnqMihmCoG4bZJa4v/icui8F+fHXRs2TZxi/7LNeVisWuGeVRJzDHoDCXogwBpD4S4nrczA6mdVKCsHudNXTJXBn8cWSzPrQeHgKp/t9ZPSTK1mAcE+ddKSlEPcd34OAryHfFJW0apR9qlND1mOLwBWQzfKwFCRcFLuLRBLwAYQ3Py36ZWn2eQVViek2a4VP0KUAkBYd7tJGfDQPuAn7DO8cIipBtXVHtWTL494KP3kDXvlRiKE7JOxnQHeiF5SwC8w6C/jpMUokZTdXGEt7Yz2MrqFo5Cxenk9xwTPp76EpYdU9QL5Xenx79sAAy8E1RoJkupFpoYgzLuU8lSvM+qCSw9CmU1N5KlaFjt/mV0MAGOjWkd4HqM6Nigx2FBFXGPgdbUzOAFchw7U2suqoFbVAC5Z+IMU3GSdP+F2qNA018b3+/6F8SsyBTDsXQcs5ItIJIVrHLtuxHWUnzJvzcTkG7wL323fS+FGVDJifPww77cITngdzOPoM7PD8GnPfFvNlUd3SX4drblPgMIJ4ETk7WTo0ppX+0e/UnHjOMb8oOicREDhOnRpi4+stOCQmyQsmR83NFfEqZUhSOceH5mTfrONhNXUIZ2JBovUymXLz2mdW0CnTG1e+PhECFV+VKwYeSa3Ncq32im/3B0J3H2pkS4dzjD0snOgHqYCMf65ib2KKE1qnLcLdOgyyRak621YLQrPlwOFxJ5Aq5BcWa+gpogZ/xWYr4/SjtXu9Xoq8NiayRbHzR1PDbiYaGz+guDypqT91au0CiSjmoepmtqdp1y6bj4JYkPC+e42pKA40vlFLJIXbGH87zjKrlwRFlZ3wJXusCfAsC+gJqK5fo2NTz6F7lacKeNPaC2WbnM4KPA14mI88YOkvhILrKRxqM+rbrDGtumUtoTPB7v7l+N6bOGme18qEgi5OEAYpaY/BKWnEsGA+kUn8nx+GSc4bsFwe6RiC4LuW7NZGuxdT2pB+4PcBGUgxMwCBBd2+ZG08ceGgbvUuQHcZWtEpIbA4cN8msGh5Q4b3eXxpVPo38Wozhydn+eMaPLzw=="
   },
-
-  /* N°06 — Notre dernier appartement (ex Le Crescendo) */
   "lefevre": {
-    password: "dernier2026",
-    name: "M. & Mme Lefèvre", firstname: "Hélène",
-    property: "Notre dernier appartement", property_no: "N°06",
-    property_sub: "Quartier des Musiciens",
-    location: "24D rue Gounod · Musiciens",
-    dates_in: "18 septembre 2026", dates_out: "22 septembre 2026",
-    nights: 4, guests: 4, total: "1 240 €", status: "En préparation",
-    wifi_ssid: "Delfosse-Gounod", wifi_pass: "gounod24",
-    arrival_code: "1275",
-    concierge_name: "Philippe Marchand",
-    concierge_phone: "+33 6 23 45 67 89",
-    concierge_mail:  "philippe@delfosse-properties.fr",
-    airbnb: "https://www.airbnb.fr/rooms/1361447215596892211",
-    rating: "4,69", reviews: 52,
-    image: "img/airbnb/07-crescendo/photo-01.jpg",
-    nearby: "Gare 5 min · Jean Médecin 5 min · Masséna 10 min · Plage 10 min",
-    extras: [
-      { label: "Dégustation vins de Bellet",    status: "Confirmé — 19 sept. 17 h" },
-      { label: "Dîner chez JAN (1*)",           status: "Réservé — 20 sept. 20 h" }
-    ]
+    "salt": "lBboopGG30lBUGpWNgR6UQ==",
+    "iv": "M5EHmOrPq7MV5Wnz",
+    "data": "dzj1WsgEPkaw1+ePTK02/tTQv04BU2r5bQfySAcQSqFyou2HWmv4RiGOrWa1P06Fb4NNGJK+f8Ub+9GSZw+CO4+y1ijWC50/s74gnNrBgKlbf/PFL9g6uStMxgy2Smaf0l5lPQAVZBCqCf9bVqWcJ5TjK/4MkU0dbIrKfT15GWahLKwVpGjQ0d2zhS6GIUelTQFYiafzBl5KBE1j8uQUB+FoX6v+/x2imbEsUCtQUlkJCCjbhkqYkasOHsHNFjc9iOuOCDEIAvzXe5w49d6Qc7UHnz+US/vI+AUE14oQgiC81anPqZqKARDFpd1/tj4M+lKT1zJnsFfu9wUdPEZqGh0qUT5Cf9uw65deUlT0uDchsSNSDAzCjKEFFoxcyF8OoL6NC02VQicrmqm0HOV0RxUa8ZTLmvY6vS4s9p1pA22Q8PXnHcOz0udU0w/vMaHioH7VMPkFLeOcO9ADUTVGJtuuP3WZetURenAxpx+in2kJhRvo8LsSTh/kNykqFUsPor1vxpr3tlkCICgXnvA8prjE4/1oignUlrfvWcyhuwkEE8b2g/yiDK4ikMFPPqy//fbRqkvOn8qDPpHc1d/WLUgL5lTdw6ae733QmK3ncjpirsCh56IvFNpTy4Gmbz8Vwcgs32MpURIHdCEKb4CoRxPdrpfWgH1PE1XInXXfSvi7bKHYPirM5WIWlT2Rdx5mdulhG2WdZCzOLBwSLkPGU2trLxSVtmNAsxYjZHdP04j8jsf/iQsSxNu1wIEv9SoEiz02nZxo7lmy6k7VCzMKYF7foyKQt4NCQH3jPnDmi4ypOcECdAY4kdW5nkM6AgwrmeaUf0ne3PtwacjJ+UcH+7X2WnQR0Nxjd5dn1fJgBNxTqh0TOoYASljV45PcD/ESptHvFJ7xcgJY1O13r3B6x33XTZb39Hj9/1FddBWqJxUNS9RLGQN0y+JgxHTYqmO7+f3nbHZYGi/pENwCNPIY0pOJs3Vx9Aa4fe7fMIhISzSIRZZFX0rvUAL81t3Om7FYiF5ZdDL5/v0KXO/snofxzQb6mBoVAMYniewphXZoFLJs2g+3mDO620h0C82RepOUQtDTIOa1h+6HcZvGMzySMhcvhikV6Q4HCPPW+xiTMv2phst3YqZUaoNF51XUb7f1eNktYHpecSQQeEVMRhzN+aAWFvu4v8+LSRC0G3EL7U6XpcuZrHxqO++MWuZA211d3l0z8b+9ng=="
   },
-
-  /* N°07 — Notre appartement design (ex L'Adagio, déplacé en fin) */
   "garnier": {
-    password: "design2026",
-    name: "Famille Garnier", firstname: "Thomas",
-    property: "Notre appartement design", property_no: "N°07",
-    property_sub: "Quartier des Musiciens",
-    location: "41 avenue Georges Clemenceau · Musiciens",
-    dates_in: "5 août 2026", dates_out: "12 août 2026",
-    nights: 7, guests: 4, total: "2 140 €", status: "Confirmé",
-    wifi_ssid: "Delfosse-Design", wifi_pass: "clemenceau2024",
-    arrival_code: "6408",
-    concierge_name: "Laure Vidal",
-    concierge_phone: "+33 6 34 56 78 90",
-    concierge_mail:  "laure@delfosse-properties.fr",
-    airbnb: "https://www.airbnb.fr/rooms/1447097634568506909",
-    rating: "4,81", reviews: 21,
-    image: "img/airbnb/05-adagio/photo-01.jpg?v=d1",
-    nearby: "Tramway 2 min · Jean Médecin 2 min · Gare 5 min · Plage 15 min",
-    extras: [
-      { label: "Location vélos premium",        status: "Livré — 5 août" },
-      { label: "Cours de voile baie des Anges", status: "Réservé — 7 août" },
-      { label: "Panier marché Saleya",          status: "Chaque matin" }
-    ]
+    "salt": "IKMMeGxCYbMeVqtVqbGt1w==",
+    "iv": "IVqU04F1WrekS7pi",
+    "data": "AIQ2L1gBB+jdPW2xkD8kr9FAclApUtHCMvw1KpTsB/wo8vCOSUj0FbfFXfatqPxVVZSjirBFCWmzMUsLECqO4Dv/7GMr0LNFV0bO+2xyAOJ//mgYVeLFnmQgrrCS2ZTfsKtQ0TPTor+NFBoc0PNKuu5eDxX6wrO8BXt7FgTv+10GSvukTV2rqUng68BVmyAcP/aaOiLZDpxxjr4rWmMU1u4J2vq6ejeuc9xfb8krHxyPs3PtR7r45oyc3fUU3eGYnFHCzFKCd6yIo+vL2ZhNzJ5oYqsy9rbwvkoyv7UxeUS+wNNamAtEMYES24dbGc/rwdAzreNrYQVCHOiEIKfHFwh5SvVXTfjdJgHWNjo7TsPj8PtYcXZGsiy+oxvYA/3mb+T4ozYRGssvZNTq7UCbbfA3Lv6KzWSEDct/t+aud6HJn6xSo6jyHDl4yyzC/hsut2az/JxXQP+eYrgkoZ1bDh0usORhpWu2WqDDPQDIWwlBGZCky7yqn0KjrXZ1wMrr9lx1tIVUDfiMuttAj2V40x68IFJuYhI59oEojPYtj64SBAEEVVd3vo4gtBtEp/RYicmj1sd3+KZSo2dawA9p05Tur60idPvUpt5RMPEdfcPCYi0oYOGEHT06wgx40ll1yJwTqrhqC0p5oW8RxeafCMzL+4iHZNmPM/G7ApTyKjmTAR2S1IpX7RkCdESVroce56U7FuBqIrdxxa6s2pPfTR2/s3fMcC5Ep3s9IQ628U21givwKLf0SrYmI8JBmVViMH6TK91TUzY/vlFqYYH109btBaT/tdaxB9oFEBaIF/RVw4Br9dsFw6y6BVbpQwirJCwVuSZoPXG6zEvf/w+55DJRBz5EolyJyW6K+InRrIqy3LsAMu5d00WLQEIFvUL1E1bul65gYAHGeNx8pEdIAs+17KQtklzKkyM8JIlIpA/VuGIs0irAuqPEd/2DYroPNSPFrIVXTkEh6C3JNiZZGSAIMQF+kinQky6MscxArVH1AWlTeV4O1UkNIbgEIk5+ZdybB5o8gYzWCKGwVyUncDmbQ1sg/O/en8GEQIrm20CKNt2LUBjfqr7kiY6nfcyCNUynmm3P6T/+grbwvCicTBkLNTdLvjXuAczzcbE2HGpVGpybXCc1Yak/hqCcZ/Gyc0Owi+njJA6Q5SQjj7clRW+lVXCaq/eyl7R4TLCAcTf9zFO5ZYFUaWKnKp9F5a7FRoDf9cbdzz2WRc3GJO+2qrSvekCcXSINHUp1bZsrBv/5O7KzEOcNS9v2s/ZzpA=="
   }
 };
 
 const DP_SESSION_KEY = "dp_session_user";
 
+// ============ Web Crypto helpers ============
+
+function _b64ToBytes(b64) {
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return bytes;
+}
+
+async function _deriveKey(password, saltBytes) {
+  const keyMaterial = await crypto.subtle.importKey(
+    "raw",
+    new TextEncoder().encode(password),
+    { name: "PBKDF2" },
+    false,
+    ["deriveKey"]
+  );
+  return crypto.subtle.deriveKey(
+    { name: "PBKDF2", salt: saltBytes, iterations: 200000, hash: "SHA-256" },
+    keyMaterial,
+    { name: "AES-GCM", length: 256 },
+    false,
+    ["decrypt"]
+  );
+}
+
+async function _decryptRecord(rec, password) {
+  const key = await _deriveKey(password, _b64ToBytes(rec.salt));
+  const plainBuf = await crypto.subtle.decrypt(
+    { name: "AES-GCM", iv: _b64ToBytes(rec.iv) },
+    key,
+    _b64ToBytes(rec.data)
+  );
+  return JSON.parse(new TextDecoder().decode(plainBuf));
+}
+
+// ============ Public API ============
+
 const DP = {
-  login(login, password) {
+  /**
+   * Connexion — tente de déchiffrer le profil avec le mot de passe.
+   * Retourne Promise<{ok, user?, error?}>.
+   */
+  async login(login, password) {
     const key = (login || "").trim().toLowerCase();
-    const user = DP_USERS[key];
-    if (!user || user.password !== password) {
+    const rec = DP_USERS_ENC[key];
+    if (!rec) {
+      // Réponse volontairement identique (pas de timing-leak user vs password)
       return { ok: false, error: "Identifiant ou mot de passe incorrect." };
     }
-    sessionStorage.setItem(DP_SESSION_KEY, key);
-    return { ok: true, user: { ...user, login: key } };
+    try {
+      const user = await _decryptRecord(rec, password);
+      const full = { ...user, login: key };
+      sessionStorage.setItem(DP_SESSION_KEY, JSON.stringify(full));
+      return { ok: true, user: full };
+    } catch (e) {
+      // Soit mot de passe incorrect → AES-GCM lève une erreur d'intégrité
+      return { ok: false, error: "Identifiant ou mot de passe incorrect." };
+    }
   },
 
+  /**
+   * Retourne l'utilisateur courant (déjà déchiffré en mémoire session).
+   */
   current() {
-    const key = sessionStorage.getItem(DP_SESSION_KEY);
-    if (!key) return null;
-    const user = DP_USERS[key];
-    return user ? { ...user, login: key } : null;
+    const raw = sessionStorage.getItem(DP_SESSION_KEY);
+    if (!raw) return null;
+    try { return JSON.parse(raw); } catch (e) { return null; }
   },
 
   logout() { sessionStorage.removeItem(DP_SESSION_KEY); },
