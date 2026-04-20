@@ -1139,7 +1139,9 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
   max-width:var(--container);margin:0 auto;
   display:grid;grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
   gap:clamp(20px, 2.4vw, 32px);
+  justify-items:center;
 }
+.video-card{width:100%;max-width:440px}
 .video-card{
   background:var(--bg);
   border:1px solid var(--line);
