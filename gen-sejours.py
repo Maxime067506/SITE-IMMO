@@ -237,8 +237,8 @@ TPL = """<!doctype html>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="css/style.css?v=c2" />
-  <link rel="stylesheet" href="css/sejour.css?v=b8" />
+  <link rel="stylesheet" href="css/style.css?v=d1" />
+  <link rel="stylesheet" href="css/sejour.css?v=d1" />
 </head>
 <body class="sejour-page">
 

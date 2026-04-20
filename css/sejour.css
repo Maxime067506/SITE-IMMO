@@ -683,3 +683,25 @@
     transition:none!important;animation:none!important;
   }
 }
+
+/* ============================================================
+   SAFARI iOS — SAFETY NET (fiches sejour-XX)
+   ============================================================ */
+@supports (-webkit-touch-callout: none) {
+  .sejour-page, .sejour-top, .sejour-hero, .sejour-stats,
+  .sejour-desc, .sejour-map, .sejour-cta, .sejour-coverflow{
+    max-width:100%;overflow-x:clip;
+  }
+  /* Coverflow : les transforms 3D peuvent déborder sur Safari — on constrain */
+  .sejour-coverflow .cf-stage, .sejour-coverflow .cf-track{
+    max-width:100vw;overflow-x:hidden;
+  }
+  /* Lightbox fullscreen : utilise dvh pour ne pas dépasser à cause de la URL bar */
+  .lightbox{
+    height:100vh;height:100dvh;
+  }
+  /* Stats : grille de 2 colonnes mini sur mobile étroit */
+  .sejour-stats{
+    max-width:100%;
+  }
+}
