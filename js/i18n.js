@@ -222,6 +222,36 @@ const I18N = {
 
     /* ============== ESPACE PRIVATIF ============== */
     "espace.logout":           "Déconnexion",
+    /* aria-labels + titles (accessibilité) */
+    "espace.aria.nav":         "Espace",
+    "espace.aria.lang":        "Langue",
+    "espace.aria.toc":         "Sommaire de votre espace",
+    "espace.aria.gallery":     "Photos de votre appartement",
+    "espace.aria.dotsGallery": "Sélection photo",
+    "espace.aria.photoPrev":   "Photo précédente",
+    "espace.aria.photoNext":   "Photo suivante",
+    "espace.aria.lightbox":    "Photo en plein écran",
+    "espace.aria.close":       "Fermer",
+    "espace.aria.arrivalPhotos": "Photos de l'arrivée",
+    "espace.aria.zoomIn":      "Voir en grand",
+    "espace.aria.tabs":        "Étapes du séjour",
+    "espace.aria.copySsid":    "Copier le SSID",
+    "espace.aria.copyPass":    "Copier le mot de passe",
+    /* Toasts */
+    "espace.toast.wifiCopied": "Mot de passe Wi-Fi copié",
+    "espace.toast.ssidCopied": "Réseau copié",
+    "espace.toast.passCopied": "Mot de passe copié",
+    "espace.toast.copyError":  "Copie impossible",
+    "espace.toast.copied":     "Copié",
+    /* Légendes SVG dans les animations */
+    "espace.svg.residence":    "RÉSIDENCE",
+    "espace.svg.residenceName":"Le Véronèse",
+    "espace.svg.laundry":      "LAVERIE",
+    "espace.svg.laundryName":  "« La fête du slip »",
+    "espace.svg.floor":        "6ᵉ",
+    "espace.svg.checkout":     "PROCÉDURE DE DÉPART",
+    "espace.svg.streetBadat":  "1 RUE BADAT",
+    "espace.svg.streetBarla":  "5 RUE BARLA",
     /* Nav */
     "espace.toc.eyebrow":      "Sommaire",
     "espace.toc.title":        "Tout, <em>à portée de clic.</em>",
@@ -285,11 +315,11 @@ const I18N = {
     "espace.kg.mapsOpen":        "Ouvrir dans Maps",
     "espace.kg.s1.t":            "Rendez-vous à la laverie",
     "espace.kg.s1.info":         "Ouverte <strong>7h&#8239;–&#8239;21h</strong>. Hors horaires, digicode&nbsp;: <code class=\"kg-code\">1235*</code>",
-    "espace.kg.s2.t":            "Repérer la boîte&nbsp;<em>n°<span id=\"kgBoxNum\">9</span></em>",
+    "espace.kg.s2.t":            "Repérer la boîte&nbsp;<em>n°<span data-user-field=\"box_number\">9</span></em>",
     "espace.kg.s2.body":         "À l'intérieur de la laverie, repérez la boîte à clés numérotée.",
     "espace.kg.s3.t":            "Ouverture de la boîte",
     "espace.kg.s3.a":            "Abaissez le <strong>clapet noir</strong>",
-    "espace.kg.s3.b":            "Entrez le code <code class=\"kg-code\">0190</code>",
+    "espace.kg.s3.b":            "Entrez le code <code class=\"kg-code\" data-user-field=\"box_code\">0190</code>",
     "espace.kg.s3.c":            "Tirez la <strong>languette noire à gauche</strong> vers le bas",
     "espace.kg.s3.d":            "Récupérez les clés",
     "espace.kg.s3.after":        "<strong>Après&nbsp;:</strong> refermez la boîte, modifiez la position du code, rabattez le cache noir pour masquer le code.",
@@ -302,6 +332,8 @@ const I18N = {
     "espace.kg.s4.c":            "Ascenseur jusqu'au <strong>6ᵉ étage</strong>",
     "espace.kg.s4.d":            "Porte dans l'angle à droite (2 sonnettes) : <span class=\"kg-key-chip kg-key-yellow\">clé jaune</span>",
     "espace.kg.s4.e":            "Porte de gauche dans le sas : <span class=\"kg-key-chip kg-key-gray\">clé grise</span>",
+    "espace.kg.s4.e.left":       "Porte de gauche dans le sas : <span class=\"kg-key-chip kg-key-gray\">clé grise</span>",
+    "espace.kg.s4.e.right":      "Porte de droite dans le sas : <span class=\"kg-key-chip kg-key-gray\">clé grise</span>",
     /* Panel 2 — Déposer les clés (départ) */
     "espace.kg.r1.t":            "Photos de l'appartement",
     "espace.kg.r1.body":         "Avant de quitter l'appartement, envoyez-nous des photos de toutes les pièces via la plateforme.",
@@ -321,9 +353,9 @@ const I18N = {
     "espace.kg.r4.t":            "Retour à la laverie",
     "espace.kg.r4.walk":         "· 15 secondes à pied",
     "espace.kg.r4.info":         "Ouverte <strong>7h&#8239;–&#8239;21h</strong>. Hors horaires, digicode&nbsp;: <code class=\"kg-code\">1235*</code>",
-    "espace.kg.r5.t":            "Déposer les clés dans la boîte&nbsp;<em>n°9</em>",
+    "espace.kg.r5.t":            "Déposer les clés dans la boîte&nbsp;<em>n°<span data-user-field=\"box_number\">9</span></em>",
     "espace.kg.r5.a":            "Abaissez le <strong>clapet noir</strong>",
-    "espace.kg.r5.b":            "Entrez le code <code class=\"kg-code\">0190</code>",
+    "espace.kg.r5.b":            "Entrez le code <code class=\"kg-code\" data-user-field=\"box_code\">0190</code>",
     "espace.kg.r5.c":            "Tirez la <strong>languette noire</strong> vers le bas pour ouvrir",
     "espace.kg.r5.d":            "Déposez les clés",
     "espace.kg.r5.e":            "Refermez la boîte",
@@ -635,6 +667,36 @@ const I18N = {
 
     /* ============== GUEST AREA ============== */
     "espace.logout":           "Logout",
+    /* aria-labels + titles (accessibility) */
+    "espace.aria.nav":         "Area",
+    "espace.aria.lang":        "Language",
+    "espace.aria.toc":         "Your space overview",
+    "espace.aria.gallery":     "Photos of your apartment",
+    "espace.aria.dotsGallery": "Photo selector",
+    "espace.aria.photoPrev":   "Previous photo",
+    "espace.aria.photoNext":   "Next photo",
+    "espace.aria.lightbox":    "Photo full-screen",
+    "espace.aria.close":       "Close",
+    "espace.aria.arrivalPhotos": "Arrival photos",
+    "espace.aria.zoomIn":      "View larger",
+    "espace.aria.tabs":        "Stay steps",
+    "espace.aria.copySsid":    "Copy SSID",
+    "espace.aria.copyPass":    "Copy password",
+    /* Toasts */
+    "espace.toast.wifiCopied": "Wi-Fi password copied",
+    "espace.toast.ssidCopied": "Network copied",
+    "espace.toast.passCopied": "Password copied",
+    "espace.toast.copyError":  "Copy failed",
+    "espace.toast.copied":     "Copied",
+    /* SVG captions in animations */
+    "espace.svg.residence":    "RESIDENCE",
+    "espace.svg.residenceName":"Le Véronèse",
+    "espace.svg.laundry":      "LAUNDRY",
+    "espace.svg.laundryName":  "« La fête du slip »",
+    "espace.svg.floor":        "6ᵗʰ",
+    "espace.svg.checkout":     "CHECKOUT PROCEDURE",
+    "espace.svg.streetBadat":  "1 RUE BADAT",
+    "espace.svg.streetBarla":  "5 RUE BARLA",
     /* Nav */
     "espace.toc.eyebrow":      "Overview",
     "espace.toc.title":        "Everything, <em>a tap away.</em>",
@@ -698,11 +760,11 @@ const I18N = {
     "espace.kg.mapsOpen":        "Open in Maps",
     "espace.kg.s1.t":            "Head to the laundromat",
     "espace.kg.s1.info":         "Open <strong>7am&#8239;–&#8239;9pm</strong>. Outside hours, keypad&nbsp;: <code class=\"kg-code\">1235*</code>",
-    "espace.kg.s2.t":            "Find box&nbsp;<em>N°<span id=\"kgBoxNum\">9</span></em>",
+    "espace.kg.s2.t":            "Find box&nbsp;<em>N°<span data-user-field=\"box_number\">9</span></em>",
     "espace.kg.s2.body":         "Inside the laundromat, locate the numbered key box.",
     "espace.kg.s3.t":            "Open the box",
     "espace.kg.s3.a":            "Lower the <strong>black flap</strong>",
-    "espace.kg.s3.b":            "Enter the code <code class=\"kg-code\">0190</code>",
+    "espace.kg.s3.b":            "Enter the code <code class=\"kg-code\" data-user-field=\"box_code\">0190</code>",
     "espace.kg.s3.c":            "Pull the <strong>black tab on the left</strong> downward",
     "espace.kg.s3.d":            "Take the keys",
     "espace.kg.s3.after":        "<strong>After use:</strong> close the box, scramble the code, lower the black cover to hide the digits.",
@@ -715,6 +777,8 @@ const I18N = {
     "espace.kg.s4.c":            "Elevator to the <strong>6th floor</strong>",
     "espace.kg.s4.d":            "Door in the right corner (2 doorbells): <span class=\"kg-key-chip kg-key-yellow\">yellow key</span>",
     "espace.kg.s4.e":            "Left door in the airlock: <span class=\"kg-key-chip kg-key-gray\">grey key</span>",
+    "espace.kg.s4.e.left":       "Left door in the airlock: <span class=\"kg-key-chip kg-key-gray\">grey key</span>",
+    "espace.kg.s4.e.right":      "Right door in the airlock: <span class=\"kg-key-chip kg-key-gray\">grey key</span>",
     /* Panel 2 — Return keys (checkout) */
     "espace.kg.r1.t":            "Apartment photos",
     "espace.kg.r1.body":         "Before leaving, send us photos of every room via the platform.",
@@ -734,9 +798,9 @@ const I18N = {
     "espace.kg.r4.t":            "Back to the laundromat",
     "espace.kg.r4.walk":         "· 15 seconds on foot",
     "espace.kg.r4.info":         "Open <strong>7am&#8239;–&#8239;9pm</strong>. Outside hours, keypad&nbsp;: <code class=\"kg-code\">1235*</code>",
-    "espace.kg.r5.t":            "Drop the keys in box&nbsp;<em>N°9</em>",
+    "espace.kg.r5.t":            "Drop the keys in box&nbsp;<em>N°<span data-user-field=\"box_number\">9</span></em>",
     "espace.kg.r5.a":            "Lower the <strong>black flap</strong>",
-    "espace.kg.r5.b":            "Enter the code <code class=\"kg-code\">0190</code>",
+    "espace.kg.r5.b":            "Enter the code <code class=\"kg-code\" data-user-field=\"box_code\">0190</code>",
     "espace.kg.r5.c":            "Pull the <strong>black tab</strong> downward to open",
     "espace.kg.r5.d":            "Drop the keys",
     "espace.kg.r5.e":            "Close the box",
@@ -876,4 +940,14 @@ function initI18n() {
 }
 
 document.addEventListener("DOMContentLoaded", initI18n);
-window.DP_I18N = { apply: applyLang };
+
+// Helpers exposés pour le JS : t(key) = texte traduit courant · lang() = code courant
+function currentLang(){
+  return document.documentElement.lang || localStorage.getItem(I18N_KEY) || "fr";
+}
+function t(key){
+  const lang = currentLang();
+  const dict = I18N[lang] || I18N.fr;
+  return (key in dict) ? dict[key] : (I18N.fr[key] || key);
+}
+window.DP_I18N = { apply: applyLang, t: t, lang: currentLang };

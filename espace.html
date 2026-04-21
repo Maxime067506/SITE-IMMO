@@ -21,7 +21,7 @@
       <span class="brand-mono">Delfosse</span>
       <span class="brand-sub">Properties</span>
     </a>
-    <nav class="nav" aria-label="Espace">
+    <nav class="nav" aria-label="Espace" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.nav">
       <a href="#acces" data-i18n="espace.nav.access">Accès</a>
       <a href="#guide" data-i18n="espace.nav.guide">Guide</a>
       <a href="#wifi" data-i18n="espace.nav.wifi">Wifi</a>
@@ -30,7 +30,7 @@
       <a href="#videos" data-i18n="espace.nav.videos">Vidéos</a>
     </nav>
     <div class="header-cta">
-      <div class="lang-switch" role="group" aria-label="Langue">
+      <div class="lang-switch" role="group" aria-label="Langue" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.lang">
         <button type="button" data-lang="fr" class="is-active">FR</button>
         <span class="lang-sep">·</span>
         <button type="button" data-lang="en">EN</button>
@@ -45,7 +45,7 @@
        SOMMAIRE INTERACTIF — en tête de page : accès direct à
        chaque section (Votre appartement, Accès, Wi-Fi, etc.)
        ============================================================ -->
-  <nav class="espace-toc espace-toc--hero" aria-label="Sommaire de votre espace">
+  <nav class="espace-toc espace-toc--hero" aria-label="Sommaire de votre espace" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.toc">
     <div class="toc-head">
       <p class="eyebrow"><span class="eyebrow-num">✻</span> <span data-i18n="espace.toc.eyebrow">Sommaire</span></p>
       <h2 class="toc-title" data-i18n="espace.toc.title" data-i18n-html="true">Tout, <em>à portée de clic.</em></h2>
@@ -147,7 +147,7 @@
       </h2>
     </div>
 
-    <div class="cf-track" id="apartCfTrack" tabindex="0" role="group" aria-label="Photos de votre appartement">
+    <div class="cf-track" id="apartCfTrack" tabindex="0" role="group" aria-label="Photos de votre appartement" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.gallery">
       <div class="cf-stage" id="apartCfStage" aria-live="polite"></div>
     </div>
 
@@ -158,15 +158,15 @@
         <span class="cf-tot" id="apartCfTot">08</span>
       </div>
 
-      <div class="cf-dots" id="apartCfDots" role="tablist" aria-label="Sélection photo"></div>
+      <div class="cf-dots" id="apartCfDots" role="tablist" aria-label="Sélection photo" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.dotsGallery"></div>
 
       <div class="cf-arrows">
-        <button type="button" class="cf-arrow cf-prev-apart" aria-label="Photo précédente">
+        <button type="button" class="cf-arrow cf-prev-apart" aria-label="Photo précédente" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.photoPrev">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M15 6l-6 6 6 6"/>
           </svg>
         </button>
-        <button type="button" class="cf-arrow cf-next-apart" aria-label="Photo suivante">
+        <button type="button" class="cf-arrow cf-next-apart" aria-label="Photo suivante" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.photoNext">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M9 6l6 6-6 6"/>
           </svg>
@@ -175,14 +175,14 @@
     </div>
 
     <!-- Lightbox plein écran (réutilise le style du site) -->
-    <div class="arrival-lightbox" id="apartLb" aria-hidden="true" role="dialog" aria-label="Photo en plein écran">
-      <button type="button" class="alb-close" id="apartLbClose" aria-label="Fermer">
+    <div class="arrival-lightbox" id="apartLb" aria-hidden="true" role="dialog" aria-label="Photo en plein écran" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.lightbox">
+      <button type="button" class="alb-close" id="apartLbClose" aria-label="Fermer" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.close">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6l-12 12"/></svg>
       </button>
-      <button type="button" class="alb-nav alb-prev" id="apartLbPrev" aria-label="Photo précédente">
+      <button type="button" class="alb-nav alb-prev" id="apartLbPrev" aria-label="Photo précédente" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.photoPrev">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
       </button>
-      <button type="button" class="alb-nav alb-next" id="apartLbNext" aria-label="Photo suivante">
+      <button type="button" class="alb-nav alb-next" id="apartLbNext" aria-label="Photo suivante" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.photoNext">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
       </button>
       <div class="alb-stage" id="apartLbStage" aria-live="polite"></div>
@@ -210,7 +210,7 @@
         </div>
 
         <div class="arrival-coverflow">
-          <div class="cf-track" id="arrivalCfTrack" tabindex="0" role="group" aria-label="Photos de l'arrivée">
+          <div class="cf-track" id="arrivalCfTrack" tabindex="0" role="group" aria-label="Photos de l'arrivée" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.arrivalPhotos">
             <div class="cf-stage" id="arrivalCfStage" aria-live="polite"></div>
           </div>
           <div class="cf-controls">
@@ -219,12 +219,12 @@
               <span class="cf-sep">/</span>
               <span class="cf-tot" id="arrivalCfTot">00</span>
             </div>
-            <div class="cf-dots" id="arrivalCfDots" role="tablist" aria-label="Sélection photo"></div>
+            <div class="cf-dots" id="arrivalCfDots" role="tablist" aria-label="Sélection photo" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.dotsGallery"></div>
             <div class="cf-arrows">
-              <button type="button" class="cf-arrow cf-prev-arrival" aria-label="Photo précédente">
+              <button type="button" class="cf-arrow cf-prev-arrival" aria-label="Photo précédente" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.photoPrev">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
               </button>
-              <button type="button" class="cf-arrow cf-next-arrival" aria-label="Photo suivante">
+              <button type="button" class="cf-arrow cf-next-arrival" aria-label="Photo suivante" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.photoNext">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
               </button>
             </div>
@@ -240,16 +240,16 @@
     </div>
 
     <!-- Lightbox plein écran — photos d'arrivée en grand -->
-    <div class="arrival-lightbox" id="arrivalLightbox" aria-hidden="true" role="dialog" aria-label="Photo agrandie">
-      <button type="button" class="alb-close" id="albClose" aria-label="Fermer">
+    <div class="arrival-lightbox" id="arrivalLightbox" aria-hidden="true" role="dialog" aria-label="Photo agrandie" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.lightbox">
+      <button type="button" class="alb-close" id="albClose" aria-label="Fermer" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.close">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true">
           <path d="M6 6l12 12M18 6l-12 12"/>
         </svg>
       </button>
-      <button type="button" class="alb-nav alb-prev" id="albPrev" aria-label="Photo précédente">
+      <button type="button" class="alb-nav alb-prev" id="albPrev" aria-label="Photo précédente" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.photoPrev">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
       </button>
-      <button type="button" class="alb-nav alb-next" id="albNext" aria-label="Photo suivante">
+      <button type="button" class="alb-nav alb-next" id="albNext" aria-label="Photo suivante" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.photoNext">
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
       </button>
       <div class="alb-stage" id="albStage" aria-live="polite"></div>
@@ -283,7 +283,7 @@
       </header>
 
       <!-- ONGLETS : Récupérer les clés | Déposer les clés -->
-      <nav class="kg-tabs" role="tablist" aria-label="Étapes du séjour">
+      <nav class="kg-tabs" role="tablist" aria-label="Étapes du séjour" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.tabs">
         <button type="button" class="kg-tab is-active" role="tab" aria-selected="true" data-tab="pickup" id="kgTabPickup">
           <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 12.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0zm0 0 10-4.5m-3 3 3-1-3 3 3-1-3 2"/></svg>
           <span data-i18n="espace.kg.tab.pickup">Récupérer les clés</span>
@@ -341,8 +341,8 @@
                 </g>
                 <!-- Cartouche légende en bas -->
                 <rect x="30" y="116" width="140" height="34" rx="2" fill="#FBF6EA" stroke="#C9A961" stroke-opacity=".35"/>
-                <text x="100" y="128" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing=".26em" fill="#8A7544">1 RUE BADAT</text>
-                <text x="100" y="143" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="11" fill="#C9A961">« La fête du slip »</text>
+                <text data-i18n="espace.svg.streetBadat" x="100" y="128" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing=".26em" fill="#8A7544">1 RUE BADAT</text>
+                <text data-i18n="espace.svg.laundryName" x="100" y="143" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="11" fill="#C9A961">« La fête du slip »</text>
               </svg>
             </div>
           </div>
@@ -397,7 +397,7 @@
             <div class="kg-step-body">
               <ol class="kg-substeps">
                 <li data-i18n="espace.kg.s3.a" data-i18n-html="true">Abaissez le <strong>clapet noir</strong></li>
-                <li data-i18n="espace.kg.s3.b" data-i18n-html="true">Entrez le code <code class="kg-code" id="kgBoxCode">0190</code></li>
+                <li data-i18n="espace.kg.s3.b" data-i18n-html="true">Entrez le code <code class="kg-code" data-user-field="box_code">0190</code></li>
                 <li data-i18n="espace.kg.s3.c" data-i18n-html="true">Tirez la <strong>languette noire à gauche</strong> vers le bas</li>
                 <li data-i18n="espace.kg.s3.d">Récupérez les clés</li>
               </ol>
@@ -436,10 +436,10 @@
                 <g class="kg-keypad">
                   <rect x="48" y="50" width="104" height="60" rx="3" fill="#2A2A2A" stroke="#555"/>
                   <g class="kg-digits" font-family="JetBrains Mono, monospace" font-size="14" fill="#E6C785" text-anchor="middle" font-weight="600">
-                    <text class="kg-digit" x="64" y="84" data-d="0">0</text>
-                    <text class="kg-digit" x="88" y="84" data-d="1">1</text>
-                    <text class="kg-digit" x="112" y="84" data-d="9">9</text>
-                    <text class="kg-digit" x="136" y="84" data-d="0">0</text>
+                    <text class="kg-digit" data-code-digit="0" x="64" y="84">0</text>
+                    <text class="kg-digit" data-code-digit="1" x="88" y="84">1</text>
+                    <text class="kg-digit" data-code-digit="2" x="112" y="84">9</text>
+                    <text class="kg-digit" data-code-digit="3" x="136" y="84">0</text>
                   </g>
                   <!-- underscores sous les chiffres -->
                   <line x1="57" y1="97" x2="71" y2="97" stroke="#555" stroke-width="1"/>
@@ -499,8 +499,8 @@
               <svg viewBox="0 0 200 196" class="kg-svg">
                 <rect x="0" y="0" width="200" height="196" fill="#FBF6EA"/>
                 <!-- En-tête : nom de la résidence -->
-                <text x="100" y="13" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing=".3em" fill="#8A7544">RÉSIDENCE</text>
-                <text x="100" y="28" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="12" fill="#C9A961">Le Véronèse</text>
+                <text data-i18n="espace.svg.residence" x="100" y="13" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing=".3em" fill="#8A7544">RÉSIDENCE</text>
+                <text data-i18n="espace.svg.residenceName" x="100" y="28" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="12" fill="#C9A961">Le Véronèse</text>
                 <!-- Immeuble (décalé vers le bas pour laisser place au nom) -->
                 <rect x="40" y="38" width="120" height="130" fill="#E0D5BA" stroke="#C9A961" stroke-width="1"/>
                 <!-- fenêtres par étage -->
@@ -529,7 +529,7 @@
                 <g class="kg-floor-indicator">
                   <path d="M 30 52 L 30 46 L 170 46" stroke="#C9A961" stroke-width="1.2" fill="none"/>
                   <circle cx="170" cy="46" r="3" fill="#C9A961"/>
-                  <text x="28" y="58" text-anchor="end" font-family="Fraunces, serif" font-style="italic" font-size="12" fill="#8A7544">6ᵉ</text>
+                  <text data-i18n="espace.svg.floor" x="28" y="58" text-anchor="end" font-family="Fraunces, serif" font-style="italic" font-size="12" fill="#8A7544">6ᵉ</text>
                 </g>
                 <!-- Ascenseur qui monte -->
                 <g class="kg-elevator">
@@ -614,7 +614,7 @@
                     <circle cx="8" cy="10" r="2" fill="#FBF6EA"/>
                     <path d="M4 18 L10 12 L16 16 L22 11 L22 20 L4 20 Z" fill="#FBF6EA" fill-opacity=".6"/>
                   </g>
-                  <text x="100" y="135" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing=".28em" fill="#8A7544">PROCÉDURE DE DÉPART</text>
+                  <text data-i18n="espace.svg.checkout" x="100" y="135" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing=".28em" fill="#8A7544">PROCÉDURE DE DÉPART</text>
                 </svg>
               </div>
             </div>
@@ -715,7 +715,7 @@
                     <rect x="14" y="-3" width="2" height="6" fill="#888"/>
                     <rect x="17" y="-2" width="2" height="4" fill="#888"/>
                   </g>
-                  <text x="100" y="152" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing=".24em" fill="#8A7544">5 RUE BARLA</text>
+                  <text data-i18n="espace.svg.streetBarla" x="100" y="152" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing=".24em" fill="#8A7544">5 RUE BARLA</text>
                 </svg>
               </div>
             </div>
@@ -756,8 +756,8 @@
                     <circle cx="0" cy="-3" r="4" fill="#FBF6EA"/>
                   </g>
                   <rect x="30" y="116" width="140" height="34" rx="2" fill="#FBF6EA" stroke="#C9A961" stroke-opacity=".35"/>
-                  <text x="100" y="128" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing=".26em" fill="#8A7544">1 RUE BADAT</text>
-                  <text x="100" y="143" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="11" fill="#C9A961">« La fête du slip »</text>
+                  <text data-i18n="espace.svg.streetBadat" x="100" y="128" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing=".26em" fill="#8A7544">1 RUE BADAT</text>
+                  <text data-i18n="espace.svg.laundryName" x="100" y="143" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="11" fill="#C9A961">« La fête du slip »</text>
                 </svg>
               </div>
             </div>
@@ -768,13 +768,13 @@
             <div class="kg-step-head">
               <span class="kg-step-num">05</span>
               <span class="kg-step-dash" aria-hidden="true"></span>
-              <h4 class="kg-step-h" data-i18n="espace.kg.r5.t" data-i18n-html="true">Déposer les clés dans la boîte&nbsp;<em>n°9</em></h4>
+              <h4 class="kg-step-h" data-i18n="espace.kg.r5.t" data-i18n-html="true">Déposer les clés dans la boîte&nbsp;<em>n°<span data-user-field="box_number">9</span></em></h4>
             </div>
             <div class="kg-step-grid">
               <div class="kg-step-body">
                 <ol class="kg-substeps">
                   <li data-i18n="espace.kg.r5.a" data-i18n-html="true">Abaissez le <strong>clapet noir</strong></li>
-                  <li data-i18n="espace.kg.r5.b" data-i18n-html="true">Entrez le code <code class="kg-code">0190</code></li>
+                  <li data-i18n="espace.kg.r5.b" data-i18n-html="true">Entrez le code <code class="kg-code" data-user-field="box_code">0190</code></li>
                   <li data-i18n="espace.kg.r5.c" data-i18n-html="true">Tirez la <strong>languette noire</strong> vers le bas pour ouvrir</li>
                   <li data-i18n="espace.kg.r5.d">Déposez les clés</li>
                   <li data-i18n="espace.kg.r5.e">Refermez la boîte</li>
@@ -794,10 +794,10 @@
                   <!-- Keypad -->
                   <rect x="48" y="50" width="104" height="60" rx="3" fill="#2A2A2A" stroke="#555"/>
                   <g font-family="JetBrains Mono, monospace" font-size="14" fill="#E6C785" text-anchor="middle" font-weight="600">
-                    <text x="64" y="84">0</text>
-                    <text x="88" y="84">1</text>
-                    <text x="112" y="84">9</text>
-                    <text x="136" y="84">0</text>
+                    <text data-code-digit="0" x="64" y="84">0</text>
+                    <text data-code-digit="1" x="88" y="84">1</text>
+                    <text data-code-digit="2" x="112" y="84">9</text>
+                    <text data-code-digit="3" x="136" y="84">0</text>
                   </g>
                   <line x1="57" y1="97" x2="71" y2="97" stroke="#555" stroke-width="1"/>
                   <line x1="81" y1="97" x2="95" y2="97" stroke="#555" stroke-width="1"/>
@@ -940,7 +940,7 @@
         <span class="wifi-label" data-i18n="espace.wifi.network">Réseau</span>
         <div class="wifi-field">
           <strong class="wifi-value wifi-mono" id="wifiSsidBig">—</strong>
-          <button type="button" class="wifi-copy" data-copy="ssid" aria-label="Copier le SSID">
+          <button type="button" class="wifi-copy" data-copy="ssid" aria-label="Copier le SSID" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.copySsid">
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
             <span data-i18n="espace.wifi.copy">Copier</span>
           </button>
@@ -949,7 +949,7 @@
         <span class="wifi-label" data-i18n="espace.wifi.password">Mot de passe</span>
         <div class="wifi-field">
           <strong class="wifi-value wifi-mono" id="wifiPassBig">—</strong>
-          <button type="button" class="wifi-copy" data-copy="pass" aria-label="Copier le mot de passe">
+          <button type="button" class="wifi-copy" data-copy="pass" aria-label="Copier le mot de passe" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.copyPass">
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
             <span data-i18n="espace.wifi.copy">Copier</span>
           </button>
@@ -1167,8 +1167,8 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="js/auth.js?v=c8"></script>
-  <script src="js/i18n.js?v=c9"></script>
+  <script src="js/auth.js?v=c9"></script>
+  <script src="js/i18n.js?v=d2"></script>
   <script>
     const user = DP.requireAuth();
     if (!user) { /* redirect déjà déclenché */ }
@@ -1258,12 +1258,15 @@
       clearTimeout(showToast._t);
       showToast._t = setTimeout(() => toast.classList.remove('in'), 2200);
     };
+    // Helper i18n : récupère la traduction courante via DP_I18N.t()
+    const tr = (key) => (window.DP_I18N && window.DP_I18N.t) ? window.DP_I18N.t(key) : key;
+
     // Legacy : l'ancien élément #wifiPass n'existe plus (section dédiée ci-dessous)
     $('wifiPass')?.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(user.wifi_pass);
-        showToast('Mot de passe WiFi copié');
-      } catch { showToast('Copie impossible'); }
+        showToast(tr('espace.toast.wifiCopied'));
+      } catch { showToast(tr('espace.toast.copyError')); }
     });
 
     // === Nouveaux boutons Copier dans la section Wifi dédiée ===
@@ -1276,14 +1279,14 @@
           btn.classList.add('is-copied');
           const span = btn.querySelector('span');
           const original = span.textContent;
-          span.textContent = 'Copié';
-          showToast(kind === 'ssid' ? 'Réseau copié' : 'Mot de passe copié');
+          span.textContent = tr('espace.toast.copied');
+          showToast(kind === 'ssid' ? tr('espace.toast.ssidCopied') : tr('espace.toast.passCopied'));
           setTimeout(() => {
             btn.classList.remove('is-copied');
             span.textContent = original;
           }, 2000);
         } catch {
-          showToast('Copie impossible');
+          showToast(tr('espace.toast.copyError'));
         }
       });
     });
@@ -1309,14 +1312,57 @@
       if (!guide) return;
 
       // Peuple les données dynamiques
-      setText('kgBoxCode',    user.box_code     || '0190');
-      setText('kgLaundryCode', user.laundry_code || '1235*');
+      const boxCode   = user.box_code     || '0190';
+      const boxNumber = String(user.box_number || '9');
+      const laundry   = user.laundry_code  || '1235*';
+
+      setText('kgLaundryCode', laundry);
       if (user.arrival_pickup_addr) setText('kgPickupAddr', user.arrival_pickup_addr);
       if (user.arrival_dest_addr)   setText('kgDestAddr',   user.arrival_dest_addr);
-      if (user.box_number)          setText('kgBoxNum',     user.box_number);
       // Adresses retour (panel 2)
       if (user.arrival_dest_addr)   setText('kgReturnAddrFrom',    user.arrival_dest_addr);
       if (user.arrival_pickup_addr) setText('kgReturnAddrLaundry', user.arrival_pickup_addr);
+
+      // Côté de la porte dans le sas (étape 4.e) : "gauche" (défaut) ou "droite"
+      const airlockSide = user.airlock_side === 'droite' ? 'right' : 'left';
+      const airlockEl = guide.querySelector('.kg-step[data-step="4"] .kg-substeps li:last-child');
+      if (airlockEl){
+        airlockEl.setAttribute('data-i18n', 'espace.kg.s4.e.' + airlockSide);
+      }
+
+      // Applique les valeurs user.* aux éléments data-user-field="xxx"
+      // À rappeler après chaque changement de langue : i18n-html réécrit
+      // le innerHTML donc les textContent personnalisés sont perdus.
+      function applyUserFields(){
+        guide.querySelectorAll('[data-user-field="box_code"]').forEach(el => { el.textContent = boxCode; });
+        guide.querySelectorAll('[data-user-field="box_number"]').forEach(el => { el.textContent = boxNumber; });
+      }
+      // Mise à jour des chiffres du clavier SVG (4 chiffres du code boîte)
+      function applyCodeDigits(){
+        const pad = boxCode.padStart(4, '0');
+        guide.querySelectorAll('[data-code-digit]').forEach(el => {
+          const idx = parseInt(el.getAttribute('data-code-digit'), 10);
+          el.textContent = pad[idx] || '';
+        });
+      }
+
+      // Applique user fields + re-traduit (pour activer s4.e.left/right et
+      // propager la traduction, puis re-fill user fields car i18n-html a
+      // écrasé le textContent des <span>/<code> template).
+      if (window.DP_I18N && window.DP_I18N.apply){
+        window.DP_I18N.apply(window.DP_I18N.lang());
+      }
+      applyUserFields();
+      applyCodeDigits();
+
+      // Observe les clics sur .lang-switch pour re-appliquer user fields
+      // après chaque switch de langue (i18n réécrit les éléments).
+      document.querySelectorAll('.lang-switch [data-lang]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          // Léger défer pour laisser i18n.js finir son passe
+          setTimeout(() => { applyUserFields(); applyCodeDigits(); }, 0);
+        });
+      });
 
       // Liens Maps dynamiques si disponibles dans user.*
       const pickupLink = user.arrival_pickup_maps || 'https://maps.app.goo.gl/6aN1gVtFMyH7j9So6?g_st=ic';
@@ -1719,7 +1765,7 @@
           // Légendes retirées — photos pures, le détail est dans le guide 4 étapes
           a.innerHTML = `
             <div class="arrival-cf-img" style="background-image:url('${p.src}')"></div>
-            <div class="arrival-cf-zoom" aria-hidden="true" title="Voir en grand">
+            <div class="arrival-cf-zoom" aria-hidden="true" title="Voir en grand" data-i18n-attr="title" data-i18n-attr-key="espace.aria.zoomIn">
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="7"/>
                 <path d="M20 20l-3.5-3.5M11 8v6M8 11h6"/>
