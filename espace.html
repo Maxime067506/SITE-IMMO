@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=d1" />
+  <link rel="stylesheet" href="css/style.css?v=d3" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="css/auth.css?v=d1" />
+  <link rel="stylesheet" href="css/auth.css?v=e3" />
 </head>
 <body class="espace-page">
 
@@ -40,17 +40,93 @@
     </div>
   </header>
 
-  <!-- BANNER personnalisé -->
-  <section class="espace-banner">
-    <img id="propImg" src="" alt="" />
-    <div class="espace-banner-overlay"></div>
-    <div class="espace-banner-content">
-      <p class="eyebrow light"><span class="eyebrow-num">✻</span> <span id="statusLabel" data-i18n="espace.status.confirmed">Séjour confirmé</span></p>
-      <h1 class="display light"><span id="greeting">Bonsoir</span>,<br/><em id="firstname">—</em></h1>
-      <p class="lede light">
-        <span data-i18n="espace.banner.pre">Votre séjour à</span> <strong id="propertyInline">—</strong> <span data-i18n="espace.banner.post">est orchestré.</span><br/>
-        <span data-i18n="espace.banner.sub">Retrouvez ci-dessous toutes les informations utiles, prêtes pour votre arrivée.</span>
+  <!-- ============================================================
+       BANDEAU D'ACCUEIL COMPACT — greeting + status
+       ============================================================ -->
+  <section class="espace-welcome">
+    <div class="welcome-inner">
+      <div class="welcome-left">
+        <p class="welcome-eyebrow">
+          <span class="welcome-rec" aria-hidden="true"></span>
+          <span id="statusLabel" data-i18n="espace.status.confirmed">Séjour confirmé</span>
+          <span class="welcome-sep">·</span>
+          <span id="propertyInline">—</span>
+        </p>
+        <h1 class="welcome-title">
+          <span id="greeting">Bonsoir</span>,
+          <em data-i18n="espace.banner.welcome">bienvenue.</em>
+        </h1>
+        <p class="welcome-sub" data-i18n="espace.banner.sub">
+          Retrouvez ci-dessous toutes les informations utiles, prêtes pour votre arrivée.
+        </p>
+      </div>
+      <div class="welcome-right" aria-hidden="true">
+        <span class="welcome-seal-line"></span>
+        <span class="welcome-seal-text">Delfosse<br/>Properties</span>
+        <span class="welcome-seal-line"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       COVERFLOW 3D — même design que la section "Réserver sur
+       Airbnb" de la page d'accueil. 8 photos de l'appartement
+       en éventail style Apple Cover Flow.
+       ============================================================ -->
+  <section class="cf-section espace-cf" id="galerie" aria-roledescription="carousel">
+    <div class="cf-head">
+      <p class="eyebrow light">
+        <span class="eyebrow-num">01</span>
+        <span data-i18n="espace.gallery.eyebrow">Votre appartement</span>
       </p>
+      <h2 class="cf-title" data-i18n="espace.gallery.title" data-i18n-html="true">
+        Découvrez <em>votre appartement.</em>
+      </h2>
+    </div>
+
+    <div class="cf-track" id="apartCfTrack" tabindex="0" role="group" aria-label="Photos de votre appartement">
+      <div class="cf-stage" id="apartCfStage" aria-live="polite"></div>
+    </div>
+
+    <div class="cf-controls">
+      <div class="cf-counter">
+        <span id="apartCfCur">01</span>
+        <span class="cf-sep">/</span>
+        <span class="cf-tot" id="apartCfTot">08</span>
+      </div>
+
+      <div class="cf-dots" id="apartCfDots" role="tablist" aria-label="Sélection photo"></div>
+
+      <div class="cf-arrows">
+        <button type="button" class="cf-arrow cf-prev-apart" aria-label="Photo précédente">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M15 6l-6 6 6 6"/>
+          </svg>
+        </button>
+        <button type="button" class="cf-arrow cf-next-apart" aria-label="Photo suivante">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M9 6l6 6-6 6"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Lightbox plein écran (réutilise le style du site) -->
+    <div class="arrival-lightbox" id="apartLb" aria-hidden="true" role="dialog" aria-label="Photo en plein écran">
+      <button type="button" class="alb-close" id="apartLbClose" aria-label="Fermer">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6l-12 12"/></svg>
+      </button>
+      <button type="button" class="alb-nav alb-prev" id="apartLbPrev" aria-label="Photo précédente">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+      </button>
+      <button type="button" class="alb-nav alb-next" id="apartLbNext" aria-label="Photo suivante">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+      <div class="alb-stage" id="apartLbStage" aria-live="polite"></div>
+      <div class="alb-caption">
+        <p class="alb-caption-fr" id="apartLbLabel"></p>
+      </div>
+      <div class="alb-counter"><span id="apartLbCur">01</span> / <span id="apartLbTot">08</span></div>
     </div>
   </section>
 
@@ -61,46 +137,53 @@
       <h2 class="toc-title" data-i18n="espace.toc.title" data-i18n-html="true">Tout, <em>à portée de clic.</em></h2>
     </div>
     <div class="toc-grid">
+      <a href="#galerie" class="toc-chip">
+        <span class="toc-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2h-4v-7H9v7H5a2 2 0 0 1-2-2z"/></svg>
+        </span>
+        <span class="toc-num">01</span>
+        <span class="toc-label" data-i18n="espace.toc.gallery">Votre appartement</span>
+      </a>
       <a href="#acces" class="toc-chip">
         <span class="toc-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
         </span>
-        <span class="toc-num">01</span>
+        <span class="toc-num">02</span>
         <span class="toc-label" data-i18n="espace.toc.access">Accès & arrivée</span>
       </a>
       <a href="#guide" class="toc-chip">
         <span class="toc-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
         </span>
-        <span class="toc-num">02</span>
+        <span class="toc-num">03</span>
         <span class="toc-label" data-i18n="espace.toc.guide">Guide Nice</span>
       </a>
       <a href="#wifi" class="toc-chip">
         <span class="toc-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a15 15 0 0 1 20 0"/><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1.1" fill="currentColor"/></svg>
         </span>
-        <span class="toc-num">03</span>
+        <span class="toc-num">04</span>
         <span class="toc-label" data-i18n="espace.toc.wifi">Wi-Fi</span>
       </a>
       <a href="#conciergerie" class="toc-chip">
         <span class="toc-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
         </span>
-        <span class="toc-num">04</span>
+        <span class="toc-num">05</span>
         <span class="toc-label" data-i18n="espace.toc.contacts">Contacts</span>
       </a>
       <a href="#reglement" class="toc-chip">
         <span class="toc-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 13h6M9 17h4"/></svg>
         </span>
-        <span class="toc-num">05</span>
+        <span class="toc-num">06</span>
         <span class="toc-label" data-i18n="espace.toc.rules">Règlement</span>
       </a>
       <a href="#videos" class="toc-chip">
         <span class="toc-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
         </span>
-        <span class="toc-num">06</span>
+        <span class="toc-num">07</span>
         <span class="toc-label" data-i18n="espace.toc.videos">Vidéos</span>
       </a>
     </div>
@@ -109,7 +192,7 @@
   <!-- SECTION — ACCÈS -->
   <section class="section espace-section dark" id="acces">
     <header class="section-head">
-      <p class="eyebrow light"><span class="eyebrow-num">01</span> <span data-i18n="espace.access.eyebrow">Accès & arrivée</span></p>
+      <p class="eyebrow light"><span class="eyebrow-num">02</span> <span data-i18n="espace.access.eyebrow">Accès & arrivée</span></p>
       <h2 class="h-display" style="color:var(--bg)" data-i18n="espace.access.title" data-i18n-html="true">Entrez, <em style="color:var(--accent)">c'est chez vous.</em></h2>
     </header>
 
@@ -204,7 +287,7 @@
   <!-- SECTION — GUIDE TOURISTIQUE -->
   <section class="section espace-section" id="guide">
     <header class="section-head">
-      <p class="eyebrow"><span class="eyebrow-num">02</span> <span data-i18n="espace.guide.eyebrow">Guide</span></p>
+      <p class="eyebrow"><span class="eyebrow-num">03</span> <span data-i18n="espace.guide.eyebrow">Guide</span></p>
       <h2 class="h-display" data-i18n="espace.guide.title" data-i18n-html="true">Votre <em>guide niçois.</em></h2>
       <p class="guide-intro" data-i18n="espace.guide.intro">
         Nos favoris testés et retestés à Nice — à table, à pied, en tram, en bord de mer.
@@ -242,7 +325,7 @@
   <!-- SECTION — WIFI -->
   <section class="section espace-section dark" id="wifi">
     <header class="section-head">
-      <p class="eyebrow light"><span class="eyebrow-num">03</span> <span data-i18n="espace.wifi.eyebrow">Connexion Wifi</span></p>
+      <p class="eyebrow light"><span class="eyebrow-num">04</span> <span data-i18n="espace.wifi.eyebrow">Connexion Wifi</span></p>
       <h2 class="h-display" style="color:var(--bg)" data-i18n="espace.wifi.title" data-i18n-html="true">Restez <em style="color:var(--accent)">connectés.</em></h2>
     </header>
 
@@ -300,18 +383,20 @@
   <!-- SECTION — CONTACTS (anciennement Conciergerie) -->
   <section class="section espace-section" id="conciergerie">
     <header class="section-head">
-      <p class="eyebrow"><span class="eyebrow-num">04</span> <span data-i18n="espace.contacts.eyebrow">Vos contacts</span></p>
+      <p class="eyebrow"><span class="eyebrow-num">05</span> <span data-i18n="espace.contacts.eyebrow">Vos contacts</span></p>
       <h2 class="h-display" data-i18n="espace.contacts.title" data-i18n-html="true">Trois interlocuteurs, <em>une équipe dédiée.</em></h2>
     </header>
 
     <div class="contacts-grid">
 
-      <!-- Maxime — Propriétaire -->
+      <!-- Propriétaire -->
       <article class="contact-card">
-        <div class="contact-avatar" aria-hidden="true">M</div>
+        <div class="contact-avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6M9 9h.01M15 9h.01"/></svg>
+        </div>
         <div class="contact-body">
           <p class="contact-role" data-i18n="espace.contacts.role.owner">Propriétaire</p>
-          <h3 class="contact-name">Maxime</h3>
+          <h3 class="contact-name" data-i18n="espace.contacts.owner.title">Votre hôte</h3>
           <p class="contact-phone">+33 6 26 67 17 67</p>
           <div class="contact-actions">
             <a href="tel:+33626671767" class="btn btn-primary contact-call">
@@ -326,12 +411,14 @@
         </div>
       </article>
 
-      <!-- Margaux — Co-hôte -->
+      <!-- Co-hôte -->
       <article class="contact-card">
-        <div class="contact-avatar" aria-hidden="true">Ma</div>
+        <div class="contact-avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 20c0-2.2 1.8-4 4-4s2 1.8 2 4"/></svg>
+        </div>
         <div class="contact-body">
           <p class="contact-role" data-i18n="espace.contacts.role.cohost">Co-hôte</p>
-          <h3 class="contact-name">Margaux</h3>
+          <h3 class="contact-name" data-i18n="espace.contacts.cohost.title">Accueil & suivi</h3>
           <p class="contact-phone">+33 6 64 64 57 11</p>
           <div class="contact-actions">
             <a href="tel:+33664645711" class="btn btn-primary contact-call">
@@ -346,12 +433,14 @@
         </div>
       </article>
 
-      <!-- Khaoula — Femme de ménage -->
+      <!-- Intendance -->
       <article class="contact-card">
-        <div class="contact-avatar" aria-hidden="true">K</div>
+        <div class="contact-avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M7 6l2 2M17 6l-2 2M5 12h3M19 12h-3M12 9a3 3 0 0 1 3 3v2H9v-2a3 3 0 0 1 3-3zM7 22l2-8h6l2 8z"/></svg>
+        </div>
         <div class="contact-body">
-          <p class="contact-role" data-i18n="espace.contacts.role.housekeeper">Femme de ménage</p>
-          <h3 class="contact-name">Khaoula</h3>
+          <p class="contact-role" data-i18n="espace.contacts.role.housekeeper">Intendance</p>
+          <h3 class="contact-name" data-i18n="espace.contacts.house.title">Ménage & linge</h3>
           <p class="contact-phone">+33 7 71 32 74 81</p>
           <div class="contact-actions">
             <a href="tel:+33771327481" class="btn btn-primary contact-call">
@@ -376,7 +465,7 @@
   <!-- SECTION — RÈGLEMENT INTÉRIEUR -->
   <section class="section espace-section alt" id="reglement">
     <header class="section-head">
-      <p class="eyebrow"><span class="eyebrow-num">05</span> <span data-i18n="espace.rules.eyebrow">Règlement intérieur</span></p>
+      <p class="eyebrow"><span class="eyebrow-num">06</span> <span data-i18n="espace.rules.eyebrow">Règlement intérieur</span></p>
       <h2 class="h-display" data-i18n="espace.rules.title" data-i18n-html="true">Quelques règles, <em>pour le confort de tous.</em></h2>
       <p class="rules-intro" data-i18n="espace.rules.intro">
         Notre engagement : un séjour paisible, respectueux du voisinage et de l'appartement.
@@ -437,7 +526,7 @@
   <!-- SECTION — VIDÉOS TUTORIELS -->
   <section class="section espace-section" id="videos">
     <header class="section-head">
-      <p class="eyebrow"><span class="eyebrow-num">06</span> <span data-i18n="espace.videos.eyebrow">Vidéos tutoriels</span></p>
+      <p class="eyebrow"><span class="eyebrow-num">07</span> <span data-i18n="espace.videos.eyebrow">Vidéos tutoriels</span></p>
       <h2 class="h-display" data-i18n="espace.videos.title" data-i18n-html="true">Les bons gestes, <em>en images.</em></h2>
       <p class="videos-intro" data-i18n="espace.videos.intro">
         Quelques démonstrations courtes pour vous rendre autonome sur les équipements de l'appartement.
@@ -480,26 +569,24 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="js/auth.js?v=c8"></script>
-  <script src="js/i18n.js?v=c2"></script>
+  <script src="js/i18n.js?v=c4"></script>
   <script>
     const user = DP.requireAuth();
     if (!user) { /* redirect déjà déclenché */ }
 
     // Remplissage des données
     const $ = (id) => document.getElementById(id);
-    const hour = new Date().getHours();
-    const greet = hour < 6 ? 'Bonne nuit' : hour < 12 ? 'Bonjour' : hour < 18 ? 'Bon après-midi' : 'Bonsoir';
-    $('greeting').textContent = greet;
-    $('firstname').textContent = user.firstname + '.';
-    $('propertyInline').textContent = user.property;
-    $('statusLabel').textContent = user.status;
-    $('userChip').textContent = user.firstname[0] + '. ' + user.name.split(' ').slice(-1)[0];
-    $('propImg').src = user.image;
-    $('propImg').alt = user.property;
-
     // Helper safe-set : ignore les éléments absents du DOM (sections retirées)
     const setText = (id, val) => { const el = $(id); if (el) el.textContent = val; };
     const setAttr = (id, attr, val) => { const el = $(id); if (el) el[attr] = val; };
+
+    const hour = new Date().getHours();
+    const greet = hour < 6 ? 'Bonne nuit' : hour < 12 ? 'Bonjour' : hour < 18 ? 'Bon après-midi' : 'Bonsoir';
+    setText('greeting', greet);
+    setText('propertyInline', user.property);
+    setText('statusLabel', user.status);
+    // User chip : affiche le N° de l'appartement au lieu du prénom
+    setText('userChip', user.property_no || 'Voyageur');
 
     // Accès : codes boîte + laverie + wifi
     setText('boxCode',      user.box_code      || user.arrival_code || '••••');
@@ -527,6 +614,9 @@
 
     // Contacts (Maxime / Margaux / Khaoula) sont statiques dans le HTML
     // — pas d'injection dynamique nécessaire.
+
+    // === COVERFLOW 3D "Votre appartement" — même carrousel que la home ===
+    initApartmentCoverflow(user);
 
     // === ARRIVÉE : Visionneuse photos + Carte Leaflet avec itinéraire piéton ===
     initArrivalModule(user);
@@ -566,7 +656,8 @@
       clearTimeout(showToast._t);
       showToast._t = setTimeout(() => toast.classList.remove('in'), 2200);
     };
-    $('wifiPass').addEventListener('click', async () => {
+    // Legacy : l'ancien élément #wifiPass n'existe plus (section dédiée ci-dessous)
+    $('wifiPass')?.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(user.wifi_pass);
         showToast('Mot de passe WiFi copié');
@@ -601,6 +692,277 @@
       document.body.classList.add('is-leaving');
       setTimeout(() => window.location.href = 'index.html', 380);
     });
+
+
+    /* ============================================================
+       COVERFLOW 3D "Votre appartement"
+       ------------------------------------------------------------
+       Même logique que le carrousel de la page d'accueil (section
+       "Réserver sur Airbnb") : 8 photos en éventail Apple Cover
+       Flow, autoplay, swipe, clavier, flèches, dots + lightbox.
+       ============================================================ */
+    function initApartmentCoverflow(user){
+      const section = document.getElementById('galerie');
+      if (!section || !user || !user.image) { if (section) section.hidden = true; return; }
+
+      const idx = user.image.lastIndexOf('/');
+      if (idx < 0) { section.hidden = true; return; }
+      const folder = user.image.substring(0, idx + 1);
+
+      const LABELS = [
+        "Vue d'ensemble",
+        "Séjour & lumière",
+        "Coin nuit",
+        "Cuisine équipée",
+        "Salle de bain",
+        "Détail de décoration",
+        "Perspective",
+        "Extérieur"
+      ];
+
+      const MAX = 8;
+      const candidates = [];
+      for (let i = 1; i <= MAX; i++){
+        const num = String(i).padStart(2, '0');
+        candidates.push({
+          src: folder + 'photo-' + num + '.jpg',
+          no: num,
+          label: LABELS[i-1] || ('Vue ' + num),
+          tag: ('N°' + num)
+        });
+      }
+
+      // Probe parallèle des photos
+      Promise.all(candidates.map(c => new Promise((resolve) => {
+        const im = new Image();
+        im.onload  = () => resolve(c);
+        im.onerror = () => resolve(null);
+        im.src = c.src;
+      }))).then((results) => {
+        const photos = results.filter(Boolean);
+        if (photos.length === 0){ section.hidden = true; return; }
+        mountCf(photos);
+      });
+
+      function mountCf(items){
+        const track    = document.getElementById('apartCfTrack');
+        const stage    = document.getElementById('apartCfStage');
+        const cur      = document.getElementById('apartCfCur');
+        const tot      = document.getElementById('apartCfTot');
+        const dotsWrap = document.getElementById('apartCfDots');
+        const btnPrev  = document.querySelector('.cf-prev-apart');
+        const btnNext  = document.querySelector('.cf-next-apart');
+
+        const TOTAL = items.length;
+        const AUTOPLAY = 6000;
+        const reduced  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const mqMobile = window.matchMedia('(max-width: 760px)');
+
+        tot.textContent = String(TOTAL).padStart(2, '0');
+
+        // Couches 3D — identiques à la homepage
+        const LAYERS_DESKTOP = [
+          { tx: 0,    tz: 0,    ry: 0,  scale: 1.00, opacity: 1.00, blur: 0   },
+          { tx: 230,  tz: -160, ry: 34, scale: 0.85, opacity: 0.88, blur: 0   },
+          { tx: 420,  tz: -340, ry: 54, scale: 0.70, opacity: 0.45, blur: 0.4 },
+          { tx: 580,  tz: -520, ry: 58, scale: 0.55, opacity: 0.14, blur: 1.2 },
+        ];
+        const LAYERS_MOBILE = LAYERS_DESKTOP.map((l, i) => ({
+          ...l,
+          tx: l.tx * 0.92, tz: l.tz * 0.5, ry: l.ry * 0.55,
+          scale: i === 0 ? 1.0 : (i === 1 ? 0.78 : l.scale * 0.7),
+          opacity: i === 0 ? 1 : (i === 1 ? 0.55 : 0),
+          blur: 0,
+        }));
+        const getLayers = () => (mqMobile.matches ? LAYERS_MOBILE : LAYERS_DESKTOP);
+
+        // Build cards — même structure que la homepage (top + img + bottom)
+        const cards = items.map((it, i) => {
+          const a = document.createElement('article');
+          a.className = 'cf-card';
+          a.dataset.i = i;
+          a.setAttribute('aria-label', `${it.label} — photo ${i + 1}`);
+          a.innerHTML = `
+            <div class="cf-card-top"><span>${it.tag}</span><span>${it.label.toUpperCase()}</span></div>
+            <img src="${it.src}" alt="" draggable="false" loading="lazy" decoding="async" />
+            <div class="cf-card-bot">
+              <h3 class="cf-card-name">${it.label}</h3>
+              <p class="cf-card-meta"><span>Vue ${it.no}</span><span class="sep">·</span><span>Cliquez pour agrandir</span></p>
+            </div>`;
+          a.addEventListener('click', () => onCardClick(i));
+          // Anti-copie
+          a.addEventListener('contextmenu', (e) => e.preventDefault());
+          a.addEventListener('dragstart',   (e) => e.preventDefault());
+          stage.appendChild(a);
+          return a;
+        });
+
+        const dots = items.map((_, i) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'cf-dot';
+          b.setAttribute('role', 'tab');
+          b.setAttribute('aria-label', `Photo ${i + 1}`);
+          b.addEventListener('click', () => goTo(i));
+          dotsWrap.appendChild(b);
+          return b;
+        });
+
+        let active = 0;
+        let timer = null;
+        let paused = false;
+
+        const signedDelta = (i) => {
+          let d = i - active;
+          const half = TOTAL / 2;
+          if (d >  half) d -= TOTAL;
+          if (d < -half) d += TOTAL;
+          return d;
+        };
+
+        function applyLayout(){
+          const layers = getLayers();
+          cards.forEach((card, i) => {
+            const d = signedDelta(i);
+            const absD = Math.abs(d);
+            const sign = d === 0 ? 0 : (d > 0 ? 1 : -1);
+            const layer = layers[Math.min(absD, layers.length - 1)];
+            const tx = sign * layer.tx;
+            const tz = layer.tz;
+            const ry = -sign * layer.ry;
+            const opacity = absD > 3 ? 0 : layer.opacity;
+            const zIndex = 100 - absD;
+
+            card.style.transform =
+              `translate(-50%, -50%) translate3d(${tx}px, 0, ${tz}px) rotateY(${ry}deg) scale(${layer.scale})`;
+            card.style.opacity = opacity;
+            card.style.filter  = layer.blur ? `blur(${layer.blur}px)` : 'none';
+            card.style.zIndex  = zIndex;
+            card.classList.toggle('is-current', d === 0);
+            card.setAttribute('aria-hidden', d !== 0 ? 'true' : 'false');
+          });
+
+          dots.forEach((b, i) => {
+            const on = i === active;
+            b.classList.toggle('is-active', on);
+            b.setAttribute('aria-selected', on ? 'true' : 'false');
+          });
+
+          const v = String(active + 1).padStart(2, '0');
+          if (cur.textContent !== v){
+            cur.textContent = v;
+            cur.classList.remove('cf-pop');
+            void cur.offsetWidth;
+            cur.classList.add('cf-pop');
+          }
+        }
+
+        function goTo(i){
+          active = ((i % TOTAL) + TOTAL) % TOTAL;
+          applyLayout();
+          scheduleAutoplay();
+        }
+        const next = () => goTo(active + 1);
+        const prev = () => goTo(active - 1);
+
+        function scheduleAutoplay(){
+          clearTimeout(timer);
+          if (paused || reduced) return;
+          timer = setTimeout(next, AUTOPLAY);
+        }
+
+        // Clic : carte active = lightbox, carte latérale = la recentrer
+        function onCardClick(i){
+          if (i === active) openLb(active);
+          else goTo(i);
+        }
+
+        btnPrev.addEventListener('click', prev);
+        btnNext.addEventListener('click', next);
+
+        // Pause hover / focus
+        const doPause  = () => { paused = true;  clearTimeout(timer); };
+        const doResume = () => { paused = false; scheduleAutoplay(); };
+        track.addEventListener('mouseenter', doPause);
+        track.addEventListener('mouseleave', doResume);
+        track.addEventListener('focusin',    doPause);
+        track.addEventListener('focusout',   doResume);
+
+        // Clavier
+        track.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowRight'){ e.preventDefault(); next(); }
+          if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+          if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openLb(active); }
+        });
+
+        // Swipe tactile
+        let tx0 = 0, ty0 = 0, tt0 = 0;
+        track.addEventListener('touchstart', (e) => {
+          tx0 = e.touches[0].clientX; ty0 = e.touches[0].clientY; tt0 = Date.now();
+        }, { passive: true });
+        track.addEventListener('touchend', (e) => {
+          const dx = e.changedTouches[0].clientX - tx0;
+          const dy = e.changedTouches[0].clientY - ty0;
+          const dt = Date.now() - tt0;
+          const swipe = Math.abs(dx) > Math.abs(dy) && (Math.abs(dx) > 40 || (Math.abs(dx) > 20 && dt < 250));
+          if (swipe){ (dx < 0 ? next : prev)(); if ('vibrate' in navigator) { try { navigator.vibrate(8); } catch(_){} } }
+        });
+
+        // Responsive : recalcule le layout quand la largeur change
+        mqMobile.addEventListener?.('change', applyLayout);
+        window.addEventListener('resize', applyLayout, { passive: true });
+
+        // Initial render + autoplay
+        applyLayout();
+        scheduleAutoplay();
+
+        /* ------------------ LIGHTBOX ------------------ */
+        const lb      = document.getElementById('apartLb');
+        const lbStage = document.getElementById('apartLbStage');
+        const lbCur   = document.getElementById('apartLbCur');
+        const lbTot   = document.getElementById('apartLbTot');
+        const lbLabel = document.getElementById('apartLbLabel');
+        const lbClose = document.getElementById('apartLbClose');
+        const lbPrev  = document.getElementById('apartLbPrev');
+        const lbNext  = document.getElementById('apartLbNext');
+        let lbIdx = 0;
+        function lbRender(){
+          const p = items[lbIdx];
+          lbStage.style.backgroundImage = `url('${p.src}')`;
+          lbCur.textContent = String(lbIdx + 1).padStart(2, '0');
+          lbTot.textContent = String(items.length).padStart(2, '0');
+          lbLabel.textContent = p.label;
+        }
+        function openLb(i){
+          lbIdx = i; lbRender();
+          lb.setAttribute('aria-hidden', 'false');
+          lb.classList.add('is-open');
+          document.body.style.overflow = 'hidden';
+          doPause();
+        }
+        function closeLb(){
+          lb.setAttribute('aria-hidden', 'true');
+          lb.classList.remove('is-open');
+          document.body.style.overflow = '';
+        }
+        function lbGo(d){
+          lbIdx = ((lbIdx + d) % items.length + items.length) % items.length;
+          lbRender();
+        }
+        lbClose.addEventListener('click', closeLb);
+        lbPrev.addEventListener('click',  () => lbGo(-1));
+        lbNext.addEventListener('click',  () => lbGo(1));
+        lb.addEventListener('click', (e) => { if (e.target === lb) closeLb(); });
+        document.addEventListener('keydown', (e) => {
+          if (!lb.classList.contains('is-open')) return;
+          if (e.key === 'Escape')      closeLb();
+          if (e.key === 'ArrowRight')  lbGo(1);
+          if (e.key === 'ArrowLeft')   lbGo(-1);
+        });
+        lbStage.addEventListener('contextmenu', (e) => e.preventDefault());
+        lbStage.addEventListener('dragstart',   (e) => e.preventDefault());
+      }
+    }
 
     /* ============================================================
        MODULE ARRIVÉE — visionneuse photos + carte itinéraire piéton

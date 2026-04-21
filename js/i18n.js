@@ -225,6 +225,7 @@ const I18N = {
     /* Nav */
     "espace.toc.eyebrow":      "Sommaire",
     "espace.toc.title":        "Tout, <em>à portée de clic.</em>",
+    "espace.toc.gallery":      "Votre appartement",
     "espace.toc.access":       "Accès & arrivée",
     "espace.toc.guide":        "Guide Nice",
     "espace.toc.wifi":         "Wi-Fi",
@@ -241,9 +242,13 @@ const I18N = {
     "espace.nav.videos":       "Vidéos",
     /* Banner */
     "espace.status.confirmed": "Séjour confirmé",
+    "espace.banner.welcome":   "bienvenue.",
     "espace.banner.pre":       "Votre séjour à",
     "espace.banner.post":      "est orchestré.",
     "espace.banner.sub":       "Retrouvez ci-dessous toutes les informations utiles, prêtes pour votre arrivée.",
+    /* Hero cinéma */
+    "espace.gallery.eyebrow":  "Votre appartement",
+    "espace.cinema.scroll":    "Découvrir",
     /* Stay */
     "espace.stay.eyebrow":     "Mon séjour",
     "espace.stay.title":       "Tout ce qu'il faut savoir.",
@@ -318,7 +323,10 @@ const I18N = {
     "espace.contacts.title":         "Trois interlocuteurs, <em>une équipe dédiée.</em>",
     "espace.contacts.role.owner":    "Propriétaire",
     "espace.contacts.role.cohost":   "Co-hôte",
-    "espace.contacts.role.housekeeper":"Femme de ménage",
+    "espace.contacts.role.housekeeper":"Intendance",
+    "espace.contacts.owner.title":   "Votre hôte",
+    "espace.contacts.cohost.title":  "Accueil & suivi",
+    "espace.contacts.house.title":   "Ménage & linge",
     "espace.contacts.call":          "Appeler",
     "espace.contacts.note":          "Disponibles <em>7h à 23h</em> · Urgences 24/7 · Réponse WhatsApp habituelle sous 30 minutes.",
     /* Règlement intérieur */
@@ -574,6 +582,7 @@ const I18N = {
     /* Nav */
     "espace.toc.eyebrow":      "Overview",
     "espace.toc.title":        "Everything, <em>a tap away.</em>",
+    "espace.toc.gallery":      "Your apartment",
     "espace.toc.access":       "Access & arrival",
     "espace.toc.guide":        "Nice guide",
     "espace.toc.wifi":         "Wi-Fi",
@@ -590,9 +599,13 @@ const I18N = {
     "espace.nav.videos":       "Tutorials",
     /* Banner */
     "espace.status.confirmed": "Stay confirmed",
+    "espace.banner.welcome":   "welcome.",
     "espace.banner.pre":       "Your stay at",
     "espace.banner.post":      "is orchestrated.",
     "espace.banner.sub":       "Find below everything you need — ready for your arrival.",
+    /* Cinema hero */
+    "espace.gallery.eyebrow":  "Your apartment",
+    "espace.cinema.scroll":    "Discover",
     /* Stay */
     "espace.stay.eyebrow":     "My stay",
     "espace.stay.title":       "Everything you need to know.",
@@ -667,7 +680,10 @@ const I18N = {
     "espace.contacts.title":         "Three people, <em>one dedicated team.</em>",
     "espace.contacts.role.owner":    "Owner",
     "espace.contacts.role.cohost":   "Co-host",
-    "espace.contacts.role.housekeeper":"Housekeeper",
+    "espace.contacts.role.housekeeper":"Housekeeping",
+    "espace.contacts.owner.title":   "Your host",
+    "espace.contacts.cohost.title":  "Welcome & follow-up",
+    "espace.contacts.house.title":   "Cleaning & linen",
     "espace.contacts.call":          "Call",
     "espace.contacts.note":          "Available <em>7am to 11pm</em> · Emergencies 24/7 · Typical WhatsApp reply under 30 minutes.",
     /* House rules */
