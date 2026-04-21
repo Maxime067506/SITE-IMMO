@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=d3" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="css/auth.css?v=e9" />
+  <link rel="stylesheet" href="css/auth.css?v=f3" />
 </head>
 <body class="espace-page">
 
@@ -237,19 +237,6 @@
         </div>
       </div>
 
-      <!-- Droite : carte Leaflet avec itinéraire piéton -->
-      <div class="arrival-map">
-        <div class="apm-head">
-          <span class="apm-eyebrow" data-i18n="espace.arrival.routeLabel">Itinéraire piéton</span>
-          <h3 id="apmDuration" data-i18n="espace.arrival.walking">1 min à pied</h3>
-          <div class="apm-route">
-            <div class="apm-step"><span class="pin pin-a">A</span><span id="apmFrom">Point de rendez-vous</span></div>
-            <span class="apm-dash" aria-hidden="true">— — —</span>
-            <div class="apm-step"><span class="pin pin-b">B</span><span id="apmTo">Appartement</span></div>
-          </div>
-        </div>
-        <div id="arrivalMap" class="apm-canvas"></div>
-      </div>
     </div>
 
     <!-- Lightbox plein écran — photos d'arrivée en grand -->
@@ -293,6 +280,22 @@
     <div class="key-guide" id="keyGuide">
       <header class="kg-head">
         <p class="kg-eyebrow" data-i18n="espace.kg.eyebrow">Mode d'emploi</p>
+      </header>
+
+      <!-- ONGLETS : Récupérer les clés | Déposer les clés -->
+      <nav class="kg-tabs" role="tablist" aria-label="Étapes du séjour">
+        <button type="button" class="kg-tab is-active" role="tab" aria-selected="true" data-tab="pickup" id="kgTabPickup">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 12.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0zm0 0 10-4.5m-3 3 3-1-3 3 3-1-3 2"/></svg>
+          <span data-i18n="espace.kg.tab.pickup">Récupérer les clés</span>
+        </button>
+        <button type="button" class="kg-tab" role="tab" aria-selected="false" data-tab="return" id="kgTabReturn">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05M12 22.08V12"/></svg>
+          <span data-i18n="espace.kg.tab.return">Déposer les clés</span>
+        </button>
+      </nav>
+
+      <!-- PANEL 1 : RÉCUPÉRER LES CLÉS -->
+      <div class="kg-panel is-active" role="tabpanel" data-panel="pickup" aria-labelledby="kgTabPickup">
         <h3 class="kg-title" data-i18n="espace.kg.title" data-i18n-html="true">Récupérer vos clés, <em>en 4 étapes.</em></h3>
         <div class="kg-warn">
           <span class="kg-warn-icon" aria-hidden="true">
@@ -300,7 +303,6 @@
           </span>
           <span data-i18n="espace.kg.warning" data-i18n-html="true">Boîte à clés accessible à partir de <strong>14h30</strong>.</span>
         </div>
-      </header>
 
       <ol class="kg-steps">
 
@@ -324,12 +326,12 @@
               </a>
             </div>
             <div class="kg-anim kg-anim-map" aria-hidden="true">
-              <svg viewBox="0 0 200 140" class="kg-svg">
+              <svg viewBox="0 0 200 160" class="kg-svg">
                 <!-- Carte stylisée -->
-                <rect x="0" y="0" width="200" height="140" fill="#FBF6EA"/>
+                <rect x="0" y="0" width="200" height="160" fill="#FBF6EA"/>
                 <!-- rues -->
-                <path d="M0 50 H200 M0 90 H200 M60 0 V140 M140 0 V140" stroke="#E0D5BA" stroke-width="1.4" fill="none"/>
-                <path d="M30 20 L170 120" stroke="#E0D5BA" stroke-width="1" fill="none" stroke-dasharray="3 3"/>
+                <path d="M0 46 H200 M0 86 H200 M60 0 V160 M140 0 V160" stroke="#E0D5BA" stroke-width="1.4" fill="none"/>
+                <path d="M30 18 L170 112" stroke="#E0D5BA" stroke-width="1" fill="none" stroke-dasharray="3 3"/>
                 <!-- pin au centre -->
                 <g class="kg-pin" transform="translate(100, 60)">
                   <circle class="kg-pin-ring kg-pin-ring-1" cx="0" cy="0" r="14" fill="none" stroke="#C9A961" stroke-width="1.5" opacity=".6"/>
@@ -337,7 +339,10 @@
                   <path d="M0 -18 C9 -18 14 -11 14 -3 C14 9 0 22 0 22 C0 22 -14 9 -14 -3 C-14 -11 -9 -18 0 -18 Z" fill="#C9A961"/>
                   <circle cx="0" cy="-3" r="4" fill="#FBF6EA"/>
                 </g>
-                <text x="100" y="110" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing=".2em" fill="#8A7544">1 RUE BADAT</text>
+                <!-- Cartouche légende en bas -->
+                <rect x="30" y="116" width="140" height="34" rx="2" fill="#FBF6EA" stroke="#C9A961" stroke-opacity=".35"/>
+                <text x="100" y="128" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing=".26em" fill="#8A7544">1 RUE BADAT</text>
+                <text x="100" y="143" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="11" fill="#C9A961">« La fête du slip »</text>
               </svg>
             </div>
           </div>
@@ -491,51 +496,54 @@
               </a>
             </div>
             <div class="kg-anim kg-anim-building" aria-hidden="true">
-              <svg viewBox="0 0 200 180" class="kg-svg">
-                <rect x="0" y="0" width="200" height="180" fill="#FBF6EA"/>
-                <!-- Immeuble -->
-                <rect x="40" y="30" width="120" height="130" fill="#E0D5BA" stroke="#C9A961" stroke-width="1"/>
+              <svg viewBox="0 0 200 196" class="kg-svg">
+                <rect x="0" y="0" width="200" height="196" fill="#FBF6EA"/>
+                <!-- En-tête : nom de la résidence -->
+                <text x="100" y="13" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing=".3em" fill="#8A7544">RÉSIDENCE</text>
+                <text x="100" y="28" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="12" fill="#C9A961">Le Véronèse</text>
+                <!-- Immeuble (décalé vers le bas pour laisser place au nom) -->
+                <rect x="40" y="38" width="120" height="130" fill="#E0D5BA" stroke="#C9A961" stroke-width="1"/>
                 <!-- fenêtres par étage -->
                 <g fill="#FBF6EA" stroke="#C9A961" stroke-opacity=".3">
-                  <rect x="52"  y="42" width="16" height="14"/>
-                  <rect x="74"  y="42" width="16" height="14"/>
-                  <rect x="132" y="42" width="16" height="14"/>
-                  <rect x="110" y="42" width="16" height="14"/>
-                  <rect x="52"  y="62" width="16" height="14"/>
-                  <rect x="74"  y="62" width="16" height="14"/>
-                  <rect x="110" y="62" width="16" height="14"/>
-                  <rect x="132" y="62" width="16" height="14"/>
-                  <rect x="52"  y="82" width="16" height="14"/>
-                  <rect x="74"  y="82" width="16" height="14"/>
-                  <rect x="110" y="82" width="16" height="14"/>
-                  <rect x="132" y="82" width="16" height="14"/>
-                  <rect x="52"  y="102" width="16" height="14"/>
-                  <rect x="74"  y="102" width="16" height="14"/>
-                  <rect x="110" y="102" width="16" height="14"/>
-                  <rect x="132" y="102" width="16" height="14"/>
+                  <rect x="52"  y="50" width="16" height="14"/>
+                  <rect x="74"  y="50" width="16" height="14"/>
+                  <rect x="132" y="50" width="16" height="14"/>
+                  <rect x="110" y="50" width="16" height="14"/>
+                  <rect x="52"  y="70" width="16" height="14"/>
+                  <rect x="74"  y="70" width="16" height="14"/>
+                  <rect x="110" y="70" width="16" height="14"/>
+                  <rect x="132" y="70" width="16" height="14"/>
+                  <rect x="52"  y="90" width="16" height="14"/>
+                  <rect x="74"  y="90" width="16" height="14"/>
+                  <rect x="110" y="90" width="16" height="14"/>
+                  <rect x="132" y="90" width="16" height="14"/>
+                  <rect x="52"  y="110" width="16" height="14"/>
+                  <rect x="74"  y="110" width="16" height="14"/>
+                  <rect x="110" y="110" width="16" height="14"/>
+                  <rect x="132" y="110" width="16" height="14"/>
                 </g>
                 <!-- Porte d'entrée -->
-                <rect x="92" y="130" width="16" height="30" fill="#8A7544" stroke="#5C4B24"/>
-                <circle cx="104" cy="145" r="1" fill="#C9A961"/>
+                <rect x="92" y="138" width="16" height="30" fill="#8A7544" stroke="#5C4B24"/>
+                <circle cx="104" cy="153" r="1" fill="#C9A961"/>
                 <!-- Indication 6ᵉ étage (flèche + label) -->
                 <g class="kg-floor-indicator">
-                  <path d="M 30 44 L 30 38 L 170 38" stroke="#C9A961" stroke-width="1.2" fill="none"/>
-                  <circle cx="170" cy="38" r="3" fill="#C9A961"/>
-                  <text x="28" y="50" text-anchor="end" font-family="Fraunces, serif" font-style="italic" font-size="12" fill="#8A7544">6ᵉ</text>
+                  <path d="M 30 52 L 30 46 L 170 46" stroke="#C9A961" stroke-width="1.2" fill="none"/>
+                  <circle cx="170" cy="46" r="3" fill="#C9A961"/>
+                  <text x="28" y="58" text-anchor="end" font-family="Fraunces, serif" font-style="italic" font-size="12" fill="#8A7544">6ᵉ</text>
                 </g>
                 <!-- Ascenseur qui monte -->
                 <g class="kg-elevator">
-                  <rect x="86" y="140" width="14" height="18" rx="1" fill="#FBF6EA" stroke="#C9A961"/>
-                  <path d="M91 150 L93 146 L95 150" stroke="#C9A961" stroke-width="1.2" fill="none"/>
+                  <rect x="86" y="148" width="14" height="18" rx="1" fill="#FBF6EA" stroke="#C9A961"/>
+                  <path d="M91 158 L93 154 L95 158" stroke="#C9A961" stroke-width="1.2" fill="none"/>
                 </g>
                 <!-- Clés en bas -->
                 <g class="kg-keyset" transform="translate(0, 0)">
-                  <g transform="translate(56, 168)">
+                  <g transform="translate(56, 183)">
                     <circle cx="0" cy="0" r="5" fill="none" stroke="#D4AF37" stroke-width="1.6"/>
                     <rect x="3" y="-1.5" width="12" height="3" fill="#D4AF37"/>
                     <rect x="13" y="-3" width="2" height="6" fill="#D4AF37"/>
                   </g>
-                  <g transform="translate(130, 168)">
+                  <g transform="translate(130, 183)">
                     <circle cx="0" cy="0" r="5" fill="none" stroke="#888" stroke-width="1.6"/>
                     <rect x="3" y="-1.5" width="12" height="3" fill="#888"/>
                     <rect x="13" y="-3" width="2" height="6" fill="#888"/>
@@ -546,6 +554,337 @@
           </div>
         </li>
       </ol>
+      </div>
+      <!-- /PANEL pickup -->
+
+      <!-- PANEL 2 : DÉPOSER LES CLÉS -->
+      <div class="kg-panel" role="tabpanel" data-panel="return" aria-labelledby="kgTabReturn" hidden>
+        <h3 class="kg-title" data-i18n="espace.kg.title2" data-i18n-html="true">Déposer les clés, <em>en 6 étapes.</em></h3>
+        <div class="kg-warn">
+          <span class="kg-warn-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 1 21h22L12 3z"/><path d="M12 10v5"/><circle cx="12" cy="18" r=".6" fill="currentColor"/></svg>
+          </span>
+          <span data-i18n="espace.kg.warning2" data-i18n-html="true">L'appartement doit être libéré avant <strong>11h00</strong>.</span>
+        </div>
+
+        <ol class="kg-steps">
+
+          <!-- RETURN 1 — Photos de l'appartement -->
+          <li class="kg-step" data-step="r1">
+            <div class="kg-step-head">
+              <span class="kg-step-num">01</span>
+              <span class="kg-step-dash" aria-hidden="true"></span>
+              <h4 class="kg-step-h" data-i18n="espace.kg.r1.t">Photos de l'appartement</h4>
+            </div>
+            <div class="kg-step-grid">
+              <div class="kg-step-body">
+                <p data-i18n="espace.kg.r1.body">
+                  Avant de quitter l'appartement, envoyez-nous des photos de toutes les pièces via la plateforme.
+                </p>
+                <p class="kg-info" data-i18n="espace.kg.r1.hint">
+                  📸 C'est notre procédure de départ standard — merci de votre coopération.
+                </p>
+                <a href="https://wa.me/33626671767" target="_blank" rel="noopener" class="kg-whatsapp">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.002-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413"/></svg>
+                  <span data-i18n="espace.kg.r1.whatsapp">Envoyer les photos sur WhatsApp</span>
+                </a>
+              </div>
+              <div class="kg-anim kg-anim-camera" aria-hidden="true">
+                <svg viewBox="0 0 200 140" class="kg-svg">
+                  <rect x="0" y="0" width="200" height="140" fill="#FBF6EA"/>
+                  <!-- Téléphone -->
+                  <rect x="70" y="20" width="60" height="100" rx="8" fill="#1A1A1A" stroke="#C9A961"/>
+                  <rect x="75" y="32" width="50" height="70" fill="#2A2A2A"/>
+                  <!-- Viseur caméra -->
+                  <g class="kg-cam-lens">
+                    <circle cx="100" cy="67" r="14" fill="none" stroke="#C9A961" stroke-width="1.5"/>
+                    <circle cx="100" cy="67" r="8" fill="#C9A961" fill-opacity=".4"/>
+                    <circle cx="100" cy="67" r="3" fill="#C9A961"/>
+                  </g>
+                  <!-- Flash -->
+                  <rect class="kg-cam-flash" x="75" y="32" width="50" height="70" fill="#fff" opacity="0"/>
+                  <!-- Vignettes photos qui tombent -->
+                  <g class="kg-cam-thumb kg-cam-thumb-1" transform="translate(22, 88)">
+                    <rect x="0" y="0" width="26" height="20" rx="1.5" fill="#C9A961"/>
+                    <circle cx="8" cy="10" r="2" fill="#FBF6EA"/>
+                    <path d="M4 18 L10 12 L16 16 L22 11 L22 20 L4 20 Z" fill="#FBF6EA" fill-opacity=".6"/>
+                  </g>
+                  <g class="kg-cam-thumb kg-cam-thumb-2" transform="translate(152, 88)">
+                    <rect x="0" y="0" width="26" height="20" rx="1.5" fill="#C9A961"/>
+                    <circle cx="8" cy="10" r="2" fill="#FBF6EA"/>
+                    <path d="M4 18 L10 12 L16 16 L22 11 L22 20 L4 20 Z" fill="#FBF6EA" fill-opacity=".6"/>
+                  </g>
+                  <text x="100" y="135" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing=".28em" fill="#8A7544">PROCÉDURE DE DÉPART</text>
+                </svg>
+              </div>
+            </div>
+          </li>
+
+          <!-- RETURN 2 — Ménage & checklist -->
+          <li class="kg-step" data-step="r2">
+            <div class="kg-step-head">
+              <span class="kg-step-num">02</span>
+              <span class="kg-step-dash" aria-hidden="true"></span>
+              <h4 class="kg-step-h" data-i18n="espace.kg.r2.t">Ménage & checklist de départ</h4>
+            </div>
+            <div class="kg-step-grid">
+              <div class="kg-step-body">
+                <p data-i18n="espace.kg.r2.body">
+                  Nous nous occupons du ménage, mais merci de laisser l'appartement dans un état correct — comme à votre arrivée. 🧹
+                </p>
+                <ol class="kg-substeps">
+                  <li data-i18n="espace.kg.r2.a">Éteindre toutes les lumières et appareils électriques</li>
+                  <li data-i18n="espace.kg.r2.b">Fermer toutes les fenêtres</li>
+                  <li data-i18n="espace.kg.r2.c">Vider les poubelles</li>
+                  <li data-i18n="espace.kg.r2.d">Déposer le linge utilisé (serviettes, draps) dans la salle de bain</li>
+                  <li data-i18n="espace.kg.r2.e" data-i18n-html="true">Verrouiller la porte d'entrée avec la <span class="kg-key-chip kg-key-gray">clé grise</span></li>
+                </ol>
+              </div>
+              <div class="kg-anim kg-anim-checklist" aria-hidden="true">
+                <svg viewBox="0 0 200 160" class="kg-svg">
+                  <rect x="0" y="0" width="200" height="160" fill="#FBF6EA"/>
+                  <!-- Clipboard -->
+                  <rect x="35" y="18" width="130" height="134" rx="4" fill="#fff" stroke="#C9A961" stroke-width="1"/>
+                  <rect x="80" y="12" width="40" height="12" rx="2" fill="#C9A961"/>
+                  <rect x="90" y="6" width="20" height="6" rx="1" fill="#8A7544"/>
+                  <!-- 5 items qui se cochent -->
+                  <g class="kg-check kg-check-1" transform="translate(48, 38)">
+                    <rect x="0" y="0" width="12" height="12" rx="2" fill="#FBF6EA" stroke="#C9A961" stroke-width="1.2"/>
+                    <path class="kg-check-tick" d="M2.5 6.5 L5 9 L9.5 3" stroke="#C9A961" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <rect x="20" y="5" width="90" height="2" rx="1" fill="#E0D5BA"/>
+                  </g>
+                  <g class="kg-check kg-check-2" transform="translate(48, 58)">
+                    <rect x="0" y="0" width="12" height="12" rx="2" fill="#FBF6EA" stroke="#C9A961" stroke-width="1.2"/>
+                    <path class="kg-check-tick" d="M2.5 6.5 L5 9 L9.5 3" stroke="#C9A961" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <rect x="20" y="5" width="80" height="2" rx="1" fill="#E0D5BA"/>
+                  </g>
+                  <g class="kg-check kg-check-3" transform="translate(48, 78)">
+                    <rect x="0" y="0" width="12" height="12" rx="2" fill="#FBF6EA" stroke="#C9A961" stroke-width="1.2"/>
+                    <path class="kg-check-tick" d="M2.5 6.5 L5 9 L9.5 3" stroke="#C9A961" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <rect x="20" y="5" width="70" height="2" rx="1" fill="#E0D5BA"/>
+                  </g>
+                  <g class="kg-check kg-check-4" transform="translate(48, 98)">
+                    <rect x="0" y="0" width="12" height="12" rx="2" fill="#FBF6EA" stroke="#C9A961" stroke-width="1.2"/>
+                    <path class="kg-check-tick" d="M2.5 6.5 L5 9 L9.5 3" stroke="#C9A961" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <rect x="20" y="5" width="95" height="2" rx="1" fill="#E0D5BA"/>
+                  </g>
+                  <g class="kg-check kg-check-5" transform="translate(48, 118)">
+                    <rect x="0" y="0" width="12" height="12" rx="2" fill="#FBF6EA" stroke="#C9A961" stroke-width="1.2"/>
+                    <path class="kg-check-tick" d="M2.5 6.5 L5 9 L9.5 3" stroke="#C9A961" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <rect x="20" y="5" width="75" height="2" rx="1" fill="#E0D5BA"/>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </li>
+
+          <!-- RETURN 3 — Quitter l'appartement -->
+          <li class="kg-step" data-step="r3">
+            <div class="kg-step-head">
+              <span class="kg-step-num">03</span>
+              <span class="kg-step-dash" aria-hidden="true"></span>
+              <h4 class="kg-step-h" data-i18n="espace.kg.r3.t">Quitter l'appartement</h4>
+            </div>
+            <div class="kg-step-grid">
+              <div class="kg-step-body">
+                <p class="kg-addr">
+                  <span id="kgReturnAddrFrom">5 rue Barla, 06300 Nice</span>
+                </p>
+                <ol class="kg-substeps">
+                  <li data-i18n="espace.kg.r3.a">Assurez-vous de ne rien oublier</li>
+                  <li data-i18n="espace.kg.r3.b" data-i18n-html="true">Fermez bien la porte de l'appartement avec la <span class="kg-key-chip kg-key-gray">clé grise</span></li>
+                  <li data-i18n="espace.kg.r3.c">La deuxième porte du sas se referme en claquant — pas besoin de clé</li>
+                </ol>
+              </div>
+              <div class="kg-anim kg-anim-door" aria-hidden="true">
+                <svg viewBox="0 0 200 160" class="kg-svg">
+                  <rect x="0" y="0" width="200" height="160" fill="#FBF6EA"/>
+                  <!-- Cadre de porte -->
+                  <rect x="60" y="18" width="80" height="134" fill="#E0D5BA" stroke="#C9A961" stroke-width="1"/>
+                  <!-- Porte (s'anime : reste ouverte puis se ferme) -->
+                  <g class="kg-door-leaf">
+                    <rect x="64" y="22" width="72" height="126" fill="#8A7544" stroke="#5C4B24" stroke-width="1"/>
+                    <rect x="72" y="32" width="56" height="36" fill="#C9A961" fill-opacity=".15"/>
+                    <rect x="72" y="76" width="56" height="36" fill="#C9A961" fill-opacity=".15"/>
+                    <circle cx="124" cy="90" r="2.2" fill="#C9A961"/>
+                  </g>
+                  <!-- Clé grise qui tourne dans la serrure -->
+                  <g class="kg-door-key" transform="translate(135, 90)">
+                    <circle cx="0" cy="0" r="5" fill="none" stroke="#888" stroke-width="1.6"/>
+                    <rect x="3" y="-1.5" width="14" height="3" fill="#888"/>
+                    <rect x="14" y="-3" width="2" height="6" fill="#888"/>
+                    <rect x="17" y="-2" width="2" height="4" fill="#888"/>
+                  </g>
+                  <text x="100" y="152" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing=".24em" fill="#8A7544">5 RUE BARLA</text>
+                </svg>
+              </div>
+            </div>
+          </li>
+
+          <!-- RETURN 4 — Laverie (retour) -->
+          <li class="kg-step" data-step="r4">
+            <div class="kg-step-head">
+              <span class="kg-step-num">04</span>
+              <span class="kg-step-dash" aria-hidden="true"></span>
+              <h4 class="kg-step-h" data-i18n="espace.kg.r4.t">Retour à la laverie</h4>
+            </div>
+            <div class="kg-step-grid">
+              <div class="kg-step-body">
+                <p class="kg-addr">
+                  <span id="kgReturnAddrLaundry">1 rue Badat, 06300 Nice</span>
+                  <span class="kg-walk" data-i18n="espace.kg.r4.walk">· 15 secondes à pied</span>
+                </p>
+                <p class="kg-info" data-i18n="espace.kg.r4.info" data-i18n-html="true">
+                  Ouverte <strong>7h&#8239;–&#8239;21h</strong>. Hors horaires, digicode&nbsp;:
+                  <code class="kg-code">1235*</code>
+                </p>
+                <a href="https://maps.app.goo.gl/6aN1gVtFMyH7j9So6?g_st=ic" target="_blank" rel="noopener" class="kg-link">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <span data-i18n="espace.kg.mapsOpen">Ouvrir dans Maps</span>
+                </a>
+              </div>
+              <div class="kg-anim kg-anim-map kg-anim-map--return" aria-hidden="true">
+                <svg viewBox="0 0 200 160" class="kg-svg">
+                  <rect x="0" y="0" width="200" height="160" fill="#FBF6EA"/>
+                  <path d="M0 46 H200 M0 86 H200 M60 0 V160 M140 0 V160" stroke="#E0D5BA" stroke-width="1.4" fill="none"/>
+                  <!-- Trajet A→B (pointillés + pin) -->
+                  <path class="kg-return-route" d="M 100 56 C 100 86, 100 100, 100 112" stroke="#C9A961" stroke-width="1.8" fill="none" stroke-dasharray="4 4" stroke-linecap="round"/>
+                  <g class="kg-pin" transform="translate(100, 60)">
+                    <circle class="kg-pin-ring kg-pin-ring-1" cx="0" cy="0" r="14" fill="none" stroke="#C9A961" stroke-width="1.5" opacity=".6"/>
+                    <circle class="kg-pin-ring kg-pin-ring-2" cx="0" cy="0" r="14" fill="none" stroke="#C9A961" stroke-width="1.2" opacity=".35"/>
+                    <path d="M0 -18 C9 -18 14 -11 14 -3 C14 9 0 22 0 22 C0 22 -14 9 -14 -3 C-14 -11 -9 -18 0 -18 Z" fill="#C9A961"/>
+                    <circle cx="0" cy="-3" r="4" fill="#FBF6EA"/>
+                  </g>
+                  <rect x="30" y="116" width="140" height="34" rx="2" fill="#FBF6EA" stroke="#C9A961" stroke-opacity=".35"/>
+                  <text x="100" y="128" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing=".26em" fill="#8A7544">1 RUE BADAT</text>
+                  <text x="100" y="143" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="11" fill="#C9A961">« La fête du slip »</text>
+                </svg>
+              </div>
+            </div>
+          </li>
+
+          <!-- RETURN 5 — Déposer les clés -->
+          <li class="kg-step" data-step="r5">
+            <div class="kg-step-head">
+              <span class="kg-step-num">05</span>
+              <span class="kg-step-dash" aria-hidden="true"></span>
+              <h4 class="kg-step-h" data-i18n="espace.kg.r5.t" data-i18n-html="true">Déposer les clés dans la boîte&nbsp;<em>n°9</em></h4>
+            </div>
+            <div class="kg-step-grid">
+              <div class="kg-step-body">
+                <ol class="kg-substeps">
+                  <li data-i18n="espace.kg.r5.a" data-i18n-html="true">Abaissez le <strong>clapet noir</strong></li>
+                  <li data-i18n="espace.kg.r5.b" data-i18n-html="true">Entrez le code <code class="kg-code">0190</code></li>
+                  <li data-i18n="espace.kg.r5.c" data-i18n-html="true">Tirez la <strong>languette noire</strong> vers le bas pour ouvrir</li>
+                  <li data-i18n="espace.kg.r5.d">Déposez les clés</li>
+                  <li data-i18n="espace.kg.r5.e">Refermez la boîte</li>
+                  <li data-i18n="espace.kg.r5.f">Modifiez la position du code</li>
+                  <li data-i18n="espace.kg.r5.g">Rabattez le cache noir pour masquer le code</li>
+                </ol>
+              </div>
+              <div class="kg-anim kg-anim-keybox kg-anim-keybox--return" aria-hidden="true">
+                <svg viewBox="0 0 200 180" class="kg-svg">
+                  <defs>
+                    <linearGradient id="kgMetal2" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#3A3A3A"/>
+                      <stop offset="100%" stop-color="#1A1A1A"/>
+                    </linearGradient>
+                  </defs>
+                  <rect x="35" y="30" width="130" height="120" rx="4" fill="url(#kgMetal2)" stroke="#0A0A0A"/>
+                  <!-- Keypad -->
+                  <rect x="48" y="50" width="104" height="60" rx="3" fill="#2A2A2A" stroke="#555"/>
+                  <g font-family="JetBrains Mono, monospace" font-size="14" fill="#E6C785" text-anchor="middle" font-weight="600">
+                    <text x="64" y="84">0</text>
+                    <text x="88" y="84">1</text>
+                    <text x="112" y="84">9</text>
+                    <text x="136" y="84">0</text>
+                  </g>
+                  <line x1="57" y1="97" x2="71" y2="97" stroke="#555" stroke-width="1"/>
+                  <line x1="81" y1="97" x2="95" y2="97" stroke="#555" stroke-width="1"/>
+                  <line x1="105" y1="97" x2="119" y2="97" stroke="#555" stroke-width="1"/>
+                  <line x1="129" y1="97" x2="143" y2="97" stroke="#555" stroke-width="1"/>
+                  <!-- Clé qui rentre (animation depuis le haut) -->
+                  <g class="kg-key-in">
+                    <circle cx="100" cy="130" r="7" fill="none" stroke="#C9A961" stroke-width="2.2"/>
+                    <rect x="100" y="128" width="28" height="4" fill="#C9A961"/>
+                    <rect x="122" y="124" width="3" height="8" fill="#C9A961"/>
+                    <rect x="126" y="126" width="2" height="6" fill="#C9A961"/>
+                  </g>
+                  <!-- Clapet qui descend puis remonte -->
+                  <g class="kg-flap-close">
+                    <rect x="35" y="30" width="130" height="80" rx="4" fill="#0F0F0F" stroke="#2A2A2A"/>
+                    <rect x="80" y="102" width="40" height="4" rx="1" fill="#C9A961"/>
+                    <text x="100" y="72" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing=".2em" fill="#555">KEY SAFE</text>
+                  </g>
+                  <!-- Languette -->
+                  <g class="kg-tab-close">
+                    <rect x="35" y="114" width="10" height="26" fill="#0F0F0F"/>
+                    <circle cx="40" cy="127" r="2.5" fill="#C9A961"/>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </li>
+
+          <!-- RETURN 6 — Confirmation photo/vidéo -->
+          <li class="kg-step" data-step="r6">
+            <div class="kg-step-head">
+              <span class="kg-step-num">06</span>
+              <span class="kg-step-dash" aria-hidden="true"></span>
+              <h4 class="kg-step-h" data-i18n="espace.kg.r6.t">Confirmation</h4>
+            </div>
+            <div class="kg-step-grid">
+              <div class="kg-step-body">
+                <p data-i18n="espace.kg.r6.body" data-i18n-html="true">
+                  Envoyez-nous <strong>une photo ou une vidéo des clés dans la boîte</strong> au moment où vous la refermez.
+                </p>
+
+                <div class="kg-photo-confirm kg-photo-confirm--return">
+                  <span class="kg-photo-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  </span>
+                  <div class="kg-photo-body">
+                    <p data-i18n="espace.kg.r6.farewell" data-i18n-html="true">
+                      Merci pour votre séjour et bonne route ! 🌊
+                    </p>
+                    <a href="https://wa.me/33626671767" target="_blank" rel="noopener" class="kg-whatsapp">
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.002-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413"/></svg>
+                      <span data-i18n="espace.kg.r6.whatsapp">Envoyer sur WhatsApp</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="kg-anim kg-anim-confirm" aria-hidden="true">
+                <svg viewBox="0 0 200 160" class="kg-svg">
+                  <rect x="0" y="0" width="200" height="160" fill="#FBF6EA"/>
+                  <!-- Téléphone -->
+                  <rect x="60" y="18" width="80" height="130" rx="10" fill="#1A1A1A" stroke="#C9A961"/>
+                  <rect x="66" y="30" width="68" height="94" fill="#2A2A2A"/>
+                  <!-- Image vue -->
+                  <g class="kg-confirm-snap">
+                    <rect x="70" y="34" width="60" height="50" fill="#C9A961" fill-opacity=".15"/>
+                    <!-- Mini boîte à clés -->
+                    <rect x="82" y="42" width="36" height="32" rx="1.5" fill="#2A2A2A" stroke="#C9A961"/>
+                    <circle cx="100" cy="58" r="3" fill="none" stroke="#E6C785" stroke-width="1"/>
+                    <rect x="99" y="58" width="6" height="1" fill="#E6C785"/>
+                    <!-- Coche de validation -->
+                    <circle class="kg-confirm-check" cx="118" cy="52" r="8" fill="#25D366"/>
+                    <path class="kg-confirm-tick" d="M114 52 L117 55 L122 49" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                  </g>
+                  <!-- Légende photo -->
+                  <rect x="70" y="90" width="60" height="2" rx="1" fill="#555"/>
+                  <rect x="70" y="96" width="40" height="2" rx="1" fill="#555"/>
+                  <!-- Bouton shutter -->
+                  <circle cx="100" cy="136" r="6" fill="none" stroke="#C9A961" stroke-width="1.5"/>
+                  <circle cx="100" cy="136" r="3" fill="#C9A961"/>
+                </svg>
+              </div>
+            </div>
+          </li>
+
+        </ol>
+      </div>
+      <!-- /PANEL return -->
 
     </div>
   </section>
@@ -655,14 +994,12 @@
 
     <div class="contacts-grid">
 
-      <!-- Propriétaire -->
+      <!-- Maxime — Propriétaire -->
       <article class="contact-card">
-        <div class="contact-avatar" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6M9 9h.01M15 9h.01"/></svg>
-        </div>
+        <div class="contact-avatar" aria-hidden="true">M</div>
         <div class="contact-body">
           <p class="contact-role" data-i18n="espace.contacts.role.owner">Propriétaire</p>
-          <h3 class="contact-name" data-i18n="espace.contacts.owner.title">Votre hôte</h3>
+          <h3 class="contact-name">Maxime</h3>
           <p class="contact-phone">+33 6 26 67 17 67</p>
           <div class="contact-actions">
             <a href="tel:+33626671767" class="btn btn-primary contact-call">
@@ -677,14 +1014,12 @@
         </div>
       </article>
 
-      <!-- Co-hôte -->
+      <!-- Margaux — Co-hôte -->
       <article class="contact-card">
-        <div class="contact-avatar" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M15 20c0-2.2 1.8-4 4-4s2 1.8 2 4"/></svg>
-        </div>
+        <div class="contact-avatar" aria-hidden="true">Ma</div>
         <div class="contact-body">
           <p class="contact-role" data-i18n="espace.contacts.role.cohost">Co-hôte</p>
-          <h3 class="contact-name" data-i18n="espace.contacts.cohost.title">Accueil & suivi</h3>
+          <h3 class="contact-name">Margaux</h3>
           <p class="contact-phone">+33 6 64 64 57 11</p>
           <div class="contact-actions">
             <a href="tel:+33664645711" class="btn btn-primary contact-call">
@@ -699,14 +1034,12 @@
         </div>
       </article>
 
-      <!-- Intendance -->
+      <!-- Khaoula — Femme de ménage -->
       <article class="contact-card">
-        <div class="contact-avatar" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M7 6l2 2M17 6l-2 2M5 12h3M19 12h-3M12 9a3 3 0 0 1 3 3v2H9v-2a3 3 0 0 1 3-3zM7 22l2-8h6l2 8z"/></svg>
-        </div>
+        <div class="contact-avatar" aria-hidden="true">K</div>
         <div class="contact-body">
-          <p class="contact-role" data-i18n="espace.contacts.role.housekeeper">Intendance</p>
-          <h3 class="contact-name" data-i18n="espace.contacts.house.title">Ménage & linge</h3>
+          <p class="contact-role" data-i18n="espace.contacts.role.housekeeper">Femme de ménage</p>
+          <h3 class="contact-name">Khaoula</h3>
           <p class="contact-phone">+33 7 71 32 74 81</p>
           <div class="contact-actions">
             <a href="tel:+33771327481" class="btn btn-primary contact-call">
@@ -835,7 +1168,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="js/auth.js?v=c8"></script>
-  <script src="js/i18n.js?v=c7"></script>
+  <script src="js/i18n.js?v=c9"></script>
   <script>
     const user = DP.requireAuth();
     if (!user) { /* redirect déjà déclenché */ }
@@ -981,15 +1314,47 @@
       if (user.arrival_pickup_addr) setText('kgPickupAddr', user.arrival_pickup_addr);
       if (user.arrival_dest_addr)   setText('kgDestAddr',   user.arrival_dest_addr);
       if (user.box_number)          setText('kgBoxNum',     user.box_number);
-
+      // Adresses retour (panel 2)
+      if (user.arrival_dest_addr)   setText('kgReturnAddrFrom',    user.arrival_dest_addr);
+      if (user.arrival_pickup_addr) setText('kgReturnAddrLaundry', user.arrival_pickup_addr);
 
       // Liens Maps dynamiques si disponibles dans user.*
       const pickupLink = user.arrival_pickup_maps || 'https://maps.app.goo.gl/6aN1gVtFMyH7j9So6?g_st=ic';
       const destLink   = user.arrival_dest_maps   || 'https://maps.app.goo.gl/9Nc8GbfPozZujazJA?g_st=ic';
       guide.querySelectorAll('.kg-step[data-step="1"] .kg-link').forEach(a => a.href = pickupLink);
       guide.querySelectorAll('.kg-step[data-step="4"] .kg-link').forEach(a => a.href = destLink);
+      // Panel "retour" : étape r4 reprend le lien de la laverie (pickup)
+      guide.querySelectorAll('.kg-step[data-step="r4"] .kg-link').forEach(a => a.href = pickupLink);
 
-      // IntersectionObserver : déclenche les animations au scroll
+      /* ---- ONGLETS (Récupérer / Déposer) ---- */
+      const tabs = guide.querySelectorAll('.kg-tab');
+      const panels = guide.querySelectorAll('.kg-panel');
+      function activateTab(name){
+        tabs.forEach((t) => {
+          const on = t.dataset.tab === name;
+          t.classList.toggle('is-active', on);
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        panels.forEach((p) => {
+          const on = p.dataset.panel === name;
+          p.classList.toggle('is-active', on);
+          if (on) p.removeAttribute('hidden'); else p.setAttribute('hidden', '');
+        });
+        // Ré-déclenche les animations du nouveau panel : toutes les étapes
+        // visibles à l'écran reçoivent .is-visible immédiatement.
+        const panel = guide.querySelector('.kg-panel.is-active');
+        if (panel){
+          panel.querySelectorAll('.kg-step').forEach((s) => {
+            s.classList.remove('is-visible');
+            // force reflow
+            void s.offsetWidth;
+            s.classList.add('is-visible');
+          });
+        }
+      }
+      tabs.forEach((t) => t.addEventListener('click', () => activateTab(t.dataset.tab)));
+
+      // IntersectionObserver : déclenche les animations au scroll (les 2 panels)
       const steps = guide.querySelectorAll('.kg-step');
       if ('IntersectionObserver' in window){
         const io = new IntersectionObserver((entries) => {
@@ -1300,13 +1665,9 @@
       if (!grid) return;
 
       const photos = Array.isArray(user.arrival_photos) ? user.arrival_photos : [];
-      const hasMap = (
-        typeof user.arrival_pickup_lat === 'number' &&
-        typeof user.arrival_dest_lat   === 'number'
-      );
 
-      // Si aucune donnée arrivée → on cache le module entier
-      if (!hasMap && photos.length === 0) {
+      // Pas de photos → on cache la grille entière
+      if (photos.length === 0) {
         grid.hidden = true;
         return;
       }
@@ -1518,77 +1879,8 @@
 
       }
 
-      /* ---- CARTE LEAFLET + ITINÉRAIRE OSRM ---- */
-      if (!hasMap || !window.L) return;
-
-      const mapEl = document.getElementById('arrivalMap');
-      if (!mapEl) return;
-
-      // Labels en haut de carte
-      document.getElementById('apmFrom').textContent = user.arrival_pickup_addr || 'Départ';
-      document.getElementById('apmTo').textContent   = user.arrival_dest_addr   || 'Arrivée';
-
-      const from = [user.arrival_pickup_lat, user.arrival_pickup_lon];
-      const to   = [user.arrival_dest_lat,   user.arrival_dest_lon];
-
-      const map = L.map(mapEl, {
-        zoomControl: true,
-        scrollWheelZoom: false,
-        dragging: !L.Browser.mobile, // évite conflit scroll-page sur mobile
-        tap: true,
-      }).setView([(from[0]+to[0])/2, (from[1]+to[1])/2], 18);
-
-      // Tuiles Carto Voyager — rendu élégant compatible design navy/or
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        attribution: '© OpenStreetMap contributors · © Carto',
-        maxZoom: 19,
-        subdomains: 'abcd',
-      }).addTo(map);
-
-      // Markers A (départ) et B (arrivée)
-      const markerIcon = (letter, variant) => L.divIcon({
-        className: 'apm-marker',
-        html: `<div class="apm-marker-dot is-${variant}">${letter}</div>`,
-        iconSize: [30, 30],
-        iconAnchor: [15, 15],
-      });
-      L.marker(from, { icon: markerIcon('A', 'a'), title: user.arrival_pickup_addr }).addTo(map);
-      L.marker(to,   { icon: markerIcon('B', 'b'), title: user.arrival_dest_addr }).addTo(map);
-
-      // Fetch route piéton via OSRM public
-      const url = `https://router.project-osrm.org/route/v1/foot/${from[1]},${from[0]};${to[1]},${to[0]}?overview=full&geometries=geojson`;
-      fetch(url)
-        .then(r => r.json())
-        .then(data => {
-          if (!data.routes || !data.routes.length) throw new Error('No route');
-          const route = data.routes[0];
-          const coords = route.geometry.coordinates.map(c => [c[1], c[0]]);
-          // Tracé du chemin
-          L.polyline(coords, {
-            color: '#C9A961', weight: 5, opacity: .92,
-            lineCap: 'round', lineJoin: 'round',
-          }).addTo(map);
-          // Ombre sous le tracé
-          L.polyline(coords, {
-            color: '#0A1628', weight: 9, opacity: .22,
-          }).addTo(map).bringToBack();
-          // Ajuste la vue
-          const bounds = L.latLngBounds(coords);
-          map.fitBounds(bounds, { padding: [40, 40] });
-          // Durée + distance dans le header
-          const durMin = Math.max(1, Math.round(route.duration / 60));
-          const distM  = Math.round(route.distance);
-          const dur = document.getElementById('apmDuration');
-          if (dur) dur.textContent = `${durMin} min à pied · ${distM} m`;
-        })
-        .catch(() => {
-          // Fallback : trace une ligne droite entre A et B
-          L.polyline([from, to], {
-            color: '#C9A961', weight: 4, opacity: .7, dashArray: '6 6',
-          }).addTo(map);
-          const bounds = L.latLngBounds([from, to]);
-          map.fitBounds(bounds, { padding: [60, 60] });
-        });
+      /* Carte Leaflet retirée : le guide 4 étapes animé couvre désormais
+         toute la partie "itinéraire piéton" avec ses propres visuels SVG. */
     }
   </script>
 

@@ -321,21 +321,18 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
   .toc-label{font-size:11px;letter-spacing:.14em}
 }
 
-/* ============== ARRIVÉE — Visionneuse photos + carte itinéraire ============== */
+/* ============== ARRIVÉE — Visionneuse photos (carte retirée) ============== */
 .arrival-grid{
   max-width:var(--container);margin:0 auto 40px;
-  display:grid;grid-template-columns:1fr 1fr;gap:var(--s-4);
+  display:block;
   padding:0;
 }
-@media (max-width: 820px){
-  .arrival-grid{grid-template-columns:1fr;gap:24px}
-}
-.arrival-photos,
-.arrival-map{
+.arrival-photos{
   background:rgba(10,22,40,.42);
   border:1px solid rgba(201,169,97,.22);
   overflow:hidden;
   display:flex;flex-direction:column;
+  max-width:720px;margin:0 auto;
 }
 
 /* Header commun */
@@ -1339,8 +1336,69 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
 }
 
 .kg-head{
-  text-align:center;margin-bottom:clamp(32px, 4vw, 48px);
+  text-align:center;margin-bottom:clamp(20px, 2.5vw, 32px);
 }
+
+/* ---- ONGLETS DU GUIDE ---- */
+.kg-tabs{
+  display:flex;justify-content:center;gap:4px;
+  max-width:640px;margin:0 auto clamp(28px, 3.5vw, 44px);
+  padding:4px;
+  background:rgba(201,169,97,.06);
+  border:1px solid rgba(201,169,97,.22);
+  border-radius:4px;
+}
+.kg-tab{
+  flex:1;
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:12px 18px;
+  background:transparent;border:0;border-radius:2px;
+  font-family:var(--f-sans);font-size:12px;letter-spacing:.2em;
+  text-transform:uppercase;font-weight:600;color:var(--ink-soft);
+  cursor:pointer;
+  transition:background .3s var(--ease), color .3s var(--ease), transform .2s var(--ease);
+  -webkit-tap-highlight-color:transparent;
+}
+.kg-tab svg{flex-shrink:0;opacity:.6;transition:opacity .3s var(--ease)}
+.kg-tab:hover{color:var(--ink)}
+.kg-tab:hover svg{opacity:1}
+.kg-tab.is-active{
+  background:var(--accent);color:var(--nvy-deep);
+  box-shadow:0 6px 16px -10px rgba(201,169,97,.7);
+}
+.kg-tab.is-active svg{opacity:1}
+.kg-tab:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+@media (max-width:640px){
+  .kg-tab{padding:11px 10px;font-size:10.5px;letter-spacing:.15em;gap:7px}
+  .kg-tab svg{width:13px;height:13px}
+}
+
+/* ---- PANELS ---- */
+.kg-panel{
+  animation:kgPanelIn .5s cubic-bezier(.25,.6,.25,1);
+}
+.kg-panel[hidden]{display:none !important}
+@keyframes kgPanelIn{
+  0%  {opacity:0;transform:translateY(6px)}
+  100%{opacity:1;transform:none}
+}
+/* Titre + warn centrés dans chaque panel */
+.kg-panel .kg-title,
+.kg-panel .kg-warn{
+  display:block;
+}
+.kg-panel > .kg-title,
+.kg-panel > .kg-warn{
+  text-align:center;margin-left:auto;margin-right:auto;
+}
+.kg-panel > .kg-title{margin-bottom:18px}
+.kg-panel > .kg-warn{
+  display:inline-flex;
+  margin-bottom:clamp(32px, 4vw, 48px);
+  position:relative;left:50%;transform:translateX(-50%);
+}
+
 .kg-eyebrow{
   display:inline-block;
   font-family:var(--f-mono);font-size:10.5px;letter-spacing:.32em;text-transform:uppercase;
@@ -1492,28 +1550,47 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
 /* Confirmation photo + bouton WhatsApp à la fin de l'étape 03 */
 .kg-photo-confirm{
   margin-top:16px;
-  display:flex;align-items:flex-start;gap:14px;
-  padding:14px 16px;
+  display:flex;align-items:flex-start;gap:16px;
+  padding:18px 20px;
   background:
-    radial-gradient(ellipse at top right, rgba(37,211,102,.06), transparent 65%),
-    rgba(37,211,102,.04);
-  border:1px solid rgba(37,211,102,.25);
-  border-radius:2px;
+    radial-gradient(ellipse at top right, rgba(37,211,102,.1), transparent 65%),
+    rgba(37,211,102,.07);
+  border:1px solid rgba(37,211,102,.32);
+  border-radius:3px;
 }
 .kg-photo-icon{
   flex-shrink:0;
-  width:38px;height:38px;
+  width:42px;height:42px;
   display:inline-flex;align-items:center;justify-content:center;
   border-radius:50%;
   background:#25D366;color:#fff;
+  box-shadow:0 6px 14px -6px rgba(37,211,102,.5);
 }
-.kg-photo-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:10px}
+.kg-photo-body{flex:1;min-width:0;display:flex;flex-direction:column;gap:12px}
 .kg-photo-body p{
   margin:0 !important;
-  font-size:13.5px !important;line-height:1.55 !important;
+  font-size:15px !important;line-height:1.55 !important;
   color:var(--ink) !important;
+  font-weight:500;
 }
-.kg-photo-body p strong{color:var(--ink);font-weight:600}
+.kg-photo-body p strong{color:#1A6B33;font-weight:700}
+
+/* Variante "retour" (étape r6) : message de fin plus éditorial */
+.kg-photo-confirm--return{
+  padding:22px 24px;
+  background:
+    radial-gradient(ellipse at top right, rgba(37,211,102,.12), transparent 65%),
+    rgba(37,211,102,.08);
+}
+.kg-photo-confirm--return .kg-photo-icon{
+  width:48px;height:48px;
+}
+.kg-photo-confirm--return .kg-photo-body p{
+  font-family:var(--f-serif);font-style:italic;font-weight:400;
+  font-size:clamp(18px, 1.6vw, 22px) !important;line-height:1.35 !important;
+  color:var(--ink) !important;
+  letter-spacing:-.005em;
+}
 .kg-whatsapp{
   display:inline-flex;align-items:center;gap:8px;
   align-self:flex-start;
@@ -1699,6 +1776,172 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
   100%{opacity:1;transform:none}
 }
 
+/* ============================================================
+   ANIMATIONS — PANEL "DÉPOSER LES CLÉS" (étapes r1 → r6)
+   ============================================================ */
+
+/* === R1 : Appareil photo (flash + vignettes qui tombent) === */
+.kg-cam-lens{transform-origin:100px 67px;transform-box:fill-box}
+.kg-cam-flash{opacity:0}
+.kg-cam-thumb{opacity:0;transform:translateY(-20px);transform-origin:center center;transform-box:fill-box}
+
+.kg-step.is-visible[data-step="r1"] .kg-cam-lens{
+  animation:kgCamPulse 1.6s .3s ease-out both;
+}
+.kg-step.is-visible[data-step="r1"] .kg-cam-flash{
+  animation:kgCamFlash 1.6s .3s ease-out both;
+}
+.kg-step.is-visible[data-step="r1"] .kg-cam-thumb-1{
+  animation:kgThumbDrop .8s 1.3s cubic-bezier(.4,0,.2,1.4) both;
+}
+.kg-step.is-visible[data-step="r1"] .kg-cam-thumb-2{
+  animation:kgThumbDrop .8s 1.6s cubic-bezier(.4,0,.2,1.4) both;
+}
+@keyframes kgCamPulse{
+  0%   {transform:scale(.95)}
+  50%  {transform:scale(1.08)}
+  100% {transform:scale(1)}
+}
+@keyframes kgCamFlash{
+  0%,55%,100% {opacity:0}
+  60%,70%     {opacity:.85}
+}
+@keyframes kgThumbDrop{
+  0%  {opacity:0;transform:translateY(-24px) rotate(-6deg)}
+  60% {opacity:1;transform:translateY(4px) rotate(2deg)}
+  100%{opacity:1;transform:translateY(0) rotate(0)}
+}
+
+/* === R2 : Checklist — items qui se cochent un par un === */
+.kg-check .kg-check-tick{
+  stroke-dasharray:14;stroke-dashoffset:14;
+}
+.kg-step.is-visible[data-step="r2"] .kg-check-1 .kg-check-tick{animation:kgTickDraw .4s .4s ease-out forwards}
+.kg-step.is-visible[data-step="r2"] .kg-check-2 .kg-check-tick{animation:kgTickDraw .4s .9s ease-out forwards}
+.kg-step.is-visible[data-step="r2"] .kg-check-3 .kg-check-tick{animation:kgTickDraw .4s 1.4s ease-out forwards}
+.kg-step.is-visible[data-step="r2"] .kg-check-4 .kg-check-tick{animation:kgTickDraw .4s 1.9s ease-out forwards}
+.kg-step.is-visible[data-step="r2"] .kg-check-5 .kg-check-tick{animation:kgTickDraw .4s 2.4s ease-out forwards}
+@keyframes kgTickDraw{
+  0%  {stroke-dashoffset:14}
+  100%{stroke-dashoffset:0}
+}
+
+/* === R3 : Porte — clé qui tourne + porte qui claque === */
+.kg-door-key{
+  transform-origin:135px 90px;
+  transform-box:fill-box;
+}
+.kg-door-leaf{
+  transform-origin:64px 85px;
+  transform-box:fill-box;
+}
+.kg-step.is-visible[data-step="r3"] .kg-door-key{
+  animation:kgDoorKeyTurn 1.2s .4s cubic-bezier(.4,0,.3,1) both;
+}
+.kg-step.is-visible[data-step="r3"] .kg-door-leaf{
+  animation:kgDoorClose 1s 1.6s cubic-bezier(.5,0,.3,1) both;
+}
+@keyframes kgDoorKeyTurn{
+  0%  {transform:rotate(0)}
+  100%{transform:rotate(90deg)}
+}
+@keyframes kgDoorClose{
+  0%  {transform:perspective(400px) rotateY(-30deg)}
+  100%{transform:perspective(400px) rotateY(0)}
+}
+
+/* === R4 : Trajet retour — tracé qui se dessine vers le pin === */
+.kg-return-route{
+  stroke-dasharray:64;stroke-dashoffset:64;
+}
+.kg-step.is-visible[data-step="r4"] .kg-return-route{
+  animation:kgRouteDraw 1.2s .3s ease-out forwards;
+}
+.kg-step.is-visible[data-step="r4"] .kg-pin{
+  animation:kgPinDrop 1s 1.2s cubic-bezier(.4,0,.2,1.4) both;
+}
+.kg-step.is-visible[data-step="r4"] .kg-pin-ring-1{animation:kgRingPulse 2.5s 2.3s ease-out infinite}
+.kg-step.is-visible[data-step="r4"] .kg-pin-ring-2{animation:kgRingPulse 2.5s 2.8s ease-out infinite}
+@keyframes kgRouteDraw{
+  0%  {stroke-dashoffset:64;opacity:.3}
+  30% {opacity:1}
+  100%{stroke-dashoffset:0;opacity:1}
+}
+
+/* === R5 : Dépôt des clés — clé rentre, clapet se ferme === */
+.kg-key-in{
+  opacity:0;
+  transform:translateY(-50px) scale(.8);
+  transform-origin:100px 130px;
+  transform-box:fill-box;
+}
+.kg-flap-close{
+  transform:translateY(30px);
+  transform-origin:35px 30px;
+  transform-box:fill-box;
+}
+.kg-tab-close{
+  transform:translateY(8px);
+  transform-origin:40px 114px;
+  transform-box:fill-box;
+}
+.kg-step.is-visible[data-step="r5"] .kg-key-in{
+  animation:kgKeyIn 1.4s .4s cubic-bezier(.4,0,.3,1) both;
+}
+.kg-step.is-visible[data-step="r5"] .kg-tab-close{
+  animation:kgTabRetract 1s 2s cubic-bezier(.4,0,.3,1) both;
+}
+.kg-step.is-visible[data-step="r5"] .kg-flap-close{
+  animation:kgFlapClose 1.2s 2.6s cubic-bezier(.4,0,.3,1) both;
+}
+@keyframes kgKeyIn{
+  0%  {opacity:0;transform:translateY(-50px) scale(.8)}
+  40% {opacity:1;transform:translateY(-10px) scale(1)}
+  100%{opacity:0;transform:translateY(20px) scale(.9)}
+}
+@keyframes kgTabRetract{
+  0%  {transform:translateY(8px)}
+  100%{transform:translateY(0)}
+}
+@keyframes kgFlapClose{
+  0%  {transform:translateY(30px)}
+  100%{transform:translateY(0)}
+}
+
+/* === R6 : Confirmation — snapshot pris + coche verte === */
+.kg-confirm-snap{
+  opacity:0;
+  transform:scale(.9);
+  transform-origin:100px 60px;
+  transform-box:fill-box;
+}
+.kg-confirm-check{
+  opacity:0;
+  transform-origin:center center;
+  transform-box:fill-box;
+}
+.kg-confirm-tick{
+  stroke-dasharray:14;stroke-dashoffset:14;
+}
+.kg-step.is-visible[data-step="r6"] .kg-confirm-snap{
+  animation:kgSnapIn .8s .4s cubic-bezier(.4,0,.2,1.4) both;
+}
+.kg-step.is-visible[data-step="r6"] .kg-confirm-check{
+  animation:kgCheckPop .5s 1.4s cubic-bezier(.4,0,.2,1.8) both;
+}
+.kg-step.is-visible[data-step="r6"] .kg-confirm-tick{
+  animation:kgTickDraw .3s 1.8s ease-out forwards;
+}
+@keyframes kgSnapIn{
+  0%  {opacity:0;transform:scale(.8)}
+  100%{opacity:1;transform:scale(1)}
+}
+@keyframes kgCheckPop{
+  0%  {opacity:0;transform:scale(0)}
+  60% {opacity:1;transform:scale(1.2)}
+  100%{opacity:1;transform:scale(1)}
+}
+
 /* ---- RESPONSIVE ---- */
 @media (max-width: 820px){
   .kg-step-grid{
@@ -1729,11 +1972,18 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
   .kg-pin, .kg-pin-ring-1, .kg-pin-ring-2,
   .kg-boxes .kg-box, .kg-box-halo,
   .kg-flap, .kg-tab, .kg-key, .kg-digits .kg-digit,
-  .kg-elevator, .kg-floor-indicator, .kg-keyset{
+  .kg-elevator, .kg-floor-indicator, .kg-keyset,
+  .kg-cam-lens, .kg-cam-flash, .kg-cam-thumb,
+  .kg-check-tick, .kg-door-key, .kg-door-leaf,
+  .kg-return-route, .kg-key-in, .kg-flap-close, .kg-tab-close,
+  .kg-confirm-snap, .kg-confirm-check, .kg-confirm-tick,
+  .kg-panel{
     animation:none !important;opacity:1;transform:none;
   }
   .kg-key{transform:translateY(0)}
   .kg-flap{transform:translateY(30px)}
   .kg-tab{transform:translateY(8px)}
   .kg-elevator{transform:translateY(-100px)}
+  .kg-return-route{stroke-dashoffset:0}
+  .kg-check-tick, .kg-confirm-tick{stroke-dashoffset:0}
 }

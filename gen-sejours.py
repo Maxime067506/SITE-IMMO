@@ -439,7 +439,7 @@ TPL = """<!doctype html>
   </footer>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="js/i18n.js?v=c7"></script>
+  <script src="js/i18n.js?v=c9"></script>
   <script src="js/app.js?v=b9"></script>
   <script src="js/video-bg.js?v=b9"></script>
   <script>
