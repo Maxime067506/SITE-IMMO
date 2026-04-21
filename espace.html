@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=d3" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="css/auth.css?v=f3" />
+  <link rel="stylesheet" href="css/auth.css?v=f7" />
 </head>
 <body class="espace-page">
 
@@ -100,6 +100,14 @@
         <span class="toc-num">07</span>
         <span class="toc-label" data-i18n="espace.toc.videos">Vidéos</span>
       </a>
+      <!-- Onglet Déconnexion (toujours accessible, idéal pour mobile) -->
+      <button type="button" class="toc-chip toc-chip--logout" id="logoutBtnToc">
+        <span class="toc-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </span>
+        <span class="toc-num">↗</span>
+        <span class="toc-label" data-i18n="espace.logout">Déconnexion</span>
+      </button>
     </div>
   </nav>
 
@@ -261,7 +269,7 @@
     </div>
 
     <!-- Codes boîte + laverie (le Wifi a sa propre section dédiée ci-dessous) -->
-    <div class="access-grid">
+    <div class="access-grid" id="accessGrid">
       <div class="access-card">
         <span class="access-label" data-i18n="espace.access.boxCode">Code de la boîte</span>
         <div class="big-code" id="boxCode">••••</div>
@@ -353,11 +361,11 @@
           <div class="kg-step-head">
             <span class="kg-step-num">02</span>
             <span class="kg-step-dash" aria-hidden="true"></span>
-            <h4 class="kg-step-h" data-i18n="espace.kg.s2.t" data-i18n-html="true">Repérer la boîte&nbsp;<em>n°<span id="kgBoxNum">9</span></em></h4>
+            <h4 class="kg-step-h" data-i18n="espace.kg.s2.t" data-i18n-html="true">Repérer la boîte&nbsp;<em>n°<span data-user-field="box_number">9</span></em></h4>
           </div>
           <div class="kg-step-grid">
             <div class="kg-step-body">
-              <p data-i18n="espace.kg.s2.body">À l'intérieur de la laverie, repérez la boîte à clés numérotée.</p>
+              <p data-i18n="espace.kg.s2.body" data-i18n-html="true">À l'intérieur de la laverie, récupérez les clés dans la boîte n°<span data-user-field="box_number">9</span> en composant le code <code class="kg-code" data-user-field="box_code">0190</code>.</p>
             </div>
             <div class="kg-anim kg-anim-boxes" aria-hidden="true">
               <svg viewBox="0 0 200 140" class="kg-svg">
@@ -374,7 +382,7 @@
                   <g class="kg-box" data-n="7"><rect x="106" y="56" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="125" y="74" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">07</text></g>
                   <g class="kg-box" data-n="8"><rect x="150" y="56" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="169" y="74" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">08</text></g>
 
-                  <g class="kg-box kg-box-target" data-n="9"><rect x="18" y="92" width="38" height="28" rx="2" fill="#C9A961" stroke="#C9A961"/><text x="37" y="110" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" fill="#FBF6EA">09</text></g>
+                  <g class="kg-box" data-n="9"><rect x="18" y="92" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="37" y="110" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">09</text></g>
                   <g class="kg-box" data-n="10"><rect x="62" y="92" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="81" y="110" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">10</text></g>
                   <g class="kg-box" data-n="11"><rect x="106" y="92" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="125" y="110" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">11</text></g>
                   <g class="kg-box" data-n="12"><rect x="150" y="92" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="169" y="110" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">12</text></g>
@@ -782,45 +790,28 @@
                   <li data-i18n="espace.kg.r5.g">Rabattez le cache noir pour masquer le code</li>
                 </ol>
               </div>
-              <div class="kg-anim kg-anim-keybox kg-anim-keybox--return" aria-hidden="true">
-                <svg viewBox="0 0 200 180" class="kg-svg">
-                  <defs>
-                    <linearGradient id="kgMetal2" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stop-color="#3A3A3A"/>
-                      <stop offset="100%" stop-color="#1A1A1A"/>
-                    </linearGradient>
-                  </defs>
-                  <rect x="35" y="30" width="130" height="120" rx="4" fill="url(#kgMetal2)" stroke="#0A0A0A"/>
-                  <!-- Keypad -->
-                  <rect x="48" y="50" width="104" height="60" rx="3" fill="#2A2A2A" stroke="#555"/>
-                  <g font-family="JetBrains Mono, monospace" font-size="14" fill="#E6C785" text-anchor="middle" font-weight="600">
-                    <text data-code-digit="0" x="64" y="84">0</text>
-                    <text data-code-digit="1" x="88" y="84">1</text>
-                    <text data-code-digit="2" x="112" y="84">9</text>
-                    <text data-code-digit="3" x="136" y="84">0</text>
+              <div class="kg-anim kg-anim-boxes" aria-hidden="true">
+                <svg viewBox="0 0 200 140" class="kg-svg">
+                  <rect x="0" y="0" width="200" height="140" fill="#FBF6EA"/>
+                  <!-- grille 4x3 de boîtes (mêmes coordonnées que l'étape 02) -->
+                  <g class="kg-boxes">
+                    <g class="kg-box" data-n="1"><rect x="18" y="20" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="37" y="38" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">01</text></g>
+                    <g class="kg-box" data-n="2"><rect x="62" y="20" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="81" y="38" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">02</text></g>
+                    <g class="kg-box" data-n="3"><rect x="106" y="20" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="125" y="38" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">03</text></g>
+                    <g class="kg-box" data-n="4"><rect x="150" y="20" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="169" y="38" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">04</text></g>
+
+                    <g class="kg-box" data-n="5"><rect x="18" y="56" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="37" y="74" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">05</text></g>
+                    <g class="kg-box" data-n="6"><rect x="62" y="56" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="81" y="74" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">06</text></g>
+                    <g class="kg-box" data-n="7"><rect x="106" y="56" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="125" y="74" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">07</text></g>
+                    <g class="kg-box" data-n="8"><rect x="150" y="56" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="169" y="74" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">08</text></g>
+
+                    <g class="kg-box" data-n="9"><rect x="18" y="92" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="37" y="110" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">09</text></g>
+                    <g class="kg-box" data-n="10"><rect x="62" y="92" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="81" y="110" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">10</text></g>
+                    <g class="kg-box" data-n="11"><rect x="106" y="92" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="125" y="110" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">11</text></g>
+                    <g class="kg-box" data-n="12"><rect x="150" y="92" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="169" y="110" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">12</text></g>
                   </g>
-                  <line x1="57" y1="97" x2="71" y2="97" stroke="#555" stroke-width="1"/>
-                  <line x1="81" y1="97" x2="95" y2="97" stroke="#555" stroke-width="1"/>
-                  <line x1="105" y1="97" x2="119" y2="97" stroke="#555" stroke-width="1"/>
-                  <line x1="129" y1="97" x2="143" y2="97" stroke="#555" stroke-width="1"/>
-                  <!-- Clé qui rentre (animation depuis le haut) -->
-                  <g class="kg-key-in">
-                    <circle cx="100" cy="130" r="7" fill="none" stroke="#C9A961" stroke-width="2.2"/>
-                    <rect x="100" y="128" width="28" height="4" fill="#C9A961"/>
-                    <rect x="122" y="124" width="3" height="8" fill="#C9A961"/>
-                    <rect x="126" y="126" width="2" height="6" fill="#C9A961"/>
-                  </g>
-                  <!-- Clapet qui descend puis remonte -->
-                  <g class="kg-flap-close">
-                    <rect x="35" y="30" width="130" height="80" rx="4" fill="#0F0F0F" stroke="#2A2A2A"/>
-                    <rect x="80" y="102" width="40" height="4" rx="1" fill="#C9A961"/>
-                    <text x="100" y="72" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing=".2em" fill="#555">KEY SAFE</text>
-                  </g>
-                  <!-- Languette -->
-                  <g class="kg-tab-close">
-                    <rect x="35" y="114" width="10" height="26" fill="#0F0F0F"/>
-                    <circle cx="40" cy="127" r="2.5" fill="#C9A961"/>
-                  </g>
+                  <!-- Halo : position mise à jour dynamiquement selon user.box_number -->
+                  <rect class="kg-box-halo" x="15" y="89" width="44" height="34" rx="4" fill="none" stroke="#C9A961" stroke-width="1.8"/>
                 </svg>
               </div>
             </div>
@@ -887,6 +878,400 @@
       <!-- /PANEL return -->
 
     </div>
+
+    <!-- =============================================================
+         GUIDE INTERACTIF — variante KEYNEST (Dupont)
+         Affiché uniquement si user.pickup_mode === "keynest"
+         ============================================================= -->
+    <div class="key-guide key-guide--keynest" id="keyGuideKeynest" hidden>
+      <header class="kg-head">
+        <p class="kg-eyebrow" data-i18n="espace.kg.eyebrow">Mode d'emploi</p>
+      </header>
+
+      <!-- ONGLETS -->
+      <nav class="kg-tabs" role="tablist" aria-label="Étapes du séjour" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.tabs">
+        <button type="button" class="kg-tab is-active" role="tab" aria-selected="true" data-tab="pickup-kn" id="kgKnTabPickup">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 12.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0zm0 0 10-4.5m-3 3 3-1-3 3 3-1-3 2"/></svg>
+          <span data-i18n="espace.kg.tab.pickup">Récupérer les clés</span>
+        </button>
+        <button type="button" class="kg-tab" role="tab" aria-selected="false" data-tab="return-kn" id="kgKnTabReturn">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="m3.27 6.96 8.73 5.05 8.73-5.05M12 22.08V12"/></svg>
+          <span data-i18n="espace.kg.tab.return">Déposer les clés</span>
+        </button>
+      </nav>
+
+      <!-- PANEL 1 : RÉCUPÉRER LES CLÉS VIA KEYNEST -->
+      <div class="kg-panel is-active" role="tabpanel" data-panel="pickup-kn" aria-labelledby="kgKnTabPickup">
+        <h3 class="kg-title" data-i18n="espace.kn.title" data-i18n-html="true">Récupérer vos clés, <em>via KeyNest.</em></h3>
+        <div class="kg-warn">
+          <span class="kg-warn-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 1 21h22L12 3z"/><path d="M12 10v5"/><circle cx="12" cy="18" r=".6" fill="currentColor"/></svg>
+          </span>
+          <span data-i18n="espace.kn.warning" data-i18n-html="true">Suivez attentivement les instructions du lien KeyNest reçu par message.</span>
+        </div>
+
+        <ol class="kg-steps">
+
+          <!-- KN 1 — Récupération via KeyNest -->
+          <li class="kg-step" data-step="kn1">
+            <div class="kg-step-head">
+              <span class="kg-step-num">01</span>
+              <span class="kg-step-dash" aria-hidden="true"></span>
+              <h4 class="kg-step-h" data-i18n="espace.kn.s1.t">Récupération via KeyNest</h4>
+            </div>
+            <div class="kg-step-grid">
+              <div class="kg-step-body">
+                <p data-i18n="espace.kn.s1.body" data-i18n-html="true">
+                  Le <strong>lien KeyNest</strong> (avec code de retrait) vous sera envoyé via la <strong>messagerie Airbnb</strong>. Merci d'en prendre connaissance attentivement avant votre arrivée.
+                </p>
+
+                <!-- Carte point de retrait KeyNest -->
+                <div class="kg-keynest-card">
+                  <div class="kg-kn-brand">
+                    <span class="kg-kn-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="M10.85 12.15 19 4l-3 -1 -1 3"/><path d="m18 5 1 1"/></svg>
+                    </span>
+                    <div class="kg-kn-meta">
+                      <span class="kg-kn-eyebrow" data-i18n="espace.kn.s1.pickupLabel">Point de retrait</span>
+                      <strong class="kg-kn-name">KeyNest Nice</strong>
+                    </div>
+                  </div>
+                  <p class="kg-kn-addr">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span>4ter Av. Durante, 06000 Nice</span>
+                  </p>
+                  <p class="kg-kn-hours">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                    <span data-i18n="espace.kn.s1.hours">Tous les jours · 08:30 – 23:30</span>
+                  </p>
+                  <a href="https://www.google.com/maps/search/?api=1&query=4ter+Av.+Durante,+06000+Nice" target="_blank" rel="noopener" class="kg-link">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span data-i18n="espace.kg.mapsOpen">Ouvrir dans Maps</span>
+                  </a>
+                </div>
+              </div>
+              <div class="kg-anim kg-anim-keynest" aria-hidden="true">
+                <svg viewBox="0 0 200 160" class="kg-svg">
+                  <rect x="0" y="0" width="200" height="160" fill="#FBF6EA"/>
+                  <!-- Logo KeyNest — badge + icône clé stylisée + wordmark vert signature -->
+                  <g class="kg-kn-logo" transform="translate(100, 52)">
+                    <!-- Badge rond vert -->
+                    <circle cx="0" cy="0" r="28" fill="#00B67A"/>
+                    <!-- Clé blanche stylisée (anneau + tige + dents) -->
+                    <g fill="#fff" stroke="#fff">
+                      <circle cx="-8" cy="0" r="7" fill="none" stroke-width="3.2"/>
+                      <rect x="-1" y="-2.3" width="18" height="4.6" rx=".5" stroke="none"/>
+                      <rect x="11"  y="-6"   width="3.2" height="8.5" rx=".3" stroke="none"/>
+                      <rect x="15.5" y="-4" width="2.6" height="6.3" rx=".3" stroke="none"/>
+                    </g>
+                  </g>
+                  <!-- Anneaux pulsants autour du logo -->
+                  <circle class="kg-kn-pulse kg-kn-pulse-1" cx="100" cy="52" r="34" fill="none" stroke="#00B67A" stroke-width="1.4" opacity=".5"/>
+                  <circle class="kg-kn-pulse kg-kn-pulse-2" cx="100" cy="52" r="34" fill="none" stroke="#00B67A" stroke-width="1.2" opacity=".3"/>
+                  <!-- Wordmark KeyNest -->
+                  <text x="100" y="104" text-anchor="middle" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#00B67A" letter-spacing="-.01em">KeyNest</text>
+                  <!-- Cartouche lieu -->
+                  <rect x="50" y="118" width="100" height="28" rx="2" fill="#FBF6EA" stroke="#C9A961" stroke-opacity=".4"/>
+                  <text x="100" y="130" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing=".3em" fill="#8A7544">NICE</text>
+                  <text x="100" y="141" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="9" fill="#C9A961">Point de retrait</text>
+                </svg>
+              </div>
+            </div>
+          </li>
+
+          <!-- KN 2 — Accès à l'immeuble -->
+          <li class="kg-step" data-step="kn2">
+            <div class="kg-step-head">
+              <span class="kg-step-num">02</span>
+              <span class="kg-step-dash" aria-hidden="true"></span>
+              <h4 class="kg-step-h" data-i18n="espace.kn.s2.t">Accès à l'immeuble</h4>
+            </div>
+            <div class="kg-step-grid">
+              <div class="kg-step-body">
+                <p class="kg-addr">
+                  <span id="kgKnDestAddr">27 avenue Notre-Dame, 06000 Nice</span>
+                </p>
+                <ol class="kg-substeps">
+                  <li data-i18n="espace.kn.s2.a" data-i18n-html="true"><strong>Badge</strong> du trousseau sur la première porte d'entrée</li>
+                  <li data-i18n="espace.kn.s2.b" data-i18n-html="true">Pour la deuxième porte, appuyez sur le bouton <strong>« porte »</strong></li>
+                </ol>
+                <div class="kg-link-group">
+                  <a href="https://www.google.com/maps/search/?api=1&query=27+Avenue+Notre-Dame,+06000+Nice" target="_blank" rel="noopener" class="kg-link">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span data-i18n="espace.kg.mapsOpen">Ouvrir dans Maps</span>
+                  </a>
+                  <a href="https://www.google.com/maps/dir/?api=1&origin=4ter+Av.+Durante,+06000+Nice&destination=27+Avenue+Notre-Dame,+06000+Nice&travelmode=walking" target="_blank" rel="noopener" class="kg-link">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.5" r="2.5"/><path d="M7 22l2-7h3v7m0-14 3 3 3-1m-9 4v3m0 0h5m-5 0-2 4"/></svg>
+                    <span data-i18n="espace.kn.s2.route">Itinéraire piéton</span>
+                  </a>
+                </div>
+              </div>
+              <div class="kg-anim kg-anim-building" aria-hidden="true">
+                <svg viewBox="0 0 200 140" class="kg-svg">
+                  <rect x="0" y="0" width="200" height="140" fill="#FBF6EA"/>
+                  <!-- Façade immeuble -->
+                  <rect x="40" y="10" width="120" height="110" fill="#E0D5BA" stroke="#C9A961"/>
+                  <!-- Fenêtres étages -->
+                  <g fill="#FBF6EA" stroke="#C9A961" stroke-opacity=".3">
+                    <rect x="52" y="20" width="16" height="12"/>
+                    <rect x="74" y="20" width="16" height="12"/>
+                    <rect x="110" y="20" width="16" height="12"/>
+                    <rect x="132" y="20" width="16" height="12"/>
+                    <rect x="52" y="40" width="16" height="12"/>
+                    <rect x="74" y="40" width="16" height="12"/>
+                    <rect x="110" y="40" width="16" height="12"/>
+                    <rect x="132" y="40" width="16" height="12"/>
+                    <rect x="52" y="60" width="16" height="12"/>
+                    <rect x="74" y="60" width="16" height="12"/>
+                    <rect x="110" y="60" width="16" height="12"/>
+                    <rect x="132" y="60" width="16" height="12"/>
+                  </g>
+                  <!-- Porte 1 + badge -->
+                  <rect x="82" y="85" width="18" height="35" fill="#8A7544" stroke="#5C4B24"/>
+                  <circle class="kg-kn-badge-halo" cx="97" cy="103" r="4" fill="none" stroke="#C9A961" stroke-width="1.2" opacity=".8"/>
+                  <circle cx="97" cy="103" r="1.5" fill="#C9A961"/>
+                  <!-- Porte 2 + bouton "porte" -->
+                  <rect x="102" y="85" width="18" height="35" fill="#8A7544" stroke="#5C4B24"/>
+                  <rect class="kg-kn-btn" x="124" y="95" width="10" height="10" rx="1" fill="#C9A961"/>
+                  <text x="129" y="102" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="4" fill="#fff" font-weight="600">P</text>
+                </svg>
+              </div>
+            </div>
+          </li>
+
+          <!-- KN 3 — Accès à l'appartement -->
+          <li class="kg-step" data-step="kn3">
+            <div class="kg-step-head">
+              <span class="kg-step-num">03</span>
+              <span class="kg-step-dash" aria-hidden="true"></span>
+              <h4 class="kg-step-h" data-i18n="espace.kn.s3.t" data-i18n-html="true">Accès à l'appartement — <em><span data-user-field="floor">1er</span> étage</em></h4>
+            </div>
+            <div class="kg-step-grid">
+              <div class="kg-step-body">
+                <ol class="kg-substeps">
+                  <li data-i18n="espace.kn.s3.a" data-i18n-html="true">Si vous montez par <strong>les escaliers</strong> : la porte se trouve <strong>à droite</strong></li>
+                  <li data-i18n="espace.kn.s3.b" data-i18n-html="true">Si vous prenez <strong>l'ascenseur</strong> : la porte se trouve <strong>à gauche</strong></li>
+                  <li data-i18n="espace.kn.s3.c" data-i18n-html="true">Porte marquée du <strong>numéro <span data-user-field="door_number">1</span></strong> (il peut y avoir une affiche au nom d'Olivia Pineira)</li>
+                  <li data-i18n="espace.kn.s3.d" data-i18n-html="true"><strong>Première clé</strong> pour l'entrée du palier, <strong>deuxième clé</strong> pour la porte de l'appartement (1ʳᵉ porte à gauche)</li>
+                </ol>
+                <p class="kg-after" data-i18n="espace.kn.s3.after" data-i18n-html="true">
+                  <strong>🔒 Porte sécurisée française :</strong> pour déverrouiller, levez la poignée <strong>vers le haut</strong>, puis tournez la clé. Même geste pour verrouiller en partant.
+                </p>
+              </div>
+              <div class="kg-anim kg-anim-hallway" aria-hidden="true">
+                <svg viewBox="0 0 200 160" class="kg-svg">
+                  <rect x="0" y="0" width="200" height="160" fill="#FBF6EA"/>
+
+                  <!-- COULOIR (révélé après ouverture de la porte d'entrée) -->
+                  <g class="kg-hallway-scene">
+                    <!-- Sol et murs perspective -->
+                    <polygon points="12,36 188,36 170,142 30,142" fill="#E8DCBF" stroke="#C9A961" stroke-width=".8" stroke-opacity=".6"/>
+                    <!-- Ligne plafond / bas -->
+                    <line x1="12" y1="36" x2="188" y2="36" stroke="#C9A961" stroke-opacity=".4"/>
+                    <line x1="30" y1="142" x2="170" y2="142" stroke="#C9A961" stroke-opacity=".4"/>
+
+                    <!-- 3 portes alignées dans le couloir (N°1 à gauche = destination) -->
+                    <g class="kg-hw-door" transform="translate(30, 52)">
+                      <rect x="0" y="0" width="34" height="74" fill="#8A7544" stroke="#5C4B24"/>
+                      <rect x="4" y="4" width="26" height="30" fill="#C9A961" fill-opacity=".2"/>
+                      <rect x="4" y="40" width="26" height="30" fill="#C9A961" fill-opacity=".2"/>
+                      <circle cx="28" cy="40" r="1.5" fill="#C9A961"/>
+                      <text x="17" y="80" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="18" fill="#C9A961" font-weight="600" class="kg-hw-num">1</text>
+                    </g>
+                    <g class="kg-hw-door" transform="translate(82, 58)" opacity=".75">
+                      <rect x="0" y="0" width="30" height="66" fill="#8A7544" stroke="#5C4B24"/>
+                      <rect x="4" y="4" width="22" height="26" fill="#C9A961" fill-opacity=".15"/>
+                      <rect x="4" y="36" width="22" height="26" fill="#C9A961" fill-opacity=".15"/>
+                      <circle cx="25" cy="35" r="1.5" fill="#C9A961"/>
+                      <text x="15" y="75" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="14" fill="#8A7544">2</text>
+                    </g>
+                    <g class="kg-hw-door" transform="translate(128, 62)" opacity=".55">
+                      <rect x="0" y="0" width="26" height="60" fill="#8A7544" stroke="#5C4B24"/>
+                      <rect x="4" y="4" width="18" height="22" fill="#C9A961" fill-opacity=".1"/>
+                      <rect x="4" y="32" width="18" height="22" fill="#C9A961" fill-opacity=".1"/>
+                      <circle cx="22" cy="32" r="1.2" fill="#C9A961"/>
+                      <text x="13" y="72" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="12" fill="#8A7544">3</text>
+                    </g>
+
+                    <!-- Halo doré autour de la porte N°1 (destination) -->
+                    <rect class="kg-hw-halo" x="26" y="48" width="42" height="82" rx="2" fill="none" stroke="#C9A961" stroke-width="2"/>
+
+                    <!-- Flèche indiquant "1 à gauche" -->
+                    <g class="kg-hw-arrow">
+                      <path d="M 78 92 L 64 92 M 68 88 L 64 92 L 68 96" stroke="#C9A961" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                      <text x="84" y="95" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing=".2em" fill="#8A7544">N°1 À GAUCHE</text>
+                    </g>
+                  </g>
+
+                  <!-- PORTE D'ENTRÉE (palier) — s'ouvre pour révéler le couloir -->
+                  <g class="kg-front-door">
+                    <rect x="14" y="18" width="172" height="124" fill="#6B5434" stroke="#3D2F1D" stroke-width="2"/>
+                    <rect x="22" y="26" width="72" height="50" fill="#8A7544" stroke="#5C4B24"/>
+                    <rect x="106" y="26" width="72" height="50" fill="#8A7544" stroke="#5C4B24"/>
+                    <rect x="22" y="82" width="156" height="52" fill="#8A7544" stroke="#5C4B24"/>
+                    <circle cx="168" cy="108" r="3" fill="#C9A961"/>
+                    <!-- Texte "PALIER" -->
+                    <text x="100" y="56" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing=".3em" fill="#C9A961" font-weight="600">PALIER</text>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </li>
+
+        </ol>
+      </div>
+      <!-- /PANEL pickup-kn -->
+
+      <!-- PANEL 2 : DÉPOSER LES CLÉS (KEYNEST) -->
+      <div class="kg-panel" role="tabpanel" data-panel="return-kn" aria-labelledby="kgKnTabReturn" hidden>
+        <h3 class="kg-title" data-i18n="espace.kn.title2" data-i18n-html="true">Déposer les clés, <em>au point KeyNest.</em></h3>
+        <div class="kg-warn">
+          <span class="kg-warn-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 1 21h22L12 3z"/><path d="M12 10v5"/><circle cx="12" cy="18" r=".6" fill="currentColor"/></svg>
+          </span>
+          <span data-i18n="espace.kg.warning2" data-i18n-html="true">L'appartement doit être libéré avant <strong>11h00</strong>.</span>
+        </div>
+
+        <ol class="kg-steps">
+
+          <!-- KN R1 — Photos via Airbnb -->
+          <li class="kg-step" data-step="knr1">
+            <div class="kg-step-head">
+              <span class="kg-step-num">01</span>
+              <span class="kg-step-dash" aria-hidden="true"></span>
+              <h4 class="kg-step-h" data-i18n="espace.kn.r1.t">Photos de l'appartement</h4>
+            </div>
+            <div class="kg-step-grid">
+              <div class="kg-step-body">
+                <p data-i18n="espace.kn.r1.body">
+                  Avant de partir, prenez des photos de chaque pièce (salon, chambre(s), cuisine, salle de bain) et envoyez-les via la messagerie Airbnb ou WhatsApp.
+                </p>
+                <a href="https://wa.me/33698765432" target="_blank" rel="noopener" class="kg-whatsapp">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.002-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413"/></svg>
+                  <span data-i18n="espace.kn.r1.whatsapp">Envoyer les photos sur WhatsApp</span>
+                </a>
+              </div>
+              <div class="kg-anim kg-anim-camera" aria-hidden="true">
+                <svg viewBox="0 0 200 140" class="kg-svg">
+                  <rect x="0" y="0" width="200" height="140" fill="#FBF6EA"/>
+                  <rect x="70" y="20" width="60" height="100" rx="8" fill="#1A1A1A" stroke="#C9A961"/>
+                  <rect x="75" y="32" width="50" height="70" fill="#2A2A2A"/>
+                  <g class="kg-cam-lens">
+                    <circle cx="100" cy="67" r="14" fill="none" stroke="#C9A961" stroke-width="1.5"/>
+                    <circle cx="100" cy="67" r="8" fill="#C9A961" fill-opacity=".4"/>
+                    <circle cx="100" cy="67" r="3" fill="#C9A961"/>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </li>
+
+          <!-- KN R2 — Checklist départ -->
+          <li class="kg-step" data-step="knr2">
+            <div class="kg-step-head">
+              <span class="kg-step-num">02</span>
+              <span class="kg-step-dash" aria-hidden="true"></span>
+              <h4 class="kg-step-h" data-i18n="espace.kn.r2.t">Checklist de départ</h4>
+            </div>
+            <div class="kg-step-grid">
+              <div class="kg-step-body">
+                <p data-i18n="espace.kn.r2.body">
+                  Nous nous occupons du ménage après votre départ, mais merci de laisser l'appartement dans un état correct — comme à votre arrivée. 🧹
+                </p>
+                <ol class="kg-substeps">
+                  <li data-i18n="espace.kn.r2.a">Éteindre toutes les lumières et les appareils électriques</li>
+                  <li data-i18n="espace.kn.r2.b">Fermer toutes les fenêtres</li>
+                  <li data-i18n="espace.kn.r2.c">Vider les poubelles</li>
+                  <li data-i18n="espace.kn.r2.d">Déposer le linge utilisé (serviettes, draps) dans la salle de bain</li>
+                  <li data-i18n="espace.kn.r2.e">Verrouiller la porte d'entrée</li>
+                </ol>
+              </div>
+              <div class="kg-anim kg-anim-checklist" aria-hidden="true">
+                <svg viewBox="0 0 200 160" class="kg-svg">
+                  <rect x="0" y="0" width="200" height="160" fill="#FBF6EA"/>
+                  <rect x="35" y="18" width="130" height="134" rx="4" fill="#fff" stroke="#C9A961" stroke-width="1"/>
+                  <rect x="80" y="12" width="40" height="12" rx="2" fill="#C9A961"/>
+                  <rect x="90" y="6" width="20" height="6" rx="1" fill="#8A7544"/>
+                  <g class="kg-check kg-check-1" transform="translate(48, 38)">
+                    <rect x="0" y="0" width="12" height="12" rx="2" fill="#FBF6EA" stroke="#C9A961" stroke-width="1.2"/>
+                    <path class="kg-check-tick" d="M2.5 6.5 L5 9 L9.5 3" stroke="#C9A961" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <rect x="20" y="5" width="90" height="2" rx="1" fill="#E0D5BA"/>
+                  </g>
+                  <g class="kg-check kg-check-2" transform="translate(48, 58)">
+                    <rect x="0" y="0" width="12" height="12" rx="2" fill="#FBF6EA" stroke="#C9A961" stroke-width="1.2"/>
+                    <path class="kg-check-tick" d="M2.5 6.5 L5 9 L9.5 3" stroke="#C9A961" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <rect x="20" y="5" width="80" height="2" rx="1" fill="#E0D5BA"/>
+                  </g>
+                  <g class="kg-check kg-check-3" transform="translate(48, 78)">
+                    <rect x="0" y="0" width="12" height="12" rx="2" fill="#FBF6EA" stroke="#C9A961" stroke-width="1.2"/>
+                    <path class="kg-check-tick" d="M2.5 6.5 L5 9 L9.5 3" stroke="#C9A961" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <rect x="20" y="5" width="70" height="2" rx="1" fill="#E0D5BA"/>
+                  </g>
+                  <g class="kg-check kg-check-4" transform="translate(48, 98)">
+                    <rect x="0" y="0" width="12" height="12" rx="2" fill="#FBF6EA" stroke="#C9A961" stroke-width="1.2"/>
+                    <path class="kg-check-tick" d="M2.5 6.5 L5 9 L9.5 3" stroke="#C9A961" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <rect x="20" y="5" width="95" height="2" rx="1" fill="#E0D5BA"/>
+                  </g>
+                  <g class="kg-check kg-check-5" transform="translate(48, 118)">
+                    <rect x="0" y="0" width="12" height="12" rx="2" fill="#FBF6EA" stroke="#C9A961" stroke-width="1.2"/>
+                    <path class="kg-check-tick" d="M2.5 6.5 L5 9 L9.5 3" stroke="#C9A961" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <rect x="20" y="5" width="75" height="2" rx="1" fill="#E0D5BA"/>
+                  </g>
+                </svg>
+              </div>
+            </div>
+          </li>
+
+          <!-- KN R3 — Déposer au point KeyNest -->
+          <li class="kg-step" data-step="knr3">
+            <div class="kg-step-head">
+              <span class="kg-step-num">03</span>
+              <span class="kg-step-dash" aria-hidden="true"></span>
+              <h4 class="kg-step-h" data-i18n="espace.kn.r3.t">Remise des clés au KeyNest</h4>
+            </div>
+            <div class="kg-step-grid">
+              <div class="kg-step-body">
+                <p data-i18n="espace.kn.r3.body" data-i18n-html="true">
+                  Déposez les clés au <strong>point KeyNest</strong>, au même endroit que lors de votre arrivée, avant <strong>11h00</strong>.
+                </p>
+                <a href="https://www.google.com/maps/search/?api=1&query=4ter+Av.+Durante,+06000+Nice" target="_blank" rel="noopener" class="kg-link">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <span data-i18n="espace.kn.r3.cta">Voir le point KeyNest</span>
+                </a>
+
+                <div class="kg-photo-confirm kg-photo-confirm--return">
+                  <span class="kg-photo-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                  </span>
+                  <div class="kg-photo-body">
+                    <p data-i18n="espace.kg.r6.farewell" data-i18n-html="true">
+                      Merci pour votre séjour et bonne route ! 🌊
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="kg-anim kg-anim-keynest" aria-hidden="true">
+                <svg viewBox="0 0 200 140" class="kg-svg">
+                  <rect x="0" y="0" width="200" height="140" fill="#FBF6EA"/>
+                  <!-- Point KeyNest (pin) -->
+                  <g class="kg-pin" transform="translate(100, 60)">
+                    <circle class="kg-pin-ring kg-pin-ring-1" cx="0" cy="0" r="14" fill="none" stroke="#C9A961" stroke-width="1.5" opacity=".6"/>
+                    <circle class="kg-pin-ring kg-pin-ring-2" cx="0" cy="0" r="14" fill="none" stroke="#C9A961" stroke-width="1.2" opacity=".35"/>
+                    <path d="M0 -18 C9 -18 14 -11 14 -3 C14 9 0 22 0 22 C0 22 -14 9 -14 -3 C-14 -11 -9 -18 0 -18 Z" fill="#C9A961"/>
+                    <circle cx="0" cy="-3" r="4" fill="#FBF6EA"/>
+                  </g>
+                  <text x="100" y="110" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing=".28em" fill="#8A7544">KEYNEST POINT</text>
+                  <text x="100" y="125" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="11" fill="#C9A961">Retour des clés</text>
+                </svg>
+              </div>
+            </div>
+          </li>
+
+        </ol>
+      </div>
+      <!-- /PANEL return-kn -->
+    </div>
+    <!-- /KEYNEST guide -->
   </section>
 
   <!-- SECTION — GUIDE TOURISTIQUE -->
@@ -1159,6 +1544,11 @@
 
   <!-- FOOTER léger -->
   <footer class="espace-foot">
+    <!-- Bouton déconnexion plein-largeur sur mobile, inline sur desktop -->
+    <button type="button" class="espace-foot-logout" id="logoutBtnFoot">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      <span data-i18n="espace.logout">Déconnexion</span>
+    </button>
     <span>© 2026 Delfosse Properties</span>
     <span><a href="index.html" data-i18n="espace.foot.back">Retour au site</a></span>
   </footer>
@@ -1167,8 +1557,8 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="js/auth.js?v=c9"></script>
-  <script src="js/i18n.js?v=d2"></script>
+  <script src="js/auth.js?v=d1"></script>
+  <script src="js/i18n.js?v=d6"></script>
   <script>
     const user = DP.requireAuth();
     if (!user) { /* redirect déjà déclenché */ }
@@ -1291,11 +1681,15 @@
       });
     });
 
-    // Logout
-    $('logoutBtn').addEventListener('click', () => {
+    // Logout — branché sur les 3 points d'accès (header + TOC + footer)
+    const performLogout = () => {
       DP.logout();
       document.body.classList.add('is-leaving');
       setTimeout(() => window.location.href = 'index.html', 380);
+    };
+    ['logoutBtn', 'logoutBtnToc', 'logoutBtnFoot'].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('click', performLogout);
     });
 
 
@@ -1309,8 +1703,29 @@
        ============================================================ */
     function initKeyGuide(user){
       const guide = document.getElementById('keyGuide');
+      const guideKn = document.getElementById('keyGuideKeynest');
       if (!guide) return;
 
+      // === SWITCHER : mode "keybox" (défaut) ou "keynest" ===
+      const mode = user.pickup_mode === 'keynest' ? 'keynest' : 'keybox';
+      if (mode === 'keynest'){
+        guide.hidden = true;
+        if (guideKn) guideKn.hidden = false;
+        // Les codes boîte/laverie ne s'appliquent pas en mode KeyNest
+        const accessGrid = document.getElementById('accessGrid');
+        if (accessGrid) accessGrid.hidden = true;
+      } else {
+        guide.hidden = false;
+        if (guideKn) guideKn.hidden = true;
+      }
+
+      // === BRANCHE KEYNEST (Dupont) : guide simplifié ===
+      if (mode === 'keynest'){
+        initKeynestGuide(user);
+        return;
+      }
+
+      // === BRANCHE KEYBOX (Martin, Nguyen) : guide original ci-dessous ===
       // Peuple les données dynamiques
       const boxCode   = user.box_code     || '0190';
       const boxNumber = String(user.box_number || '9');
@@ -1346,21 +1761,58 @@
         });
       }
 
-      // Applique user fields + re-traduit (pour activer s4.e.left/right et
-      // propager la traduction, puis re-fill user fields car i18n-html a
-      // écrasé le textContent des <span>/<code> template).
-      if (window.DP_I18N && window.DP_I18N.apply){
-        window.DP_I18N.apply(window.DP_I18N.lang());
+      // Mise à jour des grilles de boîtes (étapes 02 et r5) :
+      // • surligne en or la boîte portant le numéro user.box_number
+      // • replace chaque halo d'animation autour de cette boîte
+      function applyBoxTarget(){
+        const n = parseInt(boxNumber, 10);
+        guide.querySelectorAll('.kg-boxes .kg-box').forEach(b => {
+          b.classList.toggle('kg-box-target', parseInt(b.getAttribute('data-n'), 10) === n);
+        });
+        // Positionne tous les halos (il y en a un par .kg-anim-boxes)
+        if (n >= 1 && n <= 12){
+          const col = (n - 1) % 4;
+          const row = Math.floor((n - 1) / 4);
+          const boxX = 18 + col * 44;   // première colonne à x=18, écart 44
+          const boxY = 20 + row * 36;   // première ligne à y=20, écart 36
+          guide.querySelectorAll('.kg-box-halo').forEach(halo => {
+            halo.setAttribute('x', String(boxX - 3));
+            halo.setAttribute('y', String(boxY - 3));
+          });
+        }
       }
+
+      // Applique immédiatement les valeurs utilisateur (au cas où l'init
+      // d'i18n a déjà eu lieu — ex : navigation SPA-like).
       applyUserFields();
       applyCodeDigits();
+      applyBoxTarget();
+
+      // Après DOMContentLoaded (ou maintenant si déjà passé), i18n.js aura
+      // fini son premier applyLang — qui aurait écrasé nos textContent car
+      // data-i18n-html réécrit tout l'innerHTML. On ré-applique donc après.
+      const reapplyAfterI18n = () => {
+        if (window.DP_I18N && window.DP_I18N.apply){
+          window.DP_I18N.apply(window.DP_I18N.lang());
+        }
+        applyUserFields();
+        applyCodeDigits();
+        applyBoxTarget();
+      };
+      if (document.readyState === 'loading'){
+        // i18n est enregistré AVANT nous sur DOMContentLoaded → s'exécute d'abord.
+        // Notre listener enregistré après s'exécutera ensuite et réparera les textes.
+        document.addEventListener('DOMContentLoaded', reapplyAfterI18n, { once: true });
+      } else {
+        reapplyAfterI18n();
+      }
 
       // Observe les clics sur .lang-switch pour re-appliquer user fields
       // après chaque switch de langue (i18n réécrit les éléments).
       document.querySelectorAll('.lang-switch [data-lang]').forEach((btn) => {
         btn.addEventListener('click', () => {
           // Léger défer pour laisser i18n.js finir son passe
-          setTimeout(() => { applyUserFields(); applyCodeDigits(); }, 0);
+          setTimeout(() => { applyUserFields(); applyCodeDigits(); applyBoxTarget(); }, 0);
         });
       });
 
@@ -1427,6 +1879,97 @@
         anim.addEventListener('click', () => {
           step.classList.remove('is-visible');
           // Force reflow puis ré-ajoute la classe → animations rejouées
+          void step.offsetWidth;
+          step.classList.add('is-visible');
+        });
+      });
+    }
+
+    /* ============================================================
+       GUIDE KEYNEST — variante pour utilisateurs avec pickup_mode="keynest"
+       (Dupont) : pas de boîte à clés, récupération via lien KeyNest.
+       ============================================================ */
+    function initKeynestGuide(user){
+      const guide = document.getElementById('keyGuideKeynest');
+      if (!guide) return;
+
+      const floor = user.floor || '1er';
+      const doorNumber = String(user.door_number || '1');
+
+      // Peuple les adresses
+      if (user.arrival_dest_addr) setText('kgKnDestAddr', user.arrival_dest_addr);
+
+      // Applique les valeurs user.* (floor, door_number)
+      function applyUserFields(){
+        guide.querySelectorAll('[data-user-field="floor"]').forEach(el => { el.textContent = floor; });
+        guide.querySelectorAll('[data-user-field="door_number"]').forEach(el => { el.textContent = doorNumber; });
+      }
+      applyUserFields();
+
+      const reapply = () => {
+        if (window.DP_I18N && window.DP_I18N.apply){
+          window.DP_I18N.apply(window.DP_I18N.lang());
+        }
+        applyUserFields();
+      };
+      if (document.readyState === 'loading'){
+        document.addEventListener('DOMContentLoaded', reapply, { once: true });
+      } else {
+        reapply();
+      }
+      document.querySelectorAll('.lang-switch [data-lang]').forEach((btn) => {
+        btn.addEventListener('click', () => { setTimeout(applyUserFields, 0); });
+      });
+
+      // Onglets Keynest (Récupérer / Déposer)
+      const tabs = guide.querySelectorAll('.kg-tab');
+      const panels = guide.querySelectorAll('.kg-panel');
+      function activateTab(name){
+        tabs.forEach((t) => {
+          const on = t.dataset.tab === name;
+          t.classList.toggle('is-active', on);
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+        });
+        panels.forEach((p) => {
+          const on = p.dataset.panel === name;
+          p.classList.toggle('is-active', on);
+          if (on) p.removeAttribute('hidden'); else p.setAttribute('hidden', '');
+        });
+        const panel = guide.querySelector('.kg-panel.is-active');
+        if (panel){
+          panel.querySelectorAll('.kg-step').forEach((s) => {
+            s.classList.remove('is-visible');
+            void s.offsetWidth;
+            s.classList.add('is-visible');
+          });
+        }
+      }
+      tabs.forEach((t) => t.addEventListener('click', () => activateTab(t.dataset.tab)));
+
+      // IntersectionObserver : animation au scroll
+      const steps = guide.querySelectorAll('.kg-step');
+      if ('IntersectionObserver' in window){
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting){
+              e.target.classList.add('is-visible');
+              io.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.25, rootMargin: '0px 0px -10% 0px' });
+        steps.forEach((s) => io.observe(s));
+      } else {
+        steps.forEach((s) => s.classList.add('is-visible'));
+      }
+
+      // Replay au clic sur les animations
+      steps.forEach((step) => {
+        const anim = step.querySelector('.kg-anim');
+        if (!anim) return;
+        anim.style.cursor = 'pointer';
+        anim.setAttribute('title', 'Cliquez pour rejouer');
+        anim.addEventListener('click', () => {
+          step.classList.remove('is-visible');
           void step.offsetWidth;
           step.classList.add('is-visible');
         });
