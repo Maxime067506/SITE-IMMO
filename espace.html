@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=d3" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="css/auth.css?v=e3" />
+  <link rel="stylesheet" href="css/auth.css?v=e9" />
 </head>
 <body class="espace-page">
 
@@ -39,6 +39,69 @@
       <button class="btn btn-ghost logout-btn" id="logoutBtn" data-i18n="espace.logout">Déconnexion</button>
     </div>
   </header>
+
+
+  <!-- ============================================================
+       SOMMAIRE INTERACTIF — en tête de page : accès direct à
+       chaque section (Votre appartement, Accès, Wi-Fi, etc.)
+       ============================================================ -->
+  <nav class="espace-toc espace-toc--hero" aria-label="Sommaire de votre espace">
+    <div class="toc-head">
+      <p class="eyebrow"><span class="eyebrow-num">✻</span> <span data-i18n="espace.toc.eyebrow">Sommaire</span></p>
+      <h2 class="toc-title" data-i18n="espace.toc.title" data-i18n-html="true">Tout, <em>à portée de clic.</em></h2>
+    </div>
+    <div class="toc-grid">
+      <a href="#galerie" class="toc-chip toc-chip--featured">
+        <span class="toc-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2h-4v-7H9v7H5a2 2 0 0 1-2-2z"/></svg>
+        </span>
+        <span class="toc-num">01</span>
+        <span class="toc-label" data-i18n="espace.toc.gallery">Votre appartement</span>
+      </a>
+      <a href="#acces" class="toc-chip">
+        <span class="toc-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </span>
+        <span class="toc-num">02</span>
+        <span class="toc-label" data-i18n="espace.toc.access">Accès & arrivée</span>
+      </a>
+      <a href="#guide" class="toc-chip">
+        <span class="toc-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+        </span>
+        <span class="toc-num">03</span>
+        <span class="toc-label" data-i18n="espace.toc.guide">Guide Nice</span>
+      </a>
+      <a href="#wifi" class="toc-chip">
+        <span class="toc-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a15 15 0 0 1 20 0"/><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1.1" fill="currentColor"/></svg>
+        </span>
+        <span class="toc-num">04</span>
+        <span class="toc-label" data-i18n="espace.toc.wifi">Wi-Fi</span>
+      </a>
+      <a href="#conciergerie" class="toc-chip">
+        <span class="toc-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </span>
+        <span class="toc-num">05</span>
+        <span class="toc-label" data-i18n="espace.toc.contacts">Contacts</span>
+      </a>
+      <a href="#reglement" class="toc-chip">
+        <span class="toc-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 13h6M9 17h4"/></svg>
+        </span>
+        <span class="toc-num">06</span>
+        <span class="toc-label" data-i18n="espace.toc.rules">Règlement</span>
+      </a>
+      <a href="#videos" class="toc-chip">
+        <span class="toc-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        </span>
+        <span class="toc-num">07</span>
+        <span class="toc-label" data-i18n="espace.toc.videos">Vidéos</span>
+      </a>
+    </div>
+  </nav>
 
   <!-- ============================================================
        BANDEAU D'ACCUEIL COMPACT — greeting + status
@@ -129,65 +192,6 @@
       <div class="alb-counter"><span id="apartLbCur">01</span> / <span id="apartLbTot">08</span></div>
     </div>
   </section>
-
-  <!-- SOMMAIRE INTERACTIF — accès direct à chaque section -->
-  <nav class="espace-toc" aria-label="Sommaire de votre espace">
-    <div class="toc-head">
-      <p class="eyebrow"><span class="eyebrow-num">✻</span> <span data-i18n="espace.toc.eyebrow">Sommaire</span></p>
-      <h2 class="toc-title" data-i18n="espace.toc.title" data-i18n-html="true">Tout, <em>à portée de clic.</em></h2>
-    </div>
-    <div class="toc-grid">
-      <a href="#galerie" class="toc-chip">
-        <span class="toc-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-7 9 7v10a2 2 0 0 1-2 2h-4v-7H9v7H5a2 2 0 0 1-2-2z"/></svg>
-        </span>
-        <span class="toc-num">01</span>
-        <span class="toc-label" data-i18n="espace.toc.gallery">Votre appartement</span>
-      </a>
-      <a href="#acces" class="toc-chip">
-        <span class="toc-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        </span>
-        <span class="toc-num">02</span>
-        <span class="toc-label" data-i18n="espace.toc.access">Accès & arrivée</span>
-      </a>
-      <a href="#guide" class="toc-chip">
-        <span class="toc-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-        </span>
-        <span class="toc-num">03</span>
-        <span class="toc-label" data-i18n="espace.toc.guide">Guide Nice</span>
-      </a>
-      <a href="#wifi" class="toc-chip">
-        <span class="toc-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a15 15 0 0 1 20 0"/><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1.1" fill="currentColor"/></svg>
-        </span>
-        <span class="toc-num">04</span>
-        <span class="toc-label" data-i18n="espace.toc.wifi">Wi-Fi</span>
-      </a>
-      <a href="#conciergerie" class="toc-chip">
-        <span class="toc-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-        </span>
-        <span class="toc-num">05</span>
-        <span class="toc-label" data-i18n="espace.toc.contacts">Contacts</span>
-      </a>
-      <a href="#reglement" class="toc-chip">
-        <span class="toc-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 13h6M9 17h4"/></svg>
-        </span>
-        <span class="toc-num">06</span>
-        <span class="toc-label" data-i18n="espace.toc.rules">Règlement</span>
-      </a>
-      <a href="#videos" class="toc-chip">
-        <span class="toc-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
-        </span>
-        <span class="toc-num">07</span>
-        <span class="toc-label" data-i18n="espace.toc.videos">Vidéos</span>
-      </a>
-    </div>
-  </nav>
 
   <!-- SECTION — ACCÈS -->
   <section class="section espace-section dark" id="acces">
@@ -281,6 +285,268 @@
         <div class="big-code" id="laundryCode">••••</div>
         <p data-i18n="espace.access.laundryHint">Accès à la laverie en libre-service située à proximité, ouverte 24 h / 24.</p>
       </div>
+    </div>
+
+    <!-- =============================================================
+         GUIDE INTERACTIF — Récupérer les clés en 4 étapes animées
+         ============================================================= -->
+    <div class="key-guide" id="keyGuide">
+      <header class="kg-head">
+        <p class="kg-eyebrow" data-i18n="espace.kg.eyebrow">Mode d'emploi</p>
+        <h3 class="kg-title" data-i18n="espace.kg.title" data-i18n-html="true">Récupérer vos clés, <em>en 4 étapes.</em></h3>
+        <div class="kg-warn">
+          <span class="kg-warn-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 1 21h22L12 3z"/><path d="M12 10v5"/><circle cx="12" cy="18" r=".6" fill="currentColor"/></svg>
+          </span>
+          <span data-i18n="espace.kg.warning" data-i18n-html="true">Boîte à clés accessible à partir de <strong>14h30</strong>.</span>
+        </div>
+      </header>
+
+      <ol class="kg-steps">
+
+        <!-- ÉTAPE 1 — LAVERIE -->
+        <li class="kg-step" data-step="1">
+          <div class="kg-step-head">
+            <span class="kg-step-num">01</span>
+            <span class="kg-step-dash" aria-hidden="true"></span>
+            <h4 class="kg-step-h" data-i18n="espace.kg.s1.t">Rendez-vous à la laverie</h4>
+          </div>
+          <div class="kg-step-grid">
+            <div class="kg-step-body">
+              <p class="kg-addr" id="kgPickupAddr">1 rue Badat, 06300 Nice</p>
+              <p class="kg-info" data-i18n="espace.kg.s1.info" data-i18n-html="true">
+                Ouverte <strong>7h&#8239;–&#8239;21h</strong>. Hors horaires, digicode&nbsp;:
+                <code class="kg-code" id="kgLaundryCode">1235*</code>
+              </p>
+              <a href="https://maps.app.goo.gl/6aN1gVtFMyH7j9So6?g_st=ic" target="_blank" rel="noopener" class="kg-link">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span data-i18n="espace.kg.mapsOpen">Ouvrir dans Maps</span>
+              </a>
+            </div>
+            <div class="kg-anim kg-anim-map" aria-hidden="true">
+              <svg viewBox="0 0 200 140" class="kg-svg">
+                <!-- Carte stylisée -->
+                <rect x="0" y="0" width="200" height="140" fill="#FBF6EA"/>
+                <!-- rues -->
+                <path d="M0 50 H200 M0 90 H200 M60 0 V140 M140 0 V140" stroke="#E0D5BA" stroke-width="1.4" fill="none"/>
+                <path d="M30 20 L170 120" stroke="#E0D5BA" stroke-width="1" fill="none" stroke-dasharray="3 3"/>
+                <!-- pin au centre -->
+                <g class="kg-pin" transform="translate(100, 60)">
+                  <circle class="kg-pin-ring kg-pin-ring-1" cx="0" cy="0" r="14" fill="none" stroke="#C9A961" stroke-width="1.5" opacity=".6"/>
+                  <circle class="kg-pin-ring kg-pin-ring-2" cx="0" cy="0" r="14" fill="none" stroke="#C9A961" stroke-width="1.2" opacity=".35"/>
+                  <path d="M0 -18 C9 -18 14 -11 14 -3 C14 9 0 22 0 22 C0 22 -14 9 -14 -3 C-14 -11 -9 -18 0 -18 Z" fill="#C9A961"/>
+                  <circle cx="0" cy="-3" r="4" fill="#FBF6EA"/>
+                </g>
+                <text x="100" y="110" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing=".2em" fill="#8A7544">1 RUE BADAT</text>
+              </svg>
+            </div>
+          </div>
+        </li>
+
+        <!-- ÉTAPE 2 — BOÎTE N°9 -->
+        <li class="kg-step" data-step="2">
+          <div class="kg-step-head">
+            <span class="kg-step-num">02</span>
+            <span class="kg-step-dash" aria-hidden="true"></span>
+            <h4 class="kg-step-h" data-i18n="espace.kg.s2.t" data-i18n-html="true">Repérer la boîte&nbsp;<em>n°<span id="kgBoxNum">9</span></em></h4>
+          </div>
+          <div class="kg-step-grid">
+            <div class="kg-step-body">
+              <p data-i18n="espace.kg.s2.body">À l'intérieur de la laverie, repérez la boîte à clés numérotée.</p>
+            </div>
+            <div class="kg-anim kg-anim-boxes" aria-hidden="true">
+              <svg viewBox="0 0 200 140" class="kg-svg">
+                <rect x="0" y="0" width="200" height="140" fill="#FBF6EA"/>
+                <!-- grille 4x3 de boîtes -->
+                <g class="kg-boxes">
+                  <g class="kg-box" data-n="1"><rect x="18" y="20" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="37" y="38" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">01</text></g>
+                  <g class="kg-box" data-n="2"><rect x="62" y="20" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="81" y="38" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">02</text></g>
+                  <g class="kg-box" data-n="3"><rect x="106" y="20" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="125" y="38" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">03</text></g>
+                  <g class="kg-box" data-n="4"><rect x="150" y="20" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="169" y="38" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">04</text></g>
+
+                  <g class="kg-box" data-n="5"><rect x="18" y="56" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="37" y="74" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">05</text></g>
+                  <g class="kg-box" data-n="6"><rect x="62" y="56" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="81" y="74" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">06</text></g>
+                  <g class="kg-box" data-n="7"><rect x="106" y="56" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="125" y="74" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">07</text></g>
+                  <g class="kg-box" data-n="8"><rect x="150" y="56" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="169" y="74" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">08</text></g>
+
+                  <g class="kg-box kg-box-target" data-n="9"><rect x="18" y="92" width="38" height="28" rx="2" fill="#C9A961" stroke="#C9A961"/><text x="37" y="110" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" font-weight="600" fill="#FBF6EA">09</text></g>
+                  <g class="kg-box" data-n="10"><rect x="62" y="92" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="81" y="110" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">10</text></g>
+                  <g class="kg-box" data-n="11"><rect x="106" y="92" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="125" y="110" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">11</text></g>
+                  <g class="kg-box" data-n="12"><rect x="150" y="92" width="38" height="28" rx="2" fill="#EEE4CC" stroke="#C9A961" stroke-opacity=".3"/><text x="169" y="110" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#8A7544">12</text></g>
+                </g>
+                <!-- Halo autour de la boîte 9 -->
+                <rect class="kg-box-halo" x="15" y="89" width="44" height="34" rx="4" fill="none" stroke="#C9A961" stroke-width="1.8"/>
+              </svg>
+            </div>
+          </div>
+        </li>
+
+        <!-- ÉTAPE 3 — OUVERTURE DE LA BOÎTE -->
+        <li class="kg-step" data-step="3">
+          <div class="kg-step-head">
+            <span class="kg-step-num">03</span>
+            <span class="kg-step-dash" aria-hidden="true"></span>
+            <h4 class="kg-step-h" data-i18n="espace.kg.s3.t">Ouverture de la boîte</h4>
+          </div>
+          <div class="kg-step-grid">
+            <div class="kg-step-body">
+              <ol class="kg-substeps">
+                <li data-i18n="espace.kg.s3.a" data-i18n-html="true">Abaissez le <strong>clapet noir</strong></li>
+                <li data-i18n="espace.kg.s3.b" data-i18n-html="true">Entrez le code <code class="kg-code" id="kgBoxCode">0190</code></li>
+                <li data-i18n="espace.kg.s3.c" data-i18n-html="true">Tirez la <strong>languette noire à gauche</strong> vers le bas</li>
+                <li data-i18n="espace.kg.s3.d">Récupérez les clés</li>
+              </ol>
+              <p class="kg-after" data-i18n="espace.kg.s3.after" data-i18n-html="true">
+                <strong>Après&nbsp;:</strong> refermez la boîte, modifiez la position du code,
+                rabattez le cache noir pour masquer le code.
+              </p>
+
+              <!-- Confirmation photo + WhatsApp (après avoir récupéré les clés) -->
+              <div class="kg-photo-confirm">
+                <span class="kg-photo-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                </span>
+                <div class="kg-photo-body">
+                  <p data-i18n="espace.kg.s3.photo" data-i18n-html="true">
+                    Une fois les clés en main, envoyez-nous <strong>une photo des clés dans votre main</strong> pour confirmer votre arrivée.
+                  </p>
+                  <a href="https://wa.me/33626671767" target="_blank" rel="noopener" class="kg-whatsapp">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.002-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413"/></svg>
+                    <span data-i18n="espace.kg.s3.whatsapp">Envoyer sur WhatsApp</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="kg-anim kg-anim-keybox" aria-hidden="true">
+              <svg viewBox="0 0 200 180" class="kg-svg">
+                <defs>
+                  <linearGradient id="kgMetal" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#3A3A3A"/>
+                    <stop offset="100%" stop-color="#1A1A1A"/>
+                  </linearGradient>
+                </defs>
+                <!-- Boîte (corps) -->
+                <rect x="35" y="30" width="130" height="120" rx="4" fill="url(#kgMetal)" stroke="#0A0A0A"/>
+                <!-- Keypad (sous clapet) -->
+                <g class="kg-keypad">
+                  <rect x="48" y="50" width="104" height="60" rx="3" fill="#2A2A2A" stroke="#555"/>
+                  <g class="kg-digits" font-family="JetBrains Mono, monospace" font-size="14" fill="#E6C785" text-anchor="middle" font-weight="600">
+                    <text class="kg-digit" x="64" y="84" data-d="0">0</text>
+                    <text class="kg-digit" x="88" y="84" data-d="1">1</text>
+                    <text class="kg-digit" x="112" y="84" data-d="9">9</text>
+                    <text class="kg-digit" x="136" y="84" data-d="0">0</text>
+                  </g>
+                  <!-- underscores sous les chiffres -->
+                  <line x1="57" y1="97" x2="71" y2="97" stroke="#555" stroke-width="1"/>
+                  <line x1="81" y1="97" x2="95" y2="97" stroke="#555" stroke-width="1"/>
+                  <line x1="105" y1="97" x2="119" y2="97" stroke="#555" stroke-width="1"/>
+                  <line x1="129" y1="97" x2="143" y2="97" stroke="#555" stroke-width="1"/>
+                </g>
+                <!-- Clapet noir (pivote vers le bas) -->
+                <g class="kg-flap">
+                  <rect x="35" y="30" width="130" height="80" rx="4" fill="#0F0F0F" stroke="#2A2A2A"/>
+                  <rect x="80" y="102" width="40" height="4" rx="1" fill="#C9A961"/>
+                  <text x="100" y="72" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" letter-spacing=".2em" fill="#555">KEY SAFE</text>
+                </g>
+                <!-- Languette à gauche (tire vers le bas) -->
+                <g class="kg-tab">
+                  <rect x="35" y="114" width="10" height="26" fill="#0F0F0F"/>
+                  <circle cx="40" cy="127" r="2.5" fill="#C9A961"/>
+                </g>
+                <!-- Clé qui sort -->
+                <g class="kg-key">
+                  <circle cx="100" cy="130" r="7" fill="none" stroke="#C9A961" stroke-width="2.2"/>
+                  <rect x="100" y="128" width="28" height="4" fill="#C9A961"/>
+                  <rect x="122" y="124" width="3" height="8" fill="#C9A961"/>
+                  <rect x="126" y="126" width="2" height="6" fill="#C9A961"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </li>
+
+        <!-- ÉTAPE 4 — ACCÈS À L'APPARTEMENT -->
+        <li class="kg-step" data-step="4">
+          <div class="kg-step-head">
+            <span class="kg-step-num">04</span>
+            <span class="kg-step-dash" aria-hidden="true"></span>
+            <h4 class="kg-step-h" data-i18n="espace.kg.s4.t">Accès à l'appartement</h4>
+          </div>
+          <div class="kg-step-grid">
+            <div class="kg-step-body">
+              <p class="kg-addr">
+                <span id="kgDestAddr">5 rue Barla, 06300 Nice</span>
+                <span class="kg-walk" data-i18n="espace.kg.s4.walk">· 15 secondes à pied</span>
+              </p>
+              <ol class="kg-substeps">
+                <li data-i18n="espace.kg.s4.a" data-i18n-html="true"><strong>Badge</strong> du trousseau sur la porte d'entrée de l'immeuble</li>
+                <li data-i18n="espace.kg.s4.b" data-i18n-html="true">Montez quelques marches, bouton en haut à gauche pour la <strong>2ᵉ porte</strong></li>
+                <li data-i18n="espace.kg.s4.c" data-i18n-html="true">Ascenseur jusqu'au <strong>6ᵉ étage</strong></li>
+                <li data-i18n="espace.kg.s4.d" data-i18n-html="true">Porte dans l'angle à droite (2 sonnettes) : <span class="kg-key-chip kg-key-yellow">clé jaune</span></li>
+                <li data-i18n="espace.kg.s4.e" data-i18n-html="true">Porte de gauche dans le sas : <span class="kg-key-chip kg-key-gray">clé grise</span></li>
+              </ol>
+              <a href="https://maps.app.goo.gl/9Nc8GbfPozZujazJA?g_st=ic" target="_blank" rel="noopener" class="kg-link">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span data-i18n="espace.kg.mapsOpen">Ouvrir dans Maps</span>
+              </a>
+            </div>
+            <div class="kg-anim kg-anim-building" aria-hidden="true">
+              <svg viewBox="0 0 200 180" class="kg-svg">
+                <rect x="0" y="0" width="200" height="180" fill="#FBF6EA"/>
+                <!-- Immeuble -->
+                <rect x="40" y="30" width="120" height="130" fill="#E0D5BA" stroke="#C9A961" stroke-width="1"/>
+                <!-- fenêtres par étage -->
+                <g fill="#FBF6EA" stroke="#C9A961" stroke-opacity=".3">
+                  <rect x="52"  y="42" width="16" height="14"/>
+                  <rect x="74"  y="42" width="16" height="14"/>
+                  <rect x="132" y="42" width="16" height="14"/>
+                  <rect x="110" y="42" width="16" height="14"/>
+                  <rect x="52"  y="62" width="16" height="14"/>
+                  <rect x="74"  y="62" width="16" height="14"/>
+                  <rect x="110" y="62" width="16" height="14"/>
+                  <rect x="132" y="62" width="16" height="14"/>
+                  <rect x="52"  y="82" width="16" height="14"/>
+                  <rect x="74"  y="82" width="16" height="14"/>
+                  <rect x="110" y="82" width="16" height="14"/>
+                  <rect x="132" y="82" width="16" height="14"/>
+                  <rect x="52"  y="102" width="16" height="14"/>
+                  <rect x="74"  y="102" width="16" height="14"/>
+                  <rect x="110" y="102" width="16" height="14"/>
+                  <rect x="132" y="102" width="16" height="14"/>
+                </g>
+                <!-- Porte d'entrée -->
+                <rect x="92" y="130" width="16" height="30" fill="#8A7544" stroke="#5C4B24"/>
+                <circle cx="104" cy="145" r="1" fill="#C9A961"/>
+                <!-- Indication 6ᵉ étage (flèche + label) -->
+                <g class="kg-floor-indicator">
+                  <path d="M 30 44 L 30 38 L 170 38" stroke="#C9A961" stroke-width="1.2" fill="none"/>
+                  <circle cx="170" cy="38" r="3" fill="#C9A961"/>
+                  <text x="28" y="50" text-anchor="end" font-family="Fraunces, serif" font-style="italic" font-size="12" fill="#8A7544">6ᵉ</text>
+                </g>
+                <!-- Ascenseur qui monte -->
+                <g class="kg-elevator">
+                  <rect x="86" y="140" width="14" height="18" rx="1" fill="#FBF6EA" stroke="#C9A961"/>
+                  <path d="M91 150 L93 146 L95 150" stroke="#C9A961" stroke-width="1.2" fill="none"/>
+                </g>
+                <!-- Clés en bas -->
+                <g class="kg-keyset" transform="translate(0, 0)">
+                  <g transform="translate(56, 168)">
+                    <circle cx="0" cy="0" r="5" fill="none" stroke="#D4AF37" stroke-width="1.6"/>
+                    <rect x="3" y="-1.5" width="12" height="3" fill="#D4AF37"/>
+                    <rect x="13" y="-3" width="2" height="6" fill="#D4AF37"/>
+                  </g>
+                  <g transform="translate(130, 168)">
+                    <circle cx="0" cy="0" r="5" fill="none" stroke="#888" stroke-width="1.6"/>
+                    <rect x="3" y="-1.5" width="12" height="3" fill="#888"/>
+                    <rect x="13" y="-3" width="2" height="6" fill="#888"/>
+                  </g>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </li>
+      </ol>
+
     </div>
   </section>
 
@@ -569,7 +835,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="js/auth.js?v=c8"></script>
-  <script src="js/i18n.js?v=c4"></script>
+  <script src="js/i18n.js?v=c7"></script>
   <script>
     const user = DP.requireAuth();
     if (!user) { /* redirect déjà déclenché */ }
@@ -620,6 +886,9 @@
 
     // === ARRIVÉE : Visionneuse photos + Carte Leaflet avec itinéraire piéton ===
     initArrivalModule(user);
+
+    // === GUIDE INTERACTIF — Récupérer les clés en 4 étapes ===
+    initKeyGuide(user);
 
     // Vidéo canapé-lit : si le fichier n'est pas encore présent, affiche le placeholder "bientôt disponible"
     document.querySelectorAll('.video-card').forEach((card) => {
@@ -693,6 +962,65 @@
       setTimeout(() => window.location.href = 'index.html', 380);
     });
 
+
+    /* ============================================================
+       GUIDE INTERACTIF — Récupérer les clés en 4 étapes
+       ------------------------------------------------------------
+       • Peuple les codes (laverie, boîte) depuis user.*
+       • Peuple les adresses (pickup, destination)
+       • Déclenche les animations SVG quand chaque étape scrolle en vue
+         via IntersectionObserver (classe .is-visible)
+       ============================================================ */
+    function initKeyGuide(user){
+      const guide = document.getElementById('keyGuide');
+      if (!guide) return;
+
+      // Peuple les données dynamiques
+      setText('kgBoxCode',    user.box_code     || '0190');
+      setText('kgLaundryCode', user.laundry_code || '1235*');
+      if (user.arrival_pickup_addr) setText('kgPickupAddr', user.arrival_pickup_addr);
+      if (user.arrival_dest_addr)   setText('kgDestAddr',   user.arrival_dest_addr);
+      if (user.box_number)          setText('kgBoxNum',     user.box_number);
+
+
+      // Liens Maps dynamiques si disponibles dans user.*
+      const pickupLink = user.arrival_pickup_maps || 'https://maps.app.goo.gl/6aN1gVtFMyH7j9So6?g_st=ic';
+      const destLink   = user.arrival_dest_maps   || 'https://maps.app.goo.gl/9Nc8GbfPozZujazJA?g_st=ic';
+      guide.querySelectorAll('.kg-step[data-step="1"] .kg-link').forEach(a => a.href = pickupLink);
+      guide.querySelectorAll('.kg-step[data-step="4"] .kg-link').forEach(a => a.href = destLink);
+
+      // IntersectionObserver : déclenche les animations au scroll
+      const steps = guide.querySelectorAll('.kg-step');
+      if ('IntersectionObserver' in window){
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting){
+              e.target.classList.add('is-visible');
+              // Une fois déclenchée, plus besoin d'observer
+              io.unobserve(e.target);
+            }
+          });
+        }, { threshold: 0.25, rootMargin: '0px 0px -10% 0px' });
+        steps.forEach((s) => io.observe(s));
+      } else {
+        // Fallback : toutes visibles d'un coup
+        steps.forEach((s) => s.classList.add('is-visible'));
+      }
+
+      // Replay au clic : l'utilisateur peut relancer l'animation d'une étape
+      steps.forEach((step) => {
+        const anim = step.querySelector('.kg-anim');
+        if (!anim) return;
+        anim.style.cursor = 'pointer';
+        anim.setAttribute('title', 'Cliquez pour rejouer');
+        anim.addEventListener('click', () => {
+          step.classList.remove('is-visible');
+          // Force reflow puis ré-ajoute la classe → animations rejouées
+          void step.offsetWidth;
+          step.classList.add('is-visible');
+        });
+      });
+    }
 
     /* ============================================================
        COVERFLOW 3D "Votre appartement"
@@ -1027,15 +1355,9 @@
           a.dataset.i = i;
           a.setAttribute('aria-label', p.caption_fr || p.caption || `Photo ${i + 1}`);
           // background-image = protection anti "Save image as"
-          // Captions bilingues : FR principale + EN italique
-          const fr = p.caption_fr || p.caption || '';
-          const en = p.caption_en || '';
+          // Légendes retirées — photos pures, le détail est dans le guide 4 étapes
           a.innerHTML = `
             <div class="arrival-cf-img" style="background-image:url('${p.src}')"></div>
-            <div class="arrival-cf-caption">
-              <span class="cap-fr">${fr}</span>
-              ${en ? `<span class="cap-en">${en}</span>` : ''}
-            </div>
             <div class="arrival-cf-zoom" aria-hidden="true" title="Voir en grand">
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="7"/>
@@ -1152,8 +1474,9 @@
           const p = photos[lbIdx];
           if (!p) return;
           lbStage.style.backgroundImage = `url('${p.src}')`;
-          lbCapFr.textContent = p.caption_fr || p.caption || '';
-          lbCapEn.textContent = p.caption_en || '';
+          // Légendes retirées pour les photos d'arrivée (le guide 4 étapes prend le relais)
+          lbCapFr.textContent = '';
+          lbCapEn.textContent = '';
           lbCur.textContent = String(lbIdx + 1).padStart(2, '0');
           lbTot.textContent = String(photos.length).padStart(2, '0');
           lbPrev.style.display = photos.length > 1 ? '' : 'none';
