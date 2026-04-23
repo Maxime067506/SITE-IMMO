@@ -1593,48 +1593,10 @@
     <!-- /KEYNEST guide -->
   </section>
 
-  <!-- SECTION — GUIDE TOURISTIQUE -->
-  <section class="section espace-section" id="guide">
-    <header class="section-head">
-      <p class="eyebrow"><span class="eyebrow-num">03</span> <span data-i18n="espace.guide.eyebrow">Guide</span></p>
-      <h2 class="h-display" data-i18n="espace.guide.title" data-i18n-html="true">Votre <em>guide niçois.</em></h2>
-      <p class="guide-intro" data-i18n="espace.guide.intro">
-        Nos favoris testés et retestés à Nice — à table, à pied, en tram, en bord de mer.
-        Le guide complet est consultable ci-dessous et téléchargeable en PDF pour emporter hors ligne.
-      </p>
-    </header>
-
-    <div class="guide-viewer">
-      <div class="guide-head">
-        <div class="guide-meta">
-          <span class="guide-meta-label" data-i18n="espace.guide.official">Guide officiel</span>
-          <strong data-i18n="espace.guide.name">Nice · FR & EN</strong>
-          <span class="guide-meta-sub" data-i18n="espace.guide.updated">Mis à jour Avril 2026 · 2,9 MB</span>
-        </div>
-        <a href="doc/guide-nice.pdf" download="Guide Nice FR EN.pdf" class="btn-gold guide-download">
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M12 3v14M5 12l7 7 7-7M5 21h14"/></svg>
-          <span data-i18n="espace.guide.download">Télécharger le PDF</span>
-        </a>
-      </div>
-
-      <div class="guide-pdfjs" id="guidePdfjs" aria-live="polite">
-        <div class="guide-pdf-loading" id="guidePdfLoading">
-          <span class="guide-pdf-spinner" aria-hidden="true"></span>
-          <span data-i18n="guide.loading">Chargement du guide…</span>
-        </div>
-        <div class="guide-pdf-pages" id="guidePdfPages"></div>
-        <div class="guide-pdf-error" id="guidePdfError" hidden>
-          <p data-i18n="guide.fallback">L'affichage du guide a échoué. Téléchargez-le directement :</p>
-          <a href="doc/guide-nice.pdf" download="Guide Nice FR EN.pdf" class="btn btn-primary">Télécharger</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION — WIFI -->
+  <!-- SECTION — WIFI (placée juste après "Entrez c'est chez vous", avant le guide) -->
   <section class="section espace-section dark" id="wifi">
     <header class="section-head">
-      <p class="eyebrow light"><span class="eyebrow-num">04</span> <span data-i18n="espace.wifi.eyebrow">Connexion Wifi</span></p>
+      <p class="eyebrow light"><span class="eyebrow-num">03</span> <span data-i18n="espace.wifi.eyebrow">Connexion Wifi</span></p>
       <h2 class="h-display" style="color:var(--bg)" data-i18n="espace.wifi.title" data-i18n-html="true">Restez <em style="color:var(--accent)">connectés.</em></h2>
     </header>
 
@@ -1686,6 +1648,44 @@
         <li data-i18n="espace.wifi.help3">Vérifiez que le mot de passe ne contient pas d'espace</li>
         <li data-i18n="espace.wifi.help4" data-i18n-html="true">Contactez la conciergerie (bouton <strong>Appeler</strong> dans la section Conciergerie)</li>
       </ul>
+    </div>
+  </section>
+
+  <!-- SECTION — GUIDE TOURISTIQUE (placée après le Wifi) -->
+  <section class="section espace-section" id="guide">
+    <header class="section-head">
+      <p class="eyebrow"><span class="eyebrow-num">04</span> <span data-i18n="espace.guide.eyebrow">Guide</span></p>
+      <h2 class="h-display" data-i18n="espace.guide.title" data-i18n-html="true">Votre <em>guide niçois.</em></h2>
+      <p class="guide-intro" data-i18n="espace.guide.intro">
+        Nos favoris testés et retestés à Nice — à table, à pied, en tram, en bord de mer.
+        Le guide complet est consultable ci-dessous et téléchargeable en PDF pour emporter hors ligne.
+      </p>
+    </header>
+
+    <div class="guide-viewer">
+      <div class="guide-head">
+        <div class="guide-meta">
+          <span class="guide-meta-label" data-i18n="espace.guide.official">Guide officiel</span>
+          <strong data-i18n="espace.guide.name">Nice · FR & EN</strong>
+          <span class="guide-meta-sub" data-i18n="espace.guide.updated">Mis à jour Avril 2026 · 2,9 MB</span>
+        </div>
+        <a href="doc/guide-nice.pdf" download="Guide Nice FR EN.pdf" class="btn-gold guide-download">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M12 3v14M5 12l7 7 7-7M5 21h14"/></svg>
+          <span data-i18n="espace.guide.download">Télécharger le PDF</span>
+        </a>
+      </div>
+
+      <div class="guide-pdfjs" id="guidePdfjs" aria-live="polite">
+        <div class="guide-pdf-loading" id="guidePdfLoading">
+          <span class="guide-pdf-spinner" aria-hidden="true"></span>
+          <span data-i18n="guide.loading">Chargement du guide…</span>
+        </div>
+        <div class="guide-pdf-pages" id="guidePdfPages"></div>
+        <div class="guide-pdf-error" id="guidePdfError" hidden>
+          <p data-i18n="guide.fallback">L'affichage du guide a échoué. Téléchargez-le directement :</p>
+          <a href="doc/guide-nice.pdf" download="Guide Nice FR EN.pdf" class="btn btn-primary">Télécharger</a>
+        </div>
+      </div>
     </div>
   </section>
 
