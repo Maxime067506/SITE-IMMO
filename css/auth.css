@@ -2540,23 +2540,29 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
   .kg-step-body{padding-left:58px}
   .kg-warn{font-size:12px;gap:8px;padding:10px 14px}
 
-  /* KN1 / KNR3 : l'animation KeyNest (img + halos) a un contenu compact qui
-     paraît "noyé" dans l'aspect-ratio 10/7 générique. Le sélecteur double
-     .kg-anim.kg-anim-keynest augmente la spécificité pour battre .kg-anim. */
+  /* KN1 / KNR3 : l'animation KeyNest (img + halos) avait une taille
+     incohérente sur mobile. On abandonne l'aspect-ratio au profit d'une
+     hauteur explicite, et on force avec !important pour battre toute autre
+     règle (aspect-ratio, max-width, width des enfants). */
   .kg-anim.kg-anim-keynest{
-    max-width:100%;
-    aspect-ratio:5/3;
+    max-width:100% !important;
+    width:100% !important;
+    aspect-ratio:auto !important;
+    height:220px !important;
+    min-height:220px;
   }
   .kg-anim.kg-anim-keynest .kg-kn-stage{
-    padding:clamp(16px, 4%, 24px) 18px;
+    padding:22px 18px !important;
+    height:100% !important;
   }
   .kg-anim.kg-anim-keynest .kg-kn-logo-big{
-    width:clamp(200px, 72%, 320px);
-    max-height:56%;
+    width:min(72%, 300px) !important;
+    height:auto !important;
+    max-height:none !important;
   }
   .kg-anim.kg-anim-keynest .kg-kn-halo{
-    width:56%;
-    top:46%;
+    width:min(60%, 240px) !important;
+    top:46% !important;
   }
   .kg-anim.kg-anim-keynest .kg-kn-cartouche-eyebrow{font-size:9px}
   .kg-anim.kg-anim-keynest .kg-kn-cartouche-title{font-size:12.5px}
@@ -2572,15 +2578,10 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
   .kg-substeps li::before{width:18px;height:18px;font-size:9px}
   .kg-addr{font-size:15px}
 
-  /* Sur très petits mobiles, on serre l'aspect-ratio et on agrandit encore. */
-  .kg-anim.kg-anim-keynest{
-    aspect-ratio:7/4;
-  }
-  .kg-anim.kg-anim-keynest .kg-kn-logo-big{
-    width:clamp(210px, 78%, 340px);
-    max-height:54%;
-  }
-  .kg-anim.kg-anim-keynest .kg-kn-halo{width:62%;top:47%}
+  /* Très petits mobiles : garder même hauteur explicite, élargir encore logo+halos */
+  .kg-anim.kg-anim-keynest{height:200px !important;min-height:200px}
+  .kg-anim.kg-anim-keynest .kg-kn-logo-big{width:min(78%, 340px) !important}
+  .kg-anim.kg-anim-keynest .kg-kn-halo{width:min(64%, 260px) !important;top:47% !important}
 }
 
 /* ---- prefers-reduced-motion ---- */
