@@ -2997,6 +2997,9 @@ body.has-video-bg .sejour-hero{
   color:var(--cream);
 }
 body.has-video-bg .hero-title .display{color:var(--cream)}
+/* L'italique <em> dans le titre hero : en dehors du hero-film plein écran,
+   --accent-dk (brun doré) est trop sombre sur fond vidéo → passer en or clair. */
+body.has-video-bg .hero-title .display em{color:var(--accent-lt)}
 body.has-video-bg .hero-title .sub{color:rgba(245,237,224,.75)}
 body.has-video-bg .hero-title .addr{color:var(--accent-lt)}
 body.has-video-bg .hero-title .lede{color:rgba(245,237,224,.85)}
@@ -3004,9 +3007,14 @@ body.has-video-bg .hero-title .rating-row{color:var(--cream)}
 
 /* Stats band */
 body.has-video-bg .sejour-stats{background:transparent;border-top:1px solid var(--gold-20);border-bottom:1px solid var(--gold-20)}
+body.has-video-bg .stat-cell{border-right-color:var(--gold-20)}
 body.has-video-bg .stat-cell .stat-label{color:rgba(245,237,224,.75)}
 body.has-video-bg .stat-cell .stat-value{color:var(--cream)}
 body.has-video-bg .stat-cell .stat-value em{color:var(--accent-lt)}
+/* Amenities (Wi-Fi + Clim) : sur fond vidéo, passer en texte clair */
+body.has-video-bg .stats-amenities{border-top-color:var(--gold-20)}
+body.has-video-bg .stats-amenities .amenity{color:rgba(245,237,224,.88)}
+body.has-video-bg .stats-amenities .amenity svg{color:var(--accent-lt)}
 
 /* Description */
 body.has-video-bg .sejour-desc{background:transparent;color:var(--cream)}
@@ -3028,8 +3036,12 @@ body.has-video-bg .gallery-num{color:var(--accent-lt)}
 body.has-video-bg .sejour-map{background:transparent;color:var(--cream)}
 body.has-video-bg .sejour-map .h-display{color:var(--cream)}
 body.has-video-bg .sejour-map .h-display em{color:var(--cream)}
+body.has-video-bg .map-legend{border-top-color:var(--gold-20)}
 body.has-video-bg .map-legend > div{color:rgba(245,237,224,.85);border-color:var(--gold-20)}
 body.has-video-bg .map-legend > div span:first-child{color:var(--accent-lt)}
+/* Le 2e span (distance) avait color:var(--ink) par défaut — sur fond vidéo,
+   on passe en crème lisible. */
+body.has-video-bg .map-legend > div span:last-child{color:rgba(245,237,224,.9)}
 
 /* CTA fiche — niveau 3 opaque (conversion) */
 body.has-video-bg .sejour-cta{
@@ -3043,6 +3055,14 @@ body.has-video-bg .site-footer{
   color:var(--cream);
   border-top:1px solid var(--gold-20);
 }
+/* Titres + textes du footer : var(--ink)/--ink-soft sont trop sombres sur navy,
+   on passe en teintes crème lisibles. */
+body.has-video-bg .site-footer .brand-mono{color:var(--cream)}
+body.has-video-bg .site-footer .brand-sub{color:rgba(245,237,224,.55)}
+body.has-video-bg .foot-grid h4{color:var(--cream)}
+body.has-video-bg .foot-grid p,
+body.has-video-bg .foot-grid li,
+body.has-video-bg .foot-tag{color:rgba(245,237,224,.75)}
 body.has-video-bg .site-footer a{color:rgba(245,237,224,.75)}
 body.has-video-bg .site-footer a:hover{color:var(--accent-lt)}
 

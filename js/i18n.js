@@ -30,6 +30,8 @@ const I18N = {
 
     /* ---- DISTANCE / PROXIMITÉ (pages séjour) ---- */
     "dist.faceApt":           "Face à l'appartement",
+    "dist.nextDoor":          "À côté",
+    "dist.25min":             "25 min",
     "dist.1minWalk":          "1 min à pied",
     "dist.2minWalk":          "2 min à pied",
     "dist.3minWalk":          "3 min à pied",
@@ -633,6 +635,8 @@ const I18N = {
 
     /* ---- DISTANCE / PROXIMITY (stay pages) ---- */
     "dist.faceApt":           "Opposite the apartment",
+    "dist.nextDoor":          "Next door",
+    "dist.25min":             "25 min",
     "dist.1minWalk":          "1 min walk",
     "dist.2minWalk":          "2 min walk",
     "dist.3minWalk":          "3 min walk",

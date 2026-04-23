@@ -413,6 +413,19 @@ targets.forEach(el => io.observe(el));
     { no:'07', name:'Notre appartement design',            address:'41 av. G. Clemenceau, Nice',loc:'Musiciens',      lat:43.70035, lon:7.26155, img:'img/airbnb/05-adagio/photo-01.jpg?v=d1',    meta:'4 voyageurs · ★ 4,81', airbnb:'https://www.airbnb.fr/rooms/1447097634568506909', detail:'sejour-07.html' },
   ];
 
+  // Si on est sur une fiche séjour (sejour-0X.html), ne conserver que
+  // l'appartement correspondant → carte focus sur un seul marqueur.
+  // Sinon (home), on garde les 7 appartements.
+  const path = (window.location.pathname || '').toLowerCase();
+  const sejourMatch = path.match(/sejour-(\d+)\.html/);
+  let aptList = APTS_MAP;
+  let isSingleApt = false;
+  if (sejourMatch) {
+    const target = sejourMatch[1].padStart(2, '0');
+    const one = APTS_MAP.find(a => a.no === target);
+    if (one) { aptList = [one]; isSingleApt = true; }
+  }
+
   // Wait for Leaflet
   const init = () => {
     if (!window.L) { setTimeout(init, 200); return; }
@@ -428,9 +441,14 @@ targets.forEach(el => io.observe(el));
       maxZoom: 19,
     }).addTo(map);
 
-    // Fit bounds to all apartments with padding
-    const bounds = L.latLngBounds(APTS_MAP.map(a => [a.lat, a.lon]));
-    map.fitBounds(bounds, { padding: [80, 80], maxZoom: 15 });
+    if (isSingleApt) {
+      // Fiche séjour : on centre sur l'appartement unique à un zoom rue (17)
+      map.setView([aptList[0].lat, aptList[0].lon], 17);
+    } else {
+      // Home : vue d'ensemble sur tous les appartements
+      const bounds = L.latLngBounds(aptList.map(a => [a.lat, a.lon]));
+      map.fitBounds(bounds, { padding: [80, 80], maxZoom: 15 });
+    }
 
     // Refs UI
     const panel    = document.getElementById('cartePanel');
@@ -467,7 +485,7 @@ targets.forEach(el => io.observe(el));
       panelCta.href = apt.detail;
     };
 
-    APTS_MAP.forEach((apt) => {
+    aptList.forEach((apt) => {
       const html = `<div class="dp-marker" data-no="${apt.no}">${apt.no}</div>`;
       const icon = L.divIcon({
         className: 'dp-marker-wrap',
@@ -477,13 +495,24 @@ targets.forEach(el => io.observe(el));
       });
       const marker = L.marker([apt.lat, apt.lon], { icon }).addTo(map);
 
+      // Sur fiche séjour : on sélectionne automatiquement l'unique marqueur
+      if (isSingleApt) {
+        setTimeout(() => {
+          const el = marker.getElement()?.querySelector('.dp-marker');
+          if (el) select(apt, el);
+        }, 80);
+      }
+
       // Bind events once the marker element is in the DOM
       setTimeout(() => {
         const el = marker.getElement()?.querySelector('.dp-marker');
         if (!el) return;
-        el.addEventListener('mouseenter', () => select(apt, el));
-        el.addEventListener('focus',      () => select(apt, el));
-        el.addEventListener('click', (e) => { e.preventDefault(); select(apt, el); window.location.href = apt.detail; });
+        if (!isSingleApt) {
+          // Home : hover + clic = sélection + navigation
+          el.addEventListener('mouseenter', () => select(apt, el));
+          el.addEventListener('focus',      () => select(apt, el));
+          el.addEventListener('click', (e) => { e.preventDefault(); select(apt, el); window.location.href = apt.detail; });
+        }
         el.setAttribute('tabindex', '0');
         el.setAttribute('role', 'button');
         el.setAttribute('aria-label', `${apt.name} — ${apt.loc}`);
