@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=d9" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="css/auth.css?v=103" />
+  <link rel="stylesheet" href="css/auth.css?v=105" />
 </head>
 <body class="espace-page">
 
@@ -959,7 +959,7 @@
             </div>
           </li>
 
-          <!-- KN 2 — Accès à l'immeuble -->
+          <!-- KN 2 — Accès à l'immeuble (deux variantes : badge / interphone) -->
           <li class="kg-step" data-step="kn2">
             <div class="kg-step-head">
               <span class="kg-step-num">02</span>
@@ -971,22 +971,33 @@
                 <p class="kg-addr">
                   <span id="kgKnDestAddr">27 avenue Notre-Dame, 06000 Nice</span>
                 </p>
-                <ol class="kg-substeps">
+
+                <!-- Variante BADGE (Dupont) : badge + bouton porte -->
+                <ol class="kg-substeps" data-variant="badge">
                   <li data-i18n="espace.kn.s2.a" data-i18n-html="true"><strong>Badge</strong> du trousseau sur la première porte d'entrée</li>
                   <li data-i18n="espace.kn.s2.b" data-i18n-html="true">Pour la deuxième porte, appuyez sur le bouton <strong>« porte »</strong></li>
                 </ol>
+
+                <!-- Variante INTERPHONE (Rousseau) : sonner à TISSIER, porte automatique -->
+                <ol class="kg-substeps" data-variant="interphone" hidden>
+                  <li data-i18n="espace.kn.s2.intA" data-i18n-html="true">Sonnez à l'interphone <strong data-user-field="interphone_name">TISSIER</strong></li>
+                  <li data-i18n="espace.kn.s2.intB" data-i18n-html="true">La porte s'ouvre <strong>automatiquement</strong> après quelques instants</li>
+                </ol>
+
                 <div class="kg-link-group">
-                  <a href="https://www.google.com/maps/search/?api=1&query=27+Avenue+Notre-Dame,+06000+Nice" target="_blank" rel="noopener" class="kg-link">
+                  <a href="https://www.google.com/maps/search/?api=1&query=27+Avenue+Notre-Dame,+06000+Nice" target="_blank" rel="noopener" class="kg-link" id="kgKnDestMaps">
                     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                     <span data-i18n="espace.kg.mapsOpen">Ouvrir dans Maps</span>
                   </a>
-                  <a href="https://www.google.com/maps/dir/?api=1&origin=4ter+Av.+Durante,+06000+Nice&destination=27+Avenue+Notre-Dame,+06000+Nice&travelmode=walking" target="_blank" rel="noopener" class="kg-link">
+                  <a href="https://www.google.com/maps/dir/?api=1&origin=4ter+Av.+Durante,+06000+Nice&destination=27+Avenue+Notre-Dame,+06000+Nice&travelmode=walking" target="_blank" rel="noopener" class="kg-link" id="kgKnDestRoute">
                     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4.5" r="2.5"/><path d="M7 22l2-7h3v7m0-14 3 3 3-1m-9 4v3m0 0h5m-5 0-2 4"/></svg>
                     <span data-i18n="espace.kn.s2.route">Itinéraire piéton</span>
                   </a>
                 </div>
               </div>
-              <div class="kg-anim kg-anim-building" aria-hidden="true">
+
+              <!-- Animation BADGE (Dupont) -->
+              <div class="kg-anim kg-anim-building" data-variant="badge" aria-hidden="true">
                 <svg viewBox="0 0 200 140" class="kg-svg">
                   <rect x="0" y="0" width="200" height="140" fill="#FBF6EA"/>
                   <!-- Façade immeuble -->
@@ -1016,10 +1027,82 @@
                   <text x="129" y="102" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="4" fill="#fff" font-weight="600">P</text>
                 </svg>
               </div>
+
+              <!-- Animation INTERPHONE (Rousseau) : panneau d'interphone avec TISSIER surligné, ondes sonores, porte qui s'ouvre automatiquement -->
+              <div class="kg-anim kg-anim-interphone" data-variant="interphone" aria-hidden="true" hidden>
+                <svg viewBox="0 0 200 140" class="kg-svg">
+                  <rect x="0" y="0" width="200" height="140" fill="#FBF6EA"/>
+                  <!-- Façade atténuée en fond -->
+                  <rect x="14" y="8" width="172" height="124" fill="#E8DCBF" stroke="#C9A961" stroke-opacity=".35"/>
+                  <!-- Porte qui s'ouvrira automatiquement (à gauche) -->
+                  <g class="kg-int-door" transform-origin="26 68" transform-box="fill-box">
+                    <rect x="26" y="56" width="40" height="64" fill="#8A7544" stroke="#5C4B24"/>
+                    <rect x="30" y="60" width="32" height="24" fill="#C9A961" fill-opacity=".25"/>
+                    <rect x="30" y="88" width="32" height="24" fill="#C9A961" fill-opacity=".25"/>
+                    <circle cx="60" cy="88" r="1.5" fill="#C9A961"/>
+                  </g>
+                  <!-- Lumière dorée révélée derrière la porte -->
+                  <rect class="kg-int-light" x="26" y="56" width="40" height="64" fill="url(#kgIntGlow)" opacity="0"/>
+                  <defs>
+                    <linearGradient id="kgIntGlow" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stop-color="#FBF6EA"/>
+                      <stop offset="100%" stop-color="#E8DCBF" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+
+                  <!-- Interphone (panneau à droite de la porte) -->
+                  <g transform="translate(100, 30)">
+                    <!-- Corps -->
+                    <rect x="0" y="0" width="72" height="82" fill="#1A1410" stroke="#5C4B24" stroke-width="1" rx="3"/>
+                    <rect x="3" y="3" width="66" height="76" fill="none" stroke="#3A2E22" rx="2"/>
+                    <!-- Grille haut-parleur -->
+                    <rect x="8" y="8" width="56" height="8" fill="#0D0906" rx="1"/>
+                    <g fill="#6B5434">
+                      <circle cx="14" cy="12" r=".8"/><circle cx="20" cy="12" r=".8"/><circle cx="26" cy="12" r=".8"/>
+                      <circle cx="32" cy="12" r=".8"/><circle cx="38" cy="12" r=".8"/><circle cx="44" cy="12" r=".8"/>
+                      <circle cx="50" cy="12" r=".8"/><circle cx="56" cy="12" r=".8"/>
+                    </g>
+                    <!-- Liste des noms -->
+                    <g font-family="JetBrains Mono, monospace" font-size="5" letter-spacing=".1em">
+                      <!-- Ligne 1 : MARTIN -->
+                      <rect x="8" y="20" width="56" height="9" fill="#0D0906" rx=".5"/>
+                      <text x="11" y="27" fill="#6B5434">MARTIN</text>
+                      <circle cx="59" cy="25" r="1.3" fill="#6B5434"/>
+                      <!-- Ligne 2 : TISSIER (surlignée or) -->
+                      <rect class="kg-int-row" x="8" y="31" width="56" height="9" fill="#C9A961" fill-opacity=".2" stroke="#C9A961" stroke-width="0.7" rx=".5"/>
+                      <text x="11" y="38" fill="#C9A961" font-weight="600">TISSIER</text>
+                      <!-- Halo autour du bouton TISSIER -->
+                      <circle class="kg-int-btn-halo" cx="59" cy="36" r="3.2" fill="none" stroke="#C9A961" stroke-width="1.1"/>
+                      <circle class="kg-int-btn" cx="59" cy="36" r="1.5" fill="#C9A961"/>
+                      <!-- Ligne 3 : DURAND -->
+                      <rect x="8" y="42" width="56" height="9" fill="#0D0906" rx=".5"/>
+                      <text x="11" y="49" fill="#6B5434">DURAND</text>
+                      <circle cx="59" cy="47" r="1.3" fill="#6B5434"/>
+                      <!-- Ligne 4 : ROCHE -->
+                      <rect x="8" y="53" width="56" height="9" fill="#0D0906" rx=".5"/>
+                      <text x="11" y="60" fill="#6B5434">ROCHE</text>
+                      <circle cx="59" cy="58" r="1.3" fill="#6B5434"/>
+                      <!-- Ligne 5 : LENOIR -->
+                      <rect x="8" y="64" width="56" height="9" fill="#0D0906" rx=".5"/>
+                      <text x="11" y="71" fill="#6B5434">LENOIR</text>
+                      <circle cx="59" cy="69" r="1.3" fill="#6B5434"/>
+                    </g>
+                    <!-- Label INTERPHONE -->
+                    <text x="36" y="78" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="2.8" fill="#5C4B24" letter-spacing=".35em">INTERPHONE</text>
+                  </g>
+
+                  <!-- Ondes sonores partant du bouton TISSIER -->
+                  <g class="kg-int-waves" transform="translate(159, 66)">
+                    <circle class="kg-int-wave kg-int-wave-1" cx="0" cy="0" r="4" fill="none" stroke="#C9A961" stroke-width="1.2" opacity="0"/>
+                    <circle class="kg-int-wave kg-int-wave-2" cx="0" cy="0" r="4" fill="none" stroke="#C9A961" stroke-width="1" opacity="0"/>
+                    <circle class="kg-int-wave kg-int-wave-3" cx="0" cy="0" r="4" fill="none" stroke="#C9A961" stroke-width=".8" opacity="0"/>
+                  </g>
+                </svg>
+              </div>
             </div>
           </li>
 
-          <!-- KN 3 — Accès à l'appartement -->
+          <!-- KN 3 — Accès à l'appartement (deux variantes : escalier+ascenseur / ascenseur + direction) -->
           <li class="kg-step" data-step="kn3">
             <div class="kg-step-head">
               <span class="kg-step-num">03</span>
@@ -1028,12 +1111,21 @@
             </div>
             <div class="kg-step-grid">
               <div class="kg-step-body">
-                <ol class="kg-substeps">
+                <!-- Variante DUPONT : escaliers OU ascenseur (2 chemins possibles) -->
+                <ol class="kg-substeps" data-variant="stairs-elevator">
                   <li data-i18n="espace.kn.s3.a" data-i18n-html="true">Si vous montez par <strong>les escaliers</strong> : la porte se trouve <strong>à droite</strong></li>
                   <li data-i18n="espace.kn.s3.b" data-i18n-html="true">Si vous prenez <strong>l'ascenseur</strong> : la porte se trouve <strong>à gauche</strong></li>
                   <li data-i18n="espace.kn.s3.c" data-i18n-html="true">Porte marquée du <strong>numéro <span data-user-field="door_number">1</span></strong> (il peut y avoir une affiche au nom d'Olivia Pineira)</li>
                   <li data-i18n="espace.kn.s3.d" data-i18n-html="true"><strong>Première clé</strong> pour l'entrée du palier, <strong>deuxième clé</strong> pour la porte de l'appartement (1ʳᵉ porte à gauche)</li>
                 </ol>
+
+                <!-- Variante ROUSSEAU : ascenseur uniquement, direction + côté -->
+                <ol class="kg-substeps" data-variant="elevator-turn" hidden>
+                  <li data-i18n="espace.kn.s3.elevA" data-i18n-html="true">Prenez <strong>l'ascenseur</strong> jusqu'au <strong><span data-user-field="floor">4ᵉ</span> étage</strong></li>
+                  <li data-i18n="espace.kn.s3.elevB" data-i18n-html="true">En sortant, dirigez-vous vers <strong>la <span data-user-field="elevator_turn">gauche</span></strong></li>
+                  <li data-i18n="espace.kn.s3.elevC" data-i18n-html="true">La porte se trouve sur <strong>votre <span data-user-field="door_side">droite</span></strong>, marquée du <strong>numéro <span data-user-field="door_number">76</span></strong></li>
+                </ol>
+
                 <p class="kg-after" data-i18n="espace.kn.s3.after" data-i18n-html="true">
                   <strong>🔒 Porte sécurisée française :</strong> pour déverrouiller, levez la poignée <strong>vers le haut</strong>, puis tournez la clé. Même geste pour verrouiller en partant.
                 </p>
@@ -1056,7 +1148,7 @@
                       <rect x="4" y="4" width="26" height="30" fill="#C9A961" fill-opacity=".2"/>
                       <rect x="4" y="40" width="26" height="30" fill="#C9A961" fill-opacity=".2"/>
                       <circle cx="28" cy="40" r="1.5" fill="#C9A961"/>
-                      <text x="17" y="80" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="18" fill="#C9A961" font-weight="600" class="kg-hw-num">1</text>
+                      <text x="17" y="80" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="18" fill="#C9A961" font-weight="600" class="kg-hw-num" data-user-field="door_number">1</text>
                     </g>
                     <g class="kg-hw-door" transform="translate(82, 58)" opacity=".75">
                       <rect x="0" y="0" width="30" height="66" fill="#8A7544" stroke="#5C4B24"/>
@@ -1585,8 +1677,8 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="js/auth.js?v=d1"></script>
-  <script src="js/i18n.js?v=d8"></script>
+  <script src="js/auth.js?v=d2"></script>
+  <script src="js/i18n.js?v=d9"></script>
   <script>
     const user = DP.requireAuth();
     if (!user) { /* redirect déjà déclenché */ }
@@ -1958,14 +2050,74 @@
 
       const floor = user.floor || '1er';
       const doorNumber = String(user.door_number || '1');
+      const interphoneName = user.interphone_name || 'TISSIER';
+      const elevatorTurn = user.elevator_turn || 'gauche';
+      const doorSide = user.door_side || 'droite';
+
+      // === Variantes d'accès immeuble : "badge" (Dupont) ou "interphone" (Rousseau) ===
+      // Cache le variant non utilisé dans kn2 (body + animation SVG)
+      // Note : les SVG sont décoratifs (aria-hidden=true toujours), seul `hidden` contrôle le rendu.
+      const access = user.building_access === 'interphone' ? 'interphone' : 'badge';
+      guide.querySelectorAll('.kg-step[data-step="kn2"] [data-variant]').forEach((el) => {
+        el.hidden = el.dataset.variant !== access;
+      });
+
+      // === Variantes d'étage : "stairs-elevator" (Dupont) ou "elevator-turn" (Rousseau) ===
+      // Règle simple : si l'utilisateur a un building_access="interphone", on assume
+      // qu'il n'a pas le choix escalier/ascenseur (cas Rousseau). Sinon on garde Dupont.
+      const floorVariant = access === 'interphone' ? 'elevator-turn' : 'stairs-elevator';
+      guide.querySelectorAll('.kg-step[data-step="kn3"] [data-variant]').forEach((el) => {
+        el.hidden = el.dataset.variant !== floorVariant;
+      });
 
       // Peuple les adresses
       if (user.arrival_dest_addr) setText('kgKnDestAddr', user.arrival_dest_addr);
 
-      // Applique les valeurs user.* (floor, door_number)
+      // Liens Maps dynamiques pour l'étape kn2 (destination)
+      if (user.arrival_dest_addr){
+        const destQuery = encodeURIComponent(user.arrival_dest_addr.replace(/ · .*$/, ''));
+        const mapsLink = 'https://www.google.com/maps/search/?api=1&query=' + destQuery;
+        const routeLink = 'https://www.google.com/maps/dir/?api=1&origin=' +
+                          encodeURIComponent('4ter Av. Durante, 06000 Nice') +
+                          '&destination=' + destQuery + '&travelmode=walking';
+        const mapsEl = document.getElementById('kgKnDestMaps');
+        const routeEl = document.getElementById('kgKnDestRoute');
+        if (mapsEl) mapsEl.href = mapsLink;
+        if (routeEl) routeEl.href = routeLink;
+      }
+
+      // Traduction légère des valeurs localisables (direction, étage) selon la langue courante.
+      // Les données stockées sont en FR ("gauche", "4ᵉ"). En EN on affiche "left", "4th", etc.
+      function localizeDirection(val){
+        const lang = (window.DP_I18N && window.DP_I18N.lang) ? window.DP_I18N.lang() : 'fr';
+        if (lang !== 'en') return val;
+        const map = {
+          'gauche': 'left', 'droite': 'right',
+          'Gauche': 'Left', 'Droite': 'Right'
+        };
+        return map[val] || val;
+      }
+      function localizeFloor(val){
+        const lang = (window.DP_I18N && window.DP_I18N.lang) ? window.DP_I18N.lang() : 'fr';
+        if (lang !== 'en') return val;
+        // "1er" → "1st", "2ᵉ" → "2nd", "3ᵉ" → "3rd", "4ᵉ"/"5ᵉ"/etc → "4th"/"5th"
+        const m = String(val).match(/^(\d+)/);
+        if (!m) return val;
+        const n = parseInt(m[1], 10);
+        const suffix = (n % 10 === 1 && n !== 11) ? 'st'
+                     : (n % 10 === 2 && n !== 12) ? 'nd'
+                     : (n % 10 === 3 && n !== 13) ? 'rd'
+                     : 'th';
+        return n + suffix;
+      }
+
+      // Applique les valeurs user.* (floor, door_number, interphone_name, elevator_turn, door_side)
       function applyUserFields(){
-        guide.querySelectorAll('[data-user-field="floor"]').forEach(el => { el.textContent = floor; });
+        guide.querySelectorAll('[data-user-field="floor"]').forEach(el => { el.textContent = localizeFloor(floor); });
         guide.querySelectorAll('[data-user-field="door_number"]').forEach(el => { el.textContent = doorNumber; });
+        guide.querySelectorAll('[data-user-field="interphone_name"]').forEach(el => { el.textContent = interphoneName; });
+        guide.querySelectorAll('[data-user-field="elevator_turn"]').forEach(el => { el.textContent = localizeDirection(elevatorTurn); });
+        guide.querySelectorAll('[data-user-field="door_side"]').forEach(el => { el.textContent = localizeDirection(doorSide); });
       }
       applyUserFields();
 
@@ -2027,18 +2179,21 @@
         steps.forEach((s) => s.classList.add('is-visible'));
       }
 
-      // Replay au clic immédiat sur les animations
+      // Replay au clic immédiat sur les animations.
+      // Note : kn2 peut contenir deux .kg-anim (badge / interphone). On branche
+      // sur TOUTES — seule la variante visible reçoit vraiment les clics (l'autre
+      // est `hidden`, donc non rendue dans le flux visuel).
       steps.forEach((step) => {
-        const anim = step.querySelector('.kg-anim');
-        if (!anim) return;
-        anim.style.cursor = 'pointer';
-        anim.setAttribute('title', 'Cliquez pour rejouer');
-        anim.addEventListener('click', () => {
-          step.classList.remove('is-visible');
-          void step.offsetWidth;
-          step.classList.add('is-visible');
-          teardownStepAutoReplay(step);
-          setupStepAutoReplay(step);
+        step.querySelectorAll('.kg-anim').forEach((anim) => {
+          anim.style.cursor = 'pointer';
+          anim.setAttribute('title', 'Cliquez pour rejouer');
+          anim.addEventListener('click', () => {
+            step.classList.remove('is-visible');
+            void step.offsetWidth;
+            step.classList.add('is-visible');
+            teardownStepAutoReplay(step);
+            setupStepAutoReplay(step);
+          });
         });
       });
     }
