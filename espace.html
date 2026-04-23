@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=d3" />
+  <link rel="stylesheet" href="css/style.css?v=d9" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="css/auth.css?v=fa" />
+  <link rel="stylesheet" href="css/auth.css?v=103" />
 </head>
 <body class="espace-page">
 
@@ -1099,6 +1099,29 @@
           </li>
 
         </ol>
+
+        <!-- Bannière : hors horaires KeyNest -->
+        <aside class="kg-hours-warn" role="note">
+          <span class="kg-hw-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 1 21h22L12 3z"/><path d="M12 10v5"/><circle cx="12" cy="18" r=".6" fill="currentColor"/></svg>
+          </span>
+          <div class="kg-hw-body">
+            <strong data-i18n="espace.kn.hoursWarn.t">Attention — en dehors des horaires KeyNest</strong>
+            <p data-i18n="espace.kn.hoursWarn.body" data-i18n-html="true">
+              Si votre <strong>récupération</strong> ou votre <strong>dépôt</strong> des clés doit se faire en dehors des horaires du point KeyNest (08:30 – 23:30), merci de nous <strong>contacter impérativement avant</strong>.
+            </p>
+            <div class="kg-hw-contacts">
+              <a href="tel:+33626671767" class="kg-hw-btn">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
+                <span>+33 6 26 67 17 67</span>
+              </a>
+              <a href="https://wa.me/33626671767" target="_blank" rel="noopener" class="kg-hw-btn kg-hw-btn--wa">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M20.52 3.48A11.93 11.93 0 0 0 12.04 0C5.5 0 .2 5.3.2 11.82c0 2.08.55 4.12 1.59 5.92L0 24l6.43-1.69a11.83 11.83 0 0 0 5.61 1.43h.01c6.54 0 11.84-5.3 11.84-11.82 0-3.16-1.23-6.13-3.37-8.44zM12.04 21.74c-1.79 0-3.54-.48-5.06-1.39l-.36-.21-3.82 1 1.02-3.72-.24-.38a9.88 9.88 0 0 1-1.52-5.21c0-5.42 4.41-9.83 9.84-9.83 2.63 0 5.1 1.03 6.96 2.88a9.79 9.79 0 0 1 2.88 6.96c0 5.42-4.41 9.83-9.83 9.83z"/></svg>
+                <span data-i18n="espace.kn.hoursWarn.wa">WhatsApp</span>
+              </a>
+            </div>
+          </div>
+        </aside>
       </div>
       <!-- /PANEL pickup-kn -->
 
@@ -1214,10 +1237,26 @@
                 <p data-i18n="espace.kn.r3.body" data-i18n-html="true">
                   Déposez les clés au <strong>point KeyNest</strong>, au même endroit que lors de votre arrivée, avant <strong>11h00</strong>.
                 </p>
-                <a href="https://www.google.com/maps/search/?api=1&query=4ter+Av.+Durante,+06000+Nice" target="_blank" rel="noopener" class="kg-link">
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                  <span data-i18n="espace.kn.r3.cta">Voir le point KeyNest</span>
-                </a>
+
+                <!-- Carte point de dépôt KeyNest -->
+                <div class="kg-keynest-card">
+                  <div class="kg-kn-brand kg-kn-brand--logo">
+                    <img src="img/keynest-logo.png" alt="KeyNest" class="kg-kn-logo-img" width="140" height="46" />
+                    <span class="kg-kn-eyebrow" data-i18n="espace.kn.r3.pickupLabel">Point de dépôt</span>
+                  </div>
+                  <p class="kg-kn-addr">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span>4ter Av. Durante, 06000 Nice</span>
+                  </p>
+                  <p class="kg-kn-hours">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                    <span data-i18n="espace.kn.s1.hours">Tous les jours · 08:30 – 23:30</span>
+                  </p>
+                  <a href="https://www.google.com/maps/search/?api=1&query=4ter+Av.+Durante,+06000+Nice" target="_blank" rel="noopener" class="kg-link">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span data-i18n="espace.kg.mapsOpen">Ouvrir dans Maps</span>
+                  </a>
+                </div>
               </div>
               <div class="kg-anim kg-anim-keynest" aria-hidden="true">
                 <div class="kg-kn-stage">
@@ -1234,6 +1273,29 @@
           </li>
 
         </ol>
+
+        <!-- Bannière : hors horaires KeyNest -->
+        <aside class="kg-hours-warn" role="note">
+          <span class="kg-hw-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 1 21h22L12 3z"/><path d="M12 10v5"/><circle cx="12" cy="18" r=".6" fill="currentColor"/></svg>
+          </span>
+          <div class="kg-hw-body">
+            <strong data-i18n="espace.kn.hoursWarn.t">Attention — en dehors des horaires KeyNest</strong>
+            <p data-i18n="espace.kn.hoursWarn.body" data-i18n-html="true">
+              Si votre <strong>récupération</strong> ou votre <strong>dépôt</strong> des clés doit se faire en dehors des horaires du point KeyNest (08:30 – 23:30), merci de nous <strong>contacter impérativement avant</strong>.
+            </p>
+            <div class="kg-hw-contacts">
+              <a href="tel:+33626671767" class="kg-hw-btn">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
+                <span>+33 6 26 67 17 67</span>
+              </a>
+              <a href="https://wa.me/33626671767" target="_blank" rel="noopener" class="kg-hw-btn kg-hw-btn--wa">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M20.52 3.48A11.93 11.93 0 0 0 12.04 0C5.5 0 .2 5.3.2 11.82c0 2.08.55 4.12 1.59 5.92L0 24l6.43-1.69a11.83 11.83 0 0 0 5.61 1.43h.01c6.54 0 11.84-5.3 11.84-11.82 0-3.16-1.23-6.13-3.37-8.44zM12.04 21.74c-1.79 0-3.54-.48-5.06-1.39l-.36-.21-3.82 1 1.02-3.72-.24-.38a9.88 9.88 0 0 1-1.52-5.21c0-5.42 4.41-9.83 9.84-9.83 2.63 0 5.1 1.03 6.96 2.88a9.79 9.79 0 0 1 2.88 6.96c0 5.42-4.41 9.83-9.83 9.83z"/></svg>
+                <span data-i18n="espace.kn.hoursWarn.wa">WhatsApp</span>
+              </a>
+            </div>
+          </div>
+        </aside>
       </div>
       <!-- /PANEL return-kn -->
     </div>
@@ -1524,7 +1586,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="js/auth.js?v=d1"></script>
-  <script src="js/i18n.js?v=d7"></script>
+  <script src="js/i18n.js?v=d8"></script>
   <script>
     const user = DP.requireAuth();
     if (!user) { /* redirect déjà déclenché */ }

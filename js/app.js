@@ -449,11 +449,15 @@ targets.forEach(el => io.observe(el));
       // Recentre la carte sur le marqueur sélectionné
       map.panTo([apt.lat, apt.lon], { animate:true, duration:.8 });
 
+      // Annonce ARIA : panneau en cours de mise à jour
+      if (panel) panel.setAttribute('aria-busy', 'true');
+
       panelPho.classList.add('changing');
       setTimeout(() => {
         panelImg.src = apt.img;
         panelImg.alt = apt.name;
         panelPho.classList.remove('changing');
+        if (panel) panel.setAttribute('aria-busy', 'false');
       }, 200);
 
       panelNum.textContent = `N°${apt.no}`;

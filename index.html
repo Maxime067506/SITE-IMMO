@@ -3,17 +3,34 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0e0e0e" />
-  <meta name="description" content="Séjours d'exception — Maisons & appartements de caractère pour voyageurs exigeants." />
-  <title>Delfosse Properties — Séjours d'exception</title>
-
   <meta name="theme-color" content="#0A1628" />
+  <meta name="description" content="Séjours d'exception — Sept adresses de caractère à Nice, orchestrées pour des voyageurs exigeants." />
+  <title>Delfosse Properties — Séjours d'exception à Nice</title>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Delfosse Properties" />
+  <meta property="og:title" content="Delfosse Properties — Séjours d'exception à Nice" />
+  <meta property="og:description" content="Sept adresses de caractère à Nice, orchestrées pour des voyageurs exigeants." />
+  <meta property="og:url" content="https://delfosse-properties.com/" />
+  <meta property="og:image" content="https://delfosse-properties.com/img/nice-sunset.jpg" />
+  <meta property="og:image:width" content="1600" />
+  <meta property="og:image:height" content="900" />
+  <meta property="og:image:alt" content="Nice au crépuscule — French Riviera" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Delfosse Properties — Séjours d'exception à Nice" />
+  <meta name="twitter:description" content="Sept adresses de caractère à Nice, orchestrées pour des voyageurs exigeants." />
+  <meta name="twitter:image" content="https://delfosse-properties.com/img/nice-sunset.jpg" />
+  <link rel="canonical" href="https://delfosse-properties.com/" />
   <link rel="preload" as="image" href="img/nice-sunset.jpg" fetchpriority="high" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="css/style.css?v=d7" />
+  <link rel="stylesheet" href="css/style.css?v=d9" />
 
   <!-- SAFARI iOS — FIX INLINE (après le stylesheet externe pour override).
        Force la visibilité du contenu du hero même si CSS externe ne charge pas
@@ -38,6 +55,46 @@
     .hero-film-content h1,
     .hero-film-content .lede{color:#F5EDE0 !important;text-shadow:0 2px 14px rgba(0,0,0,.55)}
   </style>
+
+  <!-- Schema.org — LodgingBusiness (SEO rich snippets) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LodgingBusiness",
+    "name": "Delfosse Properties",
+    "description": "Séjours d'exception — Sept adresses de caractère à Nice, orchestrées pour des voyageurs exigeants.",
+    "url": "https://delfosse-properties.com/",
+    "image": "https://delfosse-properties.com/img/nice-sunset.jpg",
+    "telephone": "+33 6 26 67 17 67",
+    "priceRange": "€€€",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Nice",
+      "addressRegion": "Provence-Alpes-Côte d'Azur",
+      "postalCode": "06000",
+      "addressCountry": "FR"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 43.7102,
+      "longitude": 7.2620
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "Nice",
+      "sameAs": "https://fr.wikipedia.org/wiki/Nice"
+    },
+    "founder": {
+      "@type": "Person",
+      "name": "Maxime Delfosse"
+    },
+    "numberOfRooms": 7,
+    "hasMap": "https://www.google.com/maps/place/Nice,+France",
+    "sameAs": [
+      "https://www.airbnb.fr/"
+    ]
+  }
+  </script>
 </head>
 <body>
 
