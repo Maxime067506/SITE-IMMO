@@ -2539,6 +2539,24 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
   .kg-anim{order:-1;max-width:320px;margin:0 auto}
   .kg-step-body{padding-left:58px}
   .kg-warn{font-size:12px;gap:8px;padding:10px 14px}
+
+  /* KN1 / KNR3 : l'animation KeyNest (img + halos) a un contenu compact qui
+     paraît "noyé" dans l'aspect-ratio 10/7 générique. On lui donne un ratio
+     plus large et on agrandit logo + halos pour mieux remplir la scène. */
+  .kg-anim-keynest{
+    max-width:360px;
+    aspect-ratio:16/9;
+  }
+  .kg-kn-logo-big{
+    width:clamp(190px, 70%, 300px);
+    max-height:58%;
+  }
+  .kg-kn-halo{
+    width:58%;
+    top:46%;
+  }
+  .kg-kn-cartouche-eyebrow{font-size:9px}
+  .kg-kn-cartouche-title{font-size:12px}
 }
 @media (max-width: 520px){
   .key-guide{padding:24px 18px}
@@ -2550,6 +2568,18 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
   .kg-substeps li{padding-left:26px;font-size:13.5px}
   .kg-substeps li::before{width:18px;height:18px;font-size:9px}
   .kg-addr{font-size:15px}
+
+  /* Sur très petits mobiles, le conteneur se veut plein-largeur (pas limité
+     à 320px) pour laisser le logo respirer correctement. */
+  .kg-anim-keynest{
+    max-width:100%;
+    aspect-ratio:3/2;
+  }
+  .kg-kn-logo-big{
+    width:clamp(200px, 72%, 320px);
+    max-height:54%;
+  }
+  .kg-kn-halo{width:60%;top:47%}
 }
 
 /* ---- prefers-reduced-motion ---- */
