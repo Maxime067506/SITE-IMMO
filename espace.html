@@ -2909,7 +2909,16 @@
         reapply();
       }
       document.querySelectorAll('.lang-switch [data-lang]').forEach((btn) => {
-        btn.addEventListener('click', () => { setTimeout(applyUserFields, 0); });
+        btn.addEventListener('click', () => {
+          setTimeout(() => {
+            applyUserFields();
+            // Ré-applique les légendes spécifiques à l'appartement dans la galerie
+            // (coverflow + lightbox) selon la langue active.
+            if (typeof window.__refreshApartmentGallery === 'function') {
+              window.__refreshApartmentGallery();
+            }
+          }, 0);
+        });
       });
 
       // Onglets Keynest (Récupérer / Déposer)
@@ -2989,25 +2998,207 @@
       if (idx < 0) { section.hidden = true; return; }
       const folder = user.image.substring(0, idx + 1);
 
-      const LABELS = [
-        "Vue d'ensemble",
-        "Séjour & lumière",
-        "Coin nuit",
-        "Cuisine équipée",
-        "Salle de bain",
-        "Détail de décoration",
-        "Perspective",
-        "Extérieur"
+      // Extrait le slug du dossier (ex: "01-amiral", "06-scherzo") à partir du chemin
+      // "img/airbnb/06-scherzo/photo-01.jpg" → "06-scherzo".
+      const folderSegments = folder.split('/').filter(Boolean);
+      const folderSlug = folderSegments[folderSegments.length - 1] || '';
+
+      // === Légendes spécifiques à chaque appartement, analysées photo par photo. ===
+      // Clé = slug du dossier, valeur = { fr: [...], en: [...] } (index 0 = photo-01).
+      // Chaque entrée a :
+      //   short : ~20-25 caractères, lisible en majuscules dans le bandeau haut de la carte
+      //   full  : description complète, utilisée en h3 et aria-label (lightbox/écran lecteur)
+      const APARTMENT_GALLERY = {
+        '01-amiral': {
+          fr: [
+            { short: "Cuisine & séjour",          full: "Cuisine équipée ouverte sur le séjour, plan de travail marbre" },
+            { short: "Séjour & terrasse",         full: "Séjour avec canapé beige côtelé et terrasse sur les toits de Nice" },
+            { short: "Séjour & coin repas",       full: "Séjour lumineux avec TV, coin repas et accès terrasse" },
+            { short: "Terrasse privative",        full: "Terrasse privative — fauteuils Acapulco et vue sur les toits niçois" },
+            { short: "Cuisine équipée",           full: "Cuisine tout équipée : four, plaques induction et lave-linge" },
+            { short: "Séjour lumineux",           full: "Vue d'ensemble du séjour ouvert sur la terrasse" },
+            { short: "Salle d'eau travertin",     full: "Salle d'eau en travertin avec douche et miroir LED" },
+            { short: "Cuisine & baie terrasse",   full: "Cuisine et baie vitrée sur la terrasse au coucher du soleil" }
+          ],
+          en: [
+            { short: "Kitchen & living",          full: "Open kitchen flowing into the living room, marble countertop" },
+            { short: "Living & terrace",          full: "Living room with beige corduroy sofa and terrace over Nice's rooftops" },
+            { short: "Living & dining",           full: "Bright living room with TV, dining nook and terrace access" },
+            { short: "Private terrace",           full: "Private terrace — Acapulco chairs and view over Nice's rooftops" },
+            { short: "Fitted kitchen",            full: "Fully equipped kitchen: oven, induction hob and washing machine" },
+            { short: "Bright living room",        full: "Overall view of the living room opening onto the terrace" },
+            { short: "Travertine bathroom",       full: "Travertine shower room with walk-in shower and LED mirror" },
+            { short: "Kitchen & terrace bay",     full: "Kitchen and full-height window onto the terrace at sunset" }
+          ]
+        },
+        '02-commodore': {
+          fr: [
+            { short: "Séjour coucher de soleil",  full: "Séjour au coucher du soleil avec vue sur les toits de Nice" },
+            { short: "Séjour & terrasse",         full: "Salon perspective vers la terrasse et coin repas haut" },
+            { short: "Séjour & cuisine",          full: "Séjour avec TV murale, banc bois brut et table ronde travertin" },
+            { short: "Chambre vue toits",         full: "Chambre principale avec vue sur la terrasse au crépuscule" },
+            { short: "Chambre & dressing",        full: "Chambre avec dressing miroir coulissant et literie blanche" },
+            { short: "Chambre & TV",              full: "Chambre avec TV murale et climatisation" },
+            { short: "Salle de bain béton",       full: "Salle de bain béton ciré avec miroir LED rond et douche à l'italienne" },
+            { short: "Douche à l'italienne",      full: "Douche à l'italienne et WC suspendu — carrelage gris" }
+          ],
+          en: [
+            { short: "Living at sunset",          full: "Living room at sunset with views across Nice's rooftops" },
+            { short: "Living & terrace",          full: "Living room looking towards the terrace and high dining nook" },
+            { short: "Living & kitchen",          full: "Living room with wall-mounted TV, raw wood bench and round travertine table" },
+            { short: "Bedroom rooftop view",      full: "Master bedroom with terrace view at dusk" },
+            { short: "Bedroom & wardrobe",        full: "Bedroom with sliding mirrored wardrobe and white linens" },
+            { short: "Bedroom & TV",              full: "Bedroom with wall-mounted TV and air conditioning" },
+            { short: "Concrete bathroom",         full: "Polished-concrete bathroom with round LED mirror and walk-in shower" },
+            { short: "Walk-in shower",            full: "Walk-in shower and wall-hung toilet — grey tiling" }
+          ]
+        },
+        '03-basilique': {
+          fr: [
+            { short: "Séjour & mezzanine",        full: "Séjour avec escalier vers la mezzanine et fenêtre arc cintré" },
+            { short: "Chambre arc cintré",        full: "Chambre principale avec grande fenêtre arc cintré et literie blanche" },
+            { short: "Vue d'ensemble duplex",     full: "Vue d'ensemble du duplex : mezzanine, cuisine et séjour" },
+            { short: "Chambre mezzanine",         full: "Chambre mezzanine sous plafond, parquet chevron" },
+            { short: "Chambre & armoire",         full: "Chambre avec armoire blanche et accès au palier" },
+            { short: "Salle de bain travertin",   full: "Salle de bain travertin avec vasque suspendue et WC" },
+            { short: "Cuisine équipée blanche",   full: "Cuisine équipée blanche avec four, lave-linge et bar" },
+            { short: "Séjour & coin repas",       full: "Séjour avec TV, coin repas et fenêtre arc cintré" }
+          ],
+          en: [
+            { short: "Living & mezzanine",        full: "Living room with staircase to the mezzanine and arched window" },
+            { short: "Bedroom arched window",     full: "Master bedroom with large arched window and white linens" },
+            { short: "Duplex overview",           full: "Overall view of the duplex: mezzanine, kitchen and living room" },
+            { short: "Mezzanine bedroom",         full: "Mezzanine bedroom under the ceiling, herringbone parquet" },
+            { short: "Bedroom & wardrobe",        full: "Bedroom with white wardrobe and access to the hallway" },
+            { short: "Travertine bathroom",       full: "Travertine bathroom with wall-hung basin and toilet" },
+            { short: "White fitted kitchen",      full: "White fitted kitchen with oven, washing machine and breakfast bar" },
+            { short: "Living & dining",           full: "Living room with TV, dining nook and arched window" }
+          ]
+        },
+        '04-transatlantique': {
+          fr: [
+            { short: "Séjour & arc cintré",       full: "Séjour spacieux avec canapé d'angle, fenêtre arc cintré et coin repas" },
+            { short: "Chambre & bibliothèque",    full: "Chambre principale avec tête de lit bibliothèque et literie blanche" },
+            { short: "Séjour & parquet",          full: "Séjour lumineux avec TV trépied et parquet chevron" },
+            { short: "Lit escamotable",           full: "Lit escamotable mural — rangement malin dans la deuxième pièce" },
+            { short: "Salle de bain",             full: "Salle de bain avec cabine de douche, vasque et WC" },
+            { short: "Cuisine & îlot marbre",     full: "Cuisine équipée marbre avec îlot central et coin repas" },
+            { short: "Cuisine équipée",           full: "Cuisine — four, plaques induction, machine Nespresso" }
+          ],
+          en: [
+            { short: "Living & arched window",    full: "Spacious living room with corner sofa, arched window and dining nook" },
+            { short: "Bedroom & bookcase",        full: "Master bedroom with bookcase headboard and white linens" },
+            { short: "Living & parquet",          full: "Bright living room with tripod TV and herringbone parquet" },
+            { short: "Murphy bed",                full: "Wall-mounted Murphy bed — smart storage in the second room" },
+            { short: "Bathroom",                  full: "Bathroom with shower cabin, basin and toilet" },
+            { short: "Kitchen & marble island",   full: "Fitted marble kitchen with central island and dining nook" },
+            { short: "Fitted kitchen",            full: "Kitchen — oven, induction hob, Nespresso machine" }
+          ]
+        },
+        '05-adagio': {
+          fr: [
+            { short: "Cuisine & table bar",       full: "Cuisine bois foncé avec table haute ronde et canapé bleu côtelé" },
+            { short: "Séjour & TV",               full: "Séjour avec canapé côtelé bleu, TV murale et banc en bois brut" },
+            { short: "Cuisine équipée",           full: "Cuisine équipée avec évier noir et table ronde dressée" },
+            { short: "Coin repas & miroir",       full: "Séjour et coin repas avec grand miroir latéral" },
+            { short: "Chambre minimaliste",       full: "Chambre principale épurée avec armoire miroir et accès salle de bain" },
+            { short: "Vue d'ensemble",            full: "Vue d'ensemble du séjour vers la cuisine et l'entrée" },
+            { short: "Cuisine table dressée",     full: "Cuisine bois foncé avec table dressée — vaisselle prête" },
+            { short: "Chambre & miroir",          full: "Chambre avec lit double et armoire miroir pleine hauteur" }
+          ],
+          en: [
+            { short: "Kitchen & bar",             full: "Dark wood kitchen with round high table and blue corduroy sofa" },
+            { short: "Living & TV",               full: "Living room with blue corduroy sofa, wall-mounted TV and raw wood bench" },
+            { short: "Fitted kitchen",            full: "Fitted kitchen with black sink and set round dining table" },
+            { short: "Dining & mirror",           full: "Living room and dining nook with large side mirror" },
+            { short: "Minimalist bedroom",        full: "Minimalist master bedroom with mirrored wardrobe and bathroom access" },
+            { short: "Overall view",              full: "Overall view from the living room towards the kitchen and entrance" },
+            { short: "Kitchen set table",         full: "Dark wood kitchen with set table — ready to dine" },
+            { short: "Bedroom & mirror",          full: "Bedroom with double bed and full-height mirrored wardrobe" }
+          ]
+        },
+        '06-scherzo': {
+          fr: [
+            { short: "Cuisine & bar cannelé",     full: "Cuisine bois chaleureuse avec bar cannelé — vue vers la chambre" },
+            { short: "Chambre & dressing",        full: "Chambre principale avec grande armoire miroir coulissante" },
+            { short: "Cuisine d'angle",           full: "Cuisine d'angle bois avec hotte noire et coin salon" },
+            { short: "Séjour & coin repas",       full: "Séjour avec canapé bleu, TV et table ronde dressée" },
+            { short: "Salle de bain",             full: "Salle de bain blanche — vasque, miroir rectangulaire et douche" },
+            { short: "Chambre épurée",            full: "Chambre épurée avec porte coulissante vers la salle de bain" },
+            { short: "Séjour & cuisine",          full: "Séjour vers la cuisine et l'entrée — table basse en bois" },
+            { short: "Douche à l'italienne",      full: "Salle de bain lumineuse avec grande douche à l'italienne" }
+          ],
+          en: [
+            { short: "Kitchen & fluted bar",      full: "Warm wood kitchen with fluted bar — view towards the bedroom" },
+            { short: "Bedroom & wardrobe",        full: "Master bedroom with large sliding mirrored wardrobe" },
+            { short: "Corner kitchen",            full: "Corner wood kitchen with black hood and living area" },
+            { short: "Living & dining",           full: "Living room with blue sofa, TV and set round table" },
+            { short: "Bathroom",                  full: "White bathroom — basin, rectangular mirror and walk-in shower" },
+            { short: "Minimalist bedroom",        full: "Minimalist bedroom with sliding door to the bathroom" },
+            { short: "Living & kitchen",          full: "Living room towards the kitchen and entrance — wooden coffee table" },
+            { short: "Walk-in shower",            full: "Bright bathroom with large walk-in shower" }
+          ]
+        },
+        '07-crescendo': {
+          fr: [
+            { short: "Séjour & coin repas",       full: "Séjour avec canapé côtelé beige, TV murale et coin repas haut" },
+            { short: "Coin repas dressé",         full: "Coin repas dressé avec tabourets cuir cognac et TV murale" },
+            { short: "Chambre principale",        full: "Chambre principale avec literie crème et vue sur la rue" },
+            { short: "Cuisine compacte",          full: "Cuisine compacte équipée — évier noir, four et mini-frigo" },
+            { short: "Salle de bain beige",       full: "Salle de bain beige avec miroir LED rond, vasque et douche à l'italienne" },
+            { short: "Salle de bain — vasque",    full: "Salle de bain — gros plan vasque et robinet laiton" },
+            { short: "Cuisine & marbre",          full: "Cuisine — plan de travail marbre, four et machine Nespresso" }
+          ],
+          en: [
+            { short: "Living & dining",           full: "Living room with beige corduroy sofa, wall-mounted TV and high dining nook" },
+            { short: "Dining set",                full: "Dining nook set with cognac leather stools and wall-mounted TV" },
+            { short: "Master bedroom",            full: "Master bedroom with cream linens and street view" },
+            { short: "Compact kitchen",           full: "Compact fitted kitchen — black sink, oven and mini-fridge" },
+            { short: "Beige bathroom",            full: "Beige bathroom with round LED mirror, basin and walk-in shower" },
+            { short: "Bathroom basin",            full: "Bathroom — close-up of the basin and brass fixtures" },
+            { short: "Kitchen & marble",          full: "Kitchen — marble worktop, oven and Nespresso machine" }
+          ]
+        }
+      };
+
+      const lang = (window.DP_I18N && window.DP_I18N.lang) ? window.DP_I18N.lang() : 'fr';
+      const mapping = APARTMENT_GALLERY[folderSlug];
+      const captions = mapping ? (mapping[lang] || mapping.fr) : null;
+      // Fallback neutre si pas de mapping ou index manquant.
+      const FALLBACK_FR = [
+        { short: "Vue d'ensemble",    full: "Vue d'ensemble" },
+        { short: "Séjour & lumière",  full: "Séjour & lumière" },
+        { short: "Coin nuit",         full: "Coin nuit" },
+        { short: "Cuisine équipée",   full: "Cuisine équipée" },
+        { short: "Salle de bain",     full: "Salle de bain" },
+        { short: "Détail déco",       full: "Détail de décoration" },
+        { short: "Perspective",       full: "Perspective" },
+        { short: "Extérieur",         full: "Extérieur" }
       ];
+      const FALLBACK_EN = [
+        { short: "Overview",          full: "Overview" },
+        { short: "Living & light",    full: "Living & light" },
+        { short: "Sleeping area",     full: "Sleeping area" },
+        { short: "Fitted kitchen",    full: "Fitted kitchen" },
+        { short: "Bathroom",          full: "Bathroom" },
+        { short: "Decorative detail", full: "Decorative detail" },
+        { short: "Perspective",       full: "Perspective" },
+        { short: "Outdoor",           full: "Outdoor" }
+      ];
+      const FALLBACK = lang === 'en' ? FALLBACK_EN : FALLBACK_FR;
 
       const MAX = 8;
       const candidates = [];
       for (let i = 1; i <= MAX; i++){
         const num = String(i).padStart(2, '0');
+        const entry = (captions && captions[i-1])
+          || FALLBACK[i-1]
+          || { short: 'Vue ' + num, full: 'Vue ' + num };
         candidates.push({
           src: folder + 'photo-' + num + '.jpg',
           no: num,
-          label: LABELS[i-1] || ('Vue ' + num),
+          label: entry.short,   // libellé court (bandeau haut + nom carte)
+          full:  entry.full,    // description longue (aria-label, détail)
           tag: ('N°' + num)
         });
       }
@@ -3061,7 +3252,10 @@
           const a = document.createElement('article');
           a.className = 'cf-card';
           a.dataset.i = i;
-          a.setAttribute('aria-label', `${it.label} — photo ${i + 1}`);
+          // aria-label utilise la description longue (meilleur pour lecteurs d'écran)
+          a.setAttribute('aria-label', `${it.full || it.label} — photo ${i + 1}`);
+          // title = tooltip au survol : montre la description complète à l'utilisateur
+          a.setAttribute('title', it.full || it.label);
           a.innerHTML = `
             <div class="cf-card-top"><span>${it.tag}</span><span>${it.label.toUpperCase()}</span></div>
             <img src="${it.src}" alt="" draggable="false" loading="lazy" decoding="async" />
@@ -3091,6 +3285,31 @@
         let active = 0;
         let timer = null;
         let paused = false;
+
+        // === Hook langue : lorsqu'on clique FR/EN, on ré-applique les légendes
+        // spécifiques à l'appartement en cours sans reconstruire les cartes. ===
+        const applyApartmentCaptions = () => {
+          const lang2 = (window.DP_I18N && window.DP_I18N.lang) ? window.DP_I18N.lang() : 'fr';
+          const mapping2 = APARTMENT_GALLERY[folderSlug];
+          const captions2 = mapping2 ? (mapping2[lang2] || mapping2.fr) : null;
+          const fb2 = (lang2 === 'en')
+            ? FALLBACK_EN || FALLBACK
+            : FALLBACK_FR || FALLBACK;
+          cards.forEach((card, i) => {
+            const entry = (captions2 && captions2[i]) || fb2[i] || { short: 'Vue ' + String(i+1).padStart(2,'0'), full: '' };
+            // Met à jour l'item en mémoire pour que la lightbox lise la bonne langue
+            if (items[i]) { items[i].label = entry.short; items[i].full = entry.full || entry.short; }
+            const topUpper = card.querySelector('.cf-card-top span:last-child');
+            const bottomH3 = card.querySelector('.cf-card-name');
+            if (topUpper) topUpper.textContent = entry.short.toUpperCase();
+            if (bottomH3) bottomH3.textContent = entry.short;
+            card.setAttribute('aria-label', `${entry.full || entry.short} — photo ${i + 1}`);
+            card.setAttribute('title', entry.full || entry.short);
+          });
+        };
+        // Expose (idempotent : chaque mount écrase le hook précédent) — appelé depuis
+        // le handler global de la langue, tout en bas de initApartmentCoverflow.
+        window.__refreshApartmentGallery = applyApartmentCaptions;
 
         const signedDelta = (i) => {
           let d = i - active;
@@ -3211,7 +3430,9 @@
           lbStage.style.backgroundImage = `url('${p.src}')`;
           lbCur.textContent = String(lbIdx + 1).padStart(2, '0');
           lbTot.textContent = String(items.length).padStart(2, '0');
-          lbLabel.textContent = p.label;
+          // Lightbox plein écran : on affiche la description LONGUE (p.full) plutôt que
+          // le court tag affiché sur la carte miniature.
+          lbLabel.textContent = p.full || p.label;
         }
         function openLb(i){
           lbIdx = i; lbRender();
