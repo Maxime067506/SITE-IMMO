@@ -82,10 +82,16 @@
     </section>
   </main>
 
-  <script src="js/auth.js?v=d8"></script>
+  <script src="js/auth.js?v=d9"></script>
   <script>
-    // Si déjà connecté, rediriger direct vers l'espace
-    if (DP.current()) window.location.replace('espace.html');
+    // Si déjà connecté :
+    // - admin  → tableau de bord admin.html
+    // - voyageur → espace privé espace.html
+    (function redirectIfLogged(){
+      const u = DP.current();
+      if (!u) return;
+      window.location.replace(u.is_admin ? 'admin.html' : 'espace.html');
+    })();
 
     const form = document.getElementById('login-form');
     const errorBox = document.getElementById('authError');
@@ -119,7 +125,9 @@
           return;
         }
         document.body.classList.add('is-leaving');
-        setTimeout(() => { window.location.href = 'espace.html'; }, 380);
+        // Si admin, on redirige vers le tableau de bord ; sinon vers l'espace voyageur
+        const target = res.user && res.user.is_admin ? 'admin.html' : 'espace.html';
+        setTimeout(() => { window.location.href = target; }, 380);
       } catch (err) {
         errorBox.textContent = "Erreur technique : " + (err && err.message ? err.message : 'réessayez.');
         submitBtn.disabled = false;

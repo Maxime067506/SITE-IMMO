@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0c0c0a" />
+  <meta name="description" content="Tableau de bord administrateur Delfosse Properties" />
+  <title>Administration — Delfosse Properties</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css?v=d9" />
+
+  <style>
+    :root{
+      --bg:#0c0c0a;
+      --panel:#161511;
+      --panel-hover:#1E1D18;
+      --ink:#F4EAD0;
+      --ink-mute:#A79E8A;
+      --gold:#C9A961;
+      --gold-soft:rgba(201,169,97,.18);
+      --gold-line:rgba(201,169,97,.3);
+      --f-serif:'Fraunces',Georgia,serif;
+      --f-sans:'Inter',system-ui,sans-serif;
+      --f-mono:'JetBrains Mono',ui-monospace,monospace;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{background:var(--bg);color:var(--ink);font-family:var(--f-sans);font-size:16px;line-height:1.5;min-height:100vh;-webkit-font-smoothing:antialiased}
+    a{color:inherit;text-decoration:none}
+
+    /* Header */
+    .admin-shell{max-width:1320px;margin:0 auto;padding:56px 40px 80px;position:relative}
+    .admin-brand{display:inline-flex;align-items:baseline;gap:8px;color:var(--ink);margin-bottom:64px}
+    .admin-brand .bd-mono{font-family:var(--f-serif);font-style:italic;font-size:28px;font-weight:500}
+    .admin-brand .bd-sub{font-family:var(--f-mono);font-size:10px;letter-spacing:.32em;color:var(--gold);text-transform:uppercase;align-self:flex-end;padding-bottom:4px}
+
+    .admin-head{margin-bottom:56px;max-width:780px}
+    .admin-eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;margin-bottom:16px;display:flex;gap:10px;align-items:center}
+    .admin-eyebrow::before{content:"";display:inline-block;width:24px;height:1px;background:var(--gold);opacity:.6}
+    .admin-title{font-family:var(--f-serif);font-size:clamp(40px,6vw,64px);font-weight:400;line-height:1.05;letter-spacing:-0.01em;margin-bottom:20px}
+    .admin-title em{color:var(--gold);font-style:italic}
+    .admin-lede{color:var(--ink-mute);font-size:17px;max-width:580px}
+
+    /* Grid des appartements */
+    .admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;margin-bottom:80px}
+
+    .admin-card{background:var(--panel);border:1px solid rgba(201,169,97,.12);border-radius:6px;overflow:hidden;cursor:pointer;transition:transform .28s cubic-bezier(.2,.8,.2,1), border-color .28s, box-shadow .28s;position:relative;display:flex;flex-direction:column;min-height:420px;text-align:left;color:inherit}
+    .admin-card:hover,.admin-card:focus-visible{transform:translateY(-4px);border-color:var(--gold-line);box-shadow:0 24px 60px rgba(0,0,0,.42),0 0 0 1px var(--gold-soft)}
+    .admin-card:focus-visible{outline:none}
+
+    .admin-card-img{position:relative;aspect-ratio:5/4;background:#222 center/cover no-repeat;overflow:hidden}
+    .admin-card-img::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(12,12,10,.85));pointer-events:none}
+    .admin-card-no{position:absolute;top:14px;left:14px;background:rgba(12,12,10,.82);color:var(--gold);font-family:var(--f-mono);font-size:10px;letter-spacing:.28em;padding:6px 10px;border-radius:2px;border:1px solid var(--gold-soft);z-index:1}
+    .admin-card-status{position:absolute;top:14px;right:14px;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.22em;padding:6px 10px;border-radius:2px;z-index:1;text-transform:uppercase}
+    .admin-card-status.is-ok{background:rgba(56,142,66,.2);color:#94D39D;border:1px solid rgba(94,211,157,.3)}
+    .admin-card-status.is-prep{background:rgba(201,169,97,.18);color:var(--gold);border:1px solid var(--gold-line)}
+
+    .admin-card-body{padding:22px 22px 24px;display:flex;flex-direction:column;gap:8px;flex:1}
+    .admin-card-title{font-family:var(--f-serif);font-size:22px;font-weight:500;line-height:1.2;color:var(--ink)}
+    .admin-card-guest{color:var(--ink-mute);font-size:14px;margin-top:2px}
+    .admin-card-location{color:var(--ink-mute);font-size:13px;display:flex;align-items:center;gap:6px;opacity:.75;margin-top:2px}
+    .admin-card-location svg{flex:0 0 13px;color:var(--gold)}
+
+    .admin-card-dates{margin-top:auto;padding-top:18px;border-top:1px solid rgba(201,169,97,.1);display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .admin-card-period{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.04em;color:var(--ink);line-height:1.35}
+    .admin-card-period .arrow{color:var(--gold);opacity:.7;margin:0 4px}
+    .admin-card-cta{font-family:var(--f-mono);font-size:10px;letter-spacing:.28em;color:var(--gold);text-transform:uppercase;white-space:nowrap;display:inline-flex;align-items:center;gap:6px}
+    .admin-card-cta svg{transition:transform .25s}
+    .admin-card:hover .admin-card-cta svg{transform:translateX(3px)}
+
+    /* Footer / logout */
+    .admin-foot{display:flex;align-items:center;justify-content:space-between;padding-top:32px;border-top:1px solid rgba(201,169,97,.12);font-family:var(--f-mono);font-size:11px;letter-spacing:.22em;color:var(--ink-mute);text-transform:uppercase}
+    .admin-foot-btn{background:transparent;border:1px solid var(--gold-line);color:var(--ink);font-family:var(--f-mono);font-size:11px;letter-spacing:.22em;padding:10px 20px;border-radius:2px;text-transform:uppercase;cursor:pointer;transition:all .22s}
+    .admin-foot-btn:hover{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+
+    /* Loading overlay pendant l'impersonation */
+    .admin-loading{position:fixed;inset:0;background:rgba(12,12,10,.9);display:none;align-items:center;justify-content:center;flex-direction:column;gap:20px;z-index:9999;backdrop-filter:blur(8px)}
+    .admin-loading.is-active{display:flex}
+    .admin-loading-spinner{width:36px;height:36px;border:2px solid var(--gold-soft);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .admin-loading-text{font-family:var(--f-mono);font-size:11px;letter-spacing:.28em;color:var(--gold);text-transform:uppercase}
+
+    @media (max-width:720px){
+      .admin-shell{padding:40px 20px 60px}
+      .admin-brand{margin-bottom:40px}
+      .admin-head{margin-bottom:36px}
+      .admin-title{font-size:40px}
+      .admin-grid{grid-template-columns:1fr;gap:16px}
+      .admin-card{min-height:auto}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-shell">
+    <a href="index.html" class="admin-brand" aria-label="Delfosse Properties">
+      <span class="bd-mono">Delfosse</span>
+      <span class="bd-sub">Properties</span>
+    </a>
+
+    <header class="admin-head">
+      <p class="admin-eyebrow">Administration · Tableau de bord</p>
+      <h1 class="admin-title">Accédez à l'espace <em>de votre choix.</em></h1>
+      <p class="admin-lede">Cliquez sur la carte de l'appartement pour ouvrir directement son espace privé voyageur.</p>
+    </header>
+
+    <main class="admin-grid" id="adminGrid" role="list" aria-label="Liste des espaces privés"></main>
+
+    <footer class="admin-foot">
+      <span id="adminFootCount">— espaces</span>
+      <button type="button" id="adminLogout" class="admin-foot-btn">Se déconnecter</button>
+    </footer>
+  </div>
+
+  <!-- Overlay de chargement pendant la bascule de session -->
+  <div class="admin-loading" id="adminLoading" role="status" aria-hidden="true" aria-live="polite">
+    <div class="admin-loading-spinner" aria-hidden="true"></div>
+    <div class="admin-loading-text" id="adminLoadingText">Ouverture de l'espace…</div>
+  </div>
+
+  <script src="js/auth.js?v=d9"></script>
+  <script>
+    (function(){
+      // Contrôle d'accès : seuls les comptes is_admin peuvent voir cette page.
+      const u = DP.requireAuth('login.html');
+      if (!u) return;
+      if (!u.is_admin) { window.location.replace('espace.html'); return; }
+
+      const grid   = document.getElementById('adminGrid');
+      const loader = document.getElementById('adminLoading');
+      const lText  = document.getElementById('adminLoadingText');
+      const countEl= document.getElementById('adminFootCount');
+
+      const list = Array.isArray(u.users) ? u.users : [];
+      countEl.textContent = list.length + (list.length > 1 ? ' espaces privés' : ' espace privé');
+
+      // Escape minimal pour les textes injectés dans innerHTML (titres / noms)
+      function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]); }
+
+      // Rendu des cartes
+      list.forEach((usr) => {
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'admin-card';
+        card.setAttribute('role', 'listitem');
+        card.setAttribute('aria-label', `Ouvrir l'espace ${usr.property_no || ''} — ${usr.name || usr.login}`);
+
+        const statusClass = (usr.status || '').toLowerCase().indexOf('prép') !== -1 ? 'is-prep' : 'is-ok';
+
+        card.innerHTML = `
+          <div class="admin-card-img" style="background-image:url('${esc(usr.image)}')">
+            <span class="admin-card-no">${esc(usr.property_no || '')}</span>
+            <span class="admin-card-status ${statusClass}">${esc(usr.status || '')}</span>
+          </div>
+          <div class="admin-card-body">
+            <h3 class="admin-card-title">${esc(usr.property || '')}</h3>
+            <p class="admin-card-guest">${esc(usr.name || '')}</p>
+            <p class="admin-card-location">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>${esc(usr.location || '')}</span>
+            </p>
+            <div class="admin-card-dates">
+              <span class="admin-card-period">${esc(usr.dates_in || '')} <span class="arrow">→</span> ${esc(usr.dates_out || '')}</span>
+              <span class="admin-card-cta">Accéder
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
+            </div>
+          </div>
+        `;
+
+        card.addEventListener('click', async () => {
+          lText.textContent = 'Ouverture — ' + (usr.property_no || usr.login);
+          loader.classList.add('is-active');
+          loader.setAttribute('aria-hidden', 'false');
+          try {
+            // On sauvegarde la session admin complète dans localStorage pour que la
+            // page espace.html puisse proposer un bouton "Retour dashboard" qui
+            // restaure la session admin sans redemander le mot de passe.
+            try { localStorage.setItem('dp_admin_backup', JSON.stringify(u)); } catch(_){}
+            const res = await DP.login(usr.login, usr.password);
+            if (!res.ok) {
+              loader.classList.remove('is-active');
+              loader.setAttribute('aria-hidden', 'true');
+              alert("Erreur : " + res.error);
+              return;
+            }
+            window.location.href = 'espace.html';
+          } catch (err) {
+            loader.classList.remove('is-active');
+            loader.setAttribute('aria-hidden', 'true');
+            alert("Erreur technique : " + (err && err.message ? err.message : 'réessayez.'));
+          }
+        });
+
+        grid.appendChild(card);
+      });
+
+      // Déconnexion
+      document.getElementById('adminLogout').addEventListener('click', () => {
+        DP.logout();
+        try { localStorage.removeItem('dp_admin_backup'); } catch(_){}
+        window.location.replace('login.html');
+      });
+    })();
+  </script>
+</body>
+</html>
