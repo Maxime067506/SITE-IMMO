@@ -2407,19 +2407,28 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
   0%  {opacity:0}
   100%{opacity:.85}
 }
-/* Walker : zigzag continu RC → 1er → 2e → 3e (points communs entre volées)
-   RC palier  : (118,134)     → entrée puis marche vers (138,132)
-   Stair 1    : (138,132) → (162,104)  [up-right]
-   Stair 2    : (162,104) → (138,76)   [up-left]  (point commun avec fin stair 1)
-   Stair 3    : (138,76)  → (162,48)   [up-right] (point commun avec fin stair 2)
-   3e palier  : (162,48)  → (196,48)   → destination */
+/* Walker : parcours physique réaliste.
+   RC (gauche) → stair 1 up-right → 1er-gauche → marche droite → 1er-droite
+   → stair 2 up-left → 2e-gauche → marche droite → 2e-droite
+   → stair 3 up-left → 3e-gauche → marche droite → destination
+   Points clés :
+     RC entrée     : (118,134)
+     RC sortie     : (138,132)
+     1er arrivée   : (162,104)
+     1er départ    : (212,104)
+     2e arrivée    : (162,76)
+     2e départ     : (212,76)
+     3e arrivée    : (162,48)
+     3e destination: (196,48) */
 @keyframes kgBsClimb{
   0%   {transform:translate(118px,134px);opacity:0}
   5%   {transform:translate(118px,134px);opacity:1}
-  14%  {transform:translate(138px,132px);opacity:1}
-  38%  {transform:translate(162px,104px);opacity:1}
-  62%  {transform:translate(138px,76px);opacity:1}
-  86%  {transform:translate(162px,48px);opacity:1}
+  12%  {transform:translate(138px,132px);opacity:1}
+  26%  {transform:translate(162px,104px);opacity:1}
+  36%  {transform:translate(212px,104px);opacity:1}
+  50%  {transform:translate(162px,76px);opacity:1}
+  60%  {transform:translate(212px,76px);opacity:1}
+  76%  {transform:translate(162px,48px);opacity:1}
   100% {transform:translate(196px,48px);opacity:1}
 }
 @keyframes kgBsGoalFade{
