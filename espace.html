@@ -1824,7 +1824,7 @@
           <div class="kg-hw-body">
             <strong data-i18n="espace.kn.hoursWarn.t">Attention — en dehors des horaires KeyNest</strong>
             <p data-i18n="espace.kn.hoursWarn.body" data-i18n-html="true">
-              Si votre <strong>récupération</strong> ou votre <strong>dépôt</strong> des clés doit se faire en dehors des horaires du point KeyNest (08:30 – 23:30), merci de nous <strong>contacter impérativement avant</strong>.
+              Si votre <strong>récupération</strong> ou votre <strong>dépôt</strong> des clés doit se faire en dehors des horaires du point KeyNest ({hours}), merci de nous <strong>contacter impérativement avant</strong>.
             </p>
             <div class="kg-hw-contacts">
               <a href="tel:+33626671767" class="kg-hw-btn">
@@ -2001,7 +2001,7 @@
           <div class="kg-hw-body">
             <strong data-i18n="espace.kn.hoursWarn.t">Attention — en dehors des horaires KeyNest</strong>
             <p data-i18n="espace.kn.hoursWarn.body" data-i18n-html="true">
-              Si votre <strong>récupération</strong> ou votre <strong>dépôt</strong> des clés doit se faire en dehors des horaires du point KeyNest (08:30 – 23:30), merci de nous <strong>contacter impérativement avant</strong>.
+              Si votre <strong>récupération</strong> ou votre <strong>dépôt</strong> des clés doit se faire en dehors des horaires du point KeyNest ({hours}), merci de nous <strong>contacter impérativement avant</strong>.
             </p>
             <div class="kg-hw-contacts">
               <a href="tel:+33626671767" class="kg-hw-btn">
@@ -2324,7 +2324,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="js/auth.js?v=d6"></script>
-  <script src="js/i18n.js?v=de"></script>
+  <script src="js/i18n.js?v=df"></script>
   <script>
     const user = DP.requireAuth();
     if (!user) { /* redirect déjà déclenché */ }
@@ -2889,6 +2889,11 @@
           ? `— ${sideLower.charAt(0).toUpperCase() + sideLower.slice(1)} wall of the corridor —`
           : `— Mur ${wallMasculine} du couloir —`;
         guide.querySelectorAll('[data-user-field="wall-label"]').forEach(el => { el.textContent = wallLabel; });
+        // Bannière "Attention — hors horaires KeyNest" : injecte les heures réelles
+        // de l'utilisateur à la place du placeholder {hours} inséré par i18n.
+        guide.querySelectorAll('[data-i18n="espace.kn.hoursWarn.body"]').forEach(el => {
+          el.innerHTML = el.innerHTML.replace(/\{hours\}/g, knHours);
+        });
       }
       applyUserFields();
 

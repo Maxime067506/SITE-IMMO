@@ -414,7 +414,7 @@ const I18N = {
     "espace.kn.r3.pickupLabel":  "Point de dépôt",
     /* Bannière hors-horaires KeyNest */
     "espace.kn.hoursWarn.t":     "Attention — en dehors des horaires KeyNest",
-    "espace.kn.hoursWarn.body":  "Si votre <strong>récupération</strong> ou votre <strong>dépôt</strong> des clés doit se faire en dehors des horaires du point KeyNest (08:30 – 23:30), merci de nous <strong>contacter impérativement avant</strong>.",
+    "espace.kn.hoursWarn.body":  "Si votre <strong>récupération</strong> ou votre <strong>dépôt</strong> des clés doit se faire en dehors des horaires du point KeyNest ({hours}), merci de nous <strong>contacter impérativement avant</strong>.",
     "espace.kn.hoursWarn.wa":    "WhatsApp",
     /* Guide */
     "espace.guide.eyebrow":    "Guide",
@@ -912,7 +912,7 @@ const I18N = {
     "espace.kn.r3.pickupLabel":  "Drop-off point",
     /* Out-of-hours warning banner */
     "espace.kn.hoursWarn.t":     "Important — outside KeyNest opening hours",
-    "espace.kn.hoursWarn.body":  "If your <strong>key pickup</strong> or <strong>drop-off</strong> needs to happen outside KeyNest opening hours (08:30 – 23:30), please <strong>contact us beforehand</strong>.",
+    "espace.kn.hoursWarn.body":  "If your <strong>key pickup</strong> or <strong>drop-off</strong> needs to happen outside KeyNest opening hours ({hours}), please <strong>contact us beforehand</strong>.",
     "espace.kn.hoursWarn.wa":    "WhatsApp",
     /* Guide */
     "espace.guide.eyebrow":    "Guide",
