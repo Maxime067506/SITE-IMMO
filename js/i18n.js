@@ -426,6 +426,7 @@ const I18N = {
     "espace.guide.download":   "Télécharger le PDF",
     "guide.loading":           "Chargement du guide…",
     "guide.fallback":          "L'affichage du guide a échoué. Téléchargez-le directement :",
+    "guide.fallback.btn":      "Télécharger",
     /* Wifi */
     "espace.wifi.eyebrow":     "Connexion Wifi",
     "espace.wifi.title":       "Restez <em style=\"color:var(--accent)\">connectés.</em>",
@@ -924,6 +925,7 @@ const I18N = {
     "espace.guide.download":   "Download the PDF",
     "guide.loading":           "Loading guide…",
     "guide.fallback":          "Guide preview failed. Download it directly:",
+    "guide.fallback.btn":      "Download",
     /* Wifi */
     "espace.wifi.eyebrow":     "Wifi connection",
     "espace.wifi.title":       "Stay <em style=\"color:var(--accent)\">connected.</em>",

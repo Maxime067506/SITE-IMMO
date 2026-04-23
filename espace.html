@@ -2111,7 +2111,7 @@
         <div class="guide-pdf-pages" id="guidePdfPages"></div>
         <div class="guide-pdf-error" id="guidePdfError" hidden>
           <p data-i18n="guide.fallback">L'affichage du guide a échoué. Téléchargez-le directement :</p>
-          <a href="doc/guide-nice.pdf" download="Guide Nice FR EN.pdf" class="btn btn-primary">Télécharger</a>
+          <a href="doc/guide-nice.pdf" download="Guide Nice FR EN.pdf" class="btn btn-primary" data-i18n="guide.fallback.btn">Télécharger</a>
         </div>
       </div>
     </div>
@@ -2324,7 +2324,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="js/auth.js?v=d8"></script>
-  <script src="js/i18n.js?v=df"></script>
+  <script src="js/i18n.js?v=e0"></script>
   <script>
     const user = DP.requireAuth();
     if (!user) { /* redirect déjà déclenché */ }
@@ -2335,9 +2335,29 @@
     const setText = (id, val) => { const el = $(id); if (el) el.textContent = val; };
     const setAttr = (id, attr, val) => { const el = $(id); if (el) el[attr] = val; };
 
-    const hour = new Date().getHours();
-    const greet = hour < 6 ? 'Bonne nuit' : hour < 12 ? 'Bonjour' : hour < 18 ? 'Bon après-midi' : 'Bonsoir';
-    setText('greeting', greet);
+    // Greeting dynamique selon l'heure + langue (FR / EN). Appelé sur init, au
+    // DOMContentLoaded (i18n prêt) et au changement de langue pour garder
+    // "Bonsoir" ⇄ "Good evening" synchrones.
+    function buildGreeting(){
+      const hour = new Date().getHours();
+      const langNow = (window.DP_I18N && window.DP_I18N.lang) ? window.DP_I18N.lang() : 'fr';
+      const key = hour < 6 ? 'night' : hour < 12 ? 'morning' : hour < 18 ? 'afternoon' : 'evening';
+      const FR = { night: 'Bonne nuit', morning: 'Bonjour', afternoon: 'Bon après-midi', evening: 'Bonsoir' };
+      const EN = { night: 'Good night', morning: 'Good morning', afternoon: 'Good afternoon', evening: 'Good evening' };
+      return (langNow === 'en' ? EN : FR)[key];
+    }
+    function applyGreeting(){ setText('greeting', buildGreeting()); }
+    // Expose pour que le handler langue global (plus bas) ré-applique aussi.
+    window.__applyGreeting = applyGreeting;
+    applyGreeting();
+    // DOMContentLoaded : i18n est maintenant prêt → ré-applique avec la bonne langue.
+    if (document.readyState === 'loading'){
+      document.addEventListener('DOMContentLoaded', applyGreeting, { once: true });
+    }
+    // Ré-application au changement de langue
+    document.querySelectorAll('.lang-switch [data-lang]').forEach((btn) => {
+      btn.addEventListener('click', () => { setTimeout(applyGreeting, 0); });
+    });
     setText('propertyInline', user.property);
     setText('statusLabel', user.status);
     // User chip : affiche le N° de l'appartement au lieu du prénom
@@ -2372,6 +2392,20 @@
 
     // === COVERFLOW 3D "Votre appartement" — même carrousel que la home ===
     initApartmentCoverflow(user);
+
+    // Handler GLOBAL du switcher de langue pour ré-appliquer les légendes de la
+    // galerie appartement (défini ici au niveau main, et pas à l'intérieur d'une
+    // fonction conditionnelle comme initKeynestGuide, sinon non attaché pour les
+    // utilisateurs en mode keybox).
+    document.querySelectorAll('.lang-switch [data-lang]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        setTimeout(() => {
+          if (typeof window.__refreshApartmentGallery === 'function') {
+            window.__refreshApartmentGallery();
+          }
+        }, 0);
+      });
+    });
 
     // === ARRIVÉE : Visionneuse photos + Carte Leaflet avec itinéraire piéton ===
     initArrivalModule(user);
@@ -2902,6 +2936,12 @@
           window.DP_I18N.apply(window.DP_I18N.lang());
         }
         applyUserFields();
+        // Ré-applique les légendes galerie en fonction de la langue maintenant active.
+        // (Le premier build se fait avant que i18n ait mis document.documentElement.lang ;
+        // ce deuxième passage garantit la bonne langue d'emblée.)
+        if (typeof window.__refreshApartmentGallery === 'function') {
+          window.__refreshApartmentGallery();
+        }
       };
       if (document.readyState === 'loading'){
         document.addEventListener('DOMContentLoaded', reapply, { once: true });
@@ -3261,7 +3301,11 @@
             <img src="${it.src}" alt="" draggable="false" loading="lazy" decoding="async" />
             <div class="cf-card-bot">
               <h3 class="cf-card-name">${it.label}</h3>
-              <p class="cf-card-meta"><span>Vue ${it.no}</span><span class="sep">·</span><span>Cliquez pour agrandir</span></p>
+              <p class="cf-card-meta">
+                <span class="cf-meta-view">Vue ${it.no}</span>
+                <span class="sep">·</span>
+                <span class="cf-meta-zoom">Cliquez pour agrandir</span>
+              </p>
             </div>`;
           a.addEventListener('click', () => onCardClick(i));
           // Anti-copie
@@ -3295,14 +3339,21 @@
           const fb2 = (lang2 === 'en')
             ? FALLBACK_EN || FALLBACK
             : FALLBACK_FR || FALLBACK;
+          // Libellés fixes localisés ("Vue N°" et "Cliquez pour agrandir")
+          const viewPrefix = lang2 === 'en' ? 'View ' : 'Vue ';
+          const zoomLabel  = lang2 === 'en' ? 'Click to enlarge' : 'Cliquez pour agrandir';
           cards.forEach((card, i) => {
             const entry = (captions2 && captions2[i]) || fb2[i] || { short: 'Vue ' + String(i+1).padStart(2,'0'), full: '' };
             // Met à jour l'item en mémoire pour que la lightbox lise la bonne langue
             if (items[i]) { items[i].label = entry.short; items[i].full = entry.full || entry.short; }
             const topUpper = card.querySelector('.cf-card-top span:last-child');
             const bottomH3 = card.querySelector('.cf-card-name');
+            const metaView = card.querySelector('.cf-meta-view');
+            const metaZoom = card.querySelector('.cf-meta-zoom');
             if (topUpper) topUpper.textContent = entry.short.toUpperCase();
             if (bottomH3) bottomH3.textContent = entry.short;
+            if (metaView) metaView.textContent = viewPrefix + items[i].no;
+            if (metaZoom) metaZoom.textContent = zoomLabel;
             card.setAttribute('aria-label', `${entry.full || entry.short} — photo ${i + 1}`);
             card.setAttribute('title', entry.full || entry.short);
           });
@@ -3310,6 +3361,17 @@
         // Expose (idempotent : chaque mount écrase le hook précédent) — appelé depuis
         // le handler global de la langue, tout en bas de initApartmentCoverflow.
         window.__refreshApartmentGallery = applyApartmentCaptions;
+        // Application initiale pour garantir la bonne langue dès le premier render
+        // (le build des cartes se fait en FR par défaut avant que i18n ne s'active).
+        applyApartmentCaptions();
+        // i18n applique les traductions sur DOMContentLoaded — on re-appelle à ce
+        // moment-là pour capturer l'éventuelle langue EN provenant de localStorage.
+        if (document.readyState === 'loading'){
+          document.addEventListener('DOMContentLoaded', applyApartmentCaptions, { once: true });
+        } else {
+          // DOMContentLoaded déjà passé ; on laisse un micro-tick à i18n pour s'appliquer.
+          setTimeout(applyApartmentCaptions, 0);
+        }
 
         const signedDelta = (i) => {
           let d = i - active;
