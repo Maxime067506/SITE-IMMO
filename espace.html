@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=d3" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="css/auth.css?v=f7" />
+  <link rel="stylesheet" href="css/auth.css?v=fa" />
 </head>
 <body class="espace-page">
 
@@ -927,14 +927,9 @@
 
                 <!-- Carte point de retrait KeyNest -->
                 <div class="kg-keynest-card">
-                  <div class="kg-kn-brand">
-                    <span class="kg-kn-icon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="M10.85 12.15 19 4l-3 -1 -1 3"/><path d="m18 5 1 1"/></svg>
-                    </span>
-                    <div class="kg-kn-meta">
-                      <span class="kg-kn-eyebrow" data-i18n="espace.kn.s1.pickupLabel">Point de retrait</span>
-                      <strong class="kg-kn-name">KeyNest Nice</strong>
-                    </div>
+                  <div class="kg-kn-brand kg-kn-brand--logo">
+                    <img src="img/keynest-logo.png" alt="KeyNest" class="kg-kn-logo-img" width="140" height="46" />
+                    <span class="kg-kn-eyebrow" data-i18n="espace.kn.s1.pickupLabel">Point de retrait</span>
                   </div>
                   <p class="kg-kn-addr">
                     <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -951,30 +946,15 @@
                 </div>
               </div>
               <div class="kg-anim kg-anim-keynest" aria-hidden="true">
-                <svg viewBox="0 0 200 160" class="kg-svg">
-                  <rect x="0" y="0" width="200" height="160" fill="#FBF6EA"/>
-                  <!-- Logo KeyNest — badge + icône clé stylisée + wordmark vert signature -->
-                  <g class="kg-kn-logo" transform="translate(100, 52)">
-                    <!-- Badge rond vert -->
-                    <circle cx="0" cy="0" r="28" fill="#00B67A"/>
-                    <!-- Clé blanche stylisée (anneau + tige + dents) -->
-                    <g fill="#fff" stroke="#fff">
-                      <circle cx="-8" cy="0" r="7" fill="none" stroke-width="3.2"/>
-                      <rect x="-1" y="-2.3" width="18" height="4.6" rx=".5" stroke="none"/>
-                      <rect x="11"  y="-6"   width="3.2" height="8.5" rx=".3" stroke="none"/>
-                      <rect x="15.5" y="-4" width="2.6" height="6.3" rx=".3" stroke="none"/>
-                    </g>
-                  </g>
-                  <!-- Anneaux pulsants autour du logo -->
-                  <circle class="kg-kn-pulse kg-kn-pulse-1" cx="100" cy="52" r="34" fill="none" stroke="#00B67A" stroke-width="1.4" opacity=".5"/>
-                  <circle class="kg-kn-pulse kg-kn-pulse-2" cx="100" cy="52" r="34" fill="none" stroke="#00B67A" stroke-width="1.2" opacity=".3"/>
-                  <!-- Wordmark KeyNest -->
-                  <text x="100" y="104" text-anchor="middle" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#00B67A" letter-spacing="-.01em">KeyNest</text>
-                  <!-- Cartouche lieu -->
-                  <rect x="50" y="118" width="100" height="28" rx="2" fill="#FBF6EA" stroke="#C9A961" stroke-opacity=".4"/>
-                  <text x="100" y="130" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing=".3em" fill="#8A7544">NICE</text>
-                  <text x="100" y="141" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="9" fill="#C9A961">Point de retrait</text>
-                </svg>
+                <div class="kg-kn-stage">
+                  <span class="kg-kn-halo kg-kn-halo-1"></span>
+                  <span class="kg-kn-halo kg-kn-halo-2"></span>
+                  <img src="img/keynest-logo.png" alt="" class="kg-kn-logo-big" />
+                  <div class="kg-kn-cartouche">
+                    <span class="kg-kn-cartouche-eyebrow">NICE</span>
+                    <span class="kg-kn-cartouche-title">Point de retrait</span>
+                  </div>
+                </div>
               </div>
             </div>
           </li>
@@ -1238,31 +1218,17 @@
                   <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                   <span data-i18n="espace.kn.r3.cta">Voir le point KeyNest</span>
                 </a>
-
-                <div class="kg-photo-confirm kg-photo-confirm--return">
-                  <span class="kg-photo-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                  </span>
-                  <div class="kg-photo-body">
-                    <p data-i18n="espace.kg.r6.farewell" data-i18n-html="true">
-                      Merci pour votre séjour et bonne route ! 🌊
-                    </p>
-                  </div>
-                </div>
               </div>
               <div class="kg-anim kg-anim-keynest" aria-hidden="true">
-                <svg viewBox="0 0 200 140" class="kg-svg">
-                  <rect x="0" y="0" width="200" height="140" fill="#FBF6EA"/>
-                  <!-- Point KeyNest (pin) -->
-                  <g class="kg-pin" transform="translate(100, 60)">
-                    <circle class="kg-pin-ring kg-pin-ring-1" cx="0" cy="0" r="14" fill="none" stroke="#C9A961" stroke-width="1.5" opacity=".6"/>
-                    <circle class="kg-pin-ring kg-pin-ring-2" cx="0" cy="0" r="14" fill="none" stroke="#C9A961" stroke-width="1.2" opacity=".35"/>
-                    <path d="M0 -18 C9 -18 14 -11 14 -3 C14 9 0 22 0 22 C0 22 -14 9 -14 -3 C-14 -11 -9 -18 0 -18 Z" fill="#C9A961"/>
-                    <circle cx="0" cy="-3" r="4" fill="#FBF6EA"/>
-                  </g>
-                  <text x="100" y="110" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing=".28em" fill="#8A7544">KEYNEST POINT</text>
-                  <text x="100" y="125" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="11" fill="#C9A961">Retour des clés</text>
-                </svg>
+                <div class="kg-kn-stage">
+                  <span class="kg-kn-halo kg-kn-halo-1"></span>
+                  <span class="kg-kn-halo kg-kn-halo-2"></span>
+                  <img src="img/keynest-logo.png" alt="" class="kg-kn-logo-big" />
+                  <div class="kg-kn-cartouche">
+                    <span class="kg-kn-cartouche-eyebrow">KEYNEST POINT</span>
+                    <span class="kg-kn-cartouche-title">Retour des clés</span>
+                  </div>
+                </div>
               </div>
             </div>
           </li>
@@ -1558,7 +1524,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="js/auth.js?v=d1"></script>
-  <script src="js/i18n.js?v=d6"></script>
+  <script src="js/i18n.js?v=d7"></script>
   <script>
     const user = DP.requireAuth();
     if (!user) { /* redirect déjà déclenché */ }

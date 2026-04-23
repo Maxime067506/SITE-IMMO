@@ -3034,4 +3034,110 @@ body.has-video-bg .site-footer{
 body.has-video-bg .site-footer a{color:rgba(245,237,224,.75)}
 body.has-video-bg .site-footer a:hover{color:var(--accent-lt)}
 
+/* ============================================================
+   SCROLL-DRIVEN CHOREOGRAPHY (progressive enhancement)
+   Trois moments cinématiques, uniquement en CSS, fallback gracieux :
+   - Hero exit zoom & fade (scroll timeline)
+   - Breath-zone "encre or" qui s'écrit (view timeline)
+   - Souligné or dessiné sous les <em> des h-display (view timeline)
+   Respecte prefers-reduced-motion et ne s'active que si le navigateur
+   supporte animation-timeline (Chrome/Edge/Safari récents).
+   ============================================================ */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+
+    /* ---- MOMENT 1 : HERO EXIT CINÉMATIQUE ----
+       Quand on scrolle depuis le haut, le contenu du hero se dilate
+       très subtilement (scale 1 → 1.04) et s'évanouit, comme un
+       zoom avant de caméra. La vidéo reste, on passe à travers le titre.
+       L'override inline iOS (gated @supports not) ne s'applique pas ici,
+       donc pas besoin de !important. */
+    .hero-film-content,
+    .hero-film-meta,
+    .hero-film-credit {
+      animation: heroFilmExit linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 90vh;
+    }
+    @keyframes heroFilmExit {
+      0%   { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+      50%  { opacity: .7; }
+      100% { opacity: 0; transform: scale(1.12) translateY(-60px); filter: blur(6px); }
+    }
+    /* Le scroll-hint : fade plus rapide (pas de translation pour rester lisible) */
+    .scroll-hint {
+      animation: heroHintFade linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 30vh;
+    }
+    @keyframes heroHintFade {
+      0%   { opacity: 1; transform: translateX(-50%) translateY(0); }
+      100% { opacity: 0; transform: translateX(-50%) translateY(24px); }
+    }
+
+    /* ---- MOMENT 2 : BREATH-ZONE LABEL "ENCRE OR" ----
+       Le label de chaque zone de respiration se dévoile comme si
+       l'encre était tirée au pinceau or de gauche à droite quand
+       la zone traverse le viewport. */
+    .breath-zone-label {
+      /* Remplace l'ancienne animation JS-déclenchée par un reveal scroll-driven.
+         Le clip-path est animé via une variable CSS enregistrée plus bas. */
+      opacity: 1; /* fix : on contrôle via clip-path */
+      clip-path: inset(0 100% 0 0);
+      animation: breathInk linear both;
+      animation-timeline: view();
+      animation-range: entry 15% cover 55%;
+      /* Un léger glow or pendant l'écriture */
+      text-shadow: 0 1px 2px rgba(0,0,0,.4), 0 0 14px rgba(201,169,97,.22);
+    }
+    @keyframes breathInk {
+      0%   { clip-path: inset(0 100% 0 0); }
+      100% { clip-path: inset(0 0 0 0); }
+    }
+    /* Les traits or de part et d'autre : croissance synchronisée */
+    .breath-zone-label::before {
+      animation: breathStrokeL linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 50%;
+      transform-origin: right center;
+    }
+    .breath-zone-label::after {
+      animation: breathStrokeR linear both;
+      animation-timeline: view();
+      animation-range: entry 35% cover 65%;
+      transform-origin: left center;
+    }
+    @keyframes breathStrokeL {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+    @keyframes breathStrokeR {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+
+    /* ---- MOMENT 3 : SOULIGNÉ OR DESSINÉ SOUS <em> DES TITRES ----
+       Les italiques dans .h-display et .display (hero exclu) gagnent
+       un trait or qui se dessine dessous quand la section entre.
+       Trait épais (3px) pour être clairement visible. */
+    .h-display em,
+    section:not(.hero-film) .display em {
+      background-image: linear-gradient(to right, var(--accent) 0%, var(--accent-lt) 100%);
+      background-repeat: no-repeat;
+      background-position: 0 100%;
+      background-size: 0% 3px;
+      padding-bottom: .12em;
+      animation: emUnderline linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 55%;
+    }
+    @keyframes emUnderline {
+      from { background-size: 0% 3px; }
+      to   { background-size: 100% 3px; }
+    }
+  }
+}
+/* Fallback : le label s'affiche sans animation si animation-timeline n'est pas supporté.
+   L'ancienne keyframe breath-in reste comme fallback — déjà définie plus haut. */
+
 /* Si body.sejour-page a data-overlay ajouté par section : la carte du fiche reste lisible */
