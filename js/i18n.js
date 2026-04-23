@@ -485,6 +485,8 @@ const I18N = {
     "espace.videos.comingSoon":"Vidéo bientôt disponible",
     "espace.videos.sofa.t":   "Déplier le canapé-lit",
     "espace.videos.sofa.d":   "30 secondes — comment ouvrir le lit, installer les draps et replier le matin.",
+    "espace.videos.door.t":   "Ouvrir la porte d'entrée",
+    "espace.videos.door.d":   "9 secondes — porte sécurisée française : levez la poignée <strong>vers le haut</strong>, puis tournez la clé.",
     "espace.videos.note":     "D'autres tutoriels arrivent : lave-linge, sèche-linge, climatisation, cafetière. À très bientôt.",
     /* Footer */
     "espace.foot.back":        "Retour au site"
@@ -971,6 +973,8 @@ const I18N = {
     "espace.videos.comingSoon":"Video coming soon",
     "espace.videos.sofa.t":   "Unfold the sofa bed",
     "espace.videos.sofa.d":   "30 seconds — how to open the bed, make it and fold it back in the morning.",
+    "espace.videos.door.t":   "Open the front door",
+    "espace.videos.door.d":   "9 seconds — French secure door: lift the handle <strong>upward</strong>, then turn the key.",
     "espace.videos.note":     "More tutorials coming: washer, dryer, air conditioning, coffee machine. Stay tuned.",
     /* Footer */
     "espace.foot.back":        "Back to site"
