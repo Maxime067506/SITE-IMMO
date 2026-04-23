@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=d9" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="css/auth.css?v=106" />
+  <link rel="stylesheet" href="css/auth.css?v=107" />
 </head>
 <body class="espace-page">
 
@@ -931,15 +931,18 @@
                     <img src="img/keynest-logo.png" alt="KeyNest" class="kg-kn-logo-img" width="140" height="46" />
                     <span class="kg-kn-eyebrow" data-i18n="espace.kn.s1.pickupLabel">Point de retrait</span>
                   </div>
+                  <p class="kg-kn-name" id="kgKnPickupName" hidden>
+                    <strong data-user-field="keynest_name">Nice · Mini market</strong>
+                  </p>
                   <p class="kg-kn-addr">
                     <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    <span>4ter Av. Durante, 06000 Nice</span>
+                    <span data-user-field="keynest_addr">4ter Av. Durante, 06000 Nice</span>
                   </p>
                   <p class="kg-kn-hours">
                     <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                    <span data-i18n="espace.kn.s1.hours">Tous les jours · 08:30 – 23:30</span>
+                    <span><span data-i18n="espace.kn.s1.hoursPrefix">Tous les jours</span>&nbsp;·&nbsp;<span data-user-field="keynest_hours">08:30 – 23:30</span></span>
                   </p>
-                  <a href="https://www.google.com/maps/search/?api=1&query=4ter+Av.+Durante,+06000+Nice" target="_blank" rel="noopener" class="kg-link">
+                  <a href="#" id="kgKnPickupMaps" target="_blank" rel="noopener" class="kg-link">
                     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                     <span data-i18n="espace.kg.mapsOpen">Ouvrir dans Maps</span>
                   </a>
@@ -1001,7 +1004,7 @@
               </div>
 
               <!-- Animation BADGE (Dupont) -->
-              <div class="kg-anim kg-anim-building" data-variant="badge" aria-hidden="true">
+              <div class="kg-anim kg-anim-building" data-variant="badge-dual" aria-hidden="true">
                 <svg viewBox="0 0 200 140" class="kg-svg">
                   <rect x="0" y="0" width="200" height="140" fill="#FBF6EA"/>
                   <!-- Façade immeuble -->
@@ -1100,6 +1103,137 @@
                     <circle class="kg-int-wave kg-int-wave-1" cx="0" cy="0" r="4" fill="none" stroke="#C9A961" stroke-width="1.2" opacity="0"/>
                     <circle class="kg-int-wave kg-int-wave-2" cx="0" cy="0" r="4" fill="none" stroke="#C9A961" stroke-width="1" opacity="0"/>
                     <circle class="kg-int-wave kg-int-wave-3" cx="0" cy="0" r="4" fill="none" stroke="#C9A961" stroke-width=".8" opacity="0"/>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- Animation BERNARD (badge-stairs) : porte unique jaune + cage d'escalier qui monte au 3ᵉ étage -->
+              <div class="kg-anim kg-anim-badge-stairs" data-variant="badge-stairs" aria-hidden="true" hidden>
+                <svg viewBox="0 0 220 150" class="kg-svg">
+                  <defs>
+                    <linearGradient id="kgBsDoorGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#FFE74A"/>
+                      <stop offset="100%" stop-color="#E8B822"/>
+                    </linearGradient>
+                    <linearGradient id="kgBsGlow" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stop-color="#FFF6C7" stop-opacity=".9"/>
+                      <stop offset="100%" stop-color="#FFE074" stop-opacity="0"/>
+                    </linearGradient>
+                    <radialGradient id="kgBsGoal" cx="50%" cy="50%" r="55%">
+                      <stop offset="0%" stop-color="#C9A961" stop-opacity=".7"/>
+                      <stop offset="70%" stop-color="#C9A961" stop-opacity=".15"/>
+                      <stop offset="100%" stop-color="#C9A961" stop-opacity="0"/>
+                    </radialGradient>
+                  </defs>
+
+                  <!-- Fond ivoire -->
+                  <rect x="0" y="0" width="220" height="150" fill="#FBF6EA"/>
+
+                  <!-- ============ GAUCHE : façade "LE TIGRE" avec porte jaune unique ============ -->
+                  <!-- Murs façade (pierres stylisées) -->
+                  <rect x="6" y="8" width="70" height="136" fill="#E0D5BA" stroke="#C9A961" stroke-opacity=".6"/>
+                  <g fill="none" stroke="#C9A961" stroke-opacity=".25" stroke-width=".6">
+                    <line x1="6" y1="28" x2="76" y2="28"/>
+                    <line x1="40" y1="8" x2="40" y2="28"/>
+                    <line x1="20" y1="28" x2="20" y2="48"/>
+                    <line x1="60" y1="28" x2="60" y2="48"/>
+                    <line x1="6" y1="48" x2="76" y2="48"/>
+                  </g>
+
+                  <!-- Enseigne "Le Tigre · 41" -->
+                  <text x="40" y="22" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="9" fill="#2A2015" font-weight="600">Le Tigre</text>
+                  <text x="65" y="22" text-anchor="start" font-family="JetBrains Mono, monospace" font-size="6" letter-spacing=".08em" fill="#5C4B24">41</text>
+
+                  <!-- Lumière chaude révélée derrière la porte -->
+                  <rect class="kg-bs-reveal" x="14" y="60" width="38" height="80" fill="url(#kgBsGlow)" opacity="0"/>
+
+                  <!-- Porte jaune (s'ouvre vers la gauche) -->
+                  <g class="kg-bs-door">
+                    <rect x="14" y="60" width="38" height="80" fill="url(#kgBsDoorGrad)" stroke="#8B6F12" stroke-width="1"/>
+                    <!-- Panneaux décoratifs -->
+                    <rect x="18" y="64" width="30" height="30" fill="none" stroke="#B8941E" stroke-width=".8"/>
+                    <rect x="18" y="98" width="30" height="38" fill="none" stroke="#B8941E" stroke-width=".8"/>
+                    <rect x="21" y="67" width="24" height="24" fill="#FFD100" fill-opacity=".4"/>
+                    <rect x="21" y="101" width="24" height="32" fill="#FFD100" fill-opacity=".35"/>
+                    <!-- Poignée -->
+                    <circle cx="47" cy="101" r="1.6" fill="#5C4B24"/>
+                  </g>
+
+                  <!-- Lecteur de badge (à droite de la porte) -->
+                  <rect x="54" y="86" width="16" height="22" rx="1.5" fill="#F6EFDE" stroke="#5C4B24" stroke-width=".7"/>
+                  <rect x="56" y="90" width="12" height="8" fill="#1A1410" rx=".5"/>
+                  <circle class="kg-bs-badge-halo" cx="62" cy="102" r="3.5" fill="none" stroke="#C9A961" stroke-width="1.2" opacity="0"/>
+                  <circle class="kg-bs-badge-dot" cx="62" cy="102" r="1.4" fill="#C9A961"/>
+
+                  <!-- Tapis / seuil -->
+                  <rect x="10" y="140" width="46" height="4" fill="#8A7544" opacity=".5"/>
+
+                  <!-- ============ SÉPARATEUR ============ -->
+                  <line x1="82" y1="14" x2="82" y2="136" stroke="#C9A961" stroke-opacity=".3" stroke-dasharray="2 3"/>
+
+                  <!-- ============ DROITE : cage d'escalier en coupe (4 paliers : RC, 1, 2, 3) ============ -->
+                  <!-- Étiquettes d'étages -->
+                  <text x="90" y="138" font-family="JetBrains Mono, monospace" font-size="5" letter-spacing=".12em" fill="#8A7544">RC</text>
+                  <text x="210" y="108" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="5" letter-spacing=".12em" fill="#8A7544">1ᵉʳ</text>
+                  <text x="90" y="78" font-family="JetBrains Mono, monospace" font-size="5" letter-spacing=".12em" fill="#8A7544">2ᵉ</text>
+                  <text x="210" y="44" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="6.5" letter-spacing=".16em" fill="#C9A961" font-weight="700" data-user-field="floor-uc-short">3ᵉ</text>
+
+                  <!-- Halo doré sur le palier 3ᵉ (destination) -->
+                  <ellipse class="kg-bs-goal-halo" cx="188" cy="42" rx="30" ry="14" fill="url(#kgBsGoal)" opacity="0"/>
+
+                  <!-- Paliers (lignes horizontales) -->
+                  <g stroke="#C9A961" stroke-width="2" fill="none" stroke-linecap="round">
+                    <line x1="92" y1="132" x2="138" y2="132"/>  <!-- RC bas -->
+                    <line x1="162" y1="104" x2="212" y2="104"/> <!-- 1er -->
+                    <line x1="92" y1="76" x2="138" y2="76"/>    <!-- 2e -->
+                    <line x1="162" y1="48" x2="212" y2="48"/>   <!-- 3e DEST -->
+                  </g>
+
+                  <!-- Volées d'escalier (lignes diagonales en zigzag) -->
+                  <g stroke="#C9A961" stroke-width="1.4" fill="none" stroke-linecap="round" stroke-opacity=".8">
+                    <line x1="138" y1="132" x2="162" y2="104"/>
+                    <line x1="162" y1="104" x2="138" y2="76"/>
+                    <line x1="138" y1="76" x2="162" y2="48"/>
+                  </g>
+
+                  <!-- Marches (petits traits parallèles) -->
+                  <g stroke="#C9A961" stroke-width=".5" stroke-opacity=".55">
+                    <!-- Volée 1 : RC → 1er (138,132 → 162,104) -->
+                    <line x1="140" y1="128" x2="144" y2="132"/>
+                    <line x1="144" y1="123" x2="148" y2="127"/>
+                    <line x1="148" y1="118" x2="152" y2="122"/>
+                    <line x1="152" y1="113" x2="156" y2="117"/>
+                    <line x1="156" y1="108" x2="160" y2="112"/>
+                    <!-- Volée 2 : 1er → 2e (162,104 → 138,76) -->
+                    <line x1="160" y1="100" x2="156" y2="104"/>
+                    <line x1="156" y1="95" x2="152" y2="99"/>
+                    <line x1="152" y1="90" x2="148" y2="94"/>
+                    <line x1="148" y1="85" x2="144" y2="89"/>
+                    <line x1="144" y1="80" x2="140" y2="84"/>
+                    <!-- Volée 3 : 2e → 3e (138,76 → 162,48) -->
+                    <line x1="140" y1="72" x2="144" y2="76"/>
+                    <line x1="144" y1="67" x2="148" y2="71"/>
+                    <line x1="148" y1="62" x2="152" y2="66"/>
+                    <line x1="152" y1="57" x2="156" y2="61"/>
+                    <line x1="156" y1="52" x2="160" y2="56"/>
+                  </g>
+
+                  <!-- Rampe stylisée (parallèle aux volées, décalée en haut) -->
+                  <g stroke="#8A7544" stroke-width=".8" fill="none" stroke-opacity=".4">
+                    <line x1="140" y1="126" x2="160" y2="103"/>
+                    <line x1="160" y1="103" x2="140" y2="80"/>
+                    <line x1="140" y1="80" x2="160" y2="57"/>
+                  </g>
+
+                  <!-- Point lumineux (walker) qui monte l'escalier -->
+                  <g class="kg-bs-walker">
+                    <circle cx="0" cy="0" r="3.2" fill="#C9A961" opacity=".35"/>
+                    <circle cx="0" cy="0" r="1.8" fill="#FFE074"/>
+                  </g>
+
+                  <!-- Marque "✓" sur le palier 3ᵉ quand arrivé -->
+                  <g class="kg-bs-tick" opacity="0">
+                    <path d="M 180 38 L 186 44 L 198 32" fill="none" stroke="#C9A961" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
                   </g>
                 </svg>
               </div>
@@ -1462,15 +1596,18 @@
                     <img src="img/keynest-logo.png" alt="KeyNest" class="kg-kn-logo-img" width="140" height="46" />
                     <span class="kg-kn-eyebrow" data-i18n="espace.kn.r3.pickupLabel">Point de dépôt</span>
                   </div>
+                  <p class="kg-kn-name" id="kgKnReturnName" hidden>
+                    <strong data-user-field="keynest_name">Nice · Mini market</strong>
+                  </p>
                   <p class="kg-kn-addr">
                     <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                    <span>4ter Av. Durante, 06000 Nice</span>
+                    <span data-user-field="keynest_addr">4ter Av. Durante, 06000 Nice</span>
                   </p>
                   <p class="kg-kn-hours">
                     <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                    <span data-i18n="espace.kn.s1.hours">Tous les jours · 08:30 – 23:30</span>
+                    <span><span data-i18n="espace.kn.s1.hoursPrefix">Tous les jours</span>&nbsp;·&nbsp;<span data-user-field="keynest_hours">08:30 – 23:30</span></span>
                   </p>
-                  <a href="https://www.google.com/maps/search/?api=1&query=4ter+Av.+Durante,+06000+Nice" target="_blank" rel="noopener" class="kg-link">
+                  <a href="#" id="kgKnReturnMaps" target="_blank" rel="noopener" class="kg-link">
                     <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                     <span data-i18n="espace.kg.mapsOpen">Ouvrir dans Maps</span>
                   </a>
@@ -1822,8 +1959,8 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="js/auth.js?v=d3"></script>
-  <script src="js/i18n.js?v=db"></script>
+  <script src="js/auth.js?v=d4"></script>
+  <script src="js/i18n.js?v=dc"></script>
   <script>
     const user = DP.requireAuth();
     if (!user) { /* redirect déjà déclenché */ }
@@ -2218,7 +2355,9 @@
       // Les SVG sont décoratifs (aria-hidden=true toujours), seul `hidden` contrôle le rendu.
       const access = user.building_access === 'interphone' ? 'interphone' : 'badge';
       const matchVariant = (attr, active) => (attr || '').split(/\s+/).filter(Boolean).includes(active);
-      guide.querySelectorAll('.kg-step[data-step="kn2"] [data-variant]').forEach((el) => {
+
+      // Sous-étapes (texte) : matching sur access simple
+      guide.querySelectorAll('.kg-step[data-step="kn2"] .kg-substeps[data-variant]').forEach((el) => {
         el.hidden = !matchVariant(el.dataset.variant, access);
       });
 
@@ -2240,6 +2379,16 @@
         el.hidden = !matchVariant(el.dataset.variant, floorVariant);
       });
 
+      // === Animations KN2 : mapping dérivé (access + floor_path) → anim variant ===
+      //   interphone            → "interphone"
+      //   badge + stairs-corner → "badge-stairs" (porte unique + escalier qui monte)
+      //   badge + autres        → "badge-dual"   (façade 2 portes Dupont)
+      const kn2Anim = access === 'interphone' ? 'interphone'
+                    : (floorVariant === 'stairs-corner' ? 'badge-stairs' : 'badge-dual');
+      guide.querySelectorAll('.kg-step[data-step="kn2"] .kg-anim[data-variant]').forEach((el) => {
+        el.hidden = !matchVariant(el.dataset.variant, kn2Anim);
+      });
+
       // === Nom de l'immeuble (optionnel) ===
       const bn = user.building_name || '';
       const bnBox = document.getElementById('kgKnBuilding');
@@ -2248,15 +2397,36 @@
         el.textContent = bn;
       });
 
+      // === Point de retrait KeyNest (adresse / heures / nom / lat-lon) ===
+      const knAddr   = user.keynest_addr  || '4ter Av. Durante, 06000 Nice';
+      const knHours  = user.keynest_hours || '08:30 – 23:30';
+      const knName   = user.keynest_name  || '';
+      guide.querySelectorAll('[data-user-field="keynest_addr"]').forEach(el => { el.textContent = knAddr; });
+      guide.querySelectorAll('[data-user-field="keynest_hours"]').forEach(el => { el.textContent = knHours; });
+      const knNameBox = document.getElementById('kgKnPickupName');
+      if (knNameBox) knNameBox.hidden = !knName;
+      guide.querySelectorAll('[data-user-field="keynest_name"]').forEach(el => { el.textContent = knName; });
+
+      // Liens "Ouvrir dans Maps" (kn1 + knr3) dynamiques
+      const knMapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(knAddr);
+      const knPickupMapsEl = document.getElementById('kgKnPickupMaps');
+      const knReturnMapsEl = document.getElementById('kgKnReturnMaps');
+      if (knPickupMapsEl) knPickupMapsEl.href = knMapsUrl;
+      if (knReturnMapsEl) knReturnMapsEl.href = knMapsUrl;
+      // Toggle hidden du bloc "nom du point" dans le panel retour
+      const knNameBoxReturn = document.getElementById('kgKnReturnName');
+      if (knNameBoxReturn) knNameBoxReturn.hidden = !knName;
+
       // Peuple les adresses
       if (user.arrival_dest_addr) setText('kgKnDestAddr', user.arrival_dest_addr);
 
       // Liens Maps dynamiques pour l'étape kn2 (destination)
+      // Origine de l'itinéraire = adresse du point KeyNest de l'utilisateur (paramétrable)
       if (user.arrival_dest_addr){
         const destQuery = encodeURIComponent(user.arrival_dest_addr.replace(/ · .*$/, ''));
         const mapsLink = 'https://www.google.com/maps/search/?api=1&query=' + destQuery;
         const routeLink = 'https://www.google.com/maps/dir/?api=1&origin=' +
-                          encodeURIComponent('4ter Av. Durante, 06000 Nice') +
+                          encodeURIComponent(knAddr) +
                           '&destination=' + destQuery + '&travelmode=walking';
         const mapsEl = document.getElementById('kgKnDestMaps');
         const routeEl = document.getElementById('kgKnDestRoute');
