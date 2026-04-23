@@ -531,15 +531,33 @@ targets.forEach(el => io.observe(el));
   const btnNext  = document.querySelector('.cf-next');
 
   // Données : 7 appartements — noms éditoriaux + URL Airbnb directe (clic = réservation)
+  // Les champs name et loc sont stockés comme clés i18n (apt.X.short / apt.X.loc)
+  // pour que le coverflow puisse basculer FR<->EN. Le tag reste hardcodé car c'est
+  // un mot court (PORT, JUMEAU, …) qui est aussi localisé via keys tag.cf.X.
   const ITEMS = [
-    { no:'01', name:"L'appartement du port",     tag:'PORT',         loc:'Port · 4 voyageurs',       rating:'4,87', image:'img/airbnb/01-amiral/photo-01.jpg',          airbnb:'https://www.airbnb.fr/rooms/1361669686960380718' },
-    { no:'02', name:"Son jumeau du port",        tag:'JUMEAU',       loc:'Port · 4 voyageurs',       rating:'4,88', image:'img/airbnb/02-commodore/photo-01.jpg?v=c1',       airbnb:'https://www.airbnb.fr/rooms/1361686663866337495' },
-    { no:'03', name:"Avenue Notre-Dame",         tag:'FAMILLE',      loc:'Notre-Dame · 6 voyageurs', rating:'4,84', image:'img/airbnb/03-basilique/photo-01.jpg',       airbnb:'https://www.airbnb.fr/rooms/1563266584925477319' },
-    { no:'04', name:"Le studio Art Déco",        tag:'ART DÉCO',     loc:'Gare · 4 voyageurs',       rating:'4,86', image:'img/airbnb/04-transatlantique/photo-01.jpg', airbnb:'https://www.airbnb.fr/rooms/1361628609886141688' },
-    { no:'05', name:"Ultra design",              tag:'ULTRA DESIGN', loc:'Musiciens · 4 voyageurs',  rating:'4,94', image:'img/airbnb/06-scherzo/photo-01.jpg?v=e3',         airbnb:'https://www.airbnb.fr/rooms/1446914329011561138' },
-    { no:'06', name:"Notre dernier-né",          tag:'DERNIER-NÉ',   loc:'Musiciens · 4 voyageurs',  rating:'4,69', image:'img/airbnb/07-crescendo/photo-01.jpg',       airbnb:'https://www.airbnb.fr/rooms/1361447215596892211' },
-    { no:'07', name:"Appartement design",        tag:'DESIGN',       loc:'Musiciens · 4 voyageurs',  rating:'4,81', image:'img/airbnb/05-adagio/photo-01.jpg?v=d1',          airbnb:'https://www.airbnb.fr/rooms/1447097634568506909' },
+    { no:'01', nameKey:'apt.1.short', tagKey:'tag.cf.1', locKey:'apt.1.loc', rating:'4,87', image:'img/airbnb/01-amiral/photo-01.jpg',          airbnb:'https://www.airbnb.fr/rooms/1361669686960380718' },
+    { no:'02', nameKey:'apt.2.short', tagKey:'tag.cf.2', locKey:'apt.2.loc', rating:'4,88', image:'img/airbnb/02-commodore/photo-01.jpg?v=c1',       airbnb:'https://www.airbnb.fr/rooms/1361686663866337495' },
+    { no:'03', nameKey:'apt.3.short', tagKey:'tag.cf.3', locKey:'apt.3.loc', rating:'4,84', image:'img/airbnb/03-basilique/photo-01.jpg',       airbnb:'https://www.airbnb.fr/rooms/1563266584925477319' },
+    { no:'04', nameKey:'apt.4.short', tagKey:'tag.cf.4', locKey:'apt.4.loc', rating:'4,86', image:'img/airbnb/04-transatlantique/photo-01.jpg', airbnb:'https://www.airbnb.fr/rooms/1361628609886141688' },
+    { no:'05', nameKey:'apt.5.short', tagKey:'tag.cf.5', locKey:'apt.5.loc', rating:'4,94', image:'img/airbnb/06-scherzo/photo-01.jpg?v=e3',         airbnb:'https://www.airbnb.fr/rooms/1446914329011561138' },
+    { no:'06', nameKey:'apt.6.short', tagKey:'tag.cf.6', locKey:'apt.6.loc', rating:'4,69', image:'img/airbnb/07-crescendo/photo-01.jpg',       airbnb:'https://www.airbnb.fr/rooms/1361447215596892211' },
+    { no:'07', nameKey:'apt.7.short', tagKey:'tag.cf.7', locKey:'apt.7.loc', rating:'4,81', image:'img/airbnb/05-adagio/photo-01.jpg?v=d1',          airbnb:'https://www.airbnb.fr/rooms/1447097634568506909' },
   ];
+  // Helper : traduction via DP_I18N avec fallback FR
+  const tr = (key, fallback) => {
+    if (window.DP_I18N && window.DP_I18N.t) {
+      const v = window.DP_I18N.t(key);
+      if (v && v !== key) return v;
+    }
+    return fallback || key;
+  };
+  // Hydrate chaque ITEM avec name/loc/tag résolus (recalculés à chaque refresh)
+  const resolveItems = () => ITEMS.forEach(it => {
+    it.name = tr(it.nameKey, it.name || '');
+    it.tag  = tr(it.tagKey,  it.tag  || '');
+    it.loc  = tr(it.locKey,  it.loc  || '');
+  });
+  resolveItems();
 
   const TOTAL = ITEMS.length;
   const AUTOPLAY = 6000;
@@ -592,6 +610,31 @@ targets.forEach(el => io.observe(el));
     dotsWrap.appendChild(b);
     return b;
   });
+
+  // Refresh les libellés des cartes (name/loc/tag/aria) au changement de langue
+  function refreshCoverflowLabels(){
+    resolveItems();
+    cards.forEach((c, i) => {
+      const it = ITEMS[i];
+      c.setAttribute('aria-label', `${it.name} — ${it.loc}`);
+      const tag = c.querySelector('.cf-card-top span:last-child');
+      if (tag) tag.textContent = it.tag;
+      const nm = c.querySelector('.cf-card-name');
+      if (nm) nm.textContent = it.name;
+      const locEl = c.querySelector('.cf-card-meta span:first-child');
+      if (locEl) locEl.textContent = (it.loc || '').toUpperCase();
+    });
+    dots.forEach((d, i) => d.setAttribute('aria-label', `Aller à ${ITEMS[i].name}`));
+  }
+  document.querySelectorAll('.lang-switch [data-lang]').forEach(btn => {
+    btn.addEventListener('click', () => setTimeout(refreshCoverflowLabels, 0));
+  });
+  // Premier passage après DOMContentLoaded : i18n vient de s'appliquer
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', refreshCoverflowLabels, { once:true });
+  } else {
+    setTimeout(refreshCoverflowLabels, 0);
+  }
 
   // État
   let active = 0;

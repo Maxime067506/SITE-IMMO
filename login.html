@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0c0c0a" />
-  <meta name="description" content="Espace voyageur Delfosse Properties" />
-  <title>Espace voyageur — Delfosse Properties</title>
+  <meta name="description" content="Espace voyageur Delfosse Properties" data-i18n-attr="content" data-i18n-attr-key="login.meta" />
+  <title data-i18n="login.title">Espace voyageur — Delfosse Properties</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,11 +22,11 @@
       <div class="auth-visual-overlay"></div>
       <div class="auth-visual-meta">
         <span class="rec"></span>
-        <span>Accès privé — Voyageurs</span>
+        <span data-i18n="login.aside.label">Accès privé — Voyageurs</span>
       </div>
       <div class="auth-visual-quote">
-        <p>« Nice, au coucher du soleil —<br/>le bleu devient l'or. »</p>
-        <cite>Delfosse Properties · French Riviera</cite>
+        <p data-i18n="login.aside.quote" data-i18n-html="true">« Nice, au coucher du soleil —<br/>le bleu devient l'or. »</p>
+        <cite data-i18n="login.aside.cite">Delfosse Properties · French Riviera</cite>
       </div>
     </aside>
 
@@ -38,23 +38,30 @@
       </a>
 
       <div class="auth-card">
-        <p class="eyebrow"><span class="eyebrow-num">01</span> Espace voyageur</p>
-        <h1 class="h-display">Bienvenue<br/><em>chez vous.</em></h1>
-        <p class="lede">
+        <!-- Switcher de langue : subtil, en haut à droite de la carte -->
+        <div class="lang-switch" role="group" aria-label="Langue" style="position:absolute;top:24px;right:24px">
+          <button type="button" data-lang="fr" class="is-active">FR</button>
+          <span class="lang-sep">·</span>
+          <button type="button" data-lang="en">EN</button>
+        </div>
+
+        <p class="eyebrow"><span class="eyebrow-num">01</span> <span data-i18n="login.eyebrow">Espace voyageur</span></p>
+        <h1 class="h-display" data-i18n="login.h1" data-i18n-html="true">Bienvenue<br/><em>chez vous.</em></h1>
+        <p class="lede" data-i18n="login.lede">
           Connectez-vous avec les identifiants fournis dans votre confirmation de séjour.
         </p>
 
         <form id="login-form" class="auth-form" novalidate>
           <label>
-            <span>Identifiant</span>
+            <span data-i18n="login.field.id">Identifiant</span>
             <input type="text" name="login" id="login" autocomplete="username" required spellcheck="false" autofocus />
           </label>
 
           <label>
-            <span>Mot de passe</span>
+            <span data-i18n="login.field.pw">Mot de passe</span>
             <div class="pw-wrap">
               <input type="password" name="password" id="password" autocomplete="current-password" required />
-              <button type="button" class="pw-toggle" aria-label="Afficher le mot de passe">
+              <button type="button" class="pw-toggle" aria-label="Afficher le mot de passe" data-i18n-attr="aria-label" data-i18n-attr-key="login.pw.show">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
               </button>
             </div>
@@ -62,26 +69,27 @@
 
           <div class="auth-err" id="authError" role="alert" aria-live="polite"></div>
 
-          <button type="submit" class="btn btn-primary auth-submit">Accéder à mon espace</button>
+          <button type="submit" class="btn btn-primary auth-submit" data-i18n="login.submit">Accéder à mon espace</button>
 
-          <p class="auth-help">
+          <p class="auth-help" data-i18n="login.help" data-i18n-html="true">
             Un souci de connexion ? <a href="mailto:contact@delfosse-properties.fr">Contactez votre conseiller</a>
           </p>
         </form>
 
         <p class="auth-secured">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-          <span>Connexion chiffrée · AES-256</span>
+          <span data-i18n="login.secured">Connexion chiffrée · AES-256</span>
         </p>
       </div>
 
       <footer class="auth-foot">
         <span>© 2026 Delfosse Properties</span>
-        <span><a href="#">Mentions légales</a> · <a href="#">Confidentialité</a></span>
+        <span><a href="#" data-i18n="login.legal">Mentions légales</a> · <a href="#" data-i18n="login.privacy">Confidentialité</a></span>
       </footer>
     </section>
   </main>
 
+  <script src="js/i18n.js?v=e3"></script>
   <script src="js/auth.js?v=d9"></script>
   <script>
     // Si déjà connecté :
@@ -98,10 +106,15 @@
     const pwInput = document.getElementById('password');
     const pwToggle = document.querySelector('.pw-toggle');
 
+    // Helper : traduction dynamique via i18n si dispo, sinon fallback.
+    const tt = (k, fb) => (window.DP_I18N && window.DP_I18N.t) ? (window.DP_I18N.t(k) !== k ? window.DP_I18N.t(k) : fb) : fb;
+
     pwToggle.addEventListener('click', () => {
       const show = pwInput.type === 'password';
       pwInput.type = show ? 'text' : 'password';
-      pwToggle.setAttribute('aria-label', show ? 'Masquer le mot de passe' : 'Afficher le mot de passe');
+      pwToggle.setAttribute('aria-label',
+        show ? tt('login.pw.hide', 'Masquer le mot de passe')
+             : tt('login.pw.show', 'Afficher le mot de passe'));
     });
 
     form.addEventListener('submit', async (e) => {
@@ -110,7 +123,7 @@
       const submitBtn = form.querySelector('.auth-submit');
       const originalLabel = submitBtn.textContent;
       submitBtn.disabled = true;
-      submitBtn.textContent = 'Déchiffrement…';
+      submitBtn.textContent = tt('login.submitting', 'Déchiffrement…');
 
       const login = document.getElementById('login').value;
       const pw = pwInput.value;
@@ -129,7 +142,7 @@
         const target = res.user && res.user.is_admin ? 'admin.html' : 'espace.html';
         setTimeout(() => { window.location.href = target; }, 380);
       } catch (err) {
-        errorBox.textContent = "Erreur technique : " + (err && err.message ? err.message : 'réessayez.');
+        errorBox.textContent = tt('login.err.tech', 'Erreur technique : ') + (err && err.message ? err.message : tt('login.err.retry', 'réessayez.'));
         submitBtn.disabled = false;
         submitBtn.textContent = originalLabel;
       }

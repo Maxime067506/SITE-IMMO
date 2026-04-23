@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0A1628" />
-  <meta name="description" content="Tableau de bord administrateur Delfosse Properties" />
-  <title>Administration — Delfosse Properties</title>
+  <meta name="description" content="Tableau de bord administrateur Delfosse Properties" data-i18n-attr="content" data-i18n-attr-key="admin.meta" />
+  <title data-i18n="admin.title.page">Administration — Delfosse Properties</title>
 
   <!-- Polices du site -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -59,6 +59,12 @@
       cursor:pointer;transition:all .24s var(--ease-out);
     }
     .admin-foot-btn:hover{background:#B69368;border-color:#B69368;color:#0A1628}
+
+    /* Switcher de langue sur fond navy */
+    .admin-topbar .lang-switch{color:rgba(245,237,224,.55)}
+    .admin-topbar .lang-switch button{color:inherit;opacity:.7}
+    .admin-topbar .lang-switch button:hover{color:#F5EDE0;opacity:1}
+    .admin-topbar .lang-switch button.is-active{color:#D4B77E;opacity:1}
 
     /* Bandeau d'intro : eyebrow + titre + lede (style homogène avec .cf-head) */
     .admin-head{
@@ -228,43 +234,51 @@
 
   <div class="admin-shell">
 
-    <!-- Top bar : brand + déconnexion -->
+    <!-- Top bar : brand + déconnexion + switcher de langue -->
     <header class="admin-topbar">
       <a href="index.html" class="brand-word" aria-label="Delfosse Properties">
         <span class="brand-mono">Delfosse</span>
         <span class="brand-sub">Properties</span>
       </a>
-      <button type="button" id="adminLogout" class="admin-foot-btn" aria-label="Se déconnecter">Déconnexion</button>
+      <div style="display:flex;align-items:center;gap:16px">
+        <div class="lang-switch" role="group" aria-label="Langue" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.lang">
+          <button type="button" data-lang="fr" class="is-active">FR</button>
+          <span class="lang-sep">·</span>
+          <button type="button" data-lang="en">EN</button>
+        </div>
+        <button type="button" id="adminLogout" class="admin-foot-btn" aria-label="Se déconnecter" data-i18n-attr="aria-label" data-i18n-attr-key="admin.logout.aria" data-i18n="admin.logout">Déconnexion</button>
+      </div>
     </header>
 
     <!-- Bandeau d'intro, cohérent avec .cf-head de la home -->
     <section class="admin-head">
       <p class="eyebrow">
         <span class="eyebrow-num">✻</span>
-        <span>Administration · Tableau de bord</span>
+        <span data-i18n="admin.eyebrow">Administration · Tableau de bord</span>
       </p>
-      <h1 class="admin-title">Accédez à l'espace <em>de votre choix.</em></h1>
-      <p class="admin-lede">
+      <h1 class="admin-title" data-i18n="admin.title" data-i18n-html="true">Accédez à l'espace <em>de votre choix.</em></h1>
+      <p class="admin-lede" data-i18n="admin.lede">
         Cliquez sur la carte de l'appartement pour ouvrir directement son espace privé voyageur.
       </p>
     </section>
 
     <!-- Grille des 7 espaces -->
-    <main class="admin-grid" id="adminGrid" role="list" aria-label="Liste des espaces privés"></main>
+    <main class="admin-grid" id="adminGrid" role="list" aria-label="Liste des espaces privés" data-i18n-attr="aria-label" data-i18n-attr-key="admin.aria.list"></main>
 
     <!-- Footer -->
     <footer class="admin-foot">
-      <span id="adminFootCount">— espaces</span>
-      <span>Connexion chiffrée · AES-256</span>
+      <span id="adminFootCount">—</span>
+      <span data-i18n="admin.secured">Connexion chiffrée · AES-256</span>
     </footer>
   </div>
 
   <!-- Overlay transition pendant le switch de session -->
   <div class="admin-loading" id="adminLoading" role="status" aria-hidden="true" aria-live="polite">
     <div class="admin-loading-spinner" aria-hidden="true"></div>
-    <div class="admin-loading-text" id="adminLoadingText">Ouverture de l'espace…</div>
+    <div class="admin-loading-text" id="adminLoadingText" data-i18n="admin.loading.default">Ouverture de l'espace…</div>
   </div>
 
+  <script src="js/i18n.js?v=e3"></script>
   <script src="js/auth.js?v=d9"></script>
   <script>
     (function(){
@@ -279,7 +293,24 @@
       const countEl = document.getElementById('adminFootCount');
 
       const list = Array.isArray(u.users) ? u.users : [];
-      countEl.textContent = list.length + (list.length > 1 ? ' espaces privés' : ' espace privé');
+
+      // Helpers de traduction côté page admin
+      function lang(){ return (window.DP_I18N && window.DP_I18N.lang) ? window.DP_I18N.lang() : 'fr'; }
+      function t(key, fallback){
+        if (window.DP_I18N && window.DP_I18N.t) {
+          const v = window.DP_I18N.t(key);
+          if (v && v !== key) return v;
+        }
+        return fallback;
+      }
+
+      function applyCountLabel(){
+        const n = list.length;
+        const singular = t('admin.foot.one', ' espace privé');
+        const plural   = t('admin.foot.many', ' espaces privés');
+        countEl.textContent = n + (n > 1 ? plural : singular);
+      }
+      applyCountLabel();
 
       // Escape texte injecté dans innerHTML (sécurité XSS)
       function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]); }
@@ -290,7 +321,10 @@
         card.type = 'button';
         card.className = 'admin-card';
         card.setAttribute('role', 'listitem');
-        card.setAttribute('aria-label', `Ouvrir l'espace ${usr.property_no || ''} — ${usr.name || usr.login}`);
+        const ariaOpenTpl = t('admin.card.aria', 'Ouvrir l\'espace {no} — {name}');
+        card.setAttribute('aria-label', ariaOpenTpl.replace('{no}', usr.property_no || '').replace('{name}', usr.name || usr.login));
+        card.dataset.propNo = usr.property_no || '';
+        card.dataset.propName = usr.name || usr.login;
 
         card.innerHTML = `
           <div class="admin-card-img" style="background-image:url('${esc(usr.image)}')">
@@ -307,7 +341,7 @@
             </p>
             <div class="admin-card-cta">
               <span class="admin-card-dates">${esc(usr.dates_in || '')} <span class="arrow">→</span> ${esc(usr.dates_out || '')}</span>
-              <span class="admin-card-cta-label">Accéder
+              <span class="admin-card-cta-label" data-cta-text>${esc(t('admin.cta', 'Accéder'))}
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
               </span>
             </div>
@@ -315,7 +349,8 @@
         `;
 
         card.addEventListener('click', async () => {
-          lText.textContent = 'Ouverture — ' + (usr.property_no || usr.login);
+          const prefix = t('admin.opening', 'Ouverture — ');
+          lText.textContent = prefix + (usr.property_no || usr.login);
           loader.classList.add('is-active');
           loader.setAttribute('aria-hidden', 'false');
           try {
@@ -325,18 +360,37 @@
             if (!res.ok) {
               loader.classList.remove('is-active');
               loader.setAttribute('aria-hidden', 'true');
-              alert("Erreur : " + res.error);
+              alert(t('admin.err', 'Erreur :') + ' ' + res.error);
               return;
             }
             window.location.href = 'espace.html';
           } catch (err) {
             loader.classList.remove('is-active');
             loader.setAttribute('aria-hidden', 'true');
-            alert("Erreur technique : " + (err && err.message ? err.message : 'réessayez.'));
+            alert(t('admin.errTech', 'Erreur technique :') + ' ' + (err && err.message ? err.message : t('admin.errRetry', 'réessayez.')));
           }
         });
 
         grid.appendChild(card);
+      });
+
+      // Ré-applique les libellés dynamiques (compteur, aria, CTA) au changement de langue
+      function reapplyDynamic(){
+        applyCountLabel();
+        const ariaOpenTpl = t('admin.card.aria', 'Ouvrir l\'espace {no} — {name}');
+        const ctaLabel = t('admin.cta', 'Accéder');
+        document.querySelectorAll('.admin-card').forEach(c => {
+          c.setAttribute('aria-label', ariaOpenTpl.replace('{no}', c.dataset.propNo || '').replace('{name}', c.dataset.propName || ''));
+          const cta = c.querySelector('[data-cta-text]');
+          if (cta) {
+            // On remplace juste le premier nœud texte (garde l'SVG)
+            const first = cta.firstChild;
+            if (first && first.nodeType === 3) first.nodeValue = ctaLabel + ' ';
+          }
+        });
+      }
+      document.querySelectorAll('.lang-switch [data-lang]').forEach(btn => {
+        btn.addEventListener('click', () => setTimeout(reapplyDynamic, 10));
       });
 
       // Déconnexion
