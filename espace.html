@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=d9" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="css/auth.css?v=105" />
+  <link rel="stylesheet" href="css/auth.css?v=106" />
 </head>
 <body class="espace-page">
 
@@ -970,12 +970,16 @@
               <div class="kg-step-body">
                 <p class="kg-addr">
                   <span id="kgKnDestAddr">27 avenue Notre-Dame, 06000 Nice</span>
+                  <span class="kg-building" id="kgKnBuilding" hidden>
+                    <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg>
+                    <span data-i18n="espace.kn.s2.building">Immeuble</span>&nbsp;<strong data-user-field="building_name">LE TIGRE</strong>
+                  </span>
                 </p>
 
-                <!-- Variante BADGE (Dupont) : badge + bouton porte -->
+                <!-- Variante BADGE (Dupont/Bernard) : badge + bouton porte (2e porte optionnelle) -->
                 <ol class="kg-substeps" data-variant="badge">
                   <li data-i18n="espace.kn.s2.a" data-i18n-html="true"><strong>Badge</strong> du trousseau sur la première porte d'entrée</li>
-                  <li data-i18n="espace.kn.s2.b" data-i18n-html="true">Pour la deuxième porte, appuyez sur le bouton <strong>« porte »</strong></li>
+                  <li data-opt="inner-door" data-i18n="espace.kn.s2.b" data-i18n-html="true">Pour la deuxième porte, appuyez sur le bouton <strong>« porte »</strong></li>
                 </ol>
 
                 <!-- Variante INTERPHONE (Rousseau) : sonner à TISSIER, porte automatique -->
@@ -1126,11 +1130,19 @@
                   <li data-i18n="espace.kn.s3.elevC" data-i18n-html="true">La porte se trouve sur <strong>votre <span data-user-field="door_side">droite</span></strong>, marquée du <strong>numéro <span data-user-field="door_number">76</span></strong></li>
                 </ol>
 
+                <!-- Variante BERNARD : escaliers à gauche + couloir qui tourne + porte Welcome -->
+                <ol class="kg-substeps" data-variant="stairs-corner" hidden>
+                  <li data-i18n="espace.kn.s3.scA" data-i18n-html="true">Montez par <strong>l'escalier</strong> jusqu'au <strong><span data-user-field="floor">3ᵉ</span> étage</strong> — gardez <strong>toujours la <span data-user-field="stairs_side">gauche</span></strong></li>
+                  <li data-i18n="espace.kn.s3.scB" data-i18n-html="true">En haut, vous verrez <strong>deux portes rouges se faisant face</strong> — <strong>ce ne sont pas les bonnes</strong></li>
+                  <li data-i18n="espace.kn.s3.scC" data-i18n-html="true">Continuez jusqu'<strong>au bout du couloir</strong>, puis tournez à <strong><span data-user-field="corridor_turn">gauche</span> à l'angle</strong></li>
+                  <li data-i18n="espace.kn.s3.scD" data-i18n-html="true">L'appartement est la porte au <strong>tapis marron « <span data-user-field="door_mat">Welcome</span> »</strong></li>
+                </ol>
+
                 <p class="kg-after" data-i18n="espace.kn.s3.after" data-i18n-html="true">
                   <strong>🔒 Porte sécurisée française :</strong> pour déverrouiller, levez la poignée <strong>vers le haut</strong>, puis tournez la clé. Même geste pour verrouiller en partant.
                 </p>
               </div>
-              <div class="kg-anim kg-anim-hallway" aria-hidden="true">
+              <div class="kg-anim kg-anim-hallway" data-variant="stairs-elevator elevator-turn" aria-hidden="true">
                 <svg viewBox="0 0 200 160" class="kg-svg">
                   <rect x="0" y="0" width="200" height="160" fill="#FBF6EA"/>
 
@@ -1184,6 +1196,120 @@
                     <circle cx="168" cy="108" r="3" fill="#C9A961"/>
                     <!-- Texte "PALIER" -->
                     <text x="100" y="56" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing=".3em" fill="#C9A961" font-weight="600">PALIER</text>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- Animation BERNARD (stairs-corner) : vue plongeante du couloir, 2 portes rouges X, chemin qui tourne à gauche, porte Welcome au bout -->
+              <div class="kg-anim kg-anim-stairs-corner" data-variant="stairs-corner" aria-hidden="true" hidden>
+                <svg viewBox="0 0 200 160" class="kg-svg">
+                  <defs>
+                    <linearGradient id="kgScFloor" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#F4EAD0"/>
+                      <stop offset="100%" stop-color="#E8DCBF"/>
+                    </linearGradient>
+                    <radialGradient id="kgScHalo" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stop-color="#C9A961" stop-opacity=".55"/>
+                      <stop offset="70%" stop-color="#C9A961" stop-opacity=".12"/>
+                      <stop offset="100%" stop-color="#C9A961" stop-opacity="0"/>
+                    </radialGradient>
+                  </defs>
+
+                  <!-- Fond ivoire -->
+                  <rect x="0" y="0" width="200" height="160" fill="#FBF6EA"/>
+
+                  <!-- Label "3ᵉ ÉTAGE" au point de départ (bas, centre) -->
+                  <g class="kg-sc-entry">
+                    <rect x="76" y="138" width="48" height="14" rx="2" fill="#1A1410" fill-opacity=".92"/>
+                    <text x="100" y="148" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5.2" letter-spacing=".22em" fill="#C9A961" font-weight="600" data-user-field="floor-uc">3ᵉ ÉTAGE</text>
+                  </g>
+
+                  <!-- Couloir principal (vue plongeante) : murs latéraux + sol -->
+                  <rect x="62" y="26" width="76" height="108" fill="url(#kgScFloor)"/>
+                  <!-- Mur gauche -->
+                  <rect x="58" y="26" width="4" height="108" fill="#8A7544"/>
+                  <!-- Mur droit complet (pas d'ouverture à droite) -->
+                  <rect x="138" y="26" width="4" height="108" fill="#8A7544"/>
+                  <!-- Mur bas (entrée) -->
+                  <rect x="58" y="130" width="84" height="4" fill="#8A7544"/>
+
+                  <!-- Embranchement GAUCHE au bout (angle du couloir) : annexe horizontale -->
+                  <rect x="8" y="14" width="54" height="20" fill="url(#kgScFloor)"/>
+                  <rect x="8" y="10" width="54" height="4" fill="#8A7544"/>
+                  <rect x="8" y="34" width="50" height="3" fill="#8A7544"/>
+                  <!-- Murs qui ferment l'annexe -->
+                  <rect x="4" y="10" width="4" height="27" fill="#8A7544"/>
+
+                  <!-- Ligne de démarcation : fin du couloir principal (au niveau y=26-34) -->
+                  <rect x="62" y="34" width="76" height="0.6" fill="#C9A961" fill-opacity=".35"/>
+
+                  <!-- Deux portes rouges face à face au milieu du couloir -->
+                  <!-- Porte rouge GAUCHE (sur mur gauche, ouvrant vers l'intérieur) -->
+                  <g class="kg-sc-reddoor kg-sc-reddoor-l">
+                    <rect x="62" y="66" width="20" height="28" fill="#A33528" stroke="#6B1D15" stroke-width=".6"/>
+                    <rect x="64" y="68" width="16" height="10" fill="#C64636" fill-opacity=".5"/>
+                    <rect x="64" y="80" width="16" height="12" fill="#C64636" fill-opacity=".4"/>
+                    <circle cx="79" cy="82" r="1.1" fill="#F0D78B"/>
+                    <!-- X rouge -->
+                    <g class="kg-sc-x" stroke="#E32D20" stroke-width="2.6" stroke-linecap="round" fill="none">
+                      <line x1="64" y1="68" x2="80" y2="92"/>
+                      <line x1="80" y1="68" x2="64" y2="92"/>
+                    </g>
+                  </g>
+                  <!-- Porte rouge DROITE (sur mur droit, ouvrant vers l'intérieur) -->
+                  <g class="kg-sc-reddoor kg-sc-reddoor-r">
+                    <rect x="118" y="66" width="20" height="28" fill="#A33528" stroke="#6B1D15" stroke-width=".6"/>
+                    <rect x="120" y="68" width="16" height="10" fill="#C64636" fill-opacity=".5"/>
+                    <rect x="120" y="80" width="16" height="12" fill="#C64636" fill-opacity=".4"/>
+                    <circle cx="121" cy="82" r="1.1" fill="#F0D78B"/>
+                    <!-- X rouge -->
+                    <g class="kg-sc-x" stroke="#E32D20" stroke-width="2.6" stroke-linecap="round" fill="none">
+                      <line x1="120" y1="68" x2="136" y2="92"/>
+                      <line x1="136" y1="68" x2="120" y2="92"/>
+                    </g>
+                  </g>
+
+                  <!-- Porte d'entrée DESTINATION (dans l'annexe gauche) avec tapis Welcome -->
+                  <!-- Halo doré derrière -->
+                  <ellipse class="kg-sc-halo" cx="22" cy="24" rx="24" ry="18" fill="url(#kgScHalo)"/>
+                  <g class="kg-sc-welcome">
+                    <!-- Porte rouge bordeaux (photo 1) -->
+                    <rect x="14" y="13" width="16" height="18" fill="#8B1E1A" stroke="#4A0E0C" stroke-width=".7"/>
+                    <rect x="15.5" y="14.5" width="13" height="7" fill="#A82924" fill-opacity=".55"/>
+                    <rect x="15.5" y="22.5" width="13" height="7" fill="#A82924" fill-opacity=".45"/>
+                    <circle cx="28.5" cy="23" r=".8" fill="#F0D78B"/>
+                    <!-- Tapis "Welcome" marron devant la porte -->
+                    <rect class="kg-sc-mat" x="12" y="31" width="20" height="5" fill="#6B4A2B" stroke="#3E2A18" stroke-width=".3" rx=".6"/>
+                    <text x="22" y="35" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="2.6" letter-spacing=".22em" fill="#F0D78B" font-weight="600">WELCOME</text>
+                  </g>
+
+                  <!-- Chemin animé : part du bas (entrée), monte, puis tourne à GAUCHE vers la porte Welcome -->
+                  <g class="kg-sc-route">
+                    <!-- Tracé principal avec dashoffset animé -->
+                    <path class="kg-sc-path"
+                          d="M 100 128 L 100 34 Q 100 30 96 30 L 34 30 Q 28 30 28 25 L 24 20"
+                          fill="none"
+                          stroke="#C9A961"
+                          stroke-width="2.2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-dasharray="3 3"/>
+                    <!-- Têtes de flèche successives -->
+                    <g class="kg-sc-arrow kg-sc-arrow-1" fill="none" stroke="#C9A961" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M 96 104 L 100 100 L 104 104"/>
+                    </g>
+                    <g class="kg-sc-arrow kg-sc-arrow-2" fill="none" stroke="#C9A961" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M 96 60 L 100 56 L 104 60"/>
+                    </g>
+                    <!-- Flèche finale qui indique le tournant -->
+                    <g class="kg-sc-arrow kg-sc-arrow-3" fill="none" stroke="#C9A961" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M 40 26 L 34 30 L 40 34"/>
+                    </g>
+                  </g>
+
+                  <!-- Label indicateur "← à gauche au bout" -->
+                  <g class="kg-sc-callout">
+                    <text x="72" y="8" font-family="JetBrains Mono, monospace" font-size="5.6" letter-spacing=".2em" fill="#8A7544">AU BOUT, À GAUCHE</text>
                   </g>
                 </svg>
               </div>
@@ -1696,8 +1822,8 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="js/auth.js?v=d2"></script>
-  <script src="js/i18n.js?v=da"></script>
+  <script src="js/auth.js?v=d3"></script>
+  <script src="js/i18n.js?v=db"></script>
   <script>
     const user = DP.requireAuth();
     if (!user) { /* redirect déjà déclenché */ }
@@ -2083,21 +2209,43 @@
       const interphoneName = user.interphone_name || 'TISSIER';
       const elevatorTurn = user.elevator_turn || 'gauche';
       const doorSide = user.door_side || 'droite';
+      const stairsSide = user.stairs_side || 'gauche';
+      const corridorTurn = user.corridor_turn || 'gauche';
+      const doorMat = user.door_mat || 'Welcome';
 
-      // === Variantes d'accès immeuble : "badge" (Dupont) ou "interphone" (Rousseau) ===
-      // Cache le variant non utilisé dans kn2 (body + animation SVG)
-      // Note : les SVG sont décoratifs (aria-hidden=true toujours), seul `hidden` contrôle le rendu.
+      // === Variantes d'accès immeuble : "badge" (Dupont/Bernard) ou "interphone" (Rousseau) ===
+      // Les attributs `data-variant` peuvent lister plusieurs variantes (space-separated).
+      // Les SVG sont décoratifs (aria-hidden=true toujours), seul `hidden` contrôle le rendu.
       const access = user.building_access === 'interphone' ? 'interphone' : 'badge';
+      const matchVariant = (attr, active) => (attr || '').split(/\s+/).filter(Boolean).includes(active);
       guide.querySelectorAll('.kg-step[data-step="kn2"] [data-variant]').forEach((el) => {
-        el.hidden = el.dataset.variant !== access;
+        el.hidden = !matchVariant(el.dataset.variant, access);
       });
 
-      // === Variantes d'étage : "stairs-elevator" (Dupont) ou "elevator-turn" (Rousseau) ===
-      // Règle simple : si l'utilisateur a un building_access="interphone", on assume
-      // qu'il n'a pas le choix escalier/ascenseur (cas Rousseau). Sinon on garde Dupont.
-      const floorVariant = access === 'interphone' ? 'elevator-turn' : 'stairs-elevator';
+      // === Sous-étapes optionnelles (ex: 2ᵉ porte "bouton porte") ===
+      // `has_inner_door` est explicite dans les données user. Par défaut (undefined) = true.
+      const hasInnerDoor = user.has_inner_door !== false;
+      guide.querySelectorAll('.kg-step[data-step="kn2"] [data-opt="inner-door"]').forEach((el) => {
+        el.hidden = !hasInnerDoor;
+      });
+
+      // === Variantes d'étage ===
+      // Priorité : user.floor_path s'il est défini, sinon inference via building_access.
+      //   "stairs-elevator" → Dupont (badge, choix escalier/ascenseur)
+      //   "elevator-turn"   → Rousseau (interphone, ascenseur + direction)
+      //   "stairs-corner"   → Bernard (badge, escalier + tournant couloir)
+      const floorVariant = user.floor_path
+        || (access === 'interphone' ? 'elevator-turn' : 'stairs-elevator');
       guide.querySelectorAll('.kg-step[data-step="kn3"] [data-variant]').forEach((el) => {
-        el.hidden = el.dataset.variant !== floorVariant;
+        el.hidden = !matchVariant(el.dataset.variant, floorVariant);
+      });
+
+      // === Nom de l'immeuble (optionnel) ===
+      const bn = user.building_name || '';
+      const bnBox = document.getElementById('kgKnBuilding');
+      if (bnBox) bnBox.hidden = !bn;
+      guide.querySelectorAll('[data-user-field="building_name"]').forEach((el) => {
+        el.textContent = bn;
       });
 
       // Peuple les adresses
@@ -2141,13 +2289,30 @@
         return n + suffix;
       }
 
-      // Applique les valeurs user.* (floor, door_number, interphone_name, elevator_turn, door_side)
+      // Label "3ᵉ ÉTAGE" en version majuscule pour le SVG (supprime les exposants typographiques)
+      function toUCFloor(val){
+        const loc = localizeFloor(val);
+        return String(loc).toUpperCase() + ' ÉTAGE';
+      }
+      function toUCFloorEN(val){
+        return String(localizeFloor(val)).toUpperCase() + ' FLOOR';
+      }
+
+      // Applique les valeurs user.* (floor, door_number, interphone_name, elevator_turn, door_side, …)
       function applyUserFields(){
         guide.querySelectorAll('[data-user-field="floor"]').forEach(el => { el.textContent = localizeFloor(floor); });
         guide.querySelectorAll('[data-user-field="door_number"]').forEach(el => { el.textContent = doorNumber; });
         guide.querySelectorAll('[data-user-field="interphone_name"]').forEach(el => { el.textContent = interphoneName; });
         guide.querySelectorAll('[data-user-field="elevator_turn"]').forEach(el => { el.textContent = localizeDirection(elevatorTurn); });
         guide.querySelectorAll('[data-user-field="door_side"]').forEach(el => { el.textContent = localizeDirection(doorSide); });
+        // Variante Bernard
+        guide.querySelectorAll('[data-user-field="stairs_side"]').forEach(el => { el.textContent = localizeDirection(stairsSide); });
+        guide.querySelectorAll('[data-user-field="corridor_turn"]').forEach(el => { el.textContent = localizeDirection(corridorTurn); });
+        guide.querySelectorAll('[data-user-field="door_mat"]').forEach(el => { el.textContent = doorMat; });
+        // Label SVG étage en MAJ
+        const lang = (window.DP_I18N && window.DP_I18N.lang) ? window.DP_I18N.lang() : 'fr';
+        const ucLabel = lang === 'en' ? toUCFloorEN(floor) : toUCFloor(floor);
+        guide.querySelectorAll('[data-user-field="floor-uc"]').forEach(el => { el.textContent = ucLabel; });
       }
       applyUserFields();
 

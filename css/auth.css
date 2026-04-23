@@ -1560,6 +1560,23 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
   font-family:var(--f-serif);font-style:italic;
   color:var(--ink);font-size:17px;font-weight:400;
   margin-bottom:6px !important;
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;
+}
+/* Chip "Immeuble LE TIGRE" sous l'adresse (optionnel, affiché si building_name) */
+.kg-building{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--f-sans);font-style:normal;font-size:10.5px;
+  letter-spacing:.24em;text-transform:uppercase;
+  color:var(--accent-dk);
+  padding:3px 10px 3px 8px;
+  border:1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  border-radius:999px;
+  background:color-mix(in srgb, var(--accent) 6%, transparent);
+}
+.kg-building svg{stroke:var(--accent-dk);flex:0 0 auto;margin-top:-1px}
+.kg-building strong{
+  color:var(--ink);font-weight:600;letter-spacing:.18em;
+  font-family:var(--f-mono);font-size:11px;
 }
 .kg-walk{
   font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;
@@ -2336,6 +2353,115 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
   100%   {opacity:0;transform:translateX(-4px)}
 }
 
+/* KN3 variante STAIRS-CORNER (Bernard) : vue plongeante du couloir,
+   chemin qui se dessine, X rouges qui scribble sur les mauvaises portes,
+   halo doré qui pulse sur la porte WELCOME à la fin. */
+.kg-sc-entry,
+.kg-sc-callout,
+.kg-sc-reddoor,
+.kg-sc-welcome,
+.kg-sc-halo,
+.kg-sc-arrow,
+.kg-sc-path{opacity:0}
+
+.kg-sc-x line{
+  stroke-dasharray:32;stroke-dashoffset:32;
+}
+.kg-sc-path{
+  stroke-dasharray:180;
+  stroke-dashoffset:180;
+  opacity:1;
+}
+.kg-sc-halo{
+  transform-origin:22px 24px;transform-box:view-box;
+}
+.kg-sc-mat{
+  transform-origin:22px 33.5px;transform-box:view-box;
+}
+
+/* 1 — décor & entrée apparaissent */
+.kg-step.is-visible[data-step="kn3"] .kg-sc-entry{
+  animation:kgScFadeIn .6s .2s ease-out both;
+}
+.kg-step.is-visible[data-step="kn3"] .kg-sc-callout{
+  animation:kgScFadeIn .5s .4s ease-out both;
+}
+.kg-step.is-visible[data-step="kn3"] .kg-sc-reddoor-l{
+  animation:kgScFadeIn .5s .6s ease-out both;
+}
+.kg-step.is-visible[data-step="kn3"] .kg-sc-reddoor-r{
+  animation:kgScFadeIn .5s .75s ease-out both;
+}
+.kg-step.is-visible[data-step="kn3"] .kg-sc-welcome{
+  animation:kgScFadeIn .5s 1s ease-out both;
+}
+
+/* 2 — tracé du chemin (draw-on) */
+.kg-step.is-visible[data-step="kn3"] .kg-sc-path{
+  animation:kgScDraw 2s 1.1s cubic-bezier(.7,.05,.35,1) both;
+}
+/* 3 — flèches directionnelles (séquentielles le long du chemin) */
+.kg-step.is-visible[data-step="kn3"] .kg-sc-arrow-1{
+  animation:kgScArrowPop .5s 1.6s ease-out both;
+}
+.kg-step.is-visible[data-step="kn3"] .kg-sc-arrow-2{
+  animation:kgScArrowPop .5s 2.1s ease-out both;
+}
+.kg-step.is-visible[data-step="kn3"] .kg-sc-arrow-3{
+  animation:kgScArrowPop .55s 2.8s cubic-bezier(.2,.8,.3,1.2) both;
+}
+/* 4 — X rouges sur les portes "mauvaises" (scribble effect) */
+.kg-step.is-visible[data-step="kn3"] .kg-sc-reddoor-l .kg-sc-x line:nth-child(1){
+  animation:kgScXDraw .35s 3.15s ease-out both;
+}
+.kg-step.is-visible[data-step="kn3"] .kg-sc-reddoor-l .kg-sc-x line:nth-child(2){
+  animation:kgScXDraw .35s 3.5s ease-out both;
+}
+.kg-step.is-visible[data-step="kn3"] .kg-sc-reddoor-r .kg-sc-x line:nth-child(1){
+  animation:kgScXDraw .35s 3.25s ease-out both;
+}
+.kg-step.is-visible[data-step="kn3"] .kg-sc-reddoor-r .kg-sc-x line:nth-child(2){
+  animation:kgScXDraw .35s 3.6s ease-out both;
+}
+/* 5 — halo doré pulsant sur la porte Welcome */
+.kg-step.is-visible[data-step="kn3"] .kg-sc-halo{
+  animation:kgScHaloFade .8s 3s ease-out forwards, kgScHaloPulse 2.4s 3.8s ease-in-out infinite;
+}
+.kg-step.is-visible[data-step="kn3"] .kg-sc-welcome .kg-sc-mat{
+  animation:kgScMatBreath 2.4s 3.8s ease-in-out infinite;
+}
+
+@keyframes kgScFadeIn{
+  0%  {opacity:0;transform:translateY(4px)}
+  100%{opacity:1;transform:translateY(0)}
+}
+@keyframes kgScDraw{
+  0%  {stroke-dashoffset:180}
+  100%{stroke-dashoffset:0}
+}
+@keyframes kgScArrowPop{
+  0%  {opacity:0;transform:scale(.6)}
+  60% {opacity:1;transform:scale(1.15)}
+  100%{opacity:1;transform:scale(1)}
+}
+.kg-sc-arrow{transform-origin:center center;transform-box:fill-box}
+@keyframes kgScXDraw{
+  0%  {stroke-dashoffset:32;opacity:.9}
+  100%{stroke-dashoffset:0;opacity:1}
+}
+@keyframes kgScHaloFade{
+  0%  {opacity:0;transform:scale(.7)}
+  100%{opacity:1;transform:scale(1)}
+}
+@keyframes kgScHaloPulse{
+  0%,100%{opacity:.75;transform:scale(1)}
+  50%    {opacity:1;transform:scale(1.08)}
+}
+@keyframes kgScMatBreath{
+  0%,100%{transform:scale(1);filter:brightness(1)}
+  50%    {transform:scale(1.04);filter:brightness(1.15)}
+}
+
 /* KNR1 : réutilise l'animation camera */
 .kg-step.is-visible[data-step="knr1"] .kg-cam-lens{
   animation:kgCamPulse 1.8s .3s ease-out infinite;
@@ -2394,9 +2520,13 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
   .kg-kn-badge-halo, .kg-kn-btn,
   .kg-int-btn, .kg-int-btn-halo, .kg-int-wave, .kg-int-row, .kg-int-door, .kg-int-light,
   .kg-front-door, .kg-hallway-scene, .kg-hw-halo, .kg-hw-arrow,
+  .kg-sc-entry, .kg-sc-callout, .kg-sc-reddoor, .kg-sc-welcome,
+  .kg-sc-halo, .kg-sc-mat, .kg-sc-arrow, .kg-sc-path, .kg-sc-x line,
   .kg-panel{
     animation:none !important;opacity:1;transform:none;
   }
+  .kg-sc-path{stroke-dashoffset:0}
+  .kg-sc-x line{stroke-dashoffset:0}
   .kg-key{transform:translateY(0)}
   .kg-flap{transform:translateY(30px)}
   .kg-tab{transform:translateY(8px)}
