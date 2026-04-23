@@ -28,6 +28,22 @@ const I18N = {
     "apt.6.name":             "Notre dernier appartement",
     "apt.7.name":             "Notre appartement design",
 
+    /* ---- DISTANCE / PROXIMITÉ (pages séjour) ---- */
+    "dist.faceApt":           "Face à l'appartement",
+    "dist.1minWalk":          "1 min à pied",
+    "dist.2minWalk":          "2 min à pied",
+    "dist.3minWalk":          "3 min à pied",
+    "dist.5minWalk":          "5 min à pied",
+    "dist.7minWalk":          "7 min à pied",
+    "dist.10minWalk":         "10 min à pied",
+    "dist.12minWalk":         "12 min à pied",
+    "dist.15minWalk":         "15 min à pied",
+    "dist.20minWalk":         "20 min à pied",
+    "dist.25minWalk":         "25 min à pied",
+    "dist.7minTram":          "7 min en tram",
+    "dist.20minTram":         "20 min en tram",
+    "dist.25minTram":         "25 min en tram",
+
     /* ---- COVERFLOW HOMEPAGE — tags courts au-dessus de chaque carte ---- */
     "tag.cf.1":               "PORT",
     "tag.cf.2":               "JUMEAU",
@@ -614,6 +630,22 @@ const I18N = {
     "apt.5.name":             "Our ultra-design apartment",
     "apt.6.name":             "Our newest apartment",
     "apt.7.name":             "Our design apartment",
+
+    /* ---- DISTANCE / PROXIMITY (stay pages) ---- */
+    "dist.faceApt":           "Opposite the apartment",
+    "dist.1minWalk":          "1 min walk",
+    "dist.2minWalk":          "2 min walk",
+    "dist.3minWalk":          "3 min walk",
+    "dist.5minWalk":          "5 min walk",
+    "dist.7minWalk":          "7 min walk",
+    "dist.10minWalk":         "10 min walk",
+    "dist.12minWalk":         "12 min walk",
+    "dist.15minWalk":         "15 min walk",
+    "dist.20minWalk":         "20 min walk",
+    "dist.25minWalk":         "25 min walk",
+    "dist.7minTram":          "7 min by tram",
+    "dist.20minTram":         "20 min by tram",
+    "dist.25minTram":         "25 min by tram",
 
     /* ---- COVERFLOW HOMEPAGE — short tags above each card ---- */
     "tag.cf.1":               "HARBOUR",
