@@ -278,7 +278,12 @@ const I18N = {
     "espace.banner.sub":       "Retrouvez ci-dessous toutes les informations utiles, prêtes pour votre arrivée.",
     /* Hero cinéma */
     "espace.gallery.eyebrow":  "Votre appartement",
+    "espace.gallery.title":    "Découvrez <em>votre appartement.</em>",
     "espace.cinema.scroll":    "Découvrir",
+    /* Arrivée / récupération clé */
+    "espace.arrival.stepsLabel": "Étape par étape",
+    "espace.arrival.stepsTitle": "Récupérer la clé",
+    "espace.arrival.photosSoon": "Les photos d'arrivée seront disponibles prochainement.",
     /* Stay */
     "espace.stay.eyebrow":     "Mon séjour",
     "espace.stay.title":       "Tout ce qu'il faut savoir.",
@@ -777,7 +782,12 @@ const I18N = {
     "espace.banner.sub":       "Find below everything you need — ready for your arrival.",
     /* Cinema hero */
     "espace.gallery.eyebrow":  "Your apartment",
+    "espace.gallery.title":    "Discover <em>your apartment.</em>",
     "espace.cinema.scroll":    "Discover",
+    /* Arrival / key pickup */
+    "espace.arrival.stepsLabel": "Step by step",
+    "espace.arrival.stepsTitle": "Collect your key",
+    "espace.arrival.photosSoon": "Arrival photos will be available shortly.",
     /* Stay */
     "espace.stay.eyebrow":     "My stay",
     "espace.stay.title":       "Everything you need to know.",
