@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=d9" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="css/auth.css?v=112" />
+  <link rel="stylesheet" href="css/auth.css?v=113" />
 </head>
 <body class="espace-page">
 
@@ -1208,6 +1208,13 @@
                   <li data-i18n="espace.kn.s3.scD" data-i18n-html="true">L'appartement est la porte au <strong>tapis marron « <span data-user-field="door_mat">Welcome</span> »</strong></li>
                 </ol>
 
+                <!-- Variante GARNIER : escaliers à gauche + 2 portes rouges face à face, la bonne = celle avec tapis Welcome -->
+                <ol class="kg-substeps" data-variant="stairs-facing" hidden>
+                  <li data-i18n="espace.kn.s3.scA" data-i18n-html="true">Montez par <strong>l'escalier</strong> jusqu'au <strong><span data-user-field="floor">3ᵉ</span> étage</strong> — gardez <strong>toujours la <span data-user-field="stairs_side">gauche</span></strong></li>
+                  <li data-i18n="espace.kn.s3.sfB" data-i18n-html="true">En haut, vous verrez <strong>deux portes rouges se faisant face</strong></li>
+                  <li data-i18n="espace.kn.s3.sfC" data-i18n-html="true">L'appartement est celle <strong>avec le tapis marron « <span data-user-field="door_mat">Welcome</span> »</strong></li>
+                </ol>
+
                 <p class="kg-after" data-i18n="espace.kn.s3.after" data-i18n-html="true">
                   <strong>🔒 Porte sécurisée française :</strong> pour déverrouiller, levez la poignée <strong>vers le haut</strong>, puis tournez la clé. Même geste pour verrouiller en partant.
                 </p>
@@ -1380,6 +1387,85 @@
                   <!-- Label indicateur "← à gauche au bout" -->
                   <g class="kg-sc-callout">
                     <text x="72" y="8" font-family="JetBrains Mono, monospace" font-size="5.6" letter-spacing=".2em" fill="#8A7544">AU BOUT, À GAUCHE</text>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- Animation GARNIER (stairs-facing) : vue plongeante, 2 portes rouges face à face, halo doré sur celle avec tapis Welcome -->
+              <div class="kg-anim kg-anim-stairs-facing" data-variant="stairs-facing" aria-hidden="true" hidden>
+                <svg viewBox="0 0 200 160" class="kg-svg">
+                  <defs>
+                    <linearGradient id="kgSfFloor" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#F4EAD0"/>
+                      <stop offset="100%" stop-color="#E8DCBF"/>
+                    </linearGradient>
+                    <radialGradient id="kgSfHalo" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stop-color="#C9A961" stop-opacity=".6"/>
+                      <stop offset="70%" stop-color="#C9A961" stop-opacity=".12"/>
+                      <stop offset="100%" stop-color="#C9A961" stop-opacity="0"/>
+                    </radialGradient>
+                  </defs>
+
+                  <!-- Fond ivoire -->
+                  <rect x="0" y="0" width="200" height="160" fill="#FBF6EA"/>
+
+                  <!-- Label "3ᵉ ÉTAGE" au point de départ (bas, centre) -->
+                  <g class="kg-sf-entry">
+                    <rect x="76" y="138" width="48" height="14" rx="2" fill="#1A1410" fill-opacity=".92"/>
+                    <text x="100" y="148" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5.2" letter-spacing=".22em" fill="#C9A961" font-weight="600" data-user-field="floor-uc">3ᵉ ÉTAGE</text>
+                  </g>
+
+                  <!-- Couloir droit (vue plongeante) : sol + murs latéraux + mur du fond -->
+                  <rect x="48" y="14" width="104" height="120" fill="url(#kgSfFloor)"/>
+                  <rect x="44" y="14" width="4" height="120" fill="#8A7544"/>
+                  <rect x="152" y="14" width="4" height="120" fill="#8A7544"/>
+                  <rect x="44" y="10" width="112" height="4" fill="#8A7544"/>
+                  <rect x="44" y="130" width="112" height="4" fill="#8A7544"/>
+
+                  <!-- Halo doré derrière la porte destination (gauche) -->
+                  <ellipse class="kg-sf-halo" cx="50" cy="72" rx="28" ry="26" fill="url(#kgSfHalo)"/>
+
+                  <!-- Porte GAUCHE (DESTINATION) : bordeaux avec tapis Welcome -->
+                  <g class="kg-sf-dest">
+                    <rect x="48" y="56" width="24" height="32" fill="#8B1E1A" stroke="#4A0E0C" stroke-width=".7"/>
+                    <rect x="50" y="58" width="20" height="12" fill="#A82924" fill-opacity=".55"/>
+                    <rect x="50" y="72" width="20" height="14" fill="#A82924" fill-opacity=".45"/>
+                    <circle cx="69" cy="74" r="1" fill="#F0D78B"/>
+                    <!-- Tapis "Welcome" sur le sol du couloir, devant la porte -->
+                    <rect class="kg-sf-mat" x="48" y="90" width="24" height="6" fill="#6B4A2B" stroke="#3E2A18" stroke-width=".3" rx=".6"/>
+                    <text x="60" y="94.6" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="2.9" letter-spacing=".22em" fill="#F0D78B" font-weight="600">WELCOME</text>
+                  </g>
+
+                  <!-- Porte DROITE (voisin, pas la destination) : rouge plus vif, sans halo, sans tapis -->
+                  <g class="kg-sf-other">
+                    <rect x="128" y="56" width="24" height="32" fill="#A33528" stroke="#6B1D15" stroke-width=".6"/>
+                    <rect x="130" y="58" width="20" height="12" fill="#C64636" fill-opacity=".5"/>
+                    <rect x="130" y="72" width="20" height="14" fill="#C64636" fill-opacity=".4"/>
+                    <circle cx="131" cy="74" r="1" fill="#F0D78B"/>
+                  </g>
+
+                  <!-- Chemin animé : du bas vers la porte gauche -->
+                  <g class="kg-sf-route">
+                    <path class="kg-sf-path"
+                          d="M 100 128 L 100 78 Q 100 74 96 74 L 78 74"
+                          fill="none"
+                          stroke="#C9A961"
+                          stroke-width="2.2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-dasharray="3 3"/>
+                    <!-- Flèches directionnelles -->
+                    <g class="kg-sf-arrow kg-sf-arrow-1" fill="none" stroke="#C9A961" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M 96 104 L 100 100 L 104 104"/>
+                    </g>
+                    <g class="kg-sf-arrow kg-sf-arrow-2" fill="none" stroke="#C9A961" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M 84 70 L 78 74 L 84 78"/>
+                    </g>
+                  </g>
+
+                  <!-- Label indicateur "TAPIS WELCOME" -->
+                  <g class="kg-sf-callout">
+                    <text x="100" y="30" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5.6" letter-spacing=".2em" fill="#8A7544">TAPIS WELCOME</text>
                   </g>
                 </svg>
               </div>
@@ -1895,8 +1981,8 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="js/auth.js?v=d4"></script>
-  <script src="js/i18n.js?v=dc"></script>
+  <script src="js/auth.js?v=d5"></script>
+  <script src="js/i18n.js?v=dd"></script>
   <script>
     const user = DP.requireAuth();
     if (!user) { /* redirect déjà déclenché */ }
