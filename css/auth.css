@@ -1724,6 +1724,8 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
   box-shadow:inset 0 0 40px rgba(201,169,97,.05);
 }
 .kg-svg{width:100%;height:100%;display:block}
+/* KN2 variante BADGE-MONTEVERDI : aspect-ratio 10/7 hérité, même taille que les
+   autres animations KN2 (badge-dual, interphone, badge-stairs). */
 
 /* === Animation 1 : PIN SUR CARTE === */
 .kg-pin{
@@ -2353,10 +2355,15 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
   100%   {opacity:0;transform:translateX(-4px)}
 }
 
-/* KN3 variante STAIRS-COUNT (Lefèvre) : couloir en perspective avec Nᵉ porte
-   à droite éclairée, les autres numérotées mais faibles. */
+/* KN3 variante STAIRS-COUNT (Lefèvre) : vue POV 1ère personne — couloir en
+   perspective, 4 portes sur le mur DROIT, la 4ᵉ au bout du couloir mise en
+   lumière. Labels d'orientation : "↑ SORTIE ESCALIER" (bas) et "→ À DROITE"
+   (côté droit). */
 .kg-ct-entry,
 .kg-ct-callout,
+.kg-ct-hallway,
+.kg-ct-stairs,
+.kg-ct-side,
 .kg-ct-door-1,
 .kg-ct-door-2,
 .kg-ct-door-3,
@@ -2364,73 +2371,105 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
 .kg-ct-halo,
 .kg-ct-arrow{opacity:0}
 .kg-ct-path{
-  stroke-dasharray:180;
-  stroke-dashoffset:180;
+  stroke-dasharray:160;
+  stroke-dashoffset:160;
   opacity:1;
 }
-.kg-ct-halo{
-  transform-origin:160px 48px;transform-box:view-box;
+.kg-ct-halo{transform-origin:30px 88px;transform-box:view-box}
+.kg-ct-mat{transform-origin:30px 125px;transform-box:view-box}
+
+/* 1 — étage + couloir (installation du décor) */
+.kg-step.is-visible[data-step="kn3"] .kg-ct-entry{
+  animation:kgCtFadeIn .55s .15s ease-out both;
+}
+.kg-step.is-visible[data-step="kn3"] .kg-ct-hallway{
+  animation:kgCtFadeIn .7s .35s ease-out both;
+}
+/* 2 — labels d'orientation (où on arrive, où regarder) */
+.kg-step.is-visible[data-step="kn3"] .kg-ct-stairs{
+  animation:kgCtFadeIn .5s .6s ease-out both;
+}
+.kg-step.is-visible[data-step="kn3"] .kg-ct-side{
+  animation:kgCtFadeIn .5s .75s ease-out both;
 }
 
-/* 1 — décor & portes apparaissent en cascade */
-.kg-step.is-visible[data-step="kn3"] .kg-ct-entry{
-  animation:kgCtFadeIn .6s .2s ease-out both;
-}
-.kg-step.is-visible[data-step="kn3"] .kg-ct-callout{
-  animation:kgCtFadeIn .5s .4s ease-out both;
-}
+/* 3 — portes apparaissent en cascade depuis l'avant-plan jusqu'au fond */
 .kg-step.is-visible[data-step="kn3"] .kg-ct-door-1{
-  animation:kgCtFadeIn .4s .5s ease-out both;
+  animation:kgCtDoorPop .4s .95s ease-out both;
 }
 .kg-step.is-visible[data-step="kn3"] .kg-ct-door-2{
-  animation:kgCtFadeIn .4s .7s ease-out both;
+  animation:kgCtDoorPop .4s 1.15s ease-out both;
 }
 .kg-step.is-visible[data-step="kn3"] .kg-ct-door-3{
-  animation:kgCtFadeIn .4s .9s ease-out both;
+  animation:kgCtDoorPop .4s 1.35s ease-out both;
 }
 .kg-step.is-visible[data-step="kn3"] .kg-ct-dest{
-  animation:kgCtFadeIn .5s 1.1s ease-out both;
+  animation:kgCtDoorPop .55s 1.6s cubic-bezier(.2,.8,.3,1.2) both;
 }
-/* 2 — tracé du chemin */
+
+/* 4 — tracé du chemin au sol (sortie escalier → porte 4) */
 .kg-step.is-visible[data-step="kn3"] .kg-ct-path{
-  animation:kgCtDraw 2s 1.3s cubic-bezier(.7,.05,.35,1) both;
+  animation:kgCtDraw 1.7s 1.9s cubic-bezier(.7,.05,.35,1) both;
 }
-/* 3 — flèches séquentielles */
+
+/* 5 — chevrons de progression le long du chemin (du proche au lointain) */
 .kg-step.is-visible[data-step="kn3"] .kg-ct-arrow-1{
-  animation:kgCtArrowPop .4s 1.8s ease-out both;
+  animation:kgCtArrowPop .4s 2.2s ease-out both;
 }
 .kg-step.is-visible[data-step="kn3"] .kg-ct-arrow-2{
-  animation:kgCtArrowPop .4s 2.4s ease-out both;
+  animation:kgCtArrowPop .4s 2.55s ease-out both;
 }
 .kg-step.is-visible[data-step="kn3"] .kg-ct-arrow-3{
-  animation:kgCtArrowPop .45s 3s cubic-bezier(.2,.8,.3,1.2) both;
+  animation:kgCtArrowPop .4s 2.9s ease-out both;
 }
-/* 4 — halo doré qui pulse sur la porte destination */
+.kg-step.is-visible[data-step="kn3"] .kg-ct-arrow-4{
+  animation:kgCtArrowPop .5s 3.3s cubic-bezier(.2,.8,.3,1.3) both;
+}
+
+/* 6 — halo doré pulsant sur la porte 4 + callout */
 .kg-step.is-visible[data-step="kn3"] .kg-ct-halo{
-  animation:kgCtHaloFade .7s 3.1s ease-out forwards, kgCtHaloPulse 2.4s 3.9s ease-in-out infinite;
+  animation:kgCtHaloFade .75s 3.5s ease-out forwards,
+            kgCtHaloPulse 2.4s 4.3s ease-in-out infinite;
+}
+.kg-step.is-visible[data-step="kn3"] .kg-ct-callout{
+  animation:kgCtFadeIn .55s 3.8s ease-out both;
+}
+.kg-step.is-visible[data-step="kn3"] .kg-ct-dest .kg-ct-mat{
+  animation:kgCtMatBreath 2.4s 4.3s ease-in-out infinite;
 }
 
 @keyframes kgCtFadeIn{
-  0%  {opacity:0;transform:translateY(4px)}
+  0%  {opacity:0;transform:translateY(3px)}
   100%{opacity:1;transform:translateY(0)}
 }
+@keyframes kgCtDoorPop{
+  0%  {opacity:0;transform:translateY(-3px) scale(.85)}
+  60% {opacity:1;transform:translateY(0) scale(1.06)}
+  100%{opacity:1;transform:translateY(0) scale(1)}
+}
+.kg-ct-door,
+.kg-ct-dest{transform-origin:center center;transform-box:fill-box}
 @keyframes kgCtDraw{
-  0%  {stroke-dashoffset:180}
+  0%  {stroke-dashoffset:160}
   100%{stroke-dashoffset:0}
 }
 .kg-ct-arrow{transform-origin:center center;transform-box:fill-box}
 @keyframes kgCtArrowPop{
-  0%  {opacity:0;transform:scale(.6)}
-  60% {opacity:1;transform:scale(1.15)}
+  0%  {opacity:0;transform:scale(.5)}
+  60% {opacity:1;transform:scale(1.2)}
   100%{opacity:1;transform:scale(1)}
 }
 @keyframes kgCtHaloFade{
-  0%  {opacity:0;transform:scale(.7)}
+  0%  {opacity:0;transform:scale(.6)}
   100%{opacity:1;transform:scale(1)}
 }
 @keyframes kgCtHaloPulse{
-  0%,100%{opacity:.85;transform:scale(1)}
-  50%    {opacity:1;transform:scale(1.1)}
+  0%,100%{opacity:.8;transform:scale(1)}
+  50%    {opacity:1;transform:scale(1.12)}
+}
+@keyframes kgCtMatBreath{
+  0%,100%{transform:scale(1);filter:brightness(1)}
+  50%    {transform:scale(1.08);filter:brightness(1.18)}
 }
 
 /* KN3 variante STAIRS-FACING (Garnier) : 2 portes rouges face à face,
@@ -2546,6 +2585,128 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
 @keyframes kgBsLight{
   0%  {opacity:0}
   100%{opacity:.88}
+}
+
+/* KN2 variante BADGE-MONTEVERDI (Lefèvre) : vue POV de l'impasse Rue Gounod —
+   les 2 bâtiments C et D côte à côte sur le MÊME mur (gauche quand on entre),
+   Rue Gounod à gauche, cul-de-sac à droite. Bât. D mis en lumière, gros plan
+   de l'entrée + badge qui pulse + porte qui s'ouvre. */
+.kg-bm-street,
+.kg-bm-orient,
+.kg-bm-street-bed,
+.kg-bm-bat-c,
+.kg-bm-bat-d,
+.kg-bm-arrow-down,
+.kg-bm-scene-door,
+.kg-bm-cross-c,
+.kg-bm-chevron,
+.kg-bm-d-halo,
+.kg-bm-badge-halo,
+.kg-bm-reveal{opacity:0}
+
+.kg-bm-arrow-down path{
+  stroke-dasharray:30;
+  stroke-dashoffset:30;
+}
+.kg-bm-d-halo{
+  transform-origin:48px 70px;transform-box:view-box;
+}
+.kg-bm-chevron{
+  transform-origin:48px 44px;transform-box:view-box;
+}
+.kg-bm-badge-halo{
+  transform-origin:156px 122px;transform-box:view-box;
+}
+.kg-bm-door{
+  transform-origin:88px 121px;    /* charnière côté gauche, milieu vertical */
+  transform-box:view-box;
+}
+
+/* 1 — Bandeau rue + légende orientation + trottoirs */
+.kg-step.is-visible[data-step="kn2"] .kg-bm-street{
+  animation:kgBmFadeIn .45s .15s ease-out both;
+}
+.kg-step.is-visible[data-step="kn2"] .kg-bm-orient{
+  animation:kgBmFadeIn .4s .3s ease-out both;
+}
+.kg-step.is-visible[data-step="kn2"] .kg-bm-street-bed{
+  animation:kgBmFadeIn .5s .4s ease-out both;
+}
+/* 2 — Bâtiments apparaissent (C dimmé d'emblée, D entre avec accent) */
+.kg-step.is-visible[data-step="kn2"] .kg-bm-bat-c{
+  animation:kgBmFadeIn .55s .5s ease-out both;
+}
+.kg-step.is-visible[data-step="kn2"] .kg-bm-bat-d{
+  animation:kgBmFadeIn .6s .75s ease-out both;
+}
+/* 3 — Halo doré + chevron "ici" sur Bât. D */
+.kg-step.is-visible[data-step="kn2"] .kg-bm-d-halo{
+  animation:kgBmDHaloFade .7s 1.25s ease-out forwards,
+            kgBmDHaloPulse 2.6s 2s ease-in-out infinite;
+}
+.kg-step.is-visible[data-step="kn2"] .kg-bm-chevron{
+  animation:kgBmChevronPop .55s 1.45s cubic-bezier(.2,.8,.3,1.3) both;
+}
+/* 4 — Trait d'écartement sur Bât. C (fadée) */
+.kg-step.is-visible[data-step="kn2"] .kg-bm-cross-c{
+  animation:kgBmFadeIn .4s 1.7s ease-out both;
+}
+/* 5 — Flèche pointillée qui descend vers l'entrée */
+.kg-step.is-visible[data-step="kn2"] .kg-bm-arrow-down{
+  animation:kgBmFadeIn .3s 2.05s ease-out both;
+}
+.kg-step.is-visible[data-step="kn2"] .kg-bm-arrow-down path{
+  animation:kgBmArrowDraw 1s 2.15s cubic-bezier(.7,.05,.35,1) forwards;
+}
+/* 6 — Gros plan de la porte Monteverdi */
+.kg-step.is-visible[data-step="kn2"] .kg-bm-scene-door{
+  animation:kgBmFadeIn .6s 2.9s ease-out both;
+}
+/* 7 — Badge pulse 2× */
+.kg-step.is-visible[data-step="kn2"] .kg-bm-badge-halo{
+  animation:kgBmBadgePulse 1.15s 3.4s ease-out 2 forwards;
+}
+/* 8 — Porte s'ouvre + lumière chaude */
+.kg-step.is-visible[data-step="kn2"] .kg-bm-door{
+  animation:kgBmDoorOpen 1.2s 4.6s cubic-bezier(.6,.1,.3,1) forwards;
+}
+.kg-step.is-visible[data-step="kn2"] .kg-bm-reveal{
+  animation:kgBmLight 1s 5.2s ease-out forwards;
+}
+
+@keyframes kgBmFadeIn{
+  0%  {opacity:0;transform:translateY(3px)}
+  100%{opacity:1;transform:translateY(0)}
+}
+@keyframes kgBmChevronPop{
+  0%  {opacity:0;transform:translateY(4px) scale(.5)}
+  60% {opacity:1;transform:translateY(0) scale(1.25)}
+  100%{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes kgBmDHaloFade{
+  0%  {opacity:0;transform:scale(.92)}
+  100%{opacity:.7;transform:scale(1)}
+}
+@keyframes kgBmDHaloPulse{
+  0%,100%{opacity:.55;transform:scale(1)}
+  50%    {opacity:.85;transform:scale(1.06)}
+}
+@keyframes kgBmArrowDraw{
+  0%  {stroke-dashoffset:50}
+  100%{stroke-dashoffset:0}
+}
+@keyframes kgBmBadgePulse{
+  0%  {opacity:.9;transform:scale(.7)}
+  60% {opacity:.4;transform:scale(2.2)}
+  100%{opacity:0;transform:scale(2.8)}
+}
+@keyframes kgBmDoorOpen{
+  0%  {transform:perspective(320px) rotateY(0deg);opacity:1}
+  100%{transform:perspective(320px) rotateY(-78deg);opacity:.78}
+}
+@keyframes kgBmLight{
+  0%  {opacity:0}
+  100%{opacity:.85}
 }
 
 /* Bloc "nom du point KeyNest" affiché au-dessus de l'adresse */
@@ -2762,9 +2923,14 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
   .kg-sc-halo, .kg-sc-mat, .kg-sc-arrow, .kg-sc-path, .kg-sc-x line,
   .kg-sf-entry, .kg-sf-callout, .kg-sf-dest, .kg-sf-other,
   .kg-sf-halo, .kg-sf-mat, .kg-sf-arrow, .kg-sf-path,
-  .kg-ct-entry, .kg-ct-callout, .kg-ct-door-1, .kg-ct-door-2, .kg-ct-door-3,
-  .kg-ct-dest, .kg-ct-halo, .kg-ct-arrow, .kg-ct-path,
+  .kg-ct-entry, .kg-ct-callout, .kg-ct-hallway, .kg-ct-stairs, .kg-ct-side,
+  .kg-ct-door-1, .kg-ct-door-2, .kg-ct-door-3,
+  .kg-ct-dest, .kg-ct-halo, .kg-ct-mat, .kg-ct-arrow, .kg-ct-path,
   .kg-bs-door, .kg-bs-badge-halo, .kg-bs-reveal,
+  .kg-bm-street, .kg-bm-orient, .kg-bm-street-bed, .kg-bm-bat-c, .kg-bm-bat-d,
+  .kg-bm-cross-c, .kg-bm-chevron, .kg-bm-d-halo,
+  .kg-bm-arrow-down, .kg-bm-scene-door,
+  .kg-bm-door, .kg-bm-badge-halo, .kg-bm-reveal,
   .kg-panel{
     animation:none !important;opacity:1;transform:none;
   }
@@ -2772,7 +2938,9 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
   .kg-sc-x line{stroke-dashoffset:0}
   .kg-sf-path{stroke-dashoffset:0}
   .kg-ct-path{stroke-dashoffset:0}
+  .kg-bm-arrow-down path{stroke-dashoffset:0}
   .kg-bs-reveal{opacity:.5}
+  .kg-bm-reveal{opacity:.5}
   .kg-key{transform:translateY(0)}
   .kg-flap{transform:translateY(30px)}
   .kg-tab{transform:translateY(8px)}

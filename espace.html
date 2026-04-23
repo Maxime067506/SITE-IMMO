@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=d9" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="css/auth.css?v=115" />
+  <link rel="stylesheet" href="css/auth.css?v=120" />
 </head>
 <body class="espace-page">
 
@@ -1173,6 +1173,182 @@
                   <rect x="62" y="132" width="80" height="4" fill="#8A7544" opacity=".55"/>
                 </svg>
               </div>
+
+              <!-- Animation LEFÈVRE (badge-monteverdi) : plan schématique fidèle au croquis
+                   du propriétaire, format landscape 10:7 (même taille que les autres KN2).
+                   Impasse HORIZONTALE : Rue Gounod en amont à DROITE, cul-de-sac à GAUCHE.
+                   Sous l'impasse : BÂT. D à gauche (destination, mis en lumière) + BÂT. C
+                   à droite (premier croisé, écarté). Gros plan porte + badge en bas droite. -->
+              <div class="kg-anim kg-anim-badge-monteverdi" data-variant="badge-monteverdi" aria-hidden="true" hidden>
+                <svg viewBox="0 0 200 140" class="kg-svg">
+                  <defs>
+                    <linearGradient id="kgBmDoorGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#5C3A1A"/>
+                      <stop offset="100%" stop-color="#2E1C0D"/>
+                    </linearGradient>
+                    <linearGradient id="kgBmGlow" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#FFF2BE" stop-opacity=".92"/>
+                      <stop offset="100%" stop-color="#E8B822" stop-opacity="0"/>
+                    </linearGradient>
+                    <linearGradient id="kgBmFacadeC" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#C9BFA5"/>
+                      <stop offset="100%" stop-color="#A89E82"/>
+                    </linearGradient>
+                    <linearGradient id="kgBmFacadeD" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#EFCE6E"/>
+                      <stop offset="100%" stop-color="#B8941E"/>
+                    </linearGradient>
+                    <radialGradient id="kgBmDHalo" cx="50%" cy="50%" r="55%">
+                      <stop offset="0%" stop-color="#C9A961" stop-opacity=".6"/>
+                      <stop offset="100%" stop-color="#C9A961" stop-opacity="0"/>
+                    </radialGradient>
+                  </defs>
+
+                  <!-- Fond ivoire -->
+                  <rect x="0" y="0" width="200" height="140" fill="#FBF6EA"/>
+
+                  <!-- Bandeau "24 RUE GOUNOD · IMPASSE" -->
+                  <g class="kg-bm-street">
+                    <rect x="14" y="3" width="172" height="10" rx="1.5" fill="#1A1410" fill-opacity=".92"/>
+                    <text x="100" y="10" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="4.3" letter-spacing=".22em" fill="#C9A961" font-weight="600">24 RUE GOUNOD · IMPASSE</text>
+                  </g>
+
+                  <!-- === PLAN SCHÉMATIQUE FIDÈLE AU CROQUIS ===
+                       Impasse horizontale : Rue Gounod à DROITE (entrée),
+                       cul-de-sac à GAUCHE. Bâtiments SOUS l'impasse :
+                       BÂT. D gauche (destination) + BÂT. C droite (écarté). -->
+
+                  <!-- RUE GOUNOD : colonne verticale à droite -->
+                  <g class="kg-bm-street-bed">
+                    <rect x="174" y="16" width="12" height="38" fill="#E8DCBF" stroke="#C9A961" stroke-width=".5" stroke-opacity=".4"/>
+                    <text x="180" y="38" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="3.6" letter-spacing=".22em" fill="#5C4B24" font-weight="600" transform="rotate(-90 180 38)">RUE GOUNOD</text>
+                  </g>
+
+                  <!-- IMPASSE : rectangle horizontal entre cul-de-sac et Rue Gounod -->
+                  <rect x="20" y="22" width="154" height="18" fill="#F4EAD0" stroke="#C9A961" stroke-width=".7" stroke-opacity=".55"/>
+                  <!-- Axe central pointillé -->
+                  <g stroke="#8A7544" stroke-width=".45" stroke-opacity=".5">
+                    <line x1="32" y1="31" x2="40" y2="31"/>
+                    <line x1="50" y1="31" x2="58" y2="31"/>
+                    <line x1="68" y1="31" x2="76" y2="31"/>
+                    <line x1="86" y1="31" x2="94" y2="31"/>
+                    <line x1="104" y1="31" x2="112" y2="31"/>
+                    <line x1="122" y1="31" x2="130" y2="31"/>
+                    <line x1="140" y1="31" x2="148" y2="31"/>
+                    <line x1="158" y1="31" x2="166" y2="31"/>
+                  </g>
+
+                  <!-- Flèche "← entrée" venant de Rue Gounod -->
+                  <g class="kg-bm-orient">
+                    <path d="M 168 31 L 158 31 M 161 28 L 158 31 L 161 34"
+                          stroke="#8A7544" stroke-width="1" fill="none"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                    <text x="164" y="20" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="3.3" letter-spacing=".15em" fill="#8A7544">entrée</text>
+                  </g>
+
+                  <!-- Cul-de-sac (gauche) -->
+                  <g>
+                    <rect x="14" y="22" width="4" height="18" fill="#5C4B24" opacity=".6"/>
+                    <text x="16" y="50" text-anchor="start" font-family="JetBrains Mono, monospace" font-size="3.4" letter-spacing=".18em" fill="#5C4B24" font-weight="600">CUL-DE-SAC</text>
+                  </g>
+
+                  <!-- === BÂTIMENTS SOUS L'IMPASSE === -->
+                  <!-- BÂT. D (GAUCHE = destination) -->
+                  <g class="kg-bm-bat-d">
+                    <!-- Halo doré -->
+                    <ellipse class="kg-bm-d-halo" cx="48" cy="70" rx="38" ry="26" fill="url(#kgBmDHalo)"/>
+                    <!-- Façade -->
+                    <rect x="20" y="52" width="56" height="36" fill="url(#kgBmFacadeD)" stroke="#C9A961" stroke-width="1"/>
+                    <!-- Faîtage -->
+                    <line x1="20" y1="70" x2="76" y2="70" stroke="#B8941E" stroke-width=".6" stroke-opacity=".7"/>
+                    <!-- Hachures -->
+                    <g stroke="#B8941E" stroke-opacity=".35" stroke-width=".3">
+                      <line x1="24" y1="58" x2="27" y2="65"/>
+                      <line x1="34" y1="58" x2="37" y2="65"/>
+                      <line x1="44" y1="58" x2="47" y2="65"/>
+                      <line x1="54" y1="58" x2="57" y2="65"/>
+                      <line x1="64" y1="58" x2="67" y2="65"/>
+                      <line x1="24" y1="76" x2="27" y2="83"/>
+                      <line x1="34" y1="76" x2="37" y2="83"/>
+                      <line x1="44" y1="76" x2="47" y2="83"/>
+                      <line x1="54" y1="76" x2="57" y2="83"/>
+                      <line x1="64" y1="76" x2="67" y2="83"/>
+                    </g>
+                    <!-- Plaque MONTEVERDI · D -->
+                    <rect x="24" y="71" width="48" height="8" fill="#1A1410"/>
+                    <text x="48" y="76.5" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="3.8" letter-spacing=".1em" fill="#C9A961" font-weight="600">MONTEVERDI · D</text>
+                    <!-- Porte d'entrée (côté NORD, donne sur l'impasse) -->
+                    <rect x="44" y="46" width="8" height="6" fill="#3A2312" stroke="#1A0F06" stroke-width=".4"/>
+                    <!-- Chevron "ici" -->
+                    <g class="kg-bm-chevron">
+                      <path d="M 48 42 L 44 46 L 52 46 Z" fill="#C9A961"/>
+                      <text x="56" y="46" font-family="Fraunces, serif" font-style="italic" font-size="6" fill="#C9A961" font-weight="700">ici</text>
+                    </g>
+                  </g>
+
+                  <!-- BÂT. C (DROITE = premier, écarté) -->
+                  <g class="kg-bm-bat-c">
+                    <rect x="88" y="52" width="56" height="36" fill="url(#kgBmFacadeC)" stroke="#8A7544" stroke-width=".6" stroke-opacity=".55"/>
+                    <line x1="88" y1="70" x2="144" y2="70" stroke="#8A7544" stroke-width=".5" stroke-opacity=".55"/>
+                    <g stroke="#8A7544" stroke-opacity=".3" stroke-width=".3">
+                      <line x1="92" y1="58" x2="95" y2="65"/>
+                      <line x1="102" y1="58" x2="105" y2="65"/>
+                      <line x1="112" y1="58" x2="115" y2="65"/>
+                      <line x1="122" y1="58" x2="125" y2="65"/>
+                      <line x1="132" y1="58" x2="135" y2="65"/>
+                      <line x1="92" y1="76" x2="95" y2="83"/>
+                      <line x1="102" y1="76" x2="105" y2="83"/>
+                      <line x1="112" y1="76" x2="115" y2="83"/>
+                      <line x1="122" y1="76" x2="125" y2="83"/>
+                      <line x1="132" y1="76" x2="135" y2="83"/>
+                    </g>
+                    <!-- Plaque BÂT. C -->
+                    <rect x="98" y="71" width="36" height="8" fill="#1A1410"/>
+                    <text x="116" y="76.5" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="4" letter-spacing=".22em" fill="#8A7544" font-weight="600">BÂT. C</text>
+                    <!-- Porte C (côté nord) -->
+                    <rect x="112" y="46" width="8" height="6" fill="#6B5434"/>
+                    <!-- Barre discrète "pas celui-ci" -->
+                    <g class="kg-bm-cross-c">
+                      <line x1="94" y1="56" x2="140" y2="84" stroke="#8A7544" stroke-width="1.1" stroke-linecap="round" opacity=".55"/>
+                    </g>
+                  </g>
+
+                  <!-- Flèche pointillée vers le gros plan -->
+                  <g class="kg-bm-arrow-down">
+                    <path d="M 48 92 Q 55 104 58 112 M 54 109 L 58 112 L 58 108"
+                          stroke="#C9A961" stroke-width="1.6" fill="none"
+                          stroke-linecap="round" stroke-linejoin="round"
+                          stroke-dasharray="2 2"/>
+                  </g>
+
+                  <!-- === GROS PLAN : porte + badge (compact, bas droit) === -->
+                  <g class="kg-bm-scene-door">
+                    <!-- Cadre pierre -->
+                    <rect x="62" y="100" width="116" height="36" fill="#E8DCBF" stroke="#C9A961" stroke-opacity=".5" stroke-width=".5"/>
+                    <!-- Arc -->
+                    <path d="M 68 104 Q 120 98 172 104" stroke="#C9A961" stroke-width=".7" fill="none" stroke-opacity=".65"/>
+                    <!-- Lumière révélée -->
+                    <rect class="kg-bm-reveal" x="88" y="108" width="56" height="26" fill="url(#kgBmGlow)" opacity="0"/>
+                    <!-- Porte bois -->
+                    <g class="kg-bm-door">
+                      <rect x="88" y="108" width="56" height="26" fill="url(#kgBmDoorGrad)" stroke="#1A0F06" stroke-width=".7"/>
+                      <rect x="91" y="110" width="24" height="10" fill="none" stroke="#C9A961" stroke-opacity=".55" stroke-width=".4"/>
+                      <rect x="117" y="110" width="24" height="10" fill="none" stroke="#C9A961" stroke-opacity=".55" stroke-width=".4"/>
+                      <rect x="91" y="122" width="24" height="11" fill="none" stroke="#C9A961" stroke-opacity=".55" stroke-width=".4"/>
+                      <rect x="117" y="122" width="24" height="11" fill="none" stroke="#C9A961" stroke-opacity=".55" stroke-width=".4"/>
+                      <circle cx="138" cy="120" r=".9" fill="#C9A961"/>
+                    </g>
+                    <!-- Lecteur badge -->
+                    <rect x="150" y="116" width="12" height="18" rx="1.5" fill="#F6EFDE" stroke="#5C4B24" stroke-width=".6"/>
+                    <rect x="152" y="118" width="8" height="5" fill="#1A1410" rx=".4"/>
+                    <text x="156" y="129.5" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="2" letter-spacing=".15em" fill="#5C4B24">BADGE</text>
+                    <circle class="kg-bm-badge-halo" cx="156" cy="122" r="3" fill="none" stroke="#C9A961" stroke-width="1.1" opacity="0"/>
+                    <circle cx="156" cy="122" r=".9" fill="#C9A961"/>
+                    <!-- Label MONTEVERDI -->
+                    <text x="120" y="103" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="4.6" fill="#5C4B24" font-weight="600">— Entrée Monteverdi —</text>
+                  </g>
+                </svg>
+              </div>
             </div>
           </li>
 
@@ -1397,17 +1573,25 @@
                 </svg>
               </div>
 
-              <!-- Animation LEFEVRE (stairs-count) : couloir en perspective avec Nᵉ porte à droite éclairée -->
+              <!-- Animation LEFÈVRE (stairs-count) : vue élévation fidèle au croquis
+                   du propriétaire. Escalier (+ ascenseur) à DROITE (point de départ),
+                   4 portes alignées numérotées 4·3·2·1 de GAUCHE à DROITE. La porte 4
+                   (destination) est donc au bout du couloir, à GAUCHE. Toutes les portes
+                   ont la même taille. -->
               <div class="kg-anim kg-anim-stairs-count" data-variant="stairs-count" aria-hidden="true" hidden>
                 <svg viewBox="0 0 200 160" class="kg-svg">
                   <defs>
-                    <linearGradient id="kgCtFloor" x1="0" y1="0" x2="0" y2="1">
+                    <linearGradient id="kgCtWall" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="0%" stop-color="#F4EAD0"/>
                       <stop offset="100%" stop-color="#E8DCBF"/>
                     </linearGradient>
-                    <radialGradient id="kgCtHalo" cx="50%" cy="50%" r="55%">
-                      <stop offset="0%" stop-color="#C9A961" stop-opacity=".65"/>
-                      <stop offset="70%" stop-color="#C9A961" stop-opacity=".12"/>
+                    <linearGradient id="kgCtFloor" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#D4C8A8"/>
+                      <stop offset="100%" stop-color="#B9AE92"/>
+                    </linearGradient>
+                    <radialGradient id="kgCtHalo" cx="50%" cy="50%" r="65%">
+                      <stop offset="0%" stop-color="#C9A961" stop-opacity=".85"/>
+                      <stop offset="70%" stop-color="#C9A961" stop-opacity=".18"/>
                       <stop offset="100%" stop-color="#C9A961" stop-opacity="0"/>
                     </radialGradient>
                   </defs>
@@ -1415,83 +1599,136 @@
                   <!-- Fond ivoire -->
                   <rect x="0" y="0" width="200" height="160" fill="#FBF6EA"/>
 
-                  <!-- Label "2ᵉ ÉTAGE" en bas -->
+                  <!-- Label étage -->
                   <g class="kg-ct-entry">
-                    <rect x="76" y="138" width="48" height="14" rx="2" fill="#1A1410" fill-opacity=".92"/>
-                    <text x="100" y="148" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5.2" letter-spacing=".22em" fill="#C9A961" font-weight="600" data-user-field="floor-uc">2ᵉ ÉTAGE</text>
+                    <rect x="76" y="6" width="48" height="12" rx="1.5" fill="#1A1410" fill-opacity=".92"/>
+                    <text x="100" y="14.5" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="4.8" letter-spacing=".22em" fill="#C9A961" font-weight="600" data-user-field="floor-uc">2ᵉ ÉTAGE</text>
                   </g>
 
-                  <!-- Couloir en perspective (vue plongeante depuis l'entrée) -->
-                  <!-- Sol + murs fuyants -->
-                  <polygon points="22,22 178,22 160,134 40,134" fill="url(#kgCtFloor)" stroke="#C9A961" stroke-opacity=".35"/>
-                  <!-- Plafond suggéré -->
-                  <line x1="22" y1="22" x2="178" y2="22" stroke="#8A7544" stroke-width="1"/>
-                  <!-- Lignes de fuite (plinthes) -->
-                  <line x1="22" y1="22" x2="40" y2="134" stroke="#C9A961" stroke-opacity=".4" stroke-width=".7"/>
-                  <line x1="178" y1="22" x2="160" y2="134" stroke="#C9A961" stroke-opacity=".4" stroke-width=".7"/>
+                  <!-- Sous-titre -->
+                  <g class="kg-ct-side">
+                    <text x="100" y="26" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="5.2" fill="#8A7544" data-user-field="wall-label">— Mur droit du couloir —</text>
+                  </g>
 
-                  <!-- 4 portes sur le mur droit, décroissantes en taille (perspective) -->
-                  <!-- Porte 1 (proche, bas, non-dest) -->
-                  <g class="kg-ct-door kg-ct-door-1">
-                    <rect x="144" y="96" width="18" height="38" fill="#9B8454" stroke="#5C4B24" stroke-width=".6"/>
-                    <rect x="146" y="98" width="14" height="16" fill="#C9A961" fill-opacity=".25"/>
-                    <rect x="146" y="116" width="14" height="16" fill="#C9A961" fill-opacity=".2"/>
-                    <circle cx="146" cy="116" r="1" fill="#8A7544"/>
-                    <text x="153" y="130" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="11" fill="#8A7544" font-weight="500">1</text>
+                  <!-- ====== COULOIR (élévation : 2 lignes parallèles = murs) ====== -->
+                  <g class="kg-ct-hallway">
+                    <!-- Plafond -->
+                    <line x1="14" y1="42" x2="154" y2="42" stroke="#8A7544" stroke-width="1.2"/>
+                    <line x1="14" y1="45" x2="154" y2="45" stroke="#C9A961" stroke-width=".4" stroke-opacity=".45"/>
+                    <!-- Bande mur (où sont accrochées les portes) -->
+                    <rect x="14" y="45" width="140" height="78" fill="url(#kgCtWall)" stroke="#C9A961" stroke-opacity=".4" stroke-width=".5"/>
+                    <!-- Plinthe -->
+                    <rect x="14" y="123" width="140" height="3" fill="#8A7544" opacity=".45"/>
+                    <!-- Sol -->
+                    <rect x="14" y="126" width="140" height="16" fill="url(#kgCtFloor)" stroke="#8A7544" stroke-opacity=".35" stroke-width=".4"/>
+                    <g stroke="#8A7544" stroke-opacity=".25" stroke-width=".35">
+                      <line x1="28" y1="128" x2="32" y2="140"/>
+                      <line x1="48" y1="128" x2="52" y2="140"/>
+                      <line x1="68" y1="128" x2="72" y2="140"/>
+                      <line x1="88" y1="128" x2="92" y2="140"/>
+                      <line x1="108" y1="128" x2="112" y2="140"/>
+                      <line x1="128" y1="128" x2="132" y2="140"/>
+                      <line x1="148" y1="128" x2="152" y2="140"/>
+                    </g>
                   </g>
-                  <!-- Porte 2 -->
-                  <g class="kg-ct-door kg-ct-door-2">
-                    <rect x="148" y="74" width="15" height="32" fill="#9B8454" stroke="#5C4B24" stroke-width=".6"/>
-                    <rect x="150" y="76" width="11" height="14" fill="#C9A961" fill-opacity=".25"/>
-                    <rect x="150" y="92" width="11" height="12" fill="#C9A961" fill-opacity=".2"/>
-                    <circle cx="150" cy="92" r=".9" fill="#8A7544"/>
-                    <text x="156" y="102" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="9" fill="#8A7544" font-weight="500">2</text>
+
+                  <!-- ====== 4 PORTES ALIGNÉES — MÊME TAILLE (numérotées 4·3·2·1 de gauche à droite) ====== -->
+                  <!-- Gabarit : 22 (large) × 70 (haut). Espacement régulier de ~34.
+                       Centres à x = 30, 62, 94, 126 — porte 4 la plus à gauche (destination). -->
+
+                  <!-- Halo doré autour de la porte 4 (destination, tout à gauche) -->
+                  <ellipse class="kg-ct-halo" cx="30" cy="88" rx="22" ry="42" fill="url(#kgCtHalo)"/>
+
+                  <!-- Porte 4 (DESTINATION) -->
+                  <g class="kg-ct-dest">
+                    <rect x="19" y="53" width="22" height="70" fill="#8B1E1A" stroke="#4A0E0C" stroke-width=".8"/>
+                    <rect x="22" y="56" width="16" height="28" fill="#A82924" fill-opacity=".55"/>
+                    <rect x="22" y="87" width="16" height="33" fill="#A82924" fill-opacity=".45"/>
+                    <circle cx="24" cy="89" r="1.2" fill="#F0D78B"/>
+                    <!-- Numéro 4 en gras doré -->
+                    <text x="30" y="40" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="15" fill="#C9A961" font-weight="700" data-user-field="door_ordinal-num">4</text>
+                    <!-- Tapis -->
+                    <rect class="kg-ct-mat" x="19" y="123" width="22" height="4" fill="#8B6F3C"/>
                   </g>
+
                   <!-- Porte 3 -->
                   <g class="kg-ct-door kg-ct-door-3">
-                    <rect x="152" y="56" width="13" height="26" fill="#9B8454" stroke="#5C4B24" stroke-width=".5"/>
-                    <rect x="153.5" y="58" width="9.5" height="11" fill="#C9A961" fill-opacity=".25"/>
-                    <rect x="153.5" y="72" width="9.5" height="9" fill="#C9A961" fill-opacity=".2"/>
-                    <circle cx="154" cy="72" r=".8" fill="#8A7544"/>
-                    <text x="158.5" y="79" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="7.5" fill="#8A7544" font-weight="500">3</text>
+                    <rect x="51" y="53" width="22" height="70" fill="#9B8454" stroke="#5C4B24" stroke-width=".7"/>
+                    <rect x="54" y="56" width="16" height="28" fill="none" stroke="#8A7544" stroke-opacity=".45" stroke-width=".35"/>
+                    <rect x="54" y="87" width="16" height="33" fill="none" stroke="#8A7544" stroke-opacity=".45" stroke-width=".35"/>
+                    <circle cx="56" cy="89" r="1.1" fill="#8A7544"/>
+                    <text x="62" y="40" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="12" fill="#8A7544" font-weight="500">3</text>
                   </g>
 
-                  <!-- Porte 4 (DESTINATION, plus loin dans le couloir, avec halo doré) -->
-                  <!-- Halo derrière la porte -->
-                  <ellipse class="kg-ct-halo" cx="160" cy="48" rx="18" ry="22" fill="url(#kgCtHalo)"/>
-                  <g class="kg-ct-dest">
-                    <rect x="155" y="40" width="11" height="21" fill="#8B1E1A" stroke="#4A0E0C" stroke-width=".5"/>
-                    <rect x="156" y="42" width="9" height="9" fill="#A82924" fill-opacity=".55"/>
-                    <rect x="156" y="52" width="9" height="8" fill="#A82924" fill-opacity=".45"/>
-                    <circle cx="156" cy="52" r=".7" fill="#F0D78B"/>
-                    <text x="160" y="58" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="7.2" fill="#C9A961" font-weight="700" data-user-field="door_ordinal-num">4</text>
+                  <!-- Porte 2 -->
+                  <g class="kg-ct-door kg-ct-door-2">
+                    <rect x="83" y="53" width="22" height="70" fill="#9B8454" stroke="#5C4B24" stroke-width=".7"/>
+                    <rect x="86" y="56" width="16" height="28" fill="none" stroke="#8A7544" stroke-opacity=".45" stroke-width=".35"/>
+                    <rect x="86" y="87" width="16" height="33" fill="none" stroke="#8A7544" stroke-opacity=".45" stroke-width=".35"/>
+                    <circle cx="88" cy="89" r="1.1" fill="#8A7544"/>
+                    <text x="94" y="40" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="12" fill="#8A7544" font-weight="500">2</text>
                   </g>
 
-                  <!-- Chemin animé : de l'entrée (bas centre) jusqu'à la 4e porte -->
+                  <!-- Porte 1 (la plus proche de l'escalier, à droite du couloir) -->
+                  <g class="kg-ct-door kg-ct-door-1">
+                    <rect x="115" y="53" width="22" height="70" fill="#9B8454" stroke="#5C4B24" stroke-width=".7"/>
+                    <rect x="118" y="56" width="16" height="28" fill="none" stroke="#8A7544" stroke-opacity=".45" stroke-width=".35"/>
+                    <rect x="118" y="87" width="16" height="33" fill="none" stroke="#8A7544" stroke-opacity=".45" stroke-width=".35"/>
+                    <circle cx="120" cy="89" r="1.1" fill="#8A7544"/>
+                    <text x="126" y="40" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="12" fill="#8A7544" font-weight="500">1</text>
+                  </g>
+
+                  <!-- ====== ESCALIER + ASCENSEUR à DROITE (point de départ) ====== -->
+                  <g class="kg-ct-stairs">
+                    <!-- Cage escalier -->
+                    <rect x="160" y="60" width="34" height="66" fill="#EDE2C6" stroke="#8A7544" stroke-width=".8"/>
+                    <!-- Marches -->
+                    <g stroke="#8A7544" stroke-width=".5" stroke-opacity=".7">
+                      <line x1="160" y1="66" x2="194" y2="66"/>
+                      <line x1="160" y1="72" x2="194" y2="72"/>
+                      <line x1="160" y1="78" x2="194" y2="78"/>
+                      <line x1="160" y1="84" x2="194" y2="84"/>
+                      <line x1="160" y1="90" x2="194" y2="90"/>
+                      <line x1="160" y1="96" x2="194" y2="96"/>
+                      <line x1="160" y1="102" x2="194" y2="102"/>
+                    </g>
+                    <!-- Label Escalier -->
+                    <text x="177" y="114" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="8" fill="#5C4B24" font-weight="600">Escalier</text>
+                    <!-- Flèche ↑ indiquant qu'on monte -->
+                    <path d="M 177 140 L 177 132 M 174 135 L 177 132 L 180 135"
+                          stroke="#C9A961" stroke-width="1.3" fill="none"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                    <text x="177" y="148" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="4" letter-spacing=".15em" fill="#8A7544" font-weight="600" data-user-field="floor">2ᵉ</text>
+                  </g>
+
+                  <!-- ====== CHEMIN AU SOL (depuis escalier vers porte 4) ====== -->
                   <g class="kg-ct-route">
                     <path class="kg-ct-path"
-                          d="M 100 128 Q 108 108 122 86 Q 138 64 155 50"
-                          fill="none"
-                          stroke="#C9A961"
-                          stroke-width="2.2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
+                          d="M 160 134 L 34 134 L 30 127"
+                          fill="none" stroke="#C9A961" stroke-width="2"
+                          stroke-linecap="round" stroke-linejoin="round"
                           stroke-dasharray="3 3"/>
-                    <!-- Flèches séquentielles -->
-                    <g class="kg-ct-arrow kg-ct-arrow-1" fill="none" stroke="#C9A961" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M 107 112 L 110 108 L 114 110"/>
+                    <!-- Flèche initiale (direction → gauche, depuis escalier) -->
+                    <g class="kg-ct-arrow kg-ct-arrow-1" fill="none" stroke="#C9A961" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M 130 131 L 126 129 L 130 127 M 122 129 L 144 129"/>
                     </g>
-                    <g class="kg-ct-arrow kg-ct-arrow-2" fill="none" stroke="#C9A961" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M 130 78 L 134 74 L 138 76"/>
+                    <!-- Chevrons intermédiaires -->
+                    <g class="kg-ct-arrow kg-ct-arrow-2" fill="none" stroke="#C9A961" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M 100 131 L 96 129 L 100 127"/>
                     </g>
-                    <g class="kg-ct-arrow kg-ct-arrow-3" fill="none" stroke="#C9A961" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M 148 54 L 152 50 L 156 52"/>
+                    <g class="kg-ct-arrow kg-ct-arrow-3" fill="none" stroke="#C9A961" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M 68 131 L 64 129 L 68 127"/>
+                    </g>
+                    <!-- Flèche finale (vers porte 4 en haut) -->
+                    <g class="kg-ct-arrow kg-ct-arrow-4" fill="none" stroke="#C9A961" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M 26 124 L 30 120 L 34 124"/>
                     </g>
                   </g>
 
-                  <!-- Label indicateur "N° PORTE" au-dessus du halo -->
+                  <!-- Label "PORTE Nº 4" en bas à gauche -->
                   <g class="kg-ct-callout">
-                    <text x="160" y="30" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="5.2" letter-spacing=".2em" fill="#8A7544" data-user-field="door_ordinal-label">PORTE Nº 4</text>
+                    <rect x="14" y="144" width="74" height="11" rx="1.5" fill="#FBF6EA" stroke="#C9A961" stroke-opacity=".55" stroke-width=".8"/>
+                    <text x="51" y="151.5" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="4.5" letter-spacing=".18em" fill="#5C4B24" font-weight="600" data-user-field="door_ordinal-label">PORTE Nº 4</text>
                   </g>
                 </svg>
               </div>
@@ -2509,13 +2746,17 @@
 
       // === Animations KN2 : mapping dérivé (access + floor_path) → anim variant ===
       //   interphone                              → "interphone"
-      //   badge + stairs-corner / stairs-facing   → "badge-stairs" (porte jaune LE TIGRE)
-      //   badge + autres                          → "badge-dual"   (façade 2 portes Dupont)
+      //   badge + stairs-corner / stairs-facing   → "badge-stairs"      (porte jaune LE TIGRE)
+      //   badge + stairs-count                    → "badge-monteverdi"  (impasse Bât. C + Bât. D)
+      //   badge + autres                          → "badge-dual"        (façade 2 portes Dupont)
       // Bernard (stairs-corner) et Garnier (stairs-facing) sont dans le MÊME
       // immeuble "LE TIGRE" → même animation d'accès à l'immeuble.
       const tigreBuilding = floorVariant === 'stairs-corner' || floorVariant === 'stairs-facing';
+      const monteverdiBuilding = floorVariant === 'stairs-count';
       const kn2Anim = access === 'interphone' ? 'interphone'
-                    : (tigreBuilding ? 'badge-stairs' : 'badge-dual');
+                    : tigreBuilding ? 'badge-stairs'
+                    : monteverdiBuilding ? 'badge-monteverdi'
+                    : 'badge-dual';
       guide.querySelectorAll('.kg-step[data-step="kn2"] .kg-anim[data-variant]').forEach((el) => {
         el.hidden = !matchVariant(el.dataset.variant, kn2Anim);
       });
@@ -2635,6 +2876,19 @@
         // Label SVG "PORTE Nº 4" / "DOOR Nº 4"
         const doorLabel = (lang === 'en' ? 'DOOR Nº ' : 'PORTE Nº ') + doorOrdinal;
         guide.querySelectorAll('[data-user-field="door_ordinal-label"]').forEach(el => { el.textContent = doorLabel; });
+        // Label SVG latéral "À DROITE" / "ON THE RIGHT"
+        const sideLoc = localizeDirection(doorSide).toUpperCase();
+        const sideLabel = lang === 'en' ? 'ON THE ' + sideLoc : 'À ' + sideLoc;
+        guide.querySelectorAll('[data-user-field="door_side-label"]').forEach(el => { el.textContent = sideLabel; });
+        // Sous-titre SVG : "— Mur droit du couloir —" (FR) / "— Right wall of the corridor —" (EN)
+        // Note FR : le masculin de "droite" devient "droit" (on parle DU mur), "gauche"
+        // reste inchangé.
+        const sideLower = localizeDirection(doorSide);
+        const wallMasculine = sideLower === 'droite' ? 'droit' : sideLower;
+        const wallLabel = lang === 'en'
+          ? `— ${sideLower.charAt(0).toUpperCase() + sideLower.slice(1)} wall of the corridor —`
+          : `— Mur ${wallMasculine} du couloir —`;
+        guide.querySelectorAll('[data-user-field="wall-label"]').forEach(el => { el.textContent = wallLabel; });
       }
       applyUserFields();
 
