@@ -2353,6 +2353,86 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
   100%   {opacity:0;transform:translateX(-4px)}
 }
 
+/* KN3 variante STAIRS-COUNT (Lefèvre) : couloir en perspective avec Nᵉ porte
+   à droite éclairée, les autres numérotées mais faibles. */
+.kg-ct-entry,
+.kg-ct-callout,
+.kg-ct-door-1,
+.kg-ct-door-2,
+.kg-ct-door-3,
+.kg-ct-dest,
+.kg-ct-halo,
+.kg-ct-arrow{opacity:0}
+.kg-ct-path{
+  stroke-dasharray:180;
+  stroke-dashoffset:180;
+  opacity:1;
+}
+.kg-ct-halo{
+  transform-origin:160px 48px;transform-box:view-box;
+}
+
+/* 1 — décor & portes apparaissent en cascade */
+.kg-step.is-visible[data-step="kn3"] .kg-ct-entry{
+  animation:kgCtFadeIn .6s .2s ease-out both;
+}
+.kg-step.is-visible[data-step="kn3"] .kg-ct-callout{
+  animation:kgCtFadeIn .5s .4s ease-out both;
+}
+.kg-step.is-visible[data-step="kn3"] .kg-ct-door-1{
+  animation:kgCtFadeIn .4s .5s ease-out both;
+}
+.kg-step.is-visible[data-step="kn3"] .kg-ct-door-2{
+  animation:kgCtFadeIn .4s .7s ease-out both;
+}
+.kg-step.is-visible[data-step="kn3"] .kg-ct-door-3{
+  animation:kgCtFadeIn .4s .9s ease-out both;
+}
+.kg-step.is-visible[data-step="kn3"] .kg-ct-dest{
+  animation:kgCtFadeIn .5s 1.1s ease-out both;
+}
+/* 2 — tracé du chemin */
+.kg-step.is-visible[data-step="kn3"] .kg-ct-path{
+  animation:kgCtDraw 2s 1.3s cubic-bezier(.7,.05,.35,1) both;
+}
+/* 3 — flèches séquentielles */
+.kg-step.is-visible[data-step="kn3"] .kg-ct-arrow-1{
+  animation:kgCtArrowPop .4s 1.8s ease-out both;
+}
+.kg-step.is-visible[data-step="kn3"] .kg-ct-arrow-2{
+  animation:kgCtArrowPop .4s 2.4s ease-out both;
+}
+.kg-step.is-visible[data-step="kn3"] .kg-ct-arrow-3{
+  animation:kgCtArrowPop .45s 3s cubic-bezier(.2,.8,.3,1.2) both;
+}
+/* 4 — halo doré qui pulse sur la porte destination */
+.kg-step.is-visible[data-step="kn3"] .kg-ct-halo{
+  animation:kgCtHaloFade .7s 3.1s ease-out forwards, kgCtHaloPulse 2.4s 3.9s ease-in-out infinite;
+}
+
+@keyframes kgCtFadeIn{
+  0%  {opacity:0;transform:translateY(4px)}
+  100%{opacity:1;transform:translateY(0)}
+}
+@keyframes kgCtDraw{
+  0%  {stroke-dashoffset:180}
+  100%{stroke-dashoffset:0}
+}
+.kg-ct-arrow{transform-origin:center center;transform-box:fill-box}
+@keyframes kgCtArrowPop{
+  0%  {opacity:0;transform:scale(.6)}
+  60% {opacity:1;transform:scale(1.15)}
+  100%{opacity:1;transform:scale(1)}
+}
+@keyframes kgCtHaloFade{
+  0%  {opacity:0;transform:scale(.7)}
+  100%{opacity:1;transform:scale(1)}
+}
+@keyframes kgCtHaloPulse{
+  0%,100%{opacity:.85;transform:scale(1)}
+  50%    {opacity:1;transform:scale(1.1)}
+}
+
 /* KN3 variante STAIRS-FACING (Garnier) : 2 portes rouges face à face,
    halo doré + tapis Welcome sur la destination (gauche), chemin qui se dessine. */
 .kg-sf-entry,
@@ -2682,6 +2762,8 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
   .kg-sc-halo, .kg-sc-mat, .kg-sc-arrow, .kg-sc-path, .kg-sc-x line,
   .kg-sf-entry, .kg-sf-callout, .kg-sf-dest, .kg-sf-other,
   .kg-sf-halo, .kg-sf-mat, .kg-sf-arrow, .kg-sf-path,
+  .kg-ct-entry, .kg-ct-callout, .kg-ct-door-1, .kg-ct-door-2, .kg-ct-door-3,
+  .kg-ct-dest, .kg-ct-halo, .kg-ct-arrow, .kg-ct-path,
   .kg-bs-door, .kg-bs-badge-halo, .kg-bs-reveal,
   .kg-panel{
     animation:none !important;opacity:1;transform:none;
@@ -2689,6 +2771,7 @@ body.is-leaving{opacity:0;transition:opacity .32s var(--ease)}
   .kg-sc-path{stroke-dashoffset:0}
   .kg-sc-x line{stroke-dashoffset:0}
   .kg-sf-path{stroke-dashoffset:0}
+  .kg-ct-path{stroke-dashoffset:0}
   .kg-bs-reveal{opacity:.5}
   .kg-key{transform:translateY(0)}
   .kg-flap{transform:translateY(30px)}
