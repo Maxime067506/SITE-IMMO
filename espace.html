@@ -6,12 +6,19 @@
   <meta name="theme-color" content="#0c0c0a" />
   <title>Mon espace — Delfosse Properties</title>
 
+  <!-- Progressive Web App : ajoutable à l'écran d'accueil (iOS + Android) -->
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="img/delfosse-icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Delfosse" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=dc" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <link rel="stylesheet" href="css/auth.css?v=120" />
+  <link rel="stylesheet" href="css/auth.css?v=125" />
 </head>
 <body class="espace-page">
 
@@ -144,6 +151,13 @@
       </div>
     </div>
   </section>
+
+  <!-- ============================================================
+       LIVE CONCIERGE — « Aujourd'hui à Nice »
+       Météo + coucher de soleil + mer + moment du jour curé.
+       Injecté par js/live-concierge.js (API Open-Meteo, sans clé).
+       ============================================================ -->
+  <section id="liveConcierge" class="section" aria-label="Aujourd'hui à Nice" data-i18n-attr="aria-label" data-i18n-attr-key="espace.live.aria"></section>
 
   <!-- ============================================================
        COVERFLOW 3D — même design que la section "Réserver sur
@@ -2329,8 +2343,9 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script src="js/auth.js?v=d9"></script>
+  <script src="js/auth.js?v=e1"></script>
   <script src="js/i18n.js?v=e4"></script>
+  <script src="js/live-concierge.js?v=b1"></script>
   <script>
     const user = DP.requireAuth();
     if (!user) { /* redirect déjà déclenché */ }
@@ -2418,6 +2433,11 @@
 
     // === GUIDE INTERACTIF — Récupérer les clés en 4 étapes ===
     initKeyGuide(user);
+
+    // === LIVE CONCIERGE — « Aujourd'hui à Nice » (indépendant de l'user) ===
+    if (window.DelfosseLiveConcierge && typeof window.DelfosseLiveConcierge.init === 'function'){
+      window.DelfosseLiveConcierge.init();
+    }
 
     // Vidéos conditionnelles : certaines cartes ciblent un utilisateur précis (data-video-for="rousseau")
     // → on les révèle uniquement si le login courant correspond, sinon on les retire du DOM.

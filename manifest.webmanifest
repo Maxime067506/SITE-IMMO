@@ -1,0 +1,18 @@
+{
+  "name": "Delfosse Properties — Espace voyageur",
+  "short_name": "Delfosse",
+  "description": "Votre concierge privé, à portée de main. Wi-Fi, clés, guide et moments du jour à Nice.",
+  "start_url": "/espace.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0C1A2B",
+  "theme_color": "#0C1A2B",
+  "lang": "fr",
+  "icons": [
+    { "src": "img/delfosse-icon-192.png",          "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "img/delfosse-icon-512.png",          "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "img/delfosse-icon-192-maskable.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "img/delfosse-icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
