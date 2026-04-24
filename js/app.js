@@ -402,15 +402,16 @@ targets.forEach(el => io.observe(el));
   const canvas = document.getElementById('niceMap');
   if (!wrap || !canvas) return;
 
-  // Offsets pour distinguer les jumeaux sur le plan (~20m)
+  // Coordonnées GPS réelles (OpenStreetMap). Les jumeaux (01/02 et 05/07)
+  // partagent la même adresse : un léger offset (~30 m) les rend lisibles.
   const APTS_MAP = [
-    { no:'01', name:"Notre appartement du port",           address:'5 rue Barla, Nice',         loc:'Port de Nice',   lat:43.70140, lon:7.27995, img:'img/airbnb/01-amiral/photo-01.jpg',    meta:'4 voyageurs · ★ 4,87', airbnb:'https://www.airbnb.fr/rooms/1361669686960380718', detail:'sejour-01.html' },
-    { no:'02', name:'Son jumeau du port',                  address:'5 rue Barla, Nice',         loc:'Port de Nice',   lat:43.70170, lon:7.28035, img:'img/airbnb/02-commodore/photo-01.jpg?v=c1', meta:'4 voyageurs · ★ 4,88', airbnb:'https://www.airbnb.fr/rooms/1361686663866337495', detail:'sejour-02.html' },
-    { no:'03', name:'Notre appartement avenue Notre-Dame', address:'27 avenue Notre-Dame, Nice', loc:'Hyper centre', lat:43.70410, lon:7.26530, img:'img/airbnb/03-basilique/photo-01.jpg',    meta:'6 voyageurs · ★ 4,84',  airbnb:'https://www.airbnb.fr/rooms/1563266584925477319', detail:'sejour-03.html' },
-    { no:'04', name:'Notre appartement Art Déco',          address:'Face à la gare, Nice',      loc:'Quartier gare',  lat:43.70390, lon:7.26180, img:'img/airbnb/04-transatlantique/photo-01.jpg', meta:'4 voyageurs · ★ 4,86', airbnb:'https://www.airbnb.fr/rooms/1361628609886141688', detail:'sejour-04.html' },
-    { no:'05', name:'Notre appartement ultra design',      address:'41 av. G. Clemenceau, Nice',loc:'Musiciens',      lat:43.70070, lon:7.26195, img:'img/airbnb/06-scherzo/photo-01.jpg?v=e3',   meta:'4 voyageurs · ★ 4,94', airbnb:'https://www.airbnb.fr/rooms/1446914329011561138', detail:'sejour-05.html' },
-    { no:'06', name:'Notre dernier appartement',           address:'24D rue Gounod, Nice',      loc:'Musiciens',      lat:43.70100, lon:7.25900, img:'img/airbnb/07-crescendo/photo-01.jpg', meta:'4 voyageurs · ★ 4,69', airbnb:'https://www.airbnb.fr/rooms/1361447215596892211', detail:'sejour-06.html' },
-    { no:'07', name:'Notre appartement design',            address:'41 av. G. Clemenceau, Nice',loc:'Musiciens',      lat:43.70035, lon:7.26155, img:'img/airbnb/05-adagio/photo-01.jpg?v=d1',    meta:'4 voyageurs · ★ 4,81', airbnb:'https://www.airbnb.fr/rooms/1447097634568506909', detail:'sejour-07.html' },
+    { no:'01', name:"Notre appartement du port",           address:'5 rue Barla, Nice',         loc:'Port de Nice',   lat:43.70238, lon:7.28148, img:'img/airbnb/01-amiral/photo-01.jpg',    meta:'4 voyageurs · ★ 4,87', airbnb:'https://www.airbnb.fr/rooms/1361669686960380718', detail:'sejour-01.html' },
+    { no:'02', name:'Son jumeau du port',                  address:'5 rue Barla, Nice',         loc:'Port de Nice',   lat:43.70268, lon:7.28178, img:'img/airbnb/02-commodore/photo-01.jpg?v=c1', meta:'4 voyageurs · ★ 4,88', airbnb:'https://www.airbnb.fr/rooms/1361686663866337495', detail:'sejour-02.html' },
+    { no:'03', name:'Notre appartement avenue Notre-Dame', address:'27 avenue Notre-Dame, Nice', loc:'Hyper centre', lat:43.70362, lon:7.26709, img:'img/airbnb/03-basilique/photo-01.jpg',    meta:'6 voyageurs · ★ 4,84',  airbnb:'https://www.airbnb.fr/rooms/1563266584925477319', detail:'sejour-03.html' },
+    { no:'04', name:'Notre appartement Art Déco',          address:'Face à la gare, Nice',      loc:'Quartier gare',  lat:43.70378, lon:7.26190, img:'img/airbnb/04-transatlantique/photo-01.jpg', meta:'4 voyageurs · ★ 4,86', airbnb:'https://www.airbnb.fr/rooms/1361628609886141688', detail:'sejour-04.html' },
+    { no:'05', name:'Notre appartement ultra design',      address:'41 av. G. Clemenceau, Nice',loc:'Musiciens',      lat:43.70179, lon:7.26055, img:'img/airbnb/06-scherzo/photo-01.jpg?v=e3',   meta:'4 voyageurs · ★ 4,94', airbnb:'https://www.airbnb.fr/rooms/1446914329011561138', detail:'sejour-05.html' },
+    { no:'06', name:'Notre dernier appartement',           address:'24D rue Gounod, Nice',      loc:'Musiciens',      lat:43.70098, lon:7.26081, img:'img/airbnb/07-crescendo/photo-01.jpg', meta:'4 voyageurs · ★ 4,69', airbnb:'https://www.airbnb.fr/rooms/1361447215596892211', detail:'sejour-06.html' },
+    { no:'07', name:'Notre appartement design',            address:'41 av. G. Clemenceau, Nice',loc:'Musiciens',      lat:43.70149, lon:7.26015, img:'img/airbnb/05-adagio/photo-01.jpg?v=d1',    meta:'4 voyageurs · ★ 4,81', airbnb:'https://www.airbnb.fr/rooms/1447097634568506909', detail:'sejour-07.html' },
   ];
 
   // Si on est sur une fiche séjour (sejour-0X.html), ne conserver que
