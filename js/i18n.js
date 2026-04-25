@@ -605,6 +605,11 @@ const I18N = {
     "espace.videos.door.t":   "Ouvrir la porte d'entrée",
     "espace.videos.door.d":   "9 secondes — porte sécurisée française : levez la poignée <strong>vers le haut</strong>, puis tournez la clé.",
     "espace.videos.note":     "D'autres tutoriels arrivent : lave-linge, sèche-linge, climatisation, cafetière. À très bientôt.",
+    /* Comment venir — APPT1 / APPT2 (Le Véronese, 5 rue Barla) */
+    "espace.toc.transit":      "Comment venir",
+    "espace.transit.eyebrow":  "Comment venir",
+    "espace.transit.title":    "Vers <em style=\"color:var(--accent-lt)\">votre porte.</em>",
+    "espace.transit.intro":    "Itinéraire animé en tramway, étape par étape — depuis l'Aéroport Nice Côte d'Azur ou la Gare de Nice-Ville. Suivez la ligne, l'arrêt s'allume, votre porte n'est qu'à quelques pas.",
     /* Footer */
     "espace.foot.back":        "Retour au site"
   },
@@ -1210,6 +1215,11 @@ const I18N = {
     "espace.videos.door.t":   "Open the front door",
     "espace.videos.door.d":   "9 seconds — French secure door: lift the handle <strong>upward</strong>, then turn the key.",
     "espace.videos.note":     "More tutorials coming: washer, dryer, air conditioning, coffee machine. Stay tuned.",
+    /* How to get there — APPT1 / APPT2 (Le Véronese, 5 rue Barla) */
+    "espace.toc.transit":      "How to get there",
+    "espace.transit.eyebrow":  "How to get there",
+    "espace.transit.title":    "To <em style=\"color:var(--accent-lt)\">your doorstep.</em>",
+    "espace.transit.intro":    "Animated tramway journey, step by step — from Nice Côte d'Azur Airport or Nice-Ville train station. Follow the line, watch the stop light up, your door is just a few steps away.",
     /* Footer */
     "espace.foot.back":        "Back to site"
   }

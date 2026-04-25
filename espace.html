@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="css/style.css?v=dc" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="css/auth.css?v=125" />
+  <link rel="stylesheet" href="css/transit.css?v=a3" />
 </head>
 <body class="espace-page">
 
@@ -112,6 +113,15 @@
         </span>
         <span class="toc-num">07</span>
         <span class="toc-label" data-i18n="espace.toc.videos">Vidéos</span>
+      </a>
+      <!-- Chip "Comment venir" — visible uniquement pour APPT1 / APPT2 (Le Véronese, 5 rue Barla).
+           Révélé par js/transit.js après auth. -->
+      <a href="#transit" class="toc-chip" id="tocTransit" hidden>
+        <span class="toc-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="14" rx="3"/><path d="M5 10h14M9 17l-2 4M15 17l2 4"/><circle cx="9" cy="13.5" r="1" fill="currentColor"/><circle cx="15" cy="13.5" r="1" fill="currentColor"/></svg>
+        </span>
+        <span class="toc-num">✻</span>
+        <span class="toc-label" data-i18n="espace.toc.transit">Comment venir</span>
       </a>
       <!-- Onglet Déconnexion (toujours accessible, idéal pour mobile) -->
       <button type="button" class="toc-chip toc-chip--logout" id="logoutBtnToc">
@@ -2041,6 +2051,18 @@
     <!-- /KEYNEST guide -->
   </section>
 
+  <!-- SECTION — COMMENT VENIR (visible APPT1 / APPT2 uniquement)
+       Itinéraire animé en tramway depuis l'Aéroport Côte d'Azur (T2)
+       et depuis la Gare de Nice-Ville (marche + T1). Hôte par js/transit.js. -->
+  <section class="section espace-section dark" id="transit" hidden>
+    <header class="section-head">
+      <p class="eyebrow light"><span class="eyebrow-num">✻</span> <span data-i18n="espace.transit.eyebrow">Comment venir</span></p>
+      <h2 class="h-display" style="color:var(--bg)" data-i18n="espace.transit.title" data-i18n-html="true">Vers <em style="color:var(--accent-lt)">votre porte.</em></h2>
+      <p class="lede" style="color:rgba(250,246,238,.65);max-width:58ch" data-i18n="espace.transit.intro">Itinéraire animé en tramway, étape par étape — depuis l'Aéroport Nice Côte d'Azur ou la Gare de Nice-Ville. Suivez la ligne, l'arrêt s'allume, votre porte n'est qu'à quelques pas.</p>
+    </header>
+    <div class="dp-tr-host-mount"><!-- contenu injecté par js/transit.js --></div>
+  </section>
+
   <!-- SECTION — WIFI (placée juste après "Entrez c'est chez vous", avant le guide) -->
   <section class="section espace-section dark" id="wifi">
     <header class="section-head">
@@ -2344,8 +2366,9 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="js/auth.js?v=e1"></script>
-  <script src="js/i18n.js?v=e4"></script>
+  <script src="js/i18n.js?v=e5"></script>
   <script src="js/live-concierge.js?v=b1"></script>
+  <script src="js/transit.js?v=a7"></script>
   <script>
     const user = DP.requireAuth();
     if (!user) { /* redirect déjà déclenché */ }
@@ -2437,6 +2460,11 @@
     // === LIVE CONCIERGE — « Aujourd'hui à Nice » (indépendant de l'user) ===
     if (window.DelfosseLiveConcierge && typeof window.DelfosseLiveConcierge.init === 'function'){
       window.DelfosseLiveConcierge.init();
+    }
+
+    // === TRANSIT « Comment venir » — APPT1 / APPT2 uniquement (5 rue Barla) ===
+    if (window.DelfosseTransit && typeof window.DelfosseTransit.init === 'function'){
+      window.DelfosseTransit.init(user);
     }
 
     // Vidéos conditionnelles : certaines cartes ciblent un utilisateur précis (data-video-for="rousseau")
