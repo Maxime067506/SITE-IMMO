@@ -789,7 +789,14 @@
       }).addTo(map);
 
       const bounds = L.latLngBounds(path);
-      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 17 });
+      // Padding 50/50 + plus en haut pour laisser de la place au pin
+      // d'arrivée (28×36 px avec ancre en bas) et aux tooltips permanents.
+      map.fitBounds(bounds, { padding: [60, 50], maxZoom: 18 });
+      // On mémorise les bounds pour pouvoir re-centrer après invalidateSize
+      // (la taille du container peut changer entre le mount et l'affichage).
+      container._dpInitialBounds = bounds;
+      container._dpInitialPadding = [60, 50];
+      container._dpInitialMaxZoom = 18;
 
       // Halo blanc + ligne or champagne pointillée (signal "à pied")
       L.polyline(path, {
@@ -927,13 +934,21 @@
       const initialBounds = bounds;
       const endLatLng = L.latLng(path[path.length - 1][0], path[path.length - 1][1]);
 
+      // Bounds de fin : inclut le via-point (Keynest/laverie) + l'arrivée si
+      // un via existe, sinon zoom simple sur l'arrivée.
+      let finalBounds = null;
+      if (viaMeta && path[viaMeta.idx]) {
+        const viaLatLng = L.latLng(path[viaMeta.idx][0], path[viaMeta.idx][1]);
+        finalBounds = L.latLngBounds([viaLatLng, endLatLng]);
+      }
+
       function animateWalker() {
         // Reset au point de départ
         walker.setLatLng(path[0]);
         const wel0 = walker.getElement();
         if (wel0) wel0.classList.remove("is-arrived");
         // Vue d'ensemble pour relancer la séquence depuis zéro
-        try { map.fitBounds(initialBounds, { padding: [40, 40], maxZoom: 18, animate: true, duration: 0.6 }); } catch (e) {}
+        try { map.fitBounds(initialBounds, { padding: [50, 50], maxZoom: 18, animate: true, duration: 0.6 }); } catch (e) {}
 
         const startTs = performance.now();
         const dur = 4200;
@@ -954,8 +969,17 @@
           else {
             const el = walker.getElement();
             if (el) el.classList.add("is-arrived");
-            // Auto-zoom sur la zone d'arrivée pour bien voir l'étape finale
-            try { map.flyTo(endLatLng, 18, { duration: 1.4 }); } catch (e) {}
+            // Zoom de fin :
+            // - avec via : on cadre le point Keynest ET l'appartement
+            //   pour que les deux derniers étapes restent visibles
+            // - sans via : zoom centré sur l'arrivée
+            try {
+              if (finalBounds) {
+                map.flyToBounds(finalBounds, { padding: [70, 70], maxZoom: 18, duration: 1.4 });
+              } else {
+                map.flyTo(endLatLng, 18, { duration: 1.4 });
+              }
+            } catch (e) {}
           }
         }
         const el = walker.getElement();
@@ -1061,7 +1085,11 @@
     if (_activeCfg && _activeCfg.arrival) {
       bounds.extend([_activeCfg.arrival.lat, _activeCfg.arrival.lng]);
     }
-    map.fitBounds(bounds, { padding: [22, 22] });
+    // Padding plus généreux pour laisser respirer les tooltips permanents
+    // (arrêts terminus, pin appartement) qui dépassent du tracé.
+    map.fitBounds(bounds, { padding: [50, 50] });
+    container._dpInitialBounds = bounds;
+    container._dpInitialPadding = [50, 50];
 
     // Tracé tramway : on utilise le polyline RÉEL OSM cropé aux indices
     // calculés ci-dessus (suit les rues et les tunnels, pas une ligne
@@ -1182,6 +1210,14 @@
     // Bounds initiaux + dernier point du tracé pour zoom de fin
     const initialTramBounds = bounds;
     const tramEndLatLng = L.latLng(realPath[realPath.length - 1][0], realPath[realPath.length - 1][1]);
+    // Zoom de fin : on inclut l'arrêt tramway (fin du tracé) ET le pin
+    // d'arrivée de l'appartement, pour que l'utilisateur voie d'un coup
+    // d'œil "où je descends" + "où est mon appart".
+    let tramFinalBounds = null;
+    if (_activeCfg && _activeCfg.arrival) {
+      const apartLatLng = L.latLng(_activeCfg.arrival.lat, _activeCfg.arrival.lng);
+      tramFinalBounds = L.latLngBounds([tramEndLatLng, apartLatLng]);
+    }
 
     function animateTram() {
       if (!tramMarker) return;
@@ -1189,7 +1225,7 @@
       tramMarker.setLatLng(realPath[0]);
       const tel0 = tramMarker.getElement();
       if (tel0) tel0.classList.remove("is-arrived");
-      try { map.fitBounds(initialTramBounds, { padding: [22, 22], animate: true, duration: 0.6 }); } catch (e) {}
+      try { map.fitBounds(initialTramBounds, { padding: [40, 40], animate: true, duration: 0.6 }); } catch (e) {}
 
       const startTs = performance.now();
       const dur = 4000;
@@ -1210,8 +1246,14 @@
         else {
           const el = tramMarker.getElement();
           if (el) el.classList.add("is-arrived");
-          // Auto-zoom sur la zone d'arrivée pour voir l'appart final
-          try { map.flyTo(tramEndLatLng, 16, { duration: 1.4 }); } catch (e) {}
+          // Zoom de fin : cadre l'arrêt tram + l'appartement
+          try {
+            if (tramFinalBounds) {
+              map.flyToBounds(tramFinalBounds, { padding: [70, 70], maxZoom: 17, duration: 1.4 });
+            } else {
+              map.flyTo(tramEndLatLng, 16, { duration: 1.4 });
+            }
+          } catch (e) {}
         }
       }
       const el = tramMarker.getElement();
@@ -1246,8 +1288,28 @@
       map = mountLeafletMap(lf, lf.getAttribute("data-line") || "L2");
       if (!map) return false;
       if (fb) fb.style.display = "none";
+      // Premier mount : la taille du container peut être 0 si le panel
+      // est caché. invalidateSize + refit garantit un centrage correct
+      // une fois le panel révélé.
+      setTimeout(() => {
+        map.invalidateSize(true);
+        if (lf._dpInitialBounds) {
+          const opts = { padding: lf._dpInitialPadding || [50, 50], animate: false };
+          if (lf._dpInitialMaxZoom) opts.maxZoom = lf._dpInitialMaxZoom;
+          try { map.fitBounds(lf._dpInitialBounds, opts); } catch (e) {}
+        }
+      }, 60);
     } else {
-      setTimeout(() => map.invalidateSize(true), 30);
+      setTimeout(() => {
+        map.invalidateSize(true);
+        // Re-centre aussi sur la vue initiale au cas où le container
+        // a été redimensionné (responsive, mobile rotation, etc.)
+        if (lf._dpInitialBounds) {
+          const opts = { padding: lf._dpInitialPadding || [50, 50], animate: false };
+          if (lf._dpInitialMaxZoom) opts.maxZoom = lf._dpInitialMaxZoom;
+          try { map.fitBounds(lf._dpInitialBounds, opts); } catch (e) {}
+        }
+      }, 30);
     }
 
     // Annule tout replay programmé pour une autre étape avant d'en lancer
