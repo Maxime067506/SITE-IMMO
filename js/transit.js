@@ -936,10 +936,18 @@
 
       // Bounds de fin : inclut le via-point (Keynest/laverie) + l'arrivée si
       // un via existe, sinon zoom simple sur l'arrivée.
+      // On ajoute un buffer géographique de ~80 m autour des deux points
+      // pour que sur mobile (carte ~380 px de large) les marqueurs ne se
+      // collent pas au bord visible et que Keynest reste bien dans le cadre.
       let finalBounds = null;
       if (viaMeta && path[viaMeta.idx]) {
         const viaLatLng = L.latLng(path[viaMeta.idx][0], path[viaMeta.idx][1]);
-        finalBounds = L.latLngBounds([viaLatLng, endLatLng]);
+        const buf = 0.0008; // ~80 m latitudinalement, ~65 m longitudinalement à 43° N
+        const minLat = Math.min(viaLatLng.lat, endLatLng.lat) - buf;
+        const maxLat = Math.max(viaLatLng.lat, endLatLng.lat) + buf;
+        const minLng = Math.min(viaLatLng.lng, endLatLng.lng) - buf;
+        const maxLng = Math.max(viaLatLng.lng, endLatLng.lng) + buf;
+        finalBounds = L.latLngBounds([[minLat, minLng], [maxLat, maxLng]]);
       }
 
       function animateWalker() {
@@ -973,9 +981,17 @@
             // - avec via : on cadre le point Keynest ET l'appartement
             //   pour que les deux derniers étapes restent visibles
             // - sans via : zoom centré sur l'arrivée
+            // Padding asymétrique : 70 px en haut-gauche pour ne pas coller
+            // les marqueurs sous les boutons de zoom Leaflet ; 30 px en
+            // bas-droit pour gagner de la place sur mobile.
             try {
               if (finalBounds) {
-                map.flyToBounds(finalBounds, { padding: [70, 70], maxZoom: 18, duration: 1.4 });
+                map.flyToBounds(finalBounds, {
+                  paddingTopLeft: [60, 70],
+                  paddingBottomRight: [30, 30],
+                  maxZoom: 17,
+                  duration: 1.4
+                });
               } else {
                 map.flyTo(endLatLng, 18, { duration: 1.4 });
               }
@@ -1212,11 +1228,17 @@
     const tramEndLatLng = L.latLng(realPath[realPath.length - 1][0], realPath[realPath.length - 1][1]);
     // Zoom de fin : on inclut l'arrêt tramway (fin du tracé) ET le pin
     // d'arrivée de l'appartement, pour que l'utilisateur voie d'un coup
-    // d'œil "où je descends" + "où est mon appart".
+    // d'œil "où je descends" + "où est mon appart". Buffer géographique
+    // pour éviter que les pins se collent au bord visible sur mobile.
     let tramFinalBounds = null;
     if (_activeCfg && _activeCfg.arrival) {
       const apartLatLng = L.latLng(_activeCfg.arrival.lat, _activeCfg.arrival.lng);
-      tramFinalBounds = L.latLngBounds([tramEndLatLng, apartLatLng]);
+      const buf = 0.0010; // ~110 m
+      const minLat = Math.min(tramEndLatLng.lat, apartLatLng.lat) - buf;
+      const maxLat = Math.max(tramEndLatLng.lat, apartLatLng.lat) + buf;
+      const minLng = Math.min(tramEndLatLng.lng, apartLatLng.lng) - buf;
+      const maxLng = Math.max(tramEndLatLng.lng, apartLatLng.lng) + buf;
+      tramFinalBounds = L.latLngBounds([[minLat, minLng], [maxLat, maxLng]]);
     }
 
     function animateTram() {
@@ -1246,10 +1268,17 @@
         else {
           const el = tramMarker.getElement();
           if (el) el.classList.add("is-arrived");
-          // Zoom de fin : cadre l'arrêt tram + l'appartement
+          // Zoom de fin : cadre l'arrêt tram + l'appartement.
+          // Padding asymétrique : 60/70 en haut-gauche (boutons zoom Leaflet)
+          // et 30/30 en bas-droit (gagner de la place sur mobile).
           try {
             if (tramFinalBounds) {
-              map.flyToBounds(tramFinalBounds, { padding: [70, 70], maxZoom: 17, duration: 1.4 });
+              map.flyToBounds(tramFinalBounds, {
+                paddingTopLeft: [60, 70],
+                paddingBottomRight: [30, 30],
+                maxZoom: 17,
+                duration: 1.4
+              });
             } else {
               map.flyTo(tramEndLatLng, 16, { duration: 1.4 });
             }
