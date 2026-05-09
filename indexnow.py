@@ -2,7 +2,7 @@
 indexnow.py
 ============
 Notifie Bing + Yandex + Naver + Seznam (et autres moteurs IndexNow) en quelques
-secondes quand tu modifies / publies des pages sur delfosse-properties.com.
+secondes quand tu modifies / publies des pages sur delfosseproperties.com.
 
 IndexNow remplace l'attente naturelle de re-crawl (1-30 jours) par une
 indexation quasi-instantanee (quelques heures max).
@@ -17,7 +17,7 @@ A noter :
 Usage :
     py indexnow.py                       # notifie toutes les URLs publiques
     py indexnow.py sejour-01.html sejour-03.html   # ne notifie que ces pages
-    py indexnow.py --host delfosse-properties.com  # surcharge l'host
+    py indexnow.py --host delfosseproperties.com  # surcharge l'host
 """
 from __future__ import annotations
 import argparse
@@ -27,7 +27,7 @@ import urllib.error
 import urllib.request
 
 KEY = "2e07914a685c420d92403873d36c69f6"
-DEFAULT_HOST = "delfosse-properties.com"
+DEFAULT_HOST = "delfosseproperties.com"
 KEY_LOCATION = f"https://{DEFAULT_HOST}/{KEY}.txt"
 
 # Liste de toutes les pages publiques du site (synchronisee avec sitemap.xml)

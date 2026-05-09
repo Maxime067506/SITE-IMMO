@@ -1,5 +1,5 @@
 # robots.txt — Delfosse Properties
-# https://delfosse-properties.com/
+# https://delfosseproperties.com/
 
 # Tous les bots : autorisés sur les pages publiques
 User-agent: *
@@ -28,4 +28,4 @@ Disallow: /css/
 # Disallow: /
 
 # Sitemap
-Sitemap: https://delfosse-properties.com/sitemap.xml
+Sitemap: https://delfosseproperties.com/sitemap.xml

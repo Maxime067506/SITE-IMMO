@@ -34,7 +34,7 @@ pour augmenter le nombre d'avis sur ta fiche **Google Business Profile**.
 > Encore merci, et à très bientôt sur la Côte d'Azur.
 >
 > Maxime — Delfosse Properties
-> delfosse-properties.com
+> delfosseproperties.com
 
 ---
 
@@ -56,7 +56,7 @@ pour augmenter le nombre d'avis sur ta fiche **Google Business Profile**.
 >
 > Maxime
 > Delfosse Properties · Nice
-> delfosse-properties.com
+> delfosseproperties.com
 
 ---
 
@@ -98,7 +98,7 @@ pour augmenter le nombre d'avis sur ta fiche **Google Business Profile**.
 > Thank you again, and see you soon on the French Riviera.
 >
 > Maxime — Delfosse Properties
-> delfosse-properties.com
+> delfosseproperties.com
 
 ---
 
@@ -120,7 +120,7 @@ pour augmenter le nombre d'avis sur ta fiche **Google Business Profile**.
 >
 > Maxime
 > Delfosse Properties · Nice
-> delfosse-properties.com
+> delfosseproperties.com
 
 ---
 
