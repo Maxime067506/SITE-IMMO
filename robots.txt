@@ -1,0 +1,31 @@
+# robots.txt — Delfosse Properties
+# https://delfosse-properties.com/
+
+# Tous les bots : autorisés sur les pages publiques
+User-agent: *
+Allow: /
+
+# Pages privées / techniques : ne pas indexer
+Disallow: /espace.html
+Disallow: /login.html
+Disallow: /admin.html
+Disallow: /moodboard.html
+Disallow: /api/
+Disallow: /js/
+Disallow: /css/
+
+# Bots IA / LLM scrapers : on laisse passer (signaux SEO modernes)
+# Décommente les blocs ci-dessous si tu veux les bloquer.
+# User-agent: GPTBot
+# Disallow: /
+# User-agent: ClaudeBot
+# Disallow: /
+# User-agent: CCBot
+# Disallow: /
+# User-agent: Google-Extended
+# Disallow: /
+# User-agent: PerplexityBot
+# Disallow: /
+
+# Sitemap
+Sitemap: https://delfosse-properties.com/sitemap.xml

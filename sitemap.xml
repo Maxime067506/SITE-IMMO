@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- Home -->
+  <url>
+    <loc>https://delfosse-properties.com/</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Fiche I — Appartement du Port -->
+  <url>
+    <loc>https://delfosse-properties.com/sejour-01.html</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Fiche II — Appartement du Port (jumeau) -->
+  <url>
+    <loc>https://delfosse-properties.com/sejour-02.html</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Fiche III — Appartement Notre-Dame -->
+  <url>
+    <loc>https://delfosse-properties.com/sejour-03.html</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Fiche IV — Appartement Art Déco -->
+  <url>
+    <loc>https://delfosse-properties.com/sejour-04.html</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Fiche V — Appartement ultra design -->
+  <url>
+    <loc>https://delfosse-properties.com/sejour-05.html</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Fiche VI — Appartement Musiciens -->
+  <url>
+    <loc>https://delfosse-properties.com/sejour-06.html</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Fiche VII — Appartement design -->
+  <url>
+    <loc>https://delfosse-properties.com/sejour-07.html</loc>
+    <lastmod>2026-05-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+</urlset>
