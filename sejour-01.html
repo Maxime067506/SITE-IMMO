@@ -26,6 +26,117 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="css/style.css?v=dc" />
   <link rel="stylesheet" href="css/sejour.css?v=d1" />
+
+  <!-- Schema.org JSON-LD : Apartment + Product/AggregateRating + Breadcrumb + FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Apartment",
+        "@id": "https://delfosse-properties.com/sejour-01.html#apartment",
+        "name": "Appartement Port de Nice — Delfosse Properties",
+        "description": "Appartement face au port de Nice (Port Lympia), balcon plein sud, 4 voyageurs, à deux pas de Garibaldi et du Vieux-Nice. Location saisonnière sur la Côte d'Azur.",
+        "url": "https://delfosse-properties.com/sejour-01.html",
+        "image": [
+          "https://delfosse-properties.com/img/airbnb/01-amiral/photo-01.jpg",
+          "https://delfosse-properties.com/img/airbnb/01-amiral/photo-02.jpg",
+          "https://delfosse-properties.com/img/airbnb/01-amiral/photo-03.jpg"
+        ],
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "5 rue Barla",
+          "addressLocality": "Nice",
+          "postalCode": "06300",
+          "addressRegion": "Provence-Alpes-Côte d'Azur",
+          "addressCountry": "FR"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 43.7024,
+          "longitude": 7.2815
+        },
+        "numberOfRooms": 1,
+        "numberOfBedrooms": 1,
+        "numberOfBathroomsTotal": 1,
+        "occupancy": {
+          "@type": "QuantitativeValue",
+          "maxValue": 4,
+          "unitCode": "C62"
+        },
+        "amenityFeature": [
+          { "@type": "LocationFeatureSpecification", "name": "Wi-Fi haut débit", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Climatisation", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Balcon", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Vue sur le port", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Cuisine équipée", "value": true }
+        ],
+        "petsAllowed": false,
+        "smokingAllowed": false
+      },
+      {
+        "@type": "Product",
+        "@id": "https://delfosse-properties.com/sejour-01.html#product",
+        "name": "Location saisonnière Appartement Port de Nice — Delfosse Properties",
+        "description": "Location saisonnière sur la Côte d'Azur — Appartement face au port de Nice, balcon plein sud, 4 voyageurs, à deux pas de Garibaldi et du Vieux-Nice.",
+        "image": "https://delfosse-properties.com/img/airbnb/01-amiral/photo-01.jpg",
+        "brand": { "@type": "Brand", "name": "Delfosse Properties" },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.87",
+          "reviewCount": "75",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "offers": {
+          "@type": "Offer",
+          "url": "https://www.airbnb.fr/rooms/1361669686960380718",
+          "priceCurrency": "EUR",
+          "availability": "https://schema.org/InStock",
+          "seller": { "@type": "Organization", "name": "Delfosse Properties" }
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://delfosse-properties.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Tous les séjours", "item": "https://delfosse-properties.com/#sejours" },
+          { "@type": "ListItem", "position": 3, "name": "Appartement Port de Nice", "item": "https://delfosse-properties.com/sejour-01.html" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Combien de voyageurs peut accueillir l'appartement du Port de Nice ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "L'appartement accueille jusqu'à 4 voyageurs : 1 chambre avec lit double et 1 canapé-lit king size dans le séjour." }
+          },
+          {
+            "@type": "Question",
+            "name": "Quels équipements sont inclus dans cette location saisonnière à Nice ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Wi-Fi haut débit, climatisation, cuisine équipée, lave-linge, télévision, et un balcon plein sud avec vue sur le port." }
+          },
+          {
+            "@type": "Question",
+            "name": "Où se situe précisément l'appartement ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "5 rue Barla, dans le quartier du Port Lympia à Nice (06300), à deux pas du quartier Garibaldi et du Vieux-Nice. Plage à 8 minutes à pied." }
+          },
+          {
+            "@type": "Question",
+            "name": "Comment réserver l'appartement Port de Nice ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "La réservation se fait sur Airbnb via le lien direct disponible sur la fiche. Note Airbnb : 4,87/5 sur 75 avis." }
+          },
+          {
+            "@type": "Question",
+            "name": "Y a-t-il un parking à proximité ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Plusieurs parkings publics à proximité : Parking Garibaldi (5 min à pied), Parking du Port (3 min à pied)." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body class="sejour-page">
 

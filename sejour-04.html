@@ -26,6 +26,109 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="css/style.css?v=dc" />
   <link rel="stylesheet" href="css/sejour.css?v=d1" />
+
+  <!-- Schema.org JSON-LD : Apartment + Product/AggregateRating + Breadcrumb + FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Apartment",
+        "@id": "https://delfosse-properties.com/sejour-04.html#apartment",
+        "name": "Appartement Art Déco Quartier Gare Nice — Delfosse Properties",
+        "description": "Studio Art Déco esprit années 30, 4 voyageurs, face à la gare SNCF de Nice, à 5 min du centre et du tram. Location saisonnière Riviera française.",
+        "url": "https://delfosse-properties.com/sejour-04.html",
+        "image": [
+          "https://delfosse-properties.com/img/airbnb/04-transatlantique/photo-01.jpg",
+          "https://delfosse-properties.com/img/airbnb/04-transatlantique/photo-02.jpg",
+          "https://delfosse-properties.com/img/airbnb/04-transatlantique/photo-03.jpg"
+        ],
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "38 avenue Auber",
+          "addressLocality": "Nice",
+          "postalCode": "06000",
+          "addressRegion": "Provence-Alpes-Côte d'Azur",
+          "addressCountry": "FR"
+        },
+        "geo": { "@type": "GeoCoordinates", "latitude": 43.7038, "longitude": 7.2619 },
+        "numberOfRooms": 1,
+        "numberOfBedrooms": 0,
+        "numberOfBathroomsTotal": 1,
+        "occupancy": { "@type": "QuantitativeValue", "maxValue": 4, "unitCode": "C62" },
+        "amenityFeature": [
+          { "@type": "LocationFeatureSpecification", "name": "Wi-Fi haut débit", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Climatisation", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Style Art Déco", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Cuisine équipée", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Face à la gare SNCF", "value": true }
+        ],
+        "petsAllowed": false,
+        "smokingAllowed": false
+      },
+      {
+        "@type": "Product",
+        "@id": "https://delfosse-properties.com/sejour-04.html#product",
+        "name": "Location saisonnière Appartement Art Déco Quartier Gare Nice — Delfosse Properties",
+        "description": "Location saisonnière Quartier Gare Nice, Riviera française — Appartement Art Déco années 30, 4 voyageurs, face à la gare SNCF, à 5 min du centre.",
+        "image": "https://delfosse-properties.com/img/airbnb/04-transatlantique/photo-01.jpg",
+        "brand": { "@type": "Brand", "name": "Delfosse Properties" },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.86",
+          "reviewCount": "43",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "offers": {
+          "@type": "Offer",
+          "url": "https://www.airbnb.fr/rooms/1361628609886141688",
+          "priceCurrency": "EUR",
+          "availability": "https://schema.org/InStock",
+          "seller": { "@type": "Organization", "name": "Delfosse Properties" }
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://delfosse-properties.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Tous les séjours", "item": "https://delfosse-properties.com/#sejours" },
+          { "@type": "ListItem", "position": 3, "name": "Appartement Art Déco Quartier Gare Nice", "item": "https://delfosse-properties.com/sejour-04.html" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "À quelle distance se trouve la gare SNCF de Nice-Ville ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "L'appartement est juste face à la gare Nice-Ville, à moins de 2 minutes à pied. Idéal pour les voyageurs arrivant en TGV." }
+          },
+          {
+            "@type": "Question",
+            "name": "Qu'est-ce qui rend cet appartement Art Déco unique ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Décoration entièrement inspirée des années 30 : luminaires d'époque, mobilier vintage, tons or et velours. Une expérience hors du temps face à la gare historique de Nice." }
+          },
+          {
+            "@type": "Question",
+            "name": "Combien de voyageurs peut accueillir le studio ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "4 voyageurs : un grand canapé-lit king size dans le studio plus un espace nuit séparé. Configuration optimisée pour 2 couples ou une petite famille." }
+          },
+          {
+            "@type": "Question",
+            "name": "Le tramway est-il facilement accessible ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Oui, arrêt tramway Gare Thiers (ligne 1) à 2 min à pied, liaison directe vers le centre et la place Masséna en 5 minutes." }
+          },
+          {
+            "@type": "Question",
+            "name": "Quelle est la note Airbnb de cette location saisonnière à Nice ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "4,86/5 sur 43 avis Airbnb. Réservation directement sur Airbnb via le lien sur la fiche." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body class="sejour-page">
 

@@ -26,6 +26,109 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="css/style.css?v=dc" />
   <link rel="stylesheet" href="css/sejour.css?v=d1" />
+
+  <!-- Schema.org JSON-LD : Apartment + Product/AggregateRating + Breadcrumb + FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Apartment",
+        "@id": "https://delfosse-properties.com/sejour-03.html#apartment",
+        "name": "Appartement Hyper Centre Nice — avenue Notre-Dame — Delfosse Properties",
+        "description": "Appartement familial avec mezzanine, hyper centre de Nice, 6 voyageurs, à 1 minute du tramway. Location saisonnière sur la Côte d'Azur.",
+        "url": "https://delfosse-properties.com/sejour-03.html",
+        "image": [
+          "https://delfosse-properties.com/img/airbnb/03-basilique/photo-01.jpg",
+          "https://delfosse-properties.com/img/airbnb/03-basilique/photo-02.jpg",
+          "https://delfosse-properties.com/img/airbnb/03-basilique/photo-03.jpg"
+        ],
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "27 avenue Notre-Dame",
+          "addressLocality": "Nice",
+          "postalCode": "06000",
+          "addressRegion": "Provence-Alpes-Côte d'Azur",
+          "addressCountry": "FR"
+        },
+        "geo": { "@type": "GeoCoordinates", "latitude": 43.7036, "longitude": 7.2671 },
+        "numberOfRooms": 2,
+        "numberOfBedrooms": 1,
+        "numberOfBathroomsTotal": 1,
+        "occupancy": { "@type": "QuantitativeValue", "maxValue": 6, "unitCode": "C62" },
+        "amenityFeature": [
+          { "@type": "LocationFeatureSpecification", "name": "Wi-Fi haut débit", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Climatisation", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Mezzanine", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Cuisine équipée", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Tramway à 1 min", "value": true }
+        ],
+        "petsAllowed": false,
+        "smokingAllowed": false
+      },
+      {
+        "@type": "Product",
+        "@id": "https://delfosse-properties.com/sejour-03.html#product",
+        "name": "Location saisonnière Appartement Hyper Centre Nice — Delfosse Properties",
+        "description": "Location saisonnière hyper centre Nice, Côte d'Azur — Appartement familial avec mezzanine, 6 voyageurs, à 1 min du tramway.",
+        "image": "https://delfosse-properties.com/img/airbnb/03-basilique/photo-01.jpg",
+        "brand": { "@type": "Brand", "name": "Delfosse Properties" },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.84",
+          "reviewCount": "25",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "offers": {
+          "@type": "Offer",
+          "url": "https://www.airbnb.fr/rooms/1563266584925477319",
+          "priceCurrency": "EUR",
+          "availability": "https://schema.org/InStock",
+          "seller": { "@type": "Organization", "name": "Delfosse Properties" }
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://delfosse-properties.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Tous les séjours", "item": "https://delfosse-properties.com/#sejours" },
+          { "@type": "ListItem", "position": 3, "name": "Appartement Hyper Centre Nice", "item": "https://delfosse-properties.com/sejour-03.html" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "L'appartement convient-il à une famille de 6 personnes ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Oui, c'est notre seul appartement adapté à 6 voyageurs : 1 chambre avec lit double, 1 mezzanine avec lit double et 1 canapé-lit king size dans le séjour. Idéal pour familles." }
+          },
+          {
+            "@type": "Question",
+            "name": "Où se situe l'appartement à Nice ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "27 avenue Notre-Dame, en plein hyper centre de Nice (06000), à 1 minute à pied du tramway et à 5 minutes de la place Masséna." }
+          },
+          {
+            "@type": "Question",
+            "name": "Y a-t-il un tramway à proximité ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Oui, l'arrêt Jean Médecin (lignes 1 et 2) est à 1 minute à pied. Liaison directe vers la gare et l'aéroport en 25 min." }
+          },
+          {
+            "@type": "Question",
+            "name": "Quelle est la note Airbnb de cette location saisonnière ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "4,84/5 sur 25 avis Airbnb. La réservation se fait directement sur Airbnb via le lien sur la fiche." }
+          },
+          {
+            "@type": "Question",
+            "name": "Quels équipements sont inclus ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Wi-Fi haut débit, climatisation, cuisine équipée, lave-linge, télévision, mezzanine et linge de maison fourni." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body class="sejour-page">
 

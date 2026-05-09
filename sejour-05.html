@@ -26,6 +26,109 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="css/style.css?v=dc" />
   <link rel="stylesheet" href="css/sejour.css?v=d1" />
+
+  <!-- Schema.org JSON-LD : Apartment + Product/AggregateRating + Breadcrumb + FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Apartment",
+        "@id": "https://delfosse-properties.com/sejour-05.html#apartment",
+        "name": "Appartement ultra design Quartier Musiciens Nice — Delfosse Properties",
+        "description": "T2 neuf ultra design, 4 voyageurs, quartier Musiciens à Nice, décoration soignée, note 4,94/5. Location saisonnière Côte d'Azur.",
+        "url": "https://delfosse-properties.com/sejour-05.html",
+        "image": [
+          "https://delfosse-properties.com/img/airbnb/06-scherzo/photo-01.jpg",
+          "https://delfosse-properties.com/img/airbnb/06-scherzo/photo-02.jpg",
+          "https://delfosse-properties.com/img/airbnb/06-scherzo/photo-03.jpg"
+        ],
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "41 avenue Georges Clemenceau",
+          "addressLocality": "Nice",
+          "postalCode": "06000",
+          "addressRegion": "Provence-Alpes-Côte d'Azur",
+          "addressCountry": "FR"
+        },
+        "geo": { "@type": "GeoCoordinates", "latitude": 43.7029, "longitude": 7.2630 },
+        "numberOfRooms": 1,
+        "numberOfBedrooms": 1,
+        "numberOfBathroomsTotal": 1,
+        "occupancy": { "@type": "QuantitativeValue", "maxValue": 4, "unitCode": "C62" },
+        "amenityFeature": [
+          { "@type": "LocationFeatureSpecification", "name": "Wi-Fi haut débit", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Climatisation", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Appartement neuf", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Cuisine équipée", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Décoration design", "value": true }
+        ],
+        "petsAllowed": false,
+        "smokingAllowed": false
+      },
+      {
+        "@type": "Product",
+        "@id": "https://delfosse-properties.com/sejour-05.html#product",
+        "name": "Location saisonnière Appartement ultra design Quartier Musiciens Nice — Delfosse Properties",
+        "description": "Location saisonnière Quartier Musiciens, Côte d'Azur — T2 neuf ultra design, 4 voyageurs, décoration soignée, note 4,94.",
+        "image": "https://delfosse-properties.com/img/airbnb/06-scherzo/photo-01.jpg",
+        "brand": { "@type": "Brand", "name": "Delfosse Properties" },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.94",
+          "reviewCount": "16",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "offers": {
+          "@type": "Offer",
+          "url": "https://www.airbnb.fr/rooms/1446914329011561138",
+          "priceCurrency": "EUR",
+          "availability": "https://schema.org/InStock",
+          "seller": { "@type": "Organization", "name": "Delfosse Properties" }
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://delfosse-properties.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Tous les séjours", "item": "https://delfosse-properties.com/#sejours" },
+          { "@type": "ListItem", "position": 3, "name": "Appartement ultra design Quartier Musiciens Nice", "item": "https://delfosse-properties.com/sejour-05.html" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Pourquoi la note de 4,94/5 sur Airbnb ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "C'est notre note la plus haute, reflet d'un T2 entièrement neuf à la décoration ultra design, soignée jusqu'au dernier détail. 16 avis vérifiés Airbnb." }
+          },
+          {
+            "@type": "Question",
+            "name": "Où se situe le Quartier Musiciens ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Le Quartier Musiciens est un secteur résidentiel et chic de Nice (06000), entre la gare et la promenade des Anglais. À 2 min de la rue Jean Médecin et de la place Masséna." }
+          },
+          {
+            "@type": "Question",
+            "name": "Combien de voyageurs peut accueillir le T2 ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Jusqu'à 4 voyageurs : 1 chambre avec lit double et 1 canapé-lit king size dans le séjour design." }
+          },
+          {
+            "@type": "Question",
+            "name": "L'appartement est-il neuf ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Oui, T2 livré neuf, première décoration, équipements modernes (cuisine équipée, climatisation réversible, Wi-Fi haut débit, télévision)." }
+          },
+          {
+            "@type": "Question",
+            "name": "Quelle est la distance jusqu'à la promenade des Anglais ?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Environ 12 minutes à pied. La place Masséna est à 5 min, la gare à 8 min, l'aéroport à 25 min en tramway." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
 </head>
 <body class="sejour-page">
 

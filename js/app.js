@@ -1,5 +1,10 @@
 /* Delfosse Properties — interactions */
 
+/* Helper : retourne la version .webp d'une URL .jpg/.jpeg/.png en preservant le ?v= eventuel.
+   Utilise dans <picture><source type="image/webp" srcset="${_dpToWebp(src)}"><img src="${src}"></picture>
+   pour servir le webp si dispo (gain Core Web Vitals / SEO), avec fallback jpg automatique. */
+const _dpToWebp = (src) => src.replace(/\.(jpg|jpeg|png)(\?.*)?$/i, '.webp$2');
+
 const header = document.getElementById('siteHeader');
 const heroFilm = document.querySelector('.hero-film');
 
@@ -620,7 +625,10 @@ targets.forEach(el => io.observe(el));
     a.setAttribute('aria-label', `${it.name} — ${it.loc}`);
     a.innerHTML = `
       <div class="cf-card-top"><span>N°${it.no}</span><span>${it.tag}</span></div>
-      <img src="${it.image}" alt="" draggable="false" loading="lazy" decoding="async" />
+      <picture>
+        <source type="image/webp" srcset="${_dpToWebp(it.image)}" />
+        <img src="${it.image}" alt="" draggable="false" loading="lazy" decoding="async" />
+      </picture>
       <div class="cf-card-bot">
         <h3 class="cf-card-name">${it.name}</h3>
         <p class="cf-card-meta"><span>${it.loc.toUpperCase()}</span><span class="sep">·</span><span>★ ${it.rating}</span></p>
@@ -873,7 +881,8 @@ targets.forEach(el => io.observe(el));
     a.dataset.i = i - 1;
     a.setAttribute('aria-label', `Photo ${i} sur ${count}`);
     const pad = String(i).padStart(2, '0');
-    a.innerHTML = `<img src="img/airbnb/${dir}/photo-${pad}.jpg${verQs}" alt="" draggable="false" loading="lazy" decoding="async" />`;
+    const _jpg = `img/airbnb/${dir}/photo-${pad}.jpg${verQs}`;
+    a.innerHTML = `<picture><source type="image/webp" srcset="${_dpToWebp(_jpg)}" /><img src="${_jpg}" alt="" draggable="false" loading="lazy" decoding="async" /></picture>`;
     a.addEventListener('click', () => {
       const idx = cards.indexOf(a);
       if (idx === active) return; // tap sur active = no-op (pas de lightbox pour l'instant)
