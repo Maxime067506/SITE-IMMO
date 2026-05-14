@@ -25,7 +25,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="css/style.css?v=dc" />
-  <link rel="stylesheet" href="css/sejour.css?v=lb5" />
+  <link rel="stylesheet" href="css/sejour.css?v=lb7" />
 
   <!-- Schema.org JSON-LD : Apartment + Product/AggregateRating + Breadcrumb + FAQ -->
   <script type="application/ld+json">
@@ -340,7 +340,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="js/i18n.js?v=e4"></script>
-  <script src="js/app.js?v=lb6"></script>
+  <script src="js/app.js?v=lb7"></script>
   <script src="js/video-bg.js?v=b9"></script>
   <script>
     /* Hero slideshow Ken Burns + progress bars */
@@ -392,127 +392,124 @@
     })();
   </script>
   <script>
-    /* Lightbox premium - hook sur le coverflow gallery */
-    function _dpInitLightbox() {
-      const lb = document.getElementById('lightbox');
-      if (!lb) return;
-      const lbImg = document.getElementById('lbImg');
-      const lbCounter = document.getElementById('lbCounter');
-      const lbNum = document.getElementById('lbNum');
-      const lbClose = document.getElementById('lbClose');
-      const lbPrev = document.getElementById('lbPrev');
-      const lbNext = document.getElementById('lbNext');
-      const thumbsWrap = document.getElementById('lbThumbs');
-      const roman = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
-
-      let photos = []; // tableau d'URLs jpg (versions _wm)
-      let webpPhotos = [];
-      let idx = 0;
-
-      const buildPhotos = (dir, count, ver) => {
-        const verQs = ver ? `?v=${ver}` : '';
-        photos = [];
-        webpPhotos = [];
-        for (let i = 1; i <= count; i++) {
-          const pad = String(i).padStart(2, '0');
-          photos.push(`img/airbnb/${dir}/photo-${pad}_wm.jpg${verQs}`);
-          webpPhotos.push(`img/airbnb/${dir}/photo-${pad}_wm.webp${verQs}`);
+    /* Lightbox v2 - simple, direct, robuste */
+    (function() {
+      function init() {
+        var lb = document.getElementById('lightbox');
+        var stage = document.getElementById('ficheCfStage');
+        if (!lb || !stage) {
+          console.warn('[Lightbox] markup ou stage manquant', { lb: !!lb, stage: !!stage });
+          return;
         }
+        console.log('[Lightbox] init OK');
+
+        var lbImg = document.getElementById('lbImg');
+        var lbCounter = document.getElementById('lbCounter');
+        var lbNum = document.getElementById('lbNum');
+        var lbClose = document.getElementById('lbClose');
+        var lbPrev = document.getElementById('lbPrev');
+        var lbNext = document.getElementById('lbNext');
+        var thumbsWrap = document.getElementById('lbThumbs');
+        var roman = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+
+        var dir = stage.dataset.photoDir;
+        var count = parseInt(stage.dataset.photoCount || '8', 10);
+        var ver = stage.dataset.photoVersion || '';
+        var verQs = ver ? '?v=' + ver : '';
+
+        var photos = [];
+        for (var i = 1; i <= count; i++) {
+          var pad = String(i).padStart(2, '0');
+          photos.push('img/airbnb/' + dir + '/photo-' + pad + '_wm.jpg' + verQs);
+        }
+
         // Build thumbnails
         thumbsWrap.innerHTML = '';
-        photos.forEach((src, i) => {
-          const t = document.createElement('img');
+        photos.forEach(function(src, i) {
+          var t = document.createElement('img');
           t.className = 'lightbox-thumb';
           t.src = src;
           t.alt = '';
           t.loading = 'lazy';
-          t.addEventListener('click', () => show(i));
+          t.addEventListener('click', function() { show(i); });
           thumbsWrap.appendChild(t);
         });
-      };
 
-      const preload = (i) => {
-        for (let k = 1; k <= 2; k++) {
-          [(i + k) % photos.length, (i - k + photos.length) % photos.length].forEach((n) => {
-            new Image().src = photos[n];
-          });
-        }
-      };
-
-      const show = (i) => {
-        if (!photos.length) return;
-        idx = (i + photos.length) % photos.length;
-        lbImg.classList.add('swapping');
-        setTimeout(() => {
+        var idx = 0;
+        function show(i) {
+          idx = ((i % photos.length) + photos.length) % photos.length;
           lbImg.src = photos[idx];
-          lbImg.classList.remove('swapping');
-        }, 150);
-        lbCounter.textContent = `${String(idx + 1).padStart(2, '0')} / ${String(photos.length).padStart(2, '0')}`;
-        if (lbNum) lbNum.textContent = `N° ${roman[idx] || idx + 1}`;
-        [...thumbsWrap.children].forEach((t, k) => t.classList.toggle('is-active', k === idx));
-        const active = thumbsWrap.children[idx];
-        // scrollIntoView desactive (causait un scroll de page parfois)
-        preload(idx);
-      };
-
-      const open = (i) => {
-        show(i);
-        lb.classList.add('open');
-        lb.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-      };
-      const close = () => {
-        lb.classList.remove('open');
-        lb.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-      };
-
-      // ---- Hook : declenche par le coverflow (event custom) ----
-      document.addEventListener('dp:lightbox-open', (e) => {
-        console.log('[Lightbox] event received', e.detail);
-        const { index, dir, count, ver } = e.detail;
-        if (!photos.length || photos[0].indexOf(dir) === -1) {
-          buildPhotos(dir, count, ver);
+          lbCounter.textContent = String(idx + 1).padStart(2, '0') + ' / ' + String(photos.length).padStart(2, '0');
+          if (lbNum) lbNum.textContent = 'N° ' + (roman[idx] || (idx + 1));
+          var children = thumbsWrap.children;
+          for (var k = 0; k < children.length; k++) {
+            children[k].classList.toggle('is-active', k === idx);
+          }
         }
-        open(index || 0);
-      });
-
-      // ---- Controles ----
-      lbClose.addEventListener('click', close);
-      lbPrev.addEventListener('click', () => show(idx - 1));
-      lbNext.addEventListener('click', () => show(idx + 1));
-      lb.addEventListener('click', (e) => { if (e.target === lb || e.target.classList.contains('lightbox-stage')) close(); });
-
-      document.addEventListener('keydown', (e) => {
-        if (!lb.classList.contains('open')) return;
-        if (e.key === 'Escape') close();
-        if (e.key === 'ArrowRight') show(idx + 1);
-        if (e.key === 'ArrowLeft')  show(idx - 1);
-      });
-
-      // Swipe mobile
-      let touchStart = null;
-      lb.addEventListener('touchstart', (e) => {
-        touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now() };
-      }, { passive: true });
-      lb.addEventListener('touchend', (e) => {
-        if (!touchStart) return;
-        const dx = e.changedTouches[0].clientX - touchStart.x;
-        const dy = e.changedTouches[0].clientY - touchStart.y;
-        const dt = Date.now() - touchStart.t;
-        if (Math.abs(dy) > Math.abs(dx) && dy > 80 && dt < 450) {
-          close();
-        } else if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
-          show(idx + (dx < 0 ? 1 : -1));
+        function open(i) {
+          show(i);
+          lb.classList.add('open');
+          lb.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
+          console.log('[Lightbox] OPEN photo', idx);
         }
-        touchStart = null;
-      });
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', _dpInitLightbox);
-    } else {
-      _dpInitLightbox();
-    }
+        function close() {
+          lb.classList.remove('open');
+          lb.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+
+        // ATTACHE DIRECTEMENT sur les cartes du coverflow
+        var cards = stage.querySelectorAll('.fcf-card, .cf-card');
+        console.log('[Lightbox] cards found:', cards.length);
+        cards.forEach(function(card, i) {
+          card.style.cursor = 'zoom-in';
+          card.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('[Lightbox] CARD click', i);
+            open(i);
+          }, true); // capture phase pour passer avant le handler du coverflow
+        });
+
+        // Si les cartes sont injectees apres init, on re-attache au prochain tick
+        if (cards.length === 0) {
+          setTimeout(function() {
+            cards = stage.querySelectorAll('.fcf-card, .cf-card');
+            console.log('[Lightbox] cards (retry):', cards.length);
+            cards.forEach(function(card, i) {
+              card.style.cursor = 'zoom-in';
+              card.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('[Lightbox] CARD click', i);
+                open(i);
+              }, true);
+            });
+          }, 500);
+        }
+
+        lbClose.addEventListener('click', close);
+        lbPrev.addEventListener('click', function() { show(idx - 1); });
+        lbNext.addEventListener('click', function() { show(idx + 1); });
+        lb.addEventListener('click', function(e) {
+          if (e.target === lb || e.target.classList.contains('lightbox-stage')) close();
+        });
+
+        document.addEventListener('keydown', function(e) {
+          if (!lb.classList.contains('open')) return;
+          if (e.key === 'Escape') close();
+          if (e.key === 'ArrowRight') show(idx + 1);
+          if (e.key === 'ArrowLeft')  show(idx - 1);
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
   </script>  </script>
 
   <!-- ============ LIGHTBOX ============ -->
