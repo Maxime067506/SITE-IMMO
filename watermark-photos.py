@@ -94,45 +94,30 @@ def watermark_photo(photo_path: str, logo_master: Image.Image,
     alpha = alpha.point(lambda p: int(p * opacity))
     logo.putalpha(alpha)
 
-    # Position bas-droit avec marge
+    # Position : CENTRE-BAS de l'image (visible quel que soit le crop horizontal)
     margin = int(min(pw, ph) * margin_ratio)
-    x = pw - target_w - margin
+    x = (pw - target_w) // 2
     y = ph - target_h - margin
 
     overlay = Image.new("RGBA", photo.size, (0, 0, 0, 0))
 
-    # PASTILLE blanche arrondie derriere le logo : garantit lisibilite sur
-    # n'importe quel fond (sombre, clair, texture). Style "signature magazine".
+    # Halo blanc subtil derriere le logo (pour lisibilite sur fonds sombres)
+    # SANS pastille visible : juste un glow doux qui suit la silhouette
     if shadow:
-        # Padding autour du logo (pastille legerement plus grande)
-        pad = int(target_w * 0.18)
-        plate_w = target_w + 2 * pad
-        plate_h = target_h + 2 * pad
-        radius = int(min(plate_w, plate_h) * 0.18)
+        logo_alpha = logo.getchannel("A")
+        # Halo blanc doux
+        silhouette = Image.new("RGBA", logo.size, (255, 255, 255, 255))
+        halo_alpha = logo_alpha.point(lambda p: int(p * 0.90))
+        silhouette.putalpha(halo_alpha)
+        # Blur leger pour creer un glow autour
+        blur_radius = max(4, int(target_w * 0.04))
+        halo = silhouette.filter(ImageFilter.GaussianBlur(radius=blur_radius))
+        overlay.paste(halo, (x, y), halo)
+        # 2e passe plus serree pour densifier
+        tight = silhouette.filter(ImageFilter.GaussianBlur(radius=max(2, int(target_w * 0.015))))
+        overlay.paste(tight, (x, y), tight)
 
-        # Pastille blanche semi-transparente
-        plate = Image.new("RGBA", (plate_w, plate_h), (0, 0, 0, 0))
-        pd = ImageDraw.Draw(plate)
-        pd.rounded_rectangle((0, 0, plate_w, plate_h), radius=radius, fill=(255, 255, 255, 215))
-
-        # Legere ombre douce sous la pastille pour profondeur
-        sh_pad = int(pad * 0.6)
-        shadow_canvas = Image.new("RGBA", (plate_w + 2 * sh_pad, plate_h + 2 * sh_pad), (0, 0, 0, 0))
-        sd = ImageDraw.Draw(shadow_canvas)
-        sd.rounded_rectangle((sh_pad, sh_pad, plate_w + sh_pad, plate_h + sh_pad),
-                             radius=radius, fill=(0, 0, 0, 55))
-        shadow_canvas = shadow_canvas.filter(ImageFilter.GaussianBlur(radius=max(4, int(pad * 0.5))))
-
-        # Position : pastille centree sur position du logo, avec pad de marge
-        plate_x = x - pad
-        plate_y = y - pad
-        # Compose : ombre, puis pastille
-        overlay.paste(shadow_canvas,
-                      (plate_x - sh_pad + int(sh_pad * 0.3), plate_y - sh_pad + int(sh_pad * 0.6)),
-                      shadow_canvas)
-        overlay.paste(plate, (plate_x, plate_y), plate)
-
-    # Logo par-dessus la pastille
+    # Logo noir par-dessus le halo
     overlay.paste(logo, (x, y), logo)
     result = Image.alpha_composite(photo, overlay).convert("RGB")
     return result
