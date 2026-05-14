@@ -348,7 +348,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="js/i18n.js?v=e4"></script>
-  <script src="js/app.js?v=lb8"></script>
+  <script src="js/app.js?v=lb9"></script>
   <script src="js/video-bg.js?v=b9"></script>
   <script>
     /* Hero slideshow Ken Burns + progress bars */
@@ -454,6 +454,8 @@
           lb.setAttribute('aria-hidden', 'false');
           document.body.style.overflow = 'hidden';
         }
+        // Expose globalement pour les inline onclick="..." sur les cards
+        window._dpOpenLightbox = open;
         function close() {
           lb.classList.remove('open');
           lb.setAttribute('aria-hidden', 'true');

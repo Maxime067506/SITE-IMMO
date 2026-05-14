@@ -888,19 +888,11 @@ targets.forEach(el => io.observe(el));
     a.setAttribute('aria-label', `Photo ${i} sur ${count}`);
     const pad = String(i).padStart(2, '0');
     const _jpg = `img/airbnb/${dir}/photo-${pad}_wm.jpg${verQs}`;
+    // INLINE onclick : appelle directement la fonction globale du lightbox
+    // (sera definie par le script lightbox plus loin dans la page)
+    a.setAttribute('onclick', `if(window._dpOpenLightbox){window._dpOpenLightbox(${i - 1});return false}`);
     a.innerHTML = `<picture><source type="image/webp" srcset="${_dpToWebp(_jpg)}" /><img src="${_jpg}" alt="" draggable="false" loading="lazy" decoding="async" /></picture>`;
     a.style.cursor = 'zoom-in';
-    a.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const idx = cards.indexOf(a);
-      console.log('[Coverflow] click idx=' + idx + ' dir=' + dir);
-      // 1 clic = zoom INSTANTANE peu importe la carte
-      document.dispatchEvent(new CustomEvent('dp:lightbox-open', {
-        detail: { index: idx, dir, count: TOTAL, ver }
-      }));
-      return false;
-    });
     stage.appendChild(a);
     cards.push(a);
   }
