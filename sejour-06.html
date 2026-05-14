@@ -532,5 +532,31 @@
     <div class="lightbox-thumbs" id="lbThumbs"></div>
   </div>
 
+
+  <!-- BOUTON DEBUG LIGHTBOX -->
+  <div style="position:fixed;top:80px;right:20px;z-index:999;background:#d4a574;color:#0A1628;padding:14px 22px;border-radius:4px;font-family:'Jost',sans-serif;font-weight:600;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.3);" id="debugLb">
+    🔍 TEST LIGHTBOX
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('debugLb');
+      var lb = document.getElementById('lightbox');
+      var lbImg = document.getElementById('lbImg');
+      var stage = document.getElementById('ficheCfStage');
+      console.log('[DEBUG] Page chargee. lb=', !!lb, 'stage=', !!stage, 'btn=', !!btn);
+      if (btn) {
+        btn.addEventListener('click', function() {
+          console.log('[DEBUG] Bouton TEST clique');
+          if (!lb) { alert('Lightbox markup MANQUANT'); return; }
+          if (lbImg && stage) {
+            var dir = stage.dataset.photoDir;
+            lbImg.src = 'img/airbnb/' + dir + '/photo-01_wm.jpg';
+          }
+          lb.classList.add('open');
+          console.log('[DEBUG] open class added. Classes:', lb.className);
+        });
+      }
+    });
+  </script>
 </body>
 </html>
