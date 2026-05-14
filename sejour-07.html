@@ -340,7 +340,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="js/i18n.js?v=e4"></script>
-  <script src="js/app.js?v=lb9"></script>
+  <script src="js/app.js?v=lb10"></script>
   <script src="js/video-bg.js?v=b9"></script>
   <script>
     /* Hero slideshow Ken Burns + progress bars */
@@ -368,27 +368,6 @@
       if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         timer = setTimeout(() => show(1), DUR);
       }
-    })();
-  </script>
-  <script>
-    /* Carte Leaflet */
-    (() => {
-      const canvas = document.getElementById('niceMap');
-      if (!canvas || !window.L) return;
-      const lat = parseFloat(canvas.dataset.lat);
-      const lon = parseFloat(canvas.dataset.lon);
-      const map = L.map(canvas, {
-        center: [lat, lon], zoom: 16,
-        zoomControl: true, scrollWheelZoom: false, attributionControl: false,
-      });
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-      const icon = L.divIcon({
-        className: 'dp-marker-wrap',
-        html: '<div class="dp-marker is-active">07</div>',
-        iconSize: [44, 44], iconAnchor: [22, 22],
-      });
-      L.marker([lat, lon], { icon }).addTo(map);
-      setTimeout(() => map.invalidateSize(), 200);
     })();
   </script>
   <script>

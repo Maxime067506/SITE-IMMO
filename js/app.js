@@ -481,19 +481,21 @@ targets.forEach(el => io.observe(el));
       // Annonce ARIA : panneau en cours de mise à jour
       if (panel) panel.setAttribute('aria-busy', 'true');
 
-      panelPho.classList.add('changing');
+      // Panel UI (home seulement, absent sur sejour-XX)
+      if (panelPho) panelPho.classList.add('changing');
       setTimeout(() => {
-        panelImg.src = _dpWm(apt.img);
-        panelImg.alt = apt.name;
-        panelPho.classList.remove('changing');
+        if (panelImg) { panelImg.src = _dpWm(apt.img); panelImg.alt = apt.name; }
+        if (panelPho) panelPho.classList.remove('changing');
         if (panel) panel.setAttribute('aria-busy', 'false');
       }, 200);
 
-      panelNum.textContent = `N°${apt.no}`;
-      panelName.textContent = apt.name;
-      panelLoc.textContent  = `${apt.address} · ${apt.meta}`;
-      panelCta.textContent  = 'Voir la fiche →';
-      panelCta.href = apt.detail;
+      if (panelNum)  panelNum.textContent  = `N°${apt.no}`;
+      if (panelName) panelName.textContent = apt.name;
+      if (panelLoc)  panelLoc.textContent  = `${apt.address} · ${apt.meta}`;
+      if (panelCta)  {
+        panelCta.textContent = 'Voir la fiche →';
+        panelCta.href = apt.detail;
+      }
     };
 
     aptList.forEach((apt) => {
