@@ -534,29 +534,23 @@
 
 
   <!-- BOUTON DEBUG LIGHTBOX -->
-  <div style="position:fixed;top:80px;right:20px;z-index:999;background:#d4a574;color:#0A1628;padding:14px 22px;border-radius:4px;font-family:'Jost',sans-serif;font-weight:600;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.3);" id="debugLb">
+  <button onclick="window._dpDebugClick()" id="debugLb" style="position:fixed;top:80px;right:20px;z-index:99999;background:#d4a574;color:#0A1628;padding:14px 22px;border-radius:4px;font-family:sans-serif;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.3);border:none;font-size:13px;">
     🔍 TEST LIGHTBOX
-  </div>
+  </button>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var btn = document.getElementById('debugLb');
+    window._dpDebugClick = function() {
+      alert('Etape 1 : Click handler OK');
       var lb = document.getElementById('lightbox');
-      var lbImg = document.getElementById('lbImg');
+      if (!lb) { alert('Etape 2 : FAIL - lightbox introuvable'); return; }
+      alert('Etape 2 OK : lightbox trouve. Classes actuelles = ' + (lb.className || '(vide)'));
+      lb.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.95);display:flex;align-items:center;justify-content:center;';
+      var img = lb.querySelector('img') || document.createElement('img');
       var stage = document.getElementById('ficheCfStage');
-      console.log('[DEBUG] Page chargee. lb=', !!lb, 'stage=', !!stage, 'btn=', !!btn);
-      if (btn) {
-        btn.addEventListener('click', function() {
-          console.log('[DEBUG] Bouton TEST clique');
-          if (!lb) { alert('Lightbox markup MANQUANT'); return; }
-          if (lbImg && stage) {
-            var dir = stage.dataset.photoDir;
-            lbImg.src = 'img/airbnb/' + dir + '/photo-01_wm.jpg';
-          }
-          lb.classList.add('open');
-          console.log('[DEBUG] open class added. Classes:', lb.className);
-        });
-      }
-    });
+      if (stage) img.src = 'img/airbnb/' + stage.dataset.photoDir + '/photo-01_wm.jpg';
+      img.style.cssText = 'max-width:90vw;max-height:90vh;';
+      if (!img.parentNode) lb.appendChild(img);
+      alert('Etape 3 OK : Lightbox affiche en force. Tu dois voir la photo plein ecran.');
+    };
   </script>
 </body>
 </html>
