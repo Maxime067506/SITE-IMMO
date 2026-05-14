@@ -892,15 +892,10 @@ targets.forEach(el => io.observe(el));
     a.style.cursor = 'zoom-in';
     a.addEventListener('click', () => {
       const idx = cards.indexOf(a);
-      // 1 clic = zoom direct (peu importe si carte active ou pas)
-      // On centre quand meme la carte avant d'ouvrir pour transition propre
-      if (idx !== active) goTo(idx);
-      // Petit delai pour laisser la carte se centrer si on a appele goTo
-      setTimeout(() => {
-        document.dispatchEvent(new CustomEvent('dp:lightbox-open', {
-          detail: { index: idx, dir, count: TOTAL, ver }
-        }));
-      }, idx === active ? 0 : 250);
+      // 1 clic = zoom INSTANTANE peu importe la carte
+      document.dispatchEvent(new CustomEvent('dp:lightbox-open', {
+        detail: { index: idx, dir, count: TOTAL, ver }
+      }));
     });
     stage.appendChild(a);
     cards.push(a);
