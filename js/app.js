@@ -5,6 +5,11 @@
    pour servir le webp si dispo (gain Core Web Vitals / SEO), avec fallback jpg automatique. */
 const _dpToWebp = (src) => src.replace(/\.(jpg|jpeg|png)(\?.*)?$/i, '.webp$2');
 
+/* Helper : retourne la version watermarkee d'une URL photo
+   ex: img/airbnb/01-amiral/photo-01.jpg -> img/airbnb/01-amiral/photo-01_wm.jpg
+   Preserve le ?v= eventuel. */
+const _dpWm = (src) => src.replace(/(\.[a-z]+)(\?.*)?$/i, '_wm$1$2');
+
 const header = document.getElementById('siteHeader');
 const heroFilm = document.querySelector('.hero-film');
 
@@ -478,7 +483,7 @@ targets.forEach(el => io.observe(el));
 
       panelPho.classList.add('changing');
       setTimeout(() => {
-        panelImg.src = apt.img;
+        panelImg.src = _dpWm(apt.img);
         panelImg.alt = apt.name;
         panelPho.classList.remove('changing');
         if (panel) panel.setAttribute('aria-busy', 'false');
@@ -623,11 +628,12 @@ targets.forEach(el => io.observe(el));
     a.className = 'cf-card';
     a.dataset.i = i;
     a.setAttribute('aria-label', `${it.name} — ${it.loc}`);
+    const _wmJpg = _dpWm(it.image);
     a.innerHTML = `
       <div class="cf-card-top"><span>N°${it.no}</span><span>${it.tag}</span></div>
       <picture>
-        <source type="image/webp" srcset="${_dpToWebp(it.image)}" />
-        <img src="${it.image}" alt="" draggable="false" loading="lazy" decoding="async" />
+        <source type="image/webp" srcset="${_dpToWebp(_wmJpg)}" />
+        <img src="${_wmJpg}" alt="" draggable="false" loading="lazy" decoding="async" />
       </picture>
       <div class="cf-card-bot">
         <h3 class="cf-card-name">${it.name}</h3>
@@ -881,7 +887,7 @@ targets.forEach(el => io.observe(el));
     a.dataset.i = i - 1;
     a.setAttribute('aria-label', `Photo ${i} sur ${count}`);
     const pad = String(i).padStart(2, '0');
-    const _jpg = `img/airbnb/${dir}/photo-${pad}.jpg${verQs}`;
+    const _jpg = `img/airbnb/${dir}/photo-${pad}_wm.jpg${verQs}`;
     a.innerHTML = `<picture><source type="image/webp" srcset="${_dpToWebp(_jpg)}" /><img src="${_jpg}" alt="" draggable="false" loading="lazy" decoding="async" /></picture>`;
     a.addEventListener('click', () => {
       const idx = cards.indexOf(a);
