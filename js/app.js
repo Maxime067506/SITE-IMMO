@@ -889,16 +889,18 @@ targets.forEach(el => io.observe(el));
     const pad = String(i).padStart(2, '0');
     const _jpg = `img/airbnb/${dir}/photo-${pad}_wm.jpg${verQs}`;
     a.innerHTML = `<picture><source type="image/webp" srcset="${_dpToWebp(_jpg)}" /><img src="${_jpg}" alt="" draggable="false" loading="lazy" decoding="async" /></picture>`;
+    a.style.cursor = 'zoom-in';
     a.addEventListener('click', () => {
       const idx = cards.indexOf(a);
-      if (idx === active) {
-        // Clic sur la carte active = ouvrir le lightbox a cette photo
+      // 1 clic = zoom direct (peu importe si carte active ou pas)
+      // On centre quand meme la carte avant d'ouvrir pour transition propre
+      if (idx !== active) goTo(idx);
+      // Petit delai pour laisser la carte se centrer si on a appele goTo
+      setTimeout(() => {
         document.dispatchEvent(new CustomEvent('dp:lightbox-open', {
           detail: { index: idx, dir, count: TOTAL, ver }
         }));
-        return;
-      }
-      goTo(idx);
+      }, idx === active ? 0 : 250);
     });
     stage.appendChild(a);
     cards.push(a);
