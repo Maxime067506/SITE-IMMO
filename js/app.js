@@ -890,12 +890,16 @@ targets.forEach(el => io.observe(el));
     const _jpg = `img/airbnb/${dir}/photo-${pad}_wm.jpg${verQs}`;
     a.innerHTML = `<picture><source type="image/webp" srcset="${_dpToWebp(_jpg)}" /><img src="${_jpg}" alt="" draggable="false" loading="lazy" decoding="async" /></picture>`;
     a.style.cursor = 'zoom-in';
-    a.addEventListener('click', () => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       const idx = cards.indexOf(a);
+      console.log('[Coverflow] click idx=' + idx + ' dir=' + dir);
       // 1 clic = zoom INSTANTANE peu importe la carte
       document.dispatchEvent(new CustomEvent('dp:lightbox-open', {
         detail: { index: idx, dir, count: TOTAL, ver }
       }));
+      return false;
     });
     stage.appendChild(a);
     cards.push(a);
