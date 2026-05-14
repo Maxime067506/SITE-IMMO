@@ -891,7 +891,13 @@ targets.forEach(el => io.observe(el));
     a.innerHTML = `<picture><source type="image/webp" srcset="${_dpToWebp(_jpg)}" /><img src="${_jpg}" alt="" draggable="false" loading="lazy" decoding="async" /></picture>`;
     a.addEventListener('click', () => {
       const idx = cards.indexOf(a);
-      if (idx === active) return; // tap sur active = no-op (pas de lightbox pour l'instant)
+      if (idx === active) {
+        // Clic sur la carte active = ouvrir le lightbox a cette photo
+        document.dispatchEvent(new CustomEvent('dp:lightbox-open', {
+          detail: { index: idx, dir, count: TOTAL, ver }
+        }));
+        return;
+      }
       goTo(idx);
     });
     stage.appendChild(a);

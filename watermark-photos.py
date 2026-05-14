@@ -25,7 +25,7 @@ import sys
 import time
 
 try:
-    from PIL import Image, ImageEnhance, ImageFilter
+    from PIL import Image, ImageEnhance, ImageFilter, ImageDraw
 except ImportError:
     print("[ERREUR] Pillow non installe. Run: py -m pip install Pillow")
     sys.exit(1)
@@ -101,45 +101,38 @@ def watermark_photo(photo_path: str, logo_master: Image.Image,
 
     overlay = Image.new("RGBA", photo.size, (0, 0, 0, 0))
 
-    # Halo derriere le logo : large halo flou, suit la silhouette du logo,
-    # garantit lisibilite sur n'importe quel fond.
-    # - Si logo noir   -> halo BLANC large (lisible sur fond sombre/clair/textures)
-    # - Si logo blanc  -> halo NOIR large (lisible sur fond clair)
+    # PASTILLE blanche arrondie derriere le logo : garantit lisibilite sur
+    # n'importe quel fond (sombre, clair, texture). Style "signature magazine".
     if shadow:
-        # Detecte la couleur du logo (noir ou blanc) via le 1er pixel non transparent
-        logo_pixels = logo.load()
-        is_dark_logo = False
-        for ly in range(logo.height):
-            for lx in range(logo.width):
-                _r, _g, _b, _a = logo_pixels[lx, ly]
-                if _a > 100:
-                    is_dark_logo = (_r + _g + _b) / 3 < 128
-                    break
-            else:
-                continue
-            break
-        halo_rgb = (255, 255, 255) if is_dark_logo else (0, 0, 0)
+        # Padding autour du logo (pastille legerement plus grande)
+        pad = int(target_w * 0.18)
+        plate_w = target_w + 2 * pad
+        plate_h = target_h + 2 * pad
+        radius = int(min(plate_w, plate_h) * 0.18)
 
-        # Halo en 2 couches successives pour un effet "glow" qui suit le logo
-        logo_alpha = logo.getchannel("A")
+        # Pastille blanche semi-transparente
+        plate = Image.new("RGBA", (plate_w, plate_h), (0, 0, 0, 0))
+        pd = ImageDraw.Draw(plate)
+        pd.rounded_rectangle((0, 0, plate_w, plate_h), radius=radius, fill=(255, 255, 255, 215))
 
-        # Couche 1 : halo large et doux (gros blur, opacite 70%)
-        silhouette_wide = Image.new("RGBA", logo.size, (*halo_rgb, 255))
-        wide_alpha = logo_alpha.point(lambda p: int(p * 0.85))
-        silhouette_wide.putalpha(wide_alpha)
-        wide_blur = max(8, int(target_w * 0.06))
-        halo_wide = silhouette_wide.filter(ImageFilter.GaussianBlur(radius=wide_blur))
-        overlay.paste(halo_wide, (x, y), halo_wide)
+        # Legere ombre douce sous la pastille pour profondeur
+        sh_pad = int(pad * 0.6)
+        shadow_canvas = Image.new("RGBA", (plate_w + 2 * sh_pad, plate_h + 2 * sh_pad), (0, 0, 0, 0))
+        sd = ImageDraw.Draw(shadow_canvas)
+        sd.rounded_rectangle((sh_pad, sh_pad, plate_w + sh_pad, plate_h + sh_pad),
+                             radius=radius, fill=(0, 0, 0, 55))
+        shadow_canvas = shadow_canvas.filter(ImageFilter.GaussianBlur(radius=max(4, int(pad * 0.5))))
 
-        # Couche 2 : halo serre (petit blur, opacite 90%) pour densifier autour des bords
-        silhouette_tight = Image.new("RGBA", logo.size, (*halo_rgb, 255))
-        tight_alpha = logo_alpha.point(lambda p: int(p * 0.95))
-        silhouette_tight.putalpha(tight_alpha)
-        tight_blur = max(3, int(target_w * 0.02))
-        halo_tight = silhouette_tight.filter(ImageFilter.GaussianBlur(radius=tight_blur))
-        overlay.paste(halo_tight, (x, y), halo_tight)
+        # Position : pastille centree sur position du logo, avec pad de marge
+        plate_x = x - pad
+        plate_y = y - pad
+        # Compose : ombre, puis pastille
+        overlay.paste(shadow_canvas,
+                      (plate_x - sh_pad + int(sh_pad * 0.3), plate_y - sh_pad + int(sh_pad * 0.6)),
+                      shadow_canvas)
+        overlay.paste(plate, (plate_x, plate_y), plate)
 
-    # Logo blanc par-dessus
+    # Logo par-dessus la pastille
     overlay.paste(logo, (x, y), logo)
     result = Image.alpha_composite(photo, overlay).convert("RGB")
     return result

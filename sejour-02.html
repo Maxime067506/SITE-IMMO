@@ -339,7 +339,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="js/i18n.js?v=e4"></script>
-  <script src="js/app.js?v=wm1"></script>
+  <script src="js/app.js?v=lb1"></script>
   <script src="js/video-bg.js?v=b9"></script>
   <script>
     /* Hero slideshow Ken Burns + progress bars */
@@ -391,53 +391,67 @@
     })();
   </script>
   <script>
-    /* Lightbox premium */
+    /* Lightbox premium - hook sur le coverflow gallery */
     (() => {
-      const items = [...document.querySelectorAll('.gallery-item')];
-      if (!items.length) return;
       const lb = document.getElementById('lightbox');
+      if (!lb) return;
       const lbImg = document.getElementById('lbImg');
       const lbCounter = document.getElementById('lbCounter');
+      const lbNum = document.getElementById('lbNum');
       const lbClose = document.getElementById('lbClose');
       const lbPrev = document.getElementById('lbPrev');
       const lbNext = document.getElementById('lbNext');
-      const thumbs = document.getElementById('lbThumbs');
-      const total = items.length;
-      const roman = ['I','II','III','IV','V','VI','VII','VIII','IX','X'];
+      const thumbsWrap = document.getElementById('lbThumbs');
+      const roman = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
 
-      items.forEach((item, i) => {
-        const img = item.querySelector('img');
-        const t = document.createElement('img');
-        t.className = 'lightbox-thumb';
-        t.src = img.src;
-        t.alt = '';
-        t.addEventListener('click', () => show(i));
-        thumbs.appendChild(t);
-      });
-      const thumbEls = [...thumbs.children];
-
+      let photos = []; // tableau d'URLs jpg (versions _wm)
+      let webpPhotos = [];
       let idx = 0;
-      const preloadAround = (i) => {
+
+      const buildPhotos = (dir, count, ver) => {
+        const verQs = ver ? `?v=${ver}` : '';
+        photos = [];
+        webpPhotos = [];
+        for (let i = 1; i <= count; i++) {
+          const pad = String(i).padStart(2, '0');
+          photos.push(`img/airbnb/${dir}/photo-${pad}_wm.jpg${verQs}`);
+          webpPhotos.push(`img/airbnb/${dir}/photo-${pad}_wm.webp${verQs}`);
+        }
+        // Build thumbnails
+        thumbsWrap.innerHTML = '';
+        photos.forEach((src, i) => {
+          const t = document.createElement('img');
+          t.className = 'lightbox-thumb';
+          t.src = src;
+          t.alt = '';
+          t.loading = 'lazy';
+          t.addEventListener('click', () => show(i));
+          thumbsWrap.appendChild(t);
+        });
+      };
+
+      const preload = (i) => {
         for (let k = 1; k <= 2; k++) {
-          [(i + k) % total, (i - k + total) % total].forEach((n) => {
-            const href = items[n].getAttribute('href');
-            if (href) new Image().src = href;
+          [(i + k) % photos.length, (i - k + photos.length) % photos.length].forEach((n) => {
+            new Image().src = photos[n];
           });
         }
       };
+
       const show = (i) => {
-        idx = (i + total) % total;
+        if (!photos.length) return;
+        idx = (i + photos.length) % photos.length;
         lbImg.classList.add('swapping');
         setTimeout(() => {
-          lbImg.src = items[idx].getAttribute('href');
+          lbImg.src = photos[idx];
           lbImg.classList.remove('swapping');
         }, 150);
-        lbCounter.textContent = `${String(idx + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
-        document.getElementById('lbNum').textContent = `N° ${roman[idx] || idx + 1}`;
-        thumbEls.forEach((t, k) => t.classList.toggle('is-active', k === idx));
-        const active = thumbEls[idx];
+        lbCounter.textContent = `${String(idx + 1).padStart(2, '0')} / ${String(photos.length).padStart(2, '0')}`;
+        if (lbNum) lbNum.textContent = `N° ${roman[idx] || idx + 1}`;
+        [...thumbsWrap.children].forEach((t, k) => t.classList.toggle('is-active', k === idx));
+        const active = thumbsWrap.children[idx];
         if (active) active.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-        preloadAround(idx);
+        preload(idx);
       };
 
       const open = (i) => {
@@ -452,37 +466,20 @@
         document.body.style.overflow = '';
       };
 
-      items.forEach((a, i) => a.addEventListener('click', (e) => { e.preventDefault(); open(i); }));
-      // Bind des cellules visibles (Airbnb layout) + strip mobile + bouton "Voir toutes les photos"
-      document.querySelectorAll('.ab-cell, .ab-strip-cell, .ab-showall').forEach((btn) => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          const i = parseInt(btn.dataset.i || '0', 10);
-          open(i);
-        });
+      // ---- Hook : declenche par le coverflow (event custom) ----
+      document.addEventListener('dp:lightbox-open', (e) => {
+        const { index, dir, count, ver } = e.detail;
+        if (!photos.length || photos[0].indexOf(dir) === -1) {
+          buildPhotos(dir, count, ver);
+        }
+        open(index || 0);
       });
+
+      // ---- Controles ----
       lbClose.addEventListener('click', close);
       lbPrev.addEventListener('click', () => show(idx - 1));
       lbNext.addEventListener('click', () => show(idx + 1));
-      lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
-
-      // Swipe-down close (mobile)
-      let swipeStart = null;
-      lb.addEventListener('touchstart', (e) => {
-        swipeStart = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now() };
-      }, { passive: true });
-      lb.addEventListener('touchend', (e) => {
-        if (!swipeStart) return;
-        const dx = e.changedTouches[0].clientX - swipeStart.x;
-        const dy = e.changedTouches[0].clientY - swipeStart.y;
-        const dt = Date.now() - swipeStart.t;
-        if (Math.abs(dy) > Math.abs(dx) && dy > 80 && dt < 450) {
-          close();
-        } else if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
-          show(idx + (dx < 0 ? 1 : -1));
-        }
-        swipeStart = null;
-      });
+      lb.addEventListener('click', (e) => { if (e.target === lb || e.target.classList.contains('lightbox-stage')) close(); });
 
       document.addEventListener('keydown', (e) => {
         if (!lb.classList.contains('open')) return;
@@ -491,13 +488,46 @@
         if (e.key === 'ArrowLeft')  show(idx - 1);
       });
 
-      let touchX = 0;
-      lb.addEventListener('touchstart', (e) => { touchX = e.touches[0].clientX; }, { passive: true });
+      // Swipe mobile
+      let touchStart = null;
+      lb.addEventListener('touchstart', (e) => {
+        touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY, t: Date.now() };
+      }, { passive: true });
       lb.addEventListener('touchend', (e) => {
-        const dx = e.changedTouches[0].clientX - touchX;
-        if (Math.abs(dx) > 50) show(idx + (dx < 0 ? 1 : -1));
+        if (!touchStart) return;
+        const dx = e.changedTouches[0].clientX - touchStart.x;
+        const dy = e.changedTouches[0].clientY - touchStart.y;
+        const dt = Date.now() - touchStart.t;
+        if (Math.abs(dy) > Math.abs(dx) && dy > 80 && dt < 450) {
+          close();
+        } else if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50) {
+          show(idx + (dx < 0 ? 1 : -1));
+        }
+        touchStart = null;
       });
     })();
   </script>
+
+  <!-- ============ LIGHTBOX ============ -->
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Galerie photos plein écran">
+    <div class="lightbox-top">
+      <strong id="lbNum">N° I</strong>
+      <em id="lbCounter">01 / 08</em>
+      <button class="lightbox-close" id="lbClose" aria-label="Fermer">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="lightbox-stage">
+      <img class="lightbox-image" id="lbImg" src="" alt="" />
+      <button class="lightbox-nav lightbox-prev" id="lbPrev" aria-label="Photo précédente">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+      </button>
+      <button class="lightbox-nav lightbox-next" id="lbNext" aria-label="Photo suivante">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      </button>
+    </div>
+    <div class="lightbox-thumbs" id="lbThumbs"></div>
+  </div>
+
 </body>
 </html>
