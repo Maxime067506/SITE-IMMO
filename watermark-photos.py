@@ -94,10 +94,9 @@ def watermark_photo(photo_path: str, logo_master: Image.Image,
     alpha = alpha.point(lambda p: int(p * opacity))
     logo.putalpha(alpha)
 
-    # Position : CENTRE-BAS de l'image (visible quel que soit le crop horizontal)
-    margin = int(min(pw, ph) * margin_ratio)
+    # Position : CENTRE exact de l'image (visible quel que soit le crop)
     x = (pw - target_w) // 2
-    y = ph - target_h - margin
+    y = (ph - target_h) // 2
 
     overlay = Image.new("RGBA", photo.size, (0, 0, 0, 0))
 
