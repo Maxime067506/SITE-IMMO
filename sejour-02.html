@@ -422,6 +422,15 @@
           show(i);
           lb.classList.add('open');
           lb.setAttribute('aria-hidden', 'false');
+          // INLINE STYLES bulletproof
+          lb.style.cssText = "position:fixed!important;inset:0!important;z-index:999999!important;background:rgba(10,20,35,0.96)!important;opacity:1!important;pointer-events:auto!important;display:flex!important;align-items:center!important;justify-content:center!important;";
+          if (lbImg) lbImg.style.cssText = "max-width:90vw!important;max-height:88vh!important;object-fit:contain!important;display:block!important;opacity:1!important;transform:scale(1)!important;box-shadow:0 40px 100px -40px rgba(0,0,0,.7);";
+          ['lbClose','lbPrev','lbNext'].forEach(function(id){
+            var el = document.getElementById(id);
+            if (el) { el.style.opacity = '1'; el.style.visibility = 'visible'; }
+          });
+          var top = document.querySelector('.lightbox-top'); if (top) top.style.opacity = '1';
+          var th = document.getElementById('lbThumbs'); if (th) th.style.opacity = '1';
           document.body.style.overflow = 'hidden';
         }
         // Expose globalement pour les inline onclick="..." sur les cards
@@ -429,6 +438,8 @@
         function close() {
           lb.classList.remove('open');
           lb.setAttribute('aria-hidden', 'true');
+          lb.style.cssText = '';
+          if (lbImg) lbImg.style.cssText = '';
           document.body.style.overflow = '';
         }
 
