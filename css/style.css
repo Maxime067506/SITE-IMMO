@@ -2747,8 +2747,12 @@ body.has-video-bg .hero-film-credit{
 /* ------------------ KINETIC TITLES ------------------ */
 /* Révélation mot par mot sur IntersectionObserver. Les <em> et <br/> sont préservés. */
 [data-kinetic]{
-  overflow:hidden;       /* le text-shadow peut déborder en y — on clip juste le x */
-  padding-bottom:.12em;  /* space for overflow on descendants */
+  /* Clip horizontal uniquement : les descendants (g, j, p, q, y, ç) et
+     les italiques penches (em) ne doivent JAMAIS etre coupes en bas. */
+  overflow-x:hidden;
+  overflow-y:visible;
+  padding-bottom:.25em;
+  line-height:1.1;
 }
 [data-kinetic] .kw{
   display:inline-block;
