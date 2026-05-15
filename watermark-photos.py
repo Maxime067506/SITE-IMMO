@@ -32,7 +32,11 @@ except ImportError:
 
 
 SITE_ROOT = os.path.dirname(os.path.abspath(__file__))
-LOGO_SRC = os.path.join(SITE_ROOT, "img", "delfosse-mark.png")
+# Logo source : utilise le nouveau monogramme DP entrelace 1024x1024
+# Fallback sur l'ancien delfosse-mark.png si le nouveau n'existe pas.
+_NEW_LOGO = os.path.join(SITE_ROOT, "img", "delfosse-mark-new.png")
+_OLD_LOGO = os.path.join(SITE_ROOT, "img", "delfosse-mark.png")
+LOGO_SRC = _NEW_LOGO if os.path.exists(_NEW_LOGO) else _OLD_LOGO
 
 
 def human_size(n: int) -> str:
@@ -150,18 +154,23 @@ def watermark_photo(photo_path: str, logo_master_black: Image.Image, logo_master
     overlay = Image.new("RGBA", photo.size, (0, 0, 0, 0))
 
     # Halo de couleur OPPOSEE au logo (pour lisibilite garantie sur tout fond)
+    # 2 couches : un halo large diffus + une couche plus serree pour densifier.
     if shadow:
         logo_alpha = logo.getchannel("A")
         silhouette = Image.new("RGBA", logo.size, (*halo_rgb, 255))
-        halo_alpha = logo_alpha.point(lambda p: int(p * 0.90))
-        silhouette.putalpha(halo_alpha)
-        # Blur leger pour creer un glow autour
-        blur_radius = max(4, int(target_w * 0.04))
-        halo = silhouette.filter(ImageFilter.GaussianBlur(radius=blur_radius))
-        overlay.paste(halo, (x, y), halo)
-        # 2e passe plus serree pour densifier
-        tight = silhouette.filter(ImageFilter.GaussianBlur(radius=max(2, int(target_w * 0.015))))
-        overlay.paste(tight, (x, y), tight)
+        silhouette.putalpha(logo_alpha)
+        # Couche 1 : halo large et diffus (effet "glow")
+        blur_large = max(6, int(target_w * 0.055))
+        halo_large = silhouette.filter(ImageFilter.GaussianBlur(radius=blur_large))
+        overlay.paste(halo_large, (x, y), halo_large)
+        # Couche 2 : halo serre pour densifier le contraste local
+        blur_tight = max(3, int(target_w * 0.020))
+        halo_tight = silhouette.filter(ImageFilter.GaussianBlur(radius=blur_tight))
+        overlay.paste(halo_tight, (x, y), halo_tight)
+        # Couche 3 : halo TRES serre pour creer un "stroke" autour du logo
+        blur_stroke = max(2, int(target_w * 0.008))
+        halo_stroke = silhouette.filter(ImageFilter.GaussianBlur(radius=blur_stroke))
+        overlay.paste(halo_stroke, (x, y), halo_stroke)
 
     # Logo par-dessus le halo
     overlay.paste(logo, (x, y), logo)
@@ -186,12 +195,12 @@ def collect_photos(root: str):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--opacity", type=float, default=0.65, help="0.0-1.0 (defaut 0.65)")
+    ap.add_argument("--opacity", type=float, default=0.70, help="0.0-1.0 (defaut 0.70)")
     ap.add_argument("--size", type=float, default=0.12, help="Largeur logo / largeur photo (defaut 0.12 = 12%%)")
     ap.add_argument("--color", choices=["black", "white", "adaptive"], default="adaptive",
                     help="Couleur du logo (defaut adaptive : noir sur clair / blanc sur sombre)")
-    ap.add_argument("--threshold", type=float, default=0.45,
-                    help="Seuil de luminance pour mode adaptive (0.45 = bascule vers blanc en dessous)")
+    ap.add_argument("--threshold", type=float, default=0.55,
+                    help="Seuil de luminance pour mode adaptive (0.55 = bascule vers blanc en dessous)")
     ap.add_argument("--margin", type=float, default=0.025, help="Marge depuis le bord (ratio, defaut 0.025)")
     ap.add_argument("--quality", type=int, default=90, help="Qualite JPG (defaut 90)")
     ap.add_argument("--webp-quality", type=int, default=85, help="Qualite WebP (defaut 85)")

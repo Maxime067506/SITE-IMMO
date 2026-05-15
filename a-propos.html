@@ -66,16 +66,21 @@
     @media (max-width:860px){ .ap-founder{grid-template-columns:1fr} }
 
     .ap-founder .col-left{position:relative}
+    /* Monogramme DP : transparent, sans cadre, sans fond — juste la forme blanche */
     .ap-founder .col-left .ap-logo{
-      display:block;width:100%;max-width:460px;
+      display:block;width:100%;max-width:320px;
       margin:0 0 clamp(32px,4vw,56px);
-      opacity:.78;  /* Transparence pour effet feutre / elegant */
+      opacity:.80;  /* Transparence pour effet filigrane elegant */
       transition:opacity .35s ease, transform .35s ease;
-      filter:drop-shadow(0 8px 32px rgba(0,0,0,.45));
+      background:transparent;border:none;
+      filter:drop-shadow(0 6px 24px rgba(0,0,0,.4));
     }
     .ap-founder .col-left .ap-logo:hover{opacity:1;transform:translateY(-2px)}
     .ap-founder .col-left .ap-logo img,
-    .ap-founder .col-left .ap-logo svg{display:block;width:100%;height:auto}
+    .ap-founder .col-left .ap-logo svg{
+      display:block;width:100%;height:auto;
+      background:transparent;
+    }
     .ap-founder .col-left .h-display{margin:0}
 
     .ap-founder .col-right p{margin:0 0 var(--s-3);max-width:60ch;line-height:1.85}
@@ -369,7 +374,7 @@
   <section class="section ap-founder gp-level-1 gp-on-video" id="fondateur" data-overlay="1">
     <div class="col-left">
       <a href="index.html" class="ap-logo" aria-label="Delfosse Properties — Accueil">
-        <img src="img/delfosse-properties-logo-white.svg?v=3" alt="Delfosse Properties — Logo" />
+        <img src="img/delfosse-properties-monogram-white.svg?v=4" alt="Delfosse Properties — Monogramme DP" />
       </a>
       <p class="eyebrow"><span class="eyebrow-num">I</span> Le fondateur</p>
       <h2 class="h-display" data-kinetic data-kinetic-html="true">Maxime Delfosse,<br/><em>hôte de Nice.</em></h2>
