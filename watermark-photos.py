@@ -72,20 +72,36 @@ def prepare_logo(src_path: str, color: str = "black") -> Image.Image:
 prepare_white_logo = prepare_logo
 
 
-def sample_center_luminance(photo: Image.Image, sample_ratio: float = 0.4) -> float:
-    """Echantillonne la luminance moyenne de la zone centrale de la photo.
-    Sample_ratio = 0.4 -> echantillonne 40% au centre (largeur ET hauteur).
-    Retourne une valeur 0.0-1.0 (0 = noir, 1 = blanc)."""
+def sample_logo_zone_luminance(photo: Image.Image, logo_size_ratio: float = 0.13,
+                                margin_factor: float = 1.6) -> float:
+    """Echantillonne la luminance de la zone EXACTE ou le logo sera pose,
+    avec une legere marge autour (margin_factor * taille_logo).
+
+    Cette mesure precise evite le piege ou la moyenne large est claire
+    mais le spot exact du logo tombe sur une zone sombre (ex: meuble noir,
+    coin d'ombre, etc.).
+
+    logo_size_ratio : largeur du logo / largeur photo (defaut 0.13)
+    margin_factor : multiplie la taille pour couvrir logo + halo (1.6 = +30% autour)
+    Retourne 0.0-1.0 (0 = noir, 1 = blanc).
+    """
     pw, ph = photo.size
-    sw, sh = int(pw * sample_ratio), int(ph * sample_ratio)
-    sx, sy = (pw - sw) // 2, (ph - sh) // 2
+    # Taille echantillonnee = logo + marge
+    sw = int(pw * logo_size_ratio * margin_factor)
+    sh = sw  # carre, suffisant car le logo est ~carre
+    sx = (pw - sw) // 2
+    sy = (ph - sh) // 2
     crop = photo.crop((sx, sy, sx + sw, sy + sh)).convert("L")
-    # Resample down pour rapidite, puis moyenne
     crop.thumbnail((64, 64))
     pixels = list(crop.getdata())
     if not pixels:
         return 0.5
     return sum(pixels) / (len(pixels) * 255.0)
+
+
+# Backward compat alias
+def sample_center_luminance(photo: Image.Image, sample_ratio: float = 0.4) -> float:
+    return sample_logo_zone_luminance(photo, logo_size_ratio=sample_ratio / 3, margin_factor=3)
 
 
 def watermark_photo(photo_path: str, logo_master_black: Image.Image, logo_master_white: Image.Image,
@@ -102,9 +118,10 @@ def watermark_photo(photo_path: str, logo_master_black: Image.Image, logo_master
     photo = Image.open(photo_path).convert("RGBA")
     pw, ph = photo.size
 
-    # Choix adaptatif de la couleur du logo
+    # Choix adaptatif de la couleur du logo : sample la ZONE EXACTE du logo
+    # + une marge (couvre logo + halo), pas une moyenne large qui peut tromper.
     if adaptive:
-        lum = sample_center_luminance(photo, sample_ratio=0.4)
+        lum = sample_logo_zone_luminance(photo, logo_size_ratio=size_ratio, margin_factor=1.6)
         use_white = lum <= threshold  # zone sombre -> logo blanc
         color_used = "white" if use_white else "black"
     else:
