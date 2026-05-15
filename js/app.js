@@ -859,7 +859,10 @@ targets.forEach(el => io.observe(el));
   const dir   = stage.dataset.photoDir;
   const count = parseInt(stage.dataset.photoCount || '8', 10);
   const ver   = stage.dataset.photoVersion || '';
-  const verQs = ver ? `?v=${ver}` : '';
+  // Cache-bust GLOBAL : on append "-wmB" a toutes les URLs pour forcer le
+  // navigateur a re-fetch les _wm.jpg/_wm.webp qui ont change cote serveur.
+  // Bump ce suffixe a chaque regeneration des watermarks (wmB -> wmC -> wmD...)
+  const verQs = ver ? `?v=${ver}-wmB` : '?v=wmB';
 
   if (!dir || !count) return;
 

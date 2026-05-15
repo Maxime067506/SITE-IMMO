@@ -350,7 +350,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="js/i18n.js?v=e4"></script>
-  <script src="js/app.js?v=alt1"></script>
+  <script src="js/app.js?v=wmB"></script>
   <script src="js/video-bg.js?v=b9"></script>
   <script>
     /* Hero slideshow Ken Burns + progress bars */
@@ -400,7 +400,7 @@
         var dir = stage.dataset.photoDir;
         var count = parseInt(stage.dataset.photoCount || '8', 10);
         var ver = stage.dataset.photoVersion || '';
-        var verQs = ver ? '?v=' + ver : '';
+        var verQs = ver ? '?v=' + ver + '-wmB' : '?v=wmB';
 
         var photos = [];
         for (var i = 1; i <= count; i++) {
