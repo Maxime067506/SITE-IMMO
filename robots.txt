@@ -11,8 +11,10 @@ Disallow: /login.html
 Disallow: /admin.html
 Disallow: /moodboard.html
 Disallow: /api/
-Disallow: /js/
-Disallow: /css/
+
+# IMPORTANT : /js/ et /css/ DOIVENT rester accessibles à Googlebot
+# pour qu'il puisse rendre le site (mobile-first indexing).
+# Ne JAMAIS les bloquer.
 
 # Bots IA / LLM scrapers : on laisse passer (signaux SEO modernes)
 # Décommente les blocs ci-dessous si tu veux les bloquer.

@@ -881,6 +881,12 @@ targets.forEach(el => io.observe(el));
   }));
   const getLayers = () => (mqMobile.matches ? LAYERS_MOBILE : LAYERS_DESKTOP);
 
+  // SEO : alt-text descriptif pour Google Images + accessibilité
+  // Priorité : data-photo-alt du stage > parse du <title>
+  const altBase = (stage.dataset.photoAlt ||
+    (document.title || '').split(/[—|]/)[0].trim() ||
+    'Appartement Delfosse Properties Nice').replace(/"/g, '');
+
   // Build cards : simple <article class="cf-card fcf-card"><img></article>
   const cards = [];
   for (let i = 1; i <= count; i++) {
@@ -890,10 +896,11 @@ targets.forEach(el => io.observe(el));
     a.setAttribute('aria-label', `Photo ${i} sur ${count}`);
     const pad = String(i).padStart(2, '0');
     const _jpg = `img/airbnb/${dir}/photo-${pad}_wm.jpg${verQs}`;
+    const _alt = `${altBase} — Photo ${i}/${count}`;
     // INLINE onclick : appelle directement la fonction globale du lightbox
     // (sera definie par le script lightbox plus loin dans la page)
     a.setAttribute('onclick', `if(window._dpOpenLightbox){window._dpOpenLightbox(${i - 1});return false}`);
-    a.innerHTML = `<picture><source type="image/webp" srcset="${_dpToWebp(_jpg)}" /><img src="${_jpg}" alt="" draggable="false" loading="lazy" decoding="async" /></picture>`;
+    a.innerHTML = `<picture><source type="image/webp" srcset="${_dpToWebp(_jpg)}" /><img src="${_jpg}" alt="${_alt}" draggable="false" loading="lazy" decoding="async" /></picture>`;
     a.style.cursor = 'zoom-in';
     stage.appendChild(a);
     cards.push(a);
