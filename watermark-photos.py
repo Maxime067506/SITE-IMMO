@@ -72,16 +72,48 @@ def prepare_logo(src_path: str, color: str = "black") -> Image.Image:
 prepare_white_logo = prepare_logo
 
 
-def watermark_photo(photo_path: str, logo_master: Image.Image,
-                    size_ratio: float, opacity: float, margin_ratio: float,
-                    shadow: bool = True) -> Image.Image:
-    """Applique le watermark sur une photo, renvoie l'image finale (RGB).
+def sample_center_luminance(photo: Image.Image, sample_ratio: float = 0.4) -> float:
+    """Echantillonne la luminance moyenne de la zone centrale de la photo.
+    Sample_ratio = 0.4 -> echantillonne 40% au centre (largeur ET hauteur).
+    Retourne une valeur 0.0-1.0 (0 = noir, 1 = blanc)."""
+    pw, ph = photo.size
+    sw, sh = int(pw * sample_ratio), int(ph * sample_ratio)
+    sx, sy = (pw - sw) // 2, (ph - sh) // 2
+    crop = photo.crop((sx, sy, sx + sw, sy + sh)).convert("L")
+    # Resample down pour rapidite, puis moyenne
+    crop.thumbnail((64, 64))
+    pixels = list(crop.getdata())
+    if not pixels:
+        return 0.5
+    return sum(pixels) / (len(pixels) * 255.0)
 
-    Si shadow=True (recommande), applique une ombre portee douce derriere le
-    logo blanc. Resultat : reste lisible sur fond clair ET sombre, sans paraitre
-    aggressif. C'est la technique standard des photographes pro."""
+
+def watermark_photo(photo_path: str, logo_master_black: Image.Image, logo_master_white: Image.Image,
+                    size_ratio: float, opacity: float, margin_ratio: float,
+                    shadow: bool = True, adaptive: bool = True,
+                    threshold: float = 0.45) -> tuple[Image.Image, str]:
+    """Applique le watermark sur une photo. Renvoie (image_finale, couleur_utilisee).
+
+    Mode adaptive : echantillonne la zone centrale et choisit AUTOMATIQUEMENT :
+      - logo NOIR si zone centrale claire (luminance > threshold)
+      - logo BLANC si zone centrale sombre (luminance <= threshold)
+    Le halo est toujours de la couleur opposee pour maximiser le contraste.
+    """
     photo = Image.open(photo_path).convert("RGBA")
     pw, ph = photo.size
+
+    # Choix adaptatif de la couleur du logo
+    if adaptive:
+        lum = sample_center_luminance(photo, sample_ratio=0.4)
+        use_white = lum <= threshold  # zone sombre -> logo blanc
+        color_used = "white" if use_white else "black"
+    else:
+        use_white = False
+        color_used = "black"
+
+    logo_master = logo_master_white if use_white else logo_master_black
+    logo_rgb = (255, 255, 255) if use_white else (0, 0, 0)
+    halo_rgb = (0, 0, 0) if use_white else (255, 255, 255)  # halo = couleur opposee
 
     # Taille du logo : size_ratio * largeur photo
     target_w = int(pw * size_ratio)
@@ -100,12 +132,10 @@ def watermark_photo(photo_path: str, logo_master: Image.Image,
 
     overlay = Image.new("RGBA", photo.size, (0, 0, 0, 0))
 
-    # Halo blanc subtil derriere le logo (pour lisibilite sur fonds sombres)
-    # SANS pastille visible : juste un glow doux qui suit la silhouette
+    # Halo de couleur OPPOSEE au logo (pour lisibilite garantie sur tout fond)
     if shadow:
         logo_alpha = logo.getchannel("A")
-        # Halo blanc doux
-        silhouette = Image.new("RGBA", logo.size, (255, 255, 255, 255))
+        silhouette = Image.new("RGBA", logo.size, (*halo_rgb, 255))
         halo_alpha = logo_alpha.point(lambda p: int(p * 0.90))
         silhouette.putalpha(halo_alpha)
         # Blur leger pour creer un glow autour
@@ -116,10 +146,10 @@ def watermark_photo(photo_path: str, logo_master: Image.Image,
         tight = silhouette.filter(ImageFilter.GaussianBlur(radius=max(2, int(target_w * 0.015))))
         overlay.paste(tight, (x, y), tight)
 
-    # Logo noir par-dessus le halo
+    # Logo par-dessus le halo
     overlay.paste(logo, (x, y), logo)
     result = Image.alpha_composite(photo, overlay).convert("RGB")
-    return result
+    return result, color_used
 
 
 def collect_photos(root: str):
@@ -141,7 +171,10 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--opacity", type=float, default=0.65, help="0.0-1.0 (defaut 0.65)")
     ap.add_argument("--size", type=float, default=0.12, help="Largeur logo / largeur photo (defaut 0.12 = 12%%)")
-    ap.add_argument("--color", choices=["black", "white"], default="black", help="Couleur du logo (defaut black)")
+    ap.add_argument("--color", choices=["black", "white", "adaptive"], default="adaptive",
+                    help="Couleur du logo (defaut adaptive : noir sur clair / blanc sur sombre)")
+    ap.add_argument("--threshold", type=float, default=0.45,
+                    help="Seuil de luminance pour mode adaptive (0.45 = bascule vers blanc en dessous)")
     ap.add_argument("--margin", type=float, default=0.025, help="Marge depuis le bord (ratio, defaut 0.025)")
     ap.add_argument("--quality", type=int, default=90, help="Qualite JPG (defaut 90)")
     ap.add_argument("--webp-quality", type=int, default=85, help="Qualite WebP (defaut 85)")
@@ -162,9 +195,13 @@ def main():
     print(f"Test mode   : {args.test}")
     print()
 
-    print(f"[1] Preparation du logo {args.color}...")
-    logo_master = prepare_logo(LOGO_SRC, color=args.color)
-    print(f"    Logo prepare : {logo_master.size}")
+    adaptive_mode = (args.color == "adaptive")
+    print(f"[1] Preparation des logos (mode={args.color})...")
+    logo_master_black = prepare_logo(LOGO_SRC, color="black")
+    logo_master_white = prepare_logo(LOGO_SRC, color="white")
+    print(f"    Logo prepare : {logo_master_black.size}")
+    if adaptive_mode:
+        print(f"    Mode ADAPTIVE : seuil luminance = {args.threshold:.2f}")
 
     photos = collect_photos(SITE_ROOT)
     if args.test:
@@ -192,7 +229,20 @@ def main():
                 continue
 
         try:
-            result = watermark_photo(src, logo_master, args.size, args.opacity, args.margin, shadow=not args.no_shadow)
+            if adaptive_mode:
+                result, color_used = watermark_photo(
+                    src, logo_master_black, logo_master_white,
+                    args.size, args.opacity, args.margin,
+                    shadow=not args.no_shadow, adaptive=True, threshold=args.threshold,
+                )
+            else:
+                # Force la couleur choisie (compat retro)
+                logo_chosen = logo_master_white if args.color == "white" else logo_master_black
+                result, color_used = watermark_photo(
+                    src, logo_chosen, logo_chosen,
+                    args.size, args.opacity, args.margin,
+                    shadow=not args.no_shadow, adaptive=False,
+                )
             result.save(wm_jpg, "JPEG", quality=args.quality, optimize=True)
             result.save(wm_webp, "WEBP", quality=args.webp_quality, method=6)
             sz_before = os.path.getsize(src)
@@ -202,7 +252,8 @@ def main():
             total_after_jpg += sz_jpg
             total_after_webp += sz_webp
             done += 1
-            print(f"  [OK] {rel}")
+            color_tag = f"[{color_used.upper()}]"
+            print(f"  [OK] {color_tag} {rel}")
             print(f"       -> _wm.jpg  {human_size(sz_jpg)}")
             print(f"       -> _wm.webp {human_size(sz_webp)}")
         except Exception as e:
