@@ -8,7 +8,13 @@ const _dpToWebp = (src) => src.replace(/\.(jpg|jpeg|png)(\?.*)?$/i, '.webp$2');
 /* Helper : retourne la version watermarkee d'une URL photo
    ex: img/airbnb/01-amiral/photo-01.jpg -> img/airbnb/01-amiral/photo-01_wm.jpg
    Preserve le ?v= eventuel. */
-const _dpWm = (src) => src.replace(/(\.[a-z]+)(\?.*)?$/i, '_wm$1$2');
+// Insere "_wm" avant l'extension ET applique le cache-bust global "-wmB".
+// Bump le suffixe a chaque regeneration des watermarks (wmB -> wmC -> wmD...)
+const _dpWm = (src) => {
+  const wm = src.replace(/(\.[a-z]+)(\?.*)?$/i, '_wm$1$2');
+  if (/\?v=/.test(wm)) return wm.replace(/\?v=([^&]+)/, '?v=$1-wmB');
+  return wm + '?v=wmB';
+};
 
 const header = document.getElementById('siteHeader');
 const heroFilm = document.querySelector('.hero-film');
