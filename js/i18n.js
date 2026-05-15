@@ -611,7 +611,85 @@ const I18N = {
     "espace.transit.title":    "Vers <em style=\"color:var(--accent-lt)\">votre porte.</em>",
     "espace.transit.intro":    "Itinéraire animé en tramway, étape par étape — depuis l'Aéroport Nice Côte d'Azur ou la Gare de Nice-Ville. Suivez la ligne, l'arrêt s'allume, votre porte n'est qu'à quelques pas.",
     /* Footer */
-    "espace.foot.back":        "Retour au site"
+    "espace.foot.back":        "Retour au site",
+
+    /* ============================================================
+       PAGE A PROPOS — Le fondateur, l'histoire, l'approche
+       ============================================================ */
+    "ap.hero.meta":            "Film N° ∞ — À propos",
+    "ap.hero.metaCity":        "Nice · 43.7102°N · 7.2620°E",
+    "ap.hero.eyebrow":         "Le fondateur · MMXXVI",
+    "ap.hero.title":           "L'art de recevoir,<br/><em>signé Maxime Delfosse.</em>",
+    "ap.hero.lede":            "Sept adresses choisies à Nice, sur la French Riviera. Un même soin, du seuil au départ.",
+    "ap.hero.cta1":            "Découvrir l'histoire",
+    "ap.hero.cta2":            "Voir les séjours →",
+    "ap.hero.credit":          "Maison Delfosse · Riviera française",
+    "ap.hero.scroll":          "Découvrir",
+
+    "ap.founder.eyebrow":      "Le fondateur",
+    "ap.founder.title":        "Maxime Delfosse,<br/><em>hôte de Nice.</em>",
+    "ap.founder.quote":        "« Je n'ouvre pas des portes. Je transmets une <em>manière d'habiter Nice.</em> »",
+    "ap.founder.p1":           "Delfosse Properties n'est pas une plateforme. C'est une <strong>maison</strong> — la mienne, démultipliée en sept adresses, ouverte à ceux qui cherchent autre chose qu'une chambre pour la nuit.",
+    "ap.founder.p2":           "Il y a eu un moment, un voyage de trop dans un appartement impersonnel, un check-in robotique, une serviette pliée à la va-vite. J'ai compris alors qu'on pouvait faire <em>autrement</em>. Ni hôtel froid, ni studio interchangeable. <strong>Un séjour qui vous ressemble — préparé comme on prépare la venue d'un ami.</strong>",
+    "ap.founder.p3":           "Aujourd'hui, sept appartements à Nice portent ce parti pris : du Port Lympia au quartier des Musiciens, de l'avenue Notre-Dame à la gare Art Déco. Chaque lieu a été choisi pour sa <strong>lumière</strong>, son <strong>quartier</strong>, son <strong>histoire</strong>. Aucun ne ressemble à un autre — mais tous portent la même exigence.",
+    "ap.founder.p4":           "Ce que je vous promets ? Une conciergerie disponible, mes adresses préférées, mes restaurants — <em>mon Nice.</em> Pas des PDF génériques, pas de check-in robotique. Un contact direct, du seuil au départ.",
+    "ap.founder.p5":           "Bienvenue, donc. Que votre séjour ressemble enfin à un séjour.",
+    "ap.founder.signature":    "<em>Maxime Delfosse</em> · fondateur",
+
+    "ap.history.eyebrow":      "L'histoire",
+    "ap.history.quote":        "Sept adresses, une <em>même exigence.</em><br/>L'art d'habiter Nice — <em>discret, patient, choisi.</em>",
+    "ap.history.cite":         "Le récit complet · <em>à venir</em>",
+
+    "ap.approach.eyebrow":     "Notre approche",
+    "ap.approach.title":       "Trois piliers, <em>aucun compromis.</em>",
+    "ap.approach.p1.title":    "Le lieu, <em>choisi avec exigence.</em>",
+    "ap.approach.p1.body":     "Chaque appartement est sélectionné pour son emplacement, sa lumière, son histoire. Aucun bien \"remplisseur\" — sept adresses, sept ambiances, une même tenue.",
+    "ap.approach.p2.title":    "Le séjour, <em>pensé jusqu'au détail.</em>",
+    "ap.approach.p2.body":     "Équipement complet, conciergerie 7j/7, attention portée à chaque finition. Le confort, sans avoir à le demander — et un contact direct du seuil au départ.",
+    "ap.approach.p3.title":    "L'accueil, <em>signé Delfosse.</em>",
+    "ap.approach.p3.body":     "Un contact direct, une équipe locale, une vraie connaissance de Nice. Du transfert aéroport au restaurant de quartier — l'attention est dans la précision.",
+
+    "ap.stays.eyebrow":        "Les sept adresses",
+    "ap.stays.title":          "Sept appartements, <em>une seule Riviera.</em>",
+
+    /* ============================================================
+       BLOG — articles et footer journal
+       ============================================================ */
+    "foot.journal":            "Le journal",
+    "blog.quartiers.title":    "Meilleurs quartiers de Nice",
+    "blog.3jours.title":       "Que faire à Nice en 3 jours",
+
+    /* ============================================================
+       BLOG : MEILLEURS QUARTIERS DE NICE
+       ============================================================ */
+    "blog.q.meta":             "Guide N° I — Quartiers",
+    "blog.q.metaSub":          "Nice · MMXXVI",
+    "blog.q.eyebrow":          "Le journal · 12 min de lecture",
+    "blog.q.title":            "Les meilleurs quartiers <em>de Nice</em><br/>où loger en 2026.",
+    "blog.q.lede":              "Vieux-Nice, Carré d'Or, Musiciens, Port Lympia, Cimiez, Promenade des Anglais. Comparatif <em>honnête</em> de 8 quartiers — sans langue de bois, juste ce qu'il faut savoir avant de réserver votre location saisonnière sur la Côte d'Azur.",
+    "blog.q.updated":          "Mis à jour le 15 mai 2026",
+    "blog.q.readtime":         "12 min de lecture",
+    "blog.q.author":           "Par Delfosse Properties",
+    "blog.q.scroll":           "Sommaire",
+    "blog.q.credit":           "8 quartiers · 7 adresses",
+    "blog.q.toc.eyebrow":      "Sommaire",
+    "blog.q.toc.title":        "Huit quartiers, <em>une seule Riviera.</em>",
+
+    /* ============================================================
+       BLOG : QUE FAIRE A NICE EN 3 JOURS
+       ============================================================ */
+    "blog.j.meta":             "Guide N° II — Itinéraire",
+    "blog.j.metaSub":          "3 jours · MMXXVI",
+    "blog.j.eyebrow":          "Le journal · 14 min de lecture",
+    "blog.j.title":            "Que faire à Nice <em>en 3 jours.</em>",
+    "blog.j.lede":              "Jour 1 entre Vieux-Nice, Cours Saleya et Colline du Château. Jour 2 sur la Promenade des Anglais et dans le Carré d'Or. Jour 3 à Cimiez face aux Matisse — ou en escapade vers <em>Èze et Monaco</em>. Avec les vrais horaires, les vrais prix, et les adresses où les locaux mangent.",
+    "blog.j.updated":          "Mis à jour le 15 mai 2026",
+    "blog.j.readtime":         "14 min de lecture",
+    "blog.j.author":           "Par Delfosse Properties · Nice",
+    "blog.j.scroll":           "Sommaire",
+    "blog.j.credit":           "3 jours · sans voiture",
+    "blog.j.toc.eyebrow":      "Sommaire",
+    "blog.j.toc.title":        "Trois jours, <em>une seule ville.</em>"
   },
 
   en: {
@@ -1221,7 +1299,85 @@ const I18N = {
     "espace.transit.title":    "To <em style=\"color:var(--accent-lt)\">your doorstep.</em>",
     "espace.transit.intro":    "Animated tramway journey, step by step — from Nice Côte d'Azur Airport or Nice-Ville train station. Follow the line, watch the stop light up, your door is just a few steps away.",
     /* Footer */
-    "espace.foot.back":        "Back to site"
+    "espace.foot.back":        "Back to site",
+
+    /* ============================================================
+       ABOUT PAGE — The founder, the story, the approach
+       ============================================================ */
+    "ap.hero.meta":            "Film N° ∞ — About",
+    "ap.hero.metaCity":        "Nice · 43.7102°N · 7.2620°E",
+    "ap.hero.eyebrow":         "The founder · MMXXVI",
+    "ap.hero.title":           "The art of hospitality,<br/><em>signed Maxime Delfosse.</em>",
+    "ap.hero.lede":            "Seven addresses, hand-picked in Nice on the French Riviera. The same care, from your arrival to your departure.",
+    "ap.hero.cta1":            "Discover the story",
+    "ap.hero.cta2":            "See the stays →",
+    "ap.hero.credit":          "Maison Delfosse · French Riviera",
+    "ap.hero.scroll":          "Discover",
+
+    "ap.founder.eyebrow":      "The founder",
+    "ap.founder.title":        "Maxime Delfosse,<br/><em>your host in Nice.</em>",
+    "ap.founder.quote":        "« I don't just open doors. I pass on a <em>way of inhabiting Nice.</em> »",
+    "ap.founder.p1":           "Delfosse Properties is not a platform. It is a <strong>home</strong> — mine, multiplied across seven addresses, open to those who seek something more than just a room for the night.",
+    "ap.founder.p2":           "There was a moment, one too many trips spent in a soulless apartment, a robotic check-in, a towel folded in haste. I understood then that we could do it <em>differently</em>. Neither a cold hotel, nor an interchangeable studio. <strong>A stay that resembles you — prepared the way one prepares for a friend's arrival.</strong>",
+    "ap.founder.p3":           "Today, seven apartments in Nice carry this vision: from Port Lympia to the Musiciens quarter, from Avenue Notre-Dame to the Art Déco train station. Each place chosen for its <strong>light</strong>, its <strong>neighbourhood</strong>, its <strong>story</strong>. None resembles another — yet all share the same standards.",
+    "ap.founder.p4":           "What do I promise you? A concierge always reachable, my favourite places, my restaurants — <em>my Nice.</em> No generic PDFs, no robotic check-in. Direct contact, from threshold to departure.",
+    "ap.founder.p5":           "Welcome, then. May your stay finally feel like a stay.",
+    "ap.founder.signature":    "<em>Maxime Delfosse</em> · founder",
+
+    "ap.history.eyebrow":      "The story",
+    "ap.history.quote":        "Seven addresses, one <em>same exigence.</em><br/>The art of inhabiting Nice — <em>discreet, patient, chosen.</em>",
+    "ap.history.cite":         "Full story · <em>coming soon</em>",
+
+    "ap.approach.eyebrow":     "Our approach",
+    "ap.approach.title":       "Three pillars, <em>no compromise.</em>",
+    "ap.approach.p1.title":    "The place, <em>chosen with care.</em>",
+    "ap.approach.p1.body":     "Every apartment is selected for its location, its light, its history. No \"filler\" properties — seven addresses, seven atmospheres, one shared standard.",
+    "ap.approach.p2.title":    "The stay, <em>thought through to the detail.</em>",
+    "ap.approach.p2.body":     "Full equipment, 7/7 concierge, attention paid to every finishing touch. Comfort without having to ask — and direct contact from threshold to departure.",
+    "ap.approach.p3.title":    "The welcome, <em>signed Delfosse.</em>",
+    "ap.approach.p3.body":     "Direct contact, a local team, a real knowledge of Nice. From airport transfer to neighbourhood restaurant — the attention is in the precision.",
+
+    "ap.stays.eyebrow":        "The seven addresses",
+    "ap.stays.title":          "Seven apartments, <em>one Riviera.</em>",
+
+    /* ============================================================
+       BLOG — articles and journal footer
+       ============================================================ */
+    "foot.journal":            "The journal",
+    "blog.quartiers.title":    "Best neighbourhoods in Nice",
+    "blog.3jours.title":       "What to do in Nice in 3 days",
+
+    /* ============================================================
+       BLOG : BEST NEIGHBOURHOODS IN NICE
+       ============================================================ */
+    "blog.q.meta":             "Guide N° I — Neighbourhoods",
+    "blog.q.metaSub":          "Nice · MMXXVI",
+    "blog.q.eyebrow":          "The journal · 12 min read",
+    "blog.q.title":            "The best neighbourhoods <em>in Nice</em><br/>to stay in 2026.",
+    "blog.q.lede":              "Old Nice, Carré d'Or, Musiciens, Port Lympia, Cimiez, Promenade des Anglais. An <em>honest</em> comparison of 8 neighbourhoods — no fluff, just what you need to know before booking your vacation rental on the French Riviera.",
+    "blog.q.updated":          "Updated May 15, 2026",
+    "blog.q.readtime":         "12 min read",
+    "blog.q.author":           "By Delfosse Properties",
+    "blog.q.scroll":           "Contents",
+    "blog.q.credit":           "8 neighbourhoods · 7 addresses",
+    "blog.q.toc.eyebrow":      "Contents",
+    "blog.q.toc.title":        "Eight neighbourhoods, <em>one Riviera.</em>",
+
+    /* ============================================================
+       BLOG : WHAT TO DO IN NICE IN 3 DAYS
+       ============================================================ */
+    "blog.j.meta":             "Guide N° II — Itinerary",
+    "blog.j.metaSub":          "3 days · MMXXVI",
+    "blog.j.eyebrow":          "The journal · 14 min read",
+    "blog.j.title":            "What to do in Nice <em>in 3 days.</em>",
+    "blog.j.lede":              "Day 1 between Old Nice, Cours Saleya and Castle Hill. Day 2 along the Promenade des Anglais and through the Carré d'Or. Day 3 in Cimiez at the Matisse Museum — or a trip out to <em>Èze and Monaco</em>. With real schedules, real prices, and the addresses where locals eat.",
+    "blog.j.updated":          "Updated May 15, 2026",
+    "blog.j.readtime":         "14 min read",
+    "blog.j.author":           "By Delfosse Properties · Nice",
+    "blog.j.scroll":           "Contents",
+    "blog.j.credit":           "3 days · no car needed",
+    "blog.j.toc.eyebrow":      "Contents",
+    "blog.j.toc.title":        "Three days, <em>one city.</em>"
   }
 };
 
