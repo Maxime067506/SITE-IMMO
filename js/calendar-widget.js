@@ -51,8 +51,14 @@
       this.bookedRanges = [];   // array de { start: Date, end: Date }
       this.loading = true;
       this.error = false;
-      // Render initial (loading)
-      this.renderLoading();
+      // IMPORTANT : on cache la section parente par defaut, jusqu'a ce que
+      // l'API confirme que tout est configure et que les donnees sont valides.
+      // Comme ca, pas de "carre bleu" visible tant que les env vars Airbnb
+      // ne sont pas en place.
+      this.section = el.closest('.sejour-calendar') || el.parentElement;
+      if (this.section) {
+        this.section.style.display = 'none';
+      }
       this.fetchData();
     }
 
@@ -69,12 +75,17 @@
           summary: e.summary || '',
         })).filter(r => r.start && r.end);
         this.loading = false;
+        // API OK : afficher la section parente et rendre le calendrier
+        if (this.section) this.section.style.display = '';
         this.render();
       } catch (err) {
         console.warn('[dp-calendar]', this.aptId, err);
         this.loading = false;
         this.error = true;
-        this.renderError();
+        // API en erreur (ex: env vars non configurees) : on laisse la section
+        // CACHEE (display:none defini dans le constructor). L'utilisateur
+        // ne voit aucun "carre bleu" parasite.
+        // Le CTA "Reserver sur Airbnb" plus bas dans la page reste disponible.
       }
     }
 
