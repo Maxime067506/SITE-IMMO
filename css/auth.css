@@ -26,6 +26,14 @@
   position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
   animation:auth-zoom 18s var(--ease-out) infinite alternate;
 }
+/* Vidéo d'ambiance (remplace l'image statique) */
+.auth-visual-video{
+  position:absolute;inset:0;
+  width:100%;height:100%;object-fit:cover;
+  pointer-events:none;
+  /* Léger filter cinematique : un peu plus saturé et chaud */
+  filter:saturate(1.05) brightness(.92);
+}
 @keyframes auth-zoom{
   0%{transform:scale(1)}
   100%{transform:scale(1.08)}
