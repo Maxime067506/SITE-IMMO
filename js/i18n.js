@@ -655,6 +655,7 @@ const I18N = {
     /* ============================================================
        BLOG — articles et footer journal
        ============================================================ */
+    "nav.journal":             "Le journal",
     "foot.journal":            "Le journal",
     "blog.quartiers.title":    "Meilleurs quartiers de Nice",
     "blog.3jours.title":       "Que faire à Nice en 3 jours",
@@ -1644,6 +1645,7 @@ const I18N = {
     /* ============================================================
        BLOG — articles and journal footer
        ============================================================ */
+    "nav.journal":             "The journal",
     "foot.journal":            "The journal",
     "blog.quartiers.title":    "Best neighbourhoods in Nice",
     "blog.3jours.title":       "What to do in Nice in 3 days",
