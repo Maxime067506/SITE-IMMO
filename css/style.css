@@ -90,9 +90,10 @@ html{
 
 /* ============================================================
    MOBILE SAFETY NET — minimal
-   Garde tout le systeme video-bg (iframe YouTube + overlays) sur
-   desktop ET mobile. On masque uniquement le calendrier (cause
-   reelle du carre bleu) + le curseur custom (touch device only).
+   Tout fonctionne sur mobile (video, calendrier, overlays).
+   On retire juste le curseur custom (touch device).
+   Le carre bleu du calendrier est corrige cote calendar.css
+   (backdrop-filter remplace par fond solide sur mobile).
    ============================================================ */
 @media (max-width: 820px){
   /* Curseur custom : NEVER affiche sur mobile (touch device) */
@@ -107,8 +108,6 @@ html{
   html.has-dp-cursor select{
     cursor:auto !important;
   }
-  /* Section calendrier sejour : MASQUEE sur mobile (cause du carre bleu). */
-  .sejour-calendar{display:none !important}
 }
 body{
   margin:0;background:var(--bg);color:var(--ink);
