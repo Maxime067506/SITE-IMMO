@@ -661,6 +661,45 @@ const I18N = {
     "blog.3jours.title":       "Que faire à Nice en 3 jours",
 
     /* ============================================================
+       PAGE INDEX BLOG /blog/
+       ============================================================ */
+    "bi.hero.meta":            "Le journal · MMXXVI",
+    "bi.hero.metaCity":        "Nice · Riviera française",
+    "bi.hero.eyebrow":         "Le journal",
+    "bi.hero.title":           "Carnets de Nice <em>et de la Riviera.</em>",
+    "bi.hero.lede":            "Guides, itinéraires et adresses de locaux — la lecture des voyageurs avant le voyage. Choisi avec soin, écrit sans langue de bois.",
+    "bi.hero.scroll":          "Articles",
+    "bi.hero.credit":          "2 articles · Nouvelle parution chaque mois",
+    "bi.section.eyebrow":      "Tous les articles",
+    "bi.section.title":        "La sélection <em>du moment.</em>",
+
+    "bi.card1.tag":             "Guide pratique",
+    "bi.card1.date":            "15 mai 2026",
+    "bi.card1.readtime":        "12 min de lecture",
+    "bi.card1.cat":             "Guide",
+    "bi.card1.title":           "Les meilleurs quartiers de Nice où loger <em>en 2026.</em>",
+    "bi.card1.excerpt":         "Comparatif honnête de 8 quartiers de Nice — Vieux-Nice, Carré d'Or, Musiciens, Port Lympia, Cimiez, Promenade des Anglais. Pour qui, à quel prix, à quelle distance de la mer. Sans langue de bois.",
+    "bi.card1.cta":             "Lire le guide",
+
+    "bi.card2.tag":             "Itinéraire",
+    "bi.card2.date":            "15 mai 2026",
+    "bi.card2.readtime":        "14 min de lecture",
+    "bi.card2.cat":             "Itinéraire",
+    "bi.card2.title":           "Que faire à Nice <em>en 3 jours.</em>",
+    "bi.card2.excerpt":         "L'itinéraire idéal : Jour 1 entre Vieux-Nice, Cours Saleya et Colline du Château. Jour 2 sur la Promenade et le Carré d'Or. Jour 3 à Cimiez ou en escapade vers Èze et Monaco. Avec horaires, prix et adresses des locaux.",
+    "bi.card2.cta":             "Lire l'itinéraire",
+
+    "bi.card3.tag":             "À paraître",
+    "bi.card3.date":            "Bientôt · juin 2026",
+    "bi.card3.cat":             "Gastronomie",
+    "bi.card3.title":           "Où manger <em>à Nice — sans piège touristique.</em>",
+    "bi.card3.excerpt":         "Les vraies tables niçoises — celles où les Niçois mangent. Cantines centenaires, étoilés, bistrots de quartier. 24 adresses sélectionnées personnellement par Maxime Delfosse.",
+    "bi.card3.cta":             "Prochaine parution",
+
+    "bi.quote":                "Nous n'écrivons pas des guides — nous transmettons une <em>manière d'habiter Nice.</em>",
+    "bi.quote.cite":           "Le journal Delfosse Properties · MMXXVI",
+
+    /* ============================================================
        BLOG : MEILLEURS QUARTIERS DE NICE
        ============================================================ */
     "blog.q.meta":             "Guide N° I — Quartiers",
@@ -1649,6 +1688,45 @@ const I18N = {
     "foot.journal":            "The journal",
     "blog.quartiers.title":    "Best neighbourhoods in Nice",
     "blog.3jours.title":       "What to do in Nice in 3 days",
+
+    /* ============================================================
+       BLOG INDEX PAGE /blog/
+       ============================================================ */
+    "bi.hero.meta":            "The journal · MMXXVI",
+    "bi.hero.metaCity":        "Nice · French Riviera",
+    "bi.hero.eyebrow":         "The journal",
+    "bi.hero.title":           "Notebooks from Nice <em>and the Riviera.</em>",
+    "bi.hero.lede":            "Guides, itineraries and local addresses — the traveller's reading before the journey. Carefully chosen, written without fluff.",
+    "bi.hero.scroll":          "Articles",
+    "bi.hero.credit":          "2 articles · New release every month",
+    "bi.section.eyebrow":      "All articles",
+    "bi.section.title":        "The current <em>selection.</em>",
+
+    "bi.card1.tag":             "Practical guide",
+    "bi.card1.date":            "May 15, 2026",
+    "bi.card1.readtime":        "12 min read",
+    "bi.card1.cat":             "Guide",
+    "bi.card1.title":           "The best neighbourhoods of Nice to stay <em>in 2026.</em>",
+    "bi.card1.excerpt":         "Honest comparison of 8 Nice neighbourhoods — Old Nice, Carré d'Or, Musiciens, Port Lympia, Cimiez, Promenade des Anglais. For whom, at what price, at what distance from the sea. No fluff.",
+    "bi.card1.cta":             "Read the guide",
+
+    "bi.card2.tag":             "Itinerary",
+    "bi.card2.date":            "May 15, 2026",
+    "bi.card2.readtime":        "14 min read",
+    "bi.card2.cat":             "Itinerary",
+    "bi.card2.title":           "What to do in Nice <em>in 3 days.</em>",
+    "bi.card2.excerpt":         "The ideal itinerary: Day 1 between Old Nice, Cours Saleya and Castle Hill. Day 2 along the Promenade and the Carré d'Or. Day 3 in Cimiez or a day trip to Èze and Monaco. With schedules, prices and local addresses.",
+    "bi.card2.cta":             "Read the itinerary",
+
+    "bi.card3.tag":             "Coming soon",
+    "bi.card3.date":            "Soon · June 2026",
+    "bi.card3.cat":             "Gastronomy",
+    "bi.card3.title":           "Where to eat <em>in Nice — without the tourist traps.</em>",
+    "bi.card3.excerpt":         "The real Niçoise tables — where locals eat. Century-old canteens, Michelin stars, neighbourhood bistros. 24 addresses personally selected by Maxime Delfosse.",
+    "bi.card3.cta":             "Next issue",
+
+    "bi.quote":                "We don't write guides — we pass on a <em>way of inhabiting Nice.</em>",
+    "bi.quote.cite":           "The Delfosse Properties journal · MMXXVI",
 
     /* ============================================================
        BLOG : BEST NEIGHBOURHOODS IN NICE
