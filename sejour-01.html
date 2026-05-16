@@ -29,6 +29,7 @@
   <link rel="stylesheet" href="css/style.css?v=f7952" />
   <script src="js/lazy-leaflet.js?v=f7952" defer></script>
   <link rel="stylesheet" href="css/sejour.css?v=f7952" />
+  <link rel="stylesheet" href="css/calendar.css?v=cal1" />
 
   <!-- Schema.org JSON-LD : Apartment + Product/AggregateRating + Breadcrumb + FAQ -->
   <script type="application/ld+json">
@@ -318,6 +319,14 @@
     </div>
   </section>
 
+  <!-- Calendrier disponibilites iCal -->
+  <section class="sejour-calendar" data-overlay="2" style="padding:clamp(60px,8vw,120px) var(--gutter);max-width:1100px;margin:0 auto">
+    <header class="section-head center" style="margin-bottom:clamp(24px,3vw,40px)">
+      <p class="eyebrow light"><span class="eyebrow-num">∞</span> <span data-i18n="sec.calendar">Calendrier</span></p>
+      <h2 class="h-display light" data-i18n="calendar.title" data-i18n-html data-kinetic>Disponibilités <em>en direct.</em></h2>
+    </header>
+    <div data-dp-calendar="01" data-airbnb-url="https://www.airbnb.fr/rooms/1361669686960380718"></div>
+  </section>
   <section class="sejour-cta" data-overlay="3">
     <div class="cta-wrap">
       <p class="eyebrow light"><span class="eyebrow-num">V</span> <span data-i18n="sec.cta">Disponible sur Airbnb</span></p>
@@ -352,7 +361,7 @@
     </div>
   </footer>
 
-  <script src="js/i18n.js?v=f7952"></script>
+  <script src="js/i18n.js?v=cal1"></script>
   <script src="js/app.js?v=f7952"></script>
   <script src="js/video-bg.js?v=f7952"></script>
   <script>
@@ -518,5 +527,6 @@
     <div class="lightbox-thumbs" id="lbThumbs"></div>
   </div>
   <script src="js/custom-cursor.js?v=c1" defer></script>
+  <script src="js/calendar-widget.js?v=cal1" defer></script>
 </body>
 </html>

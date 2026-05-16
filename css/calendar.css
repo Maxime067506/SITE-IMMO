@@ -1,0 +1,183 @@
+/* ============================================================
+   Delfosse Properties — Calendrier de disponibilité
+   ============================================================
+   Style elegant et premium, coherent avec le branding :
+   - Typo Cormorant Garamond pour les noms de mois
+   - Mono pour les jours/dates
+   - Accent dore pour les highlights
+   - Couleurs : cream sur fond marine semi-transparent
+   ============================================================ */
+
+.dp-cal{
+  margin:clamp(40px,5vw,72px) 0;
+  padding:clamp(24px,3vw,40px);
+  background:linear-gradient(180deg, rgba(10,22,40,.5) 0%, rgba(20,35,61,.5) 100%);
+  border:1px solid rgba(212,175,108,.2);
+  border-radius:6px;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  box-shadow:0 20px 60px -20px rgba(0,0,0,.4);
+}
+
+.dp-cal-head{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;margin-bottom:clamp(20px,2.5vw,32px);
+  padding-bottom:16px;border-bottom:1px solid rgba(212,175,108,.18);
+}
+.dp-cal-title{
+  font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--accent-lt);font-weight:500;
+  display:flex;align-items:center;gap:12px;
+}
+.dp-cal-title::before{
+  content:"";display:inline-block;width:24px;height:1px;background:var(--accent-lt);
+}
+.dp-cal-status{
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(245,237,224,.5);
+}
+
+.dp-cal-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(24px,3vw,40px);
+}
+@media (max-width:680px){
+  .dp-cal-grid{grid-template-columns:1fr}
+}
+
+.dp-cal-month{
+  display:flex;flex-direction:column;gap:14px;
+}
+.dp-cal-month-head{
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--serif);font-style:italic;font-weight:300;
+  font-size:clamp(20px,2.2vw,26px);
+  color:var(--cream);
+}
+.dp-cal-month-head .nav{
+  display:flex;gap:8px;
+}
+.dp-cal-month-nav-btn{
+  width:32px;height:32px;border-radius:50%;
+  border:1px solid rgba(212,175,108,.35);
+  background:transparent;color:var(--accent-lt);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:12px;
+  transition:all .2s ease;
+}
+.dp-cal-month-nav-btn:hover{
+  background:rgba(212,175,108,.15);border-color:var(--accent-lt);
+}
+.dp-cal-month-nav-btn:disabled{
+  opacity:.3;cursor:not-allowed;
+}
+
+.dp-cal-weekdays{
+  display:grid;grid-template-columns:repeat(7, 1fr);
+  gap:4px;margin-bottom:8px;
+}
+.dp-cal-weekday{
+  font-family:var(--mono);font-size:10px;letter-spacing:.15em;
+  text-transform:uppercase;text-align:center;
+  color:rgba(245,237,224,.4);padding:6px 0;
+}
+
+.dp-cal-days{
+  display:grid;grid-template-columns:repeat(7, 1fr);
+  gap:4px;
+}
+.dp-cal-day{
+  aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:13px;color:rgba(245,237,224,.85);
+  border:1px solid transparent;border-radius:4px;
+  background:rgba(245,237,224,.04);
+  transition:all .2s ease;
+  position:relative;
+}
+.dp-cal-day.empty{
+  background:transparent;border:none;color:transparent;pointer-events:none;
+}
+.dp-cal-day.past{
+  color:rgba(245,237,224,.25);
+  background:transparent;
+  text-decoration:line-through;
+  text-decoration-color:rgba(245,237,224,.2);
+}
+.dp-cal-day.today{
+  border-color:var(--accent-lt);
+  color:var(--accent-lt);font-weight:600;
+}
+.dp-cal-day.today::after{
+  content:"";position:absolute;bottom:4px;left:50%;
+  transform:translateX(-50%);
+  width:4px;height:4px;border-radius:50%;
+  background:var(--accent-lt);
+}
+.dp-cal-day.booked{
+  background:rgba(10,22,40,.65);
+  color:rgba(245,237,224,.3);
+  text-decoration:line-through;
+  text-decoration-color:rgba(212,175,108,.4);
+  cursor:not-allowed;
+}
+.dp-cal-day.available{
+  background:rgba(212,175,108,.10);
+  color:var(--cream);
+  cursor:pointer;
+}
+.dp-cal-day.available:hover{
+  background:rgba(212,175,108,.25);
+  border-color:var(--accent-lt);
+  transform:scale(1.05);
+}
+
+.dp-cal-legend{
+  margin-top:clamp(20px,2.5vw,32px);
+  padding-top:16px;
+  border-top:1px solid rgba(212,175,108,.18);
+  display:flex;flex-wrap:wrap;gap:24px;justify-content:center;
+  font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(245,237,224,.6);
+}
+.dp-cal-legend-item{display:flex;align-items:center;gap:10px}
+.dp-cal-legend-swatch{
+  width:14px;height:14px;border-radius:3px;flex-shrink:0;
+}
+.dp-cal-legend-swatch.available{background:rgba(212,175,108,.25);border:1px solid var(--accent-lt)}
+.dp-cal-legend-swatch.booked{background:rgba(10,22,40,.65);border:1px solid rgba(212,175,108,.3)}
+.dp-cal-legend-swatch.today{border:2px solid var(--accent-lt);background:transparent}
+
+.dp-cal-cta{
+  margin-top:clamp(20px,2.5vw,32px);
+  text-align:center;
+}
+.dp-cal-cta .btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:14px 28px;background:var(--accent-dk);color:#0A1628;
+  text-decoration:none;font-family:var(--mono);font-size:11px;
+  letter-spacing:.18em;text-transform:uppercase;
+  border-radius:999px;transition:all .25s ease;font-weight:500;
+}
+.dp-cal-cta .btn:hover{
+  background:var(--accent-lt);transform:translateY(-2px);
+  box-shadow:0 12px 28px -8px rgba(212,175,108,.5);
+}
+
+.dp-cal-error{
+  padding:24px;text-align:center;
+  font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+  color:rgba(245,237,224,.5);
+}
+.dp-cal-loading{
+  padding:60px;text-align:center;
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(245,237,224,.4);
+}
+.dp-cal-loading::after{
+  content:"·";display:inline-block;animation:dp-cal-pulse 1.4s ease-in-out infinite;
+  margin-left:8px;color:var(--accent-lt);
+}
+@keyframes dp-cal-pulse{
+  0%,100%{opacity:.3}
+  50%{opacity:1}
+}

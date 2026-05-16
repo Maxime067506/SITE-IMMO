@@ -652,6 +652,10 @@ const I18N = {
     "ap.stays.eyebrow":        "Les sept adresses",
     "ap.stays.title":          "Sept appartements, <em>une seule Riviera.</em>",
 
+    /* Calendrier sejour */
+    "sec.calendar":            "Calendrier",
+    "calendar.title":          "Disponibilités <em>en direct.</em>",
+
     /* ============================================================
        BLOG — articles et footer journal
        ============================================================ */
@@ -1680,6 +1684,10 @@ const I18N = {
 
     "ap.stays.eyebrow":        "The seven addresses",
     "ap.stays.title":          "Seven apartments, <em>one Riviera.</em>",
+
+    /* Calendar sejour */
+    "sec.calendar":            "Calendar",
+    "calendar.title":          "Live <em>availability.</em>",
 
     /* ============================================================
        BLOG — articles and journal footer
