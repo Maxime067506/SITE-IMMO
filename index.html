@@ -29,8 +29,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="css/style.css?v=kc2" />
+  <script src="js/lazy-leaflet.js?v=l1" defer></script>
 
   <!-- SAFARI iOS — FIX INLINE (après le stylesheet externe pour override).
        Force la visibilité du contenu du hero même si CSS externe ne charge pas
@@ -56,43 +56,103 @@
     .hero-film-content .lede{color:#F5EDE0 !important;text-shadow:0 2px 14px rgba(0,0,0,.55)}
   </style>
 
-  <!-- Schema.org — LodgingBusiness (SEO rich snippets) -->
+  <!-- Schema.org — @graph : LodgingBusiness + Organization + Person + WebSite (rich snippets, sitelinks search box) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "LodgingBusiness",
-    "name": "Delfosse Properties",
-    "description": "Location saisonnière / Appartement Nice Côte d'Azur — Sept adresses d'exception orchestrées pour des voyageurs exigeants.",
-    "url": "https://delfosseproperties.com/",
-    "image": "https://delfosseproperties.com/img/nice-sunset_wm.jpg?v=wmC",
-    "telephone": "+33626671767",
-    "email": "delfossemaximeappart@gmail.com",
-    "priceRange": "€75–€200",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Nice",
-      "addressRegion": "Provence-Alpes-Côte d'Azur",
-      "postalCode": "06000",
-      "addressCountry": "FR"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 43.7102,
-      "longitude": 7.2620
-    },
-    "areaServed": {
-      "@type": "City",
-      "name": "Nice",
-      "sameAs": "https://fr.wikipedia.org/wiki/Nice"
-    },
-    "founder": {
-      "@type": "Person",
-      "name": "Maxime Delfosse"
-    },
-    "numberOfRooms": 7,
-    "hasMap": "https://www.google.com/maps/place/Nice,+France",
-    "sameAs": [
-      "https://www.airbnb.fr/"
+    "@graph": [
+      {
+        "@type": "LodgingBusiness",
+        "@id": "https://delfosseproperties.com/#lodgingbusiness",
+        "name": "Delfosse Properties",
+        "alternateName": "Delfosse Properties Nice",
+        "description": "Location saisonnière / Appartement Nice Côte d'Azur — Sept adresses d'exception orchestrées pour des voyageurs exigeants.",
+        "url": "https://delfosseproperties.com/",
+        "image": "https://delfosseproperties.com/img/og-card.jpg",
+        "logo": "https://delfosseproperties.com/img/delfosse-properties-logo-dark.svg",
+        "telephone": "+33626671767",
+        "email": "delfossemaximeappart@gmail.com",
+        "priceRange": "€75–€200",
+        "currenciesAccepted": "EUR",
+        "paymentAccepted": "Credit Card, Apple Pay, Google Pay (via Airbnb)",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Nice",
+          "addressRegion": "Provence-Alpes-Côte d'Azur",
+          "postalCode": "06000",
+          "addressCountry": "FR"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 43.7102,
+          "longitude": 7.2620
+        },
+        "areaServed": [
+          { "@type": "City", "name": "Nice", "sameAs": "https://fr.wikipedia.org/wiki/Nice" },
+          { "@type": "AdministrativeArea", "name": "Alpes-Maritimes" },
+          { "@type": "AdministrativeArea", "name": "Côte d'Azur" }
+        ],
+        "founder": { "@id": "https://delfosseproperties.com/a-propos.html#person" },
+        "numberOfRooms": 7,
+        "hasMap": "https://www.google.com/maps/place/Nice,+France",
+        "amenityFeature": [
+          { "@type": "LocationFeatureSpecification", "name": "Wi-Fi haut débit", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Climatisation", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Cuisine équipée", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Linge de maison fourni", "value": true },
+          { "@type": "LocationFeatureSpecification", "name": "Conciergerie 7j/7", "value": true }
+        ],
+        "sameAs": [
+          "https://www.airbnb.fr/users/show/PLACEHOLDER_AIRBNB_ID",
+          "https://www.instagram.com/PLACEHOLDER_INSTAGRAM_HANDLE",
+          "https://www.facebook.com/PLACEHOLDER_FACEBOOK_PAGE"
+        ]
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://delfosseproperties.com/#organization",
+        "name": "Delfosse Properties",
+        "url": "https://delfosseproperties.com/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://delfosseproperties.com/img/delfosse-properties-logo-dark.svg",
+          "width": 1500,
+          "height": 1000
+        },
+        "founder": { "@id": "https://delfosseproperties.com/a-propos.html#person" },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Nice",
+          "addressRegion": "Provence-Alpes-Côte d'Azur",
+          "postalCode": "06000",
+          "addressCountry": "FR"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+33626671767",
+          "email": "delfossemaximeappart@gmail.com",
+          "contactType": "reservations",
+          "availableLanguage": ["fr", "en"],
+          "areaServed": "FR"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://delfosseproperties.com/#website",
+        "url": "https://delfosseproperties.com/",
+        "name": "Delfosse Properties",
+        "description": "Location saisonnière d'appartements d'exception à Nice, sur la Côte d'Azur.",
+        "publisher": { "@id": "https://delfosseproperties.com/#organization" },
+        "inLanguage": ["fr-FR", "en-US"],
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://delfosseproperties.com/?q={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
+      }
     ]
   }
   </script>
@@ -548,7 +608,6 @@
     </div>
   </footer>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
   <script src="js/i18n.js?v=bl1"></script>
   <script src="js/app.js?v=wmC"></script>
   <script src="js/video-bg.js?v=b9"></script>

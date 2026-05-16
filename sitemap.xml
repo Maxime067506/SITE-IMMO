@@ -74,6 +74,14 @@
     <priority>0.9</priority>
   </url>
 
+  <!-- Blog — Index Journal -->
+  <url>
+    <loc>https://delfosseproperties.com/blog/</loc>
+    <lastmod>2026-05-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <!-- Blog — Article : Meilleurs quartiers de Nice où loger -->
   <url>
     <loc>https://delfosseproperties.com/blog/meilleurs-quartiers-nice-ou-loger.html</loc>

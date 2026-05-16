@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0A1628" />
+
+  <meta name="description" content="Le journal Delfosse Properties — guides, itinéraires et carnets de Nice et de la Côte d'Azur. Les meilleurs quartiers où loger, que faire en 3 jours, et bien plus." />
+  <meta name="author" content="Delfosse Properties" />
+  <title>Le journal — Guides Nice & Côte d'Azur | Delfosse Properties</title>
+
+  <link rel="canonical" href="https://delfosseproperties.com/blog/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Delfosse Properties" />
+  <meta property="og:title" content="Le journal — Guides Nice & Côte d'Azur | Delfosse Properties" />
+  <meta property="og:description" content="Le journal Delfosse Properties — guides, itinéraires et carnets de Nice et de la Côte d'Azur." />
+  <meta property="og:url" content="https://delfosseproperties.com/blog/" />
+  <meta property="og:image" content="https://delfosseproperties.com/img/og-card.jpg" />
+  <meta property="og:locale" content="fr_FR" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Le journal — Guides Nice & Côte d'Azur | Delfosse Properties" />
+  <meta name="twitter:description" content="Guides, itinéraires et carnets de Nice et de la Côte d'Azur." />
+  <meta name="twitter:image" content="https://delfosseproperties.com/img/og-card.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css?v=kc2" />
+  <link rel="stylesheet" href="../css/blog.css?v=v3" />
+
+  <style>
+    .hero-film{min-height:100vh !important;min-height:100svh !important;display:flex;align-items:flex-end}
+    .hero-film-content,.hero-film-content > *{opacity:1 !important;visibility:visible !important;transform:none !important;animation:none !important}
+    .hero-film-content [data-kinetic] .kw{opacity:1 !important;transform:none !important}
+    .hero-film-content .eyebrow{color:rgba(245,237,224,.8) !important}
+    .hero-film-content h1,.hero-film-content .lede{color:#F5EDE0 !important;text-shadow:0 2px 14px rgba(0,0,0,.55)}
+
+    /* ===== Blog index : grille d'articles ===== */
+    .blog-index{
+      padding:clamp(60px,8vw,120px) var(--gutter);
+      max-width:1240px;margin:0 auto;
+    }
+    .blog-index-grid{
+      display:grid;grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));
+      gap:clamp(32px, 4vw, 56px);
+      margin-top:clamp(48px, 6vw, 80px);
+    }
+    .blog-card{
+      display:flex;flex-direction:column;
+      background:#F5EDE0;border:1px solid rgba(212,175,108,.3);
+      border-radius:6px;overflow:hidden;
+      transition:transform .35s ease, box-shadow .35s ease;
+      box-shadow:0 24px 56px -24px rgba(10,22,40,.45);
+      text-decoration:none;color:inherit;
+    }
+    .blog-card:hover{
+      transform:translateY(-6px);
+      box-shadow:0 36px 80px -24px rgba(10,22,40,.55), 0 0 0 1px rgba(212,175,108,.35);
+    }
+    .blog-card-img{
+      position:relative;aspect-ratio:16/9;overflow:hidden;
+      background:linear-gradient(135deg, #1a2c47, #0A1628);
+    }
+    .blog-card-img img{
+      width:100%;height:100%;object-fit:cover;display:block;
+      transition:transform 1.4s cubic-bezier(.22,1,.36,1);
+    }
+    .blog-card:hover .blog-card-img img{transform:scale(1.04)}
+    .blog-card-img::after{
+      content:"";position:absolute;inset:auto 0 0 0;height:50%;
+      background:linear-gradient(to top, rgba(10,22,40,.7) 0%, transparent 100%);
+      pointer-events:none;
+    }
+    .blog-card-tag{
+      position:absolute;top:18px;left:18px;z-index:2;
+      padding:6px 14px;background:rgba(245,237,224,.94);
+      border-radius:999px;
+      font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+      color:var(--accent-dk);font-weight:500;
+    }
+    .blog-card-body{
+      padding:clamp(24px,3vw,36px) clamp(20px,2.5vw,30px);
+      display:flex;flex-direction:column;flex:1;
+    }
+    .blog-card-meta{
+      font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+      color:var(--ink-2);margin-bottom:12px;display:flex;gap:12px;
+    }
+    .blog-card-meta .sep{opacity:.4}
+    .blog-card h2{
+      font-family:var(--serif);font-weight:400;line-height:1.2;
+      font-size:clamp(22px,2.4vw,30px);color:#0A1628;margin:0 0 14px;
+    }
+    .blog-card h2 em{font-style:italic;color:var(--accent-dk);font-weight:300}
+    .blog-card-excerpt{
+      font-size:15.5px;line-height:1.75;color:#3a4456;
+      margin:0 0 24px;flex:1;
+    }
+    .blog-card-cta{
+      font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+      color:var(--accent-dk);align-self:flex-start;
+      display:inline-flex;align-items:center;gap:8px;
+      padding-top:16px;border-top:1px solid rgba(212,175,108,.3);
+      width:100%;
+    }
+    .blog-card-cta::after{
+      content:"→";margin-left:auto;transition:transform .25s ease;
+    }
+    .blog-card:hover .blog-card-cta::after{transform:translateX(6px)}
+  </style>
+
+  <!-- Schema.org : Blog + CollectionPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Blog",
+        "@id": "https://delfosseproperties.com/blog/#blog",
+        "url": "https://delfosseproperties.com/blog/",
+        "name": "Le journal — Delfosse Properties",
+        "description": "Guides, itinéraires et carnets de Nice et de la Côte d'Azur, signés Delfosse Properties.",
+        "inLanguage": "fr-FR",
+        "publisher": {
+          "@type": "Organization",
+          "@id": "https://delfosseproperties.com/#organization",
+          "name": "Delfosse Properties"
+        },
+        "blogPost": [
+          {
+            "@type": "BlogPosting",
+            "headline": "Les meilleurs quartiers de Nice où loger en 2026 — Guide complet",
+            "url": "https://delfosseproperties.com/blog/meilleurs-quartiers-nice-ou-loger.html",
+            "datePublished": "2026-05-09T10:00:00+02:00",
+            "dateModified": "2026-05-16T10:00:00+02:00"
+          },
+          {
+            "@type": "BlogPosting",
+            "headline": "Que faire à Nice en 3 jours — Itinéraire complet 2026",
+            "url": "https://delfosseproperties.com/blog/que-faire-a-nice-en-3-jours.html",
+            "datePublished": "2026-05-09T10:00:00+02:00",
+            "dateModified": "2026-05-16T10:00:00+02:00"
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://delfosseproperties.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Le journal", "item": "https://delfosseproperties.com/blog/" }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <!-- =================== HEADER =================== -->
+  <header class="site-header" id="siteHeader">
+    <a href="../index.html" class="brand-word" aria-label="Delfosse Properties — Accueil">
+      <span class="brand-mono">Delfosse</span>
+      <span class="brand-sub">Properties</span>
+    </a>
+    <nav class="nav" aria-label="Principal">
+      <a href="../index.html#accueil" data-i18n="nav.home">Accueil</a>
+      <a href="../a-propos.html" data-i18n="nav.about">À propos</a>
+      <a href="../index.html#sejours" data-i18n="nav.stays">Séjours</a>
+      <a href="../index.html#carte" data-i18n="nav.map">Carte</a>
+      <a href="../index.html#avis" data-i18n="nav.reviews">Avis</a>
+      <a href="../index.html#carousel" class="nav-cta" data-i18n="carousel.eyebrow">Réserver</a>
+      <span class="nice-clock nice-clock--nav" aria-hidden="true" title="Heure locale de Nice">Nice · --:--</span>
+    </nav>
+    <div class="header-cta">
+      <span class="nice-clock nice-clock--header" aria-hidden="true" title="Heure locale de Nice">Nice · --:--</span>
+      <div class="lang-switch" role="group" aria-label="Langue">
+        <button type="button" data-lang="fr" class="is-active">FR</button>
+        <span class="lang-sep">·</span>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+      <a href="../login.html" class="btn-connect" aria-label="Connexion">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+        <span data-i18n="nav.login">Connexion</span>
+      </a>
+      <button class="burger" id="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <!-- =================== HERO FILM =================== -->
+  <section class="hero-film" id="hero" data-overlay="0">
+    <div class="blog-film-meta" aria-hidden="true">
+      <span class="rec"></span>
+      <span>Le journal · MMXXVI</span>
+      <span class="sep">·</span>
+      <span>Nice · Riviera française</span>
+    </div>
+
+    <div class="hero-film-content blog-film-content">
+      <p class="eyebrow light"><span class="eyebrow-num">∞</span> Le journal</p>
+      <h1 class="display light" data-kinetic data-kinetic-delay="200">
+        Carnets de Nice <em>et de la Riviera.</em>
+      </h1>
+      <p class="lede light">
+        Guides, itinéraires et adresses de locaux — la lecture des voyageurs avant le voyage. Choisi avec soin, écrit sans langue de bois.
+      </p>
+    </div>
+
+    <a class="scroll-hint" href="#articles" aria-label="Voir les articles">
+      <span class="scroll-hint-label">Articles</span>
+      <span class="scroll-hint-line" aria-hidden="true"></span>
+    </a>
+
+    <div class="blog-film-credit" aria-hidden="true">
+      <span>↳</span>
+      <span>2 articles · Nouvelle parution chaque mois</span>
+    </div>
+  </section>
+
+  <!-- Respiration -->
+  <div class="breath-zone" aria-hidden="true" data-label="Le journal · Riviera"></div>
+
+  <!-- =================== ARTICLES =================== -->
+  <section class="blog-index gp-level-1 gp-on-video" id="articles" data-overlay="1">
+    <header class="section-head center">
+      <p class="eyebrow light"><span class="eyebrow-num">I</span> Tous les articles</p>
+      <h2 class="h-display light" data-kinetic>La sélection <em>du moment.</em></h2>
+    </header>
+
+    <div class="blog-index-grid">
+
+      <!-- Article 1 : Meilleurs quartiers -->
+      <a href="meilleurs-quartiers-nice-ou-loger.html" class="blog-card" aria-label="Lire : Les meilleurs quartiers de Nice où loger en 2026">
+        <div class="blog-card-img">
+          <span class="blog-card-tag">Guide pratique</span>
+          <picture>
+            <source type="image/webp" srcset="../img/airbnb/01-amiral/photo-01_wm.webp?v=wmC" />
+            <img src="../img/airbnb/01-amiral/photo-01_wm.jpg?v=wmC" alt="Vue sur le Port Lympia depuis un balcon Delfosse Properties — guide des quartiers de Nice" loading="lazy" decoding="async" />
+          </picture>
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span>15 mai 2026</span>
+            <span class="sep">·</span>
+            <span>12 min de lecture</span>
+          </div>
+          <h2>Les meilleurs quartiers de Nice où loger <em>en 2026.</em></h2>
+          <p class="blog-card-excerpt">
+            Comparatif honnête de 8 quartiers de Nice — Vieux-Nice, Carré d'Or, Musiciens, Port Lympia, Cimiez, Promenade des Anglais. Pour qui, à quel prix, à quelle distance de la mer. Sans langue de bois.
+          </p>
+          <span class="blog-card-cta">Lire le guide complet</span>
+        </div>
+      </a>
+
+      <!-- Article 2 : 3 jours à Nice -->
+      <a href="que-faire-a-nice-en-3-jours.html" class="blog-card" aria-label="Lire : Que faire à Nice en 3 jours — Itinéraire complet 2026">
+        <div class="blog-card-img">
+          <span class="blog-card-tag">Itinéraire</span>
+          <picture>
+            <source type="image/webp" srcset="../img/airbnb/03-basilique/photo-01_wm.webp?v=wmC" />
+            <img src="../img/airbnb/03-basilique/photo-01_wm.jpg?v=wmC" alt="Appartement avenue Notre-Dame Nice — itinéraire 3 jours Vieux-Nice, Promenade, Cimiez" loading="lazy" decoding="async" />
+          </picture>
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span>15 mai 2026</span>
+            <span class="sep">·</span>
+            <span>14 min de lecture</span>
+          </div>
+          <h2>Que faire à Nice <em>en 3 jours.</em></h2>
+          <p class="blog-card-excerpt">
+            L'itinéraire idéal : Jour 1 entre Vieux-Nice, Cours Saleya et Colline du Château. Jour 2 sur la Promenade et le Carré d'Or. Jour 3 à Cimiez ou en escapade vers Èze et Monaco. Avec horaires, prix et adresses des locaux.
+          </p>
+          <span class="blog-card-cta">Lire l'itinéraire</span>
+        </div>
+      </a>
+
+      <!-- Placeholder pour futurs articles : à dupliquer -->
+      <!-- Article 3 : à venir -->
+      <article class="blog-card" style="opacity:.55;pointer-events:none">
+        <div class="blog-card-img">
+          <span class="blog-card-tag">Prochainement</span>
+          <picture>
+            <source type="image/webp" srcset="../img/nice-sunset_wm.webp?v=wmC" />
+            <img src="../img/nice-sunset_wm.jpg?v=wmC" alt="Nice au crépuscule — prochain article du journal Delfosse Properties" loading="lazy" decoding="async" />
+          </picture>
+        </div>
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span>À paraître</span>
+          </div>
+          <h2>Où manger <em>à Nice — sans piège touristique.</em></h2>
+          <p class="blog-card-excerpt">
+            Les vraies tables niçoises — celles où les Niçois mangent. Cantines, étoilés, bistrots de quartier. 24 adresses sélectionnées par Maxime Delfosse.
+          </p>
+          <span class="blog-card-cta">Bientôt</span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- =================== FOOTER =================== -->
+  <footer class="site-footer">
+    <div class="foot-grid">
+      <div>
+        <div class="brand-word brand-footer">
+          <span class="brand-mono">Delfosse</span>
+          <span class="brand-sub">Properties</span>
+        </div>
+        <p class="foot-tag" data-i18n="foot.tag">Séjours d'exception, à Nice sur la French Riviera.</p>
+      </div>
+      <div>
+        <h4 data-i18n="foot.navTitle">Navigation</h4>
+        <ul>
+          <li><a href="../index.html#sejours" data-i18n="nav.allStays">Tous les séjours</a></li>
+          <li><a href="../a-propos.html" data-i18n="nav.about">À propos</a></li>
+          <li><a href="../index.html#carte" data-i18n="nav.map">Carte</a></li>
+          <li><a href="../index.html#avis" data-i18n="nav.reviews">Avis</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 data-i18n="foot.journal">Le journal</h4>
+        <ul>
+          <li><a href="meilleurs-quartiers-nice-ou-loger.html" data-i18n="blog.quartiers.title">Meilleurs quartiers de Nice</a></li>
+          <li><a href="que-faire-a-nice-en-3-jours.html" data-i18n="blog.3jours.title">Que faire à Nice en 3 jours</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© MMXXVI Delfosse Properties · <span data-i18n="foot.city">Nice, French Riviera</span></span>
+      <span><a href="../mentions-legales.html" data-i18n="foot.legal">Mentions légales</a> · <a href="../cgv.html" data-i18n="foot.tos">CGV</a> · <a href="../politique-confidentialite.html" data-i18n="foot.privacy">Confidentialité</a></span>
+    </div>
+  </footer>
+
+  <script src="../js/i18n.js?v=bl1"></script>
+  <script src="../js/video-bg.js?v=b9"></script>
+</body>
+</html>
