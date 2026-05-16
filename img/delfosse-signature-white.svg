@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 600" preserveAspectRatio="xMidYMid meet">
+  <title>Delfosse Properties</title>
+  <desc>Signature complete Delfosse Properties — monogramme + texte, blanc sur transparent</desc>
+
+  <!-- ========================================
+       DP MONOGRAMME (blanc)
+       Reprise des paths du monogram-white.svg
+       Re-positionne dans viewBox 512x600
+       ======================================== -->
+  <g fill="#ffffff" stroke="none">
+    <!-- D du monogramme (entrelace) -->
+    <path d="M22 662 62 659C108 656 113 647 113 569V95C113 66 104 44 88 36L57 20V-3C103 -1 150 0 196 0C244 0 293 -3 341 -3C469 -3 565 30 635 99C707 170 751 278 751 385C751 571 613 692 402 692C344 692 286 689 228 689C159 689 91 690 22 692ZM208 49V644C234 649 269 652 319 652C430 652 520 632 573 579C621 531 644 459 644 359C644 247 610 161 544 107C484 58 424 41 311 41C265 41 234 43 208 49Z"
+          transform="translate(170,360) scale(0.34,-0.34)"/>
+    <!-- P du monogramme (entrelace) -->
+    <path d="M22 -3C71 -1 119 0 168 0C217 0 266 -1 315 -3V27L267 30C221 33 216 41 216 120V642C251 650 280 654 314 654C422 654 480 604 480 509C480 419 419 356 332 356C311 356 296 358 270 366L280 330C304 325 318 324 338 324C475 324 580 417 580 537C580 633 502 692 375 692C318 692 262 689 205 689C144 689 84 690 23 692V662L68 659C113 656 121 643 121 569V120C121 41 116 33 70 30L22 27Z"
+          transform="translate(283,360) scale(0.34,-0.34)"/>
+  </g>
+
+  <!-- ========================================
+       TEXTE "DELFOSSE PROPERTIES" (blanc)
+       Sous le monogramme, serif Cormorant Garamond
+       ======================================== -->
+  <g fill="#ffffff" font-family="'Cormorant Garamond', Georgia, 'Times New Roman', serif" text-anchor="middle">
+    <text x="256" y="480"
+          font-size="68"
+          font-weight="500"
+          letter-spacing="6">DELFOSSE</text>
+    <text x="256" y="535"
+          font-size="34"
+          font-weight="400"
+          letter-spacing="11">PROPERTIES</text>
+  </g>
+</svg>

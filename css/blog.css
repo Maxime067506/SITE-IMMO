@@ -334,13 +334,21 @@
 .blog-photo:hover img{filter:saturate(1.05)}
 
 /* ============================================================
-   Signature logo Delfosse en bas-droite de chaque illustration SVG
+   Signature logo Delfosse complete en bas-droite de chaque illustration
+   (DP monogramme + texte DELFOSSE PROPERTIES), blanc sur transparent
    ============================================================ */
 .blog-card-art{
   background:
-    /* Logo monogramme DP blanc, bottom-right, ~40px */
-    url('../img/delfosse-properties-monogram-white.svg') no-repeat right 16px bottom 16px / 38px auto,
+    /* Logo signature complet, bottom-right, ~78px */
+    url('../img/delfosse-signature-white.svg?v=sig1') no-repeat right 18px bottom 16px / auto 78px,
     linear-gradient(135deg, #14233D 0%, #0A1628 100%) !important;
+}
+@media (max-width:680px){
+  .blog-card-art{
+    background:
+      url('../img/delfosse-signature-white.svg?v=sig1') no-repeat right 14px bottom 12px / auto 62px,
+      linear-gradient(135deg, #14233D 0%, #0A1628 100%) !important;
+  }
 }
 
 /* ===== FALLBACK GLOBAL : assure visibilite minimale sur fond video ===== */
