@@ -22,7 +22,6 @@
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isTouch = matchMedia('(hover: none)').matches;
-  const isSmall = window.matchMedia('(max-width: 820px)').matches;
 
   // Détection iOS Safari — fixed + iframe peut poser problème historique.
   // On détecte précisément iPhone/iPad non-Chrome pour activer le fallback sticky.
@@ -33,14 +32,9 @@
     document.documentElement.classList.add('ios-safari');
   }
 
-  // ====== STRATEGIE MOBILE / iOS SAFARI ======
-  // L'iframe YouTube cross-domain combinée a backdrop-filter + position:sticky
-  // declenche des bugs de rendu sur iPhone Safari (carre bleu, contenu masque,
-  // overlay opaque). Solution propre : sur mobile, on n'injecte JAMAIS l'iframe.
-  // On garde le poster (LCP) avec Ken Burns => effet cinematique identique,
-  // zero bandwidth video, zero bug de rendu cross-domain.
-  // Desktop : iframe + overlay system inchanges.
-  const usePosterOnly = reducedMotion || isIOSSafari || isTouch || isSmall;
+  // STRATEGIE : iframe YouTube PARTOUT (desktop + mobile + iOS).
+  // Seul reduced-motion fait basculer en poster only (accessibilite).
+  const usePosterOnly = reducedMotion;
 
   /* ------------------ Niveaux B — IDENTIQUES desktop ↔ mobile ------------------ */
   // Règle du brief : « Les overlays glassmorphism et leurs niveaux » ne changent jamais

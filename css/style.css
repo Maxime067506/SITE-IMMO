@@ -89,14 +89,10 @@ html{
 }
 
 /* ============================================================
-   MOBILE SAFETY NET — robuste
-   Sur mobile, on neutralise tous les pieges de rendu iOS Safari :
-   - pas d'iframe YouTube (gere cote JS)
-   - pas de backdrop-filter (cause carre bleu opaque + flicker)
-   - pas de mix-blend-mode (lent et bugue)
-   - pas de curseur custom (touch device)
-   - pas de calendrier (recemment ajoute)
-   Desktop = inchange, toute la magie reste.
+   MOBILE SAFETY NET — minimal
+   Garde tout le systeme video-bg (iframe YouTube + overlays) sur
+   desktop ET mobile. On masque uniquement le calendrier (cause
+   reelle du carre bleu) + le curseur custom (touch device only).
    ============================================================ */
 @media (max-width: 820px){
   /* Curseur custom : NEVER affiche sur mobile (touch device) */
@@ -111,49 +107,8 @@ html{
   html.has-dp-cursor select{
     cursor:auto !important;
   }
-  /* Section calendrier sejour : MASQUEE sur mobile.
-     Le widget calendrier (recemment ajoute) causait un "carre bleu"
-     sur iPhone Safari. Sur mobile, les voyageurs voient les
-     disponibilites directement sur Airbnb via le CTA en bas de page. */
+  /* Section calendrier sejour : MASQUEE sur mobile (cause du carre bleu). */
   .sejour-calendar{display:none !important}
-
-  /* --- COUCHE VIDEO MOBILE-SAFE ---
-     Desactive backdrop-filter (cause de tous les bugs de rendu iOS Safari).
-     L'overlay reste, mais sans blur, et le grain est masque. */
-  .vbg-overlay{
-    backdrop-filter:none !important;
-    -webkit-backdrop-filter:none !important;
-  }
-  .vbg-grain{display:none !important}
-  /* Poster TOUJOURS visible sur mobile (on n'injecte pas l'iframe) */
-  .vbg-poster.is-hidden{opacity:1 !important}
-  /* Body fallback : si tout le systeme vbg echoue, on garde une image
-     de fond directement sur le body. Plus de carre bleu navy possible. */
-  body.has-video-bg{
-    background-color:var(--nvy-deep);
-    background-image:url('../img/nice-sunset.jpg');
-    background-size:cover;
-    background-position:center;
-    background-attachment:scroll; /* iOS Safari : fixed bug, on prefere scroll */
-  }
-  /* Force le wrap a etre transparent au-dessus du poster pour eviter
-     que le bg navy fasse un carre opaque si jamais le poster echoue */
-  .vbg-wrap{background:transparent !important}
-}
-
-/* ============================================================
-   iOS SAFARI — neutralise position:sticky workaround
-   Sans iframe, le sticky n'est plus necessaire ET il declenche
-   des bugs de stacking context. On revient en position:fixed.
-   ============================================================ */
-html.ios-safari .vbg-wrap,
-html.ios-safari .vbg-overlay,
-html.ios-safari .vbg-grain{
-  position:fixed !important;
-  top:0 !important;
-  inset:0 !important;
-  margin-bottom:0 !important;
-  height:100% !important;
 }
 body{
   margin:0;background:var(--bg);color:var(--ink);
