@@ -90,4 +90,28 @@
     <priority>0.7</priority>
   </url>
 
+  <!-- Mentions légales -->
+  <url>
+    <loc>https://delfosseproperties.com/mentions-legales.html</loc>
+    <lastmod>2026-05-16</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- CGV / Conditions Générales -->
+  <url>
+    <loc>https://delfosseproperties.com/cgv.html</loc>
+    <lastmod>2026-05-16</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- Politique de confidentialité -->
+  <url>
+    <loc>https://delfosseproperties.com/politique-confidentialite.html</loc>
+    <lastmod>2026-05-16</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
 </urlset>
