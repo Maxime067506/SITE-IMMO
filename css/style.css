@@ -100,6 +100,21 @@ html{
     overflow-y:auto !important;
     overflow-x:hidden;
   }
+  /* OVERLAY VIDEO : FIX iOS Safari "carre bleu"
+     Les data-overlay=2 et 3 rendaient l'overlay quasi opaque (58% et 92%)
+     ce qui creait un "carre bleu" qui bloquait le contenu sur mobile.
+     On force toutes les variables d'overlay a un niveau leger sur mobile,
+     peu importe la section consultee. La video reste subtile en fond. */
+  html{
+    --video-ov:rgba(10,22,40,.12) !important;    /* tres leger */
+    --video-blur:0px !important;                  /* pas de blur */
+    --video-grain:0 !important;                   /* pas de grain */
+  }
+  .vbg-overlay,
+  .vbg-grain{
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+  }
   /* Curseur custom : NEVER affiche sur mobile */
   .dp-cursor-dot,
   .dp-cursor-ring{display:none !important}
@@ -117,11 +132,18 @@ html{
     min-height:auto !important;
     min-height:100svh;
   }
-  /* Vbg couches : pas de blur sur mobile (perf + risque rendu vide) */
-  .vbg-overlay,
-  .vbg-grain{
+  /* Section calendrier sejour : pas de fond bleu sur mobile */
+  .sejour-calendar .dp-cal{
+    background:transparent !important;
+    border:none !important;
+    box-shadow:none !important;
     backdrop-filter:none !important;
     -webkit-backdrop-filter:none !important;
+    padding:clamp(16px,3vw,24px) !important;
+  }
+  /* Pareil pour les sections data-overlay=3 (CTA "Reservez") */
+  .sejour-cta{
+    background:rgba(10,22,40,.7) !important;
   }
 }
 body{
