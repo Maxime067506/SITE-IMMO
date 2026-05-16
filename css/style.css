@@ -2771,6 +2771,60 @@ body.has-video-bg .hero-film-credit{
   [data-kinetic] .kw{transition:none;opacity:1;transform:none}
 }
 
+/* ============================================================
+   CURSEUR CUSTOM PREMIUM (cercle dore qui suit la souris)
+   ============================================================ */
+.dp-cursor-dot,
+.dp-cursor-ring{
+  position:fixed;top:0;left:0;
+  pointer-events:none;
+  z-index:99999;
+  will-change:transform;
+  /* Centre l'element sur la position de la souris */
+  margin-left:0;margin-top:0;
+}
+.dp-cursor-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--accent-lt, #d4af6c);
+  transform-origin:center;
+  transition:opacity .25s ease, width .2s ease, height .2s ease, background .2s ease;
+  margin:-3px 0 0 -3px;        /* centre le dot */
+  mix-blend-mode:difference;
+}
+.dp-cursor-ring{
+  width:32px;height:32px;border-radius:50%;
+  border:1px solid rgba(212,175,108,.6);
+  transition:opacity .25s ease, width .25s cubic-bezier(.22,1,.36,1), height .25s cubic-bezier(.22,1,.36,1), border-color .25s ease, background .25s ease;
+  margin:-16px 0 0 -16px;      /* centre le ring */
+}
+/* Etat hover : agrandit le ring, devient dore plein, dot se cache */
+.dp-cursor-ring.is-hover{
+  width:54px;height:54px;
+  margin:-27px 0 0 -27px;
+  border-color:var(--accent-lt, #d4af6c);
+  background:rgba(212,175,108,.12);
+}
+.dp-cursor-dot.is-hover{
+  width:0;height:0;margin:0;opacity:0;
+}
+/* Quand le curseur custom est actif, on cache le default sur les elements interactifs
+   pour eviter le double curseur — mais on garde le default sur les inputs/textareas
+   pour le confort de saisie. */
+html.has-dp-cursor a,
+html.has-dp-cursor button,
+html.has-dp-cursor [role="button"],
+html.has-dp-cursor .blog-card{
+  cursor:none;
+}
+/* Inputs gardent le curseur default text */
+html.has-dp-cursor input,
+html.has-dp-cursor textarea,
+html.has-dp-cursor select{cursor:text}
+/* Mobile : pas de cursor custom */
+@media (hover: none), (pointer: coarse){
+  .dp-cursor-dot,.dp-cursor-ring{display:none}
+}
+
 /* ------------------ ZONES DE RESPIRATION ------------------ */
 .breath-zone{
   position:relative;z-index:3;
