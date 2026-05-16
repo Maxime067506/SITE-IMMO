@@ -51,21 +51,21 @@
       this.bookedRanges = [];   // array de { start: Date, end: Date }
       this.loading = true;
       this.error = false;
-      // Section parente : TOUJOURS visible. Affiche un loader pendant le fetch,
-      // puis le calendrier sur succes OU un message d'erreur + CTA Airbnb sur echec.
+      // Section parente : TOUJOURS visible.
       this.section = el.closest('.sejour-calendar') || el.parentElement;
-      // CRITIQUE : ajouter la classe .dp-cal sur l'element pour que le CSS
-      // s'applique (fond navy, padding, bordure, etc.). Sinon les contenus
-      // rendent sans container = quasi-invisibles sur fond video.
+      // CRITIQUE : ajouter la classe .dp-cal pour que le CSS s'applique.
       this.el.classList.add('dp-cal');
-      this.renderLoading();
+      // STRATEGIE : render IMMEDIATEMENT le calendrier complet avec
+      // bookedRanges=[] (tous jours dispo par defaut). L'API met a jour
+      // ensuite avec les vraies dates reservees. Resultat : pas d'ecran
+      // vide, jamais. Si API foire => calendrier toujours visible.
+      this.render();
       this.fetchData();
     }
 
     async fetchData() {
       try {
-        // Note : trailing slash explicite pour eviter le 308 redirect Vercel
-        // (trailingSlash:true dans vercel.json redirige /api/calendar -> /api/calendar/).
+        // Trailing slash : evite le 308 redirect du trailingSlash:true vercel.
         const res = await fetch('/api/calendar/?id=' + encodeURIComponent(this.aptId));
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
@@ -77,14 +77,16 @@
           summary: e.summary || '',
         })).filter(r => r.start && r.end);
         this.loading = false;
+        // Re-render avec les vraies donnees reservees (les jours marques
+        // booked apparaissent maintenant).
         this.render();
       } catch (err) {
         console.warn('[dp-calendar]', this.aptId, err);
         this.loading = false;
         this.error = true;
-        // API en erreur : on affiche un message + le CTA Airbnb pour ne pas
-        // laisser un vide dans la page.
-        this.renderError();
+        // API en erreur : on garde le calendrier render initial (tous dispo)
+        // visible. L'utilisateur peut quand meme voir le CTA Airbnb pour
+        // verifier les vraies dispos. Pas de bloc d'erreur opaque.
       }
     }
 
