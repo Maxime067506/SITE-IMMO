@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../css/style.css?v=kc2" />
-  <link rel="stylesheet" href="../css/blog.css?v=il2" />
+  <link rel="stylesheet" href="../css/blog.css?v=il3" />
 
   <style>
     .hero-film{min-height:100vh !important;min-height:100svh !important;display:flex;align-items:flex-end}
@@ -63,7 +63,15 @@
       box-shadow:0 28px 64px -28px rgba(0,0,0,.65);
       text-decoration:none;color:inherit;
       position:relative;
+      cursor:pointer;                /* explicite : la card entiere est cliquable */
     }
+    /* Le contenu interne ne capture pas le click : il remonte au <a> parent */
+    .blog-card > *,
+    .blog-card img,
+    .blog-card svg{pointer-events:none}
+    /* Sauf le placeholder (qui n'est pas un lien) */
+    .blog-card.is-placeholder,
+    .blog-card.is-placeholder > *{cursor:default;pointer-events:auto}
     .blog-card::before{
       content:"";position:absolute;inset:0;
       background:radial-gradient(circle at 30% 20%, rgba(212,175,108,.10) 0%, transparent 60%);

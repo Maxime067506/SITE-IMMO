@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none" stroke="#F5EDE0" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+  <title>Quartier des Musiciens — façades pastel et balcons forgés</title>
+
+  <!-- Ciel -->
+  <line x1="0" y1="60" x2="800" y2="60" stroke-dasharray="2 8" opacity=".25"/>
+  <!-- Soleil -->
+  <circle cx="120" cy="100" r="35" opacity=".6"/>
+  <circle cx="120" cy="100" r="50" stroke-dasharray="3 6" opacity=".25"/>
+
+  <!-- Trois facades alignées -->
+  <!-- Facade 1 -->
+  <path d="M 80 400 L 80 180 L 260 180 L 260 400" />
+  <line x1="80" y1="220" x2="260" y2="220" />
+  <line x1="80" y1="270" x2="260" y2="270" />
+  <line x1="80" y1="320" x2="260" y2="320" />
+  <!-- Rez de chaussee : porte cocheere -->
+  <path d="M 145 400 L 145 340 Q 145 330 155 330 L 185 330 Q 195 330 195 340 L 195 400" />
+  <!-- Fenetres etage 1 -->
+  <g stroke-width="0.9">
+  <rect x="98" y="190" width="16" height="22" />
+  <rect x="125" y="190" width="16" height="22" />
+  <rect x="155" y="190" width="16" height="22" />
+  <rect x="185" y="190" width="16" height="22" />
+  <rect x="215" y="190" width="16" height="22" />
+  <rect x="245" y="190" width="16" height="22" opacity=".5"/>
+  <!-- Etage 1 (avec balcons forges) -->
+  <rect x="98" y="232" width="16" height="28" />
+  <rect x="125" y="232" width="16" height="28" />
+  <rect x="155" y="232" width="16" height="28" />
+  <rect x="185" y="232" width="16" height="28" />
+  <rect x="215" y="232" width="16" height="28" />
+  <!-- Balcon forge ligne 1 -->
+  <line x1="92" y1="265" x2="230" y2="265" />
+  <line x1="92" y1="265" x2="92" y2="258" />
+  <line x1="100" y1="265" x2="100" y2="258" />
+  <line x1="108" y1="265" x2="108" y2="258" />
+  <line x1="116" y1="265" x2="116" y2="258" />
+  <line x1="124" y1="265" x2="124" y2="258" />
+  <line x1="132" y1="265" x2="132" y2="258" />
+  <line x1="140" y1="265" x2="140" y2="258" />
+  <line x1="148" y1="265" x2="148" y2="258" />
+  <line x1="156" y1="265" x2="156" y2="258" />
+  <line x1="164" y1="265" x2="164" y2="258" />
+  <line x1="172" y1="265" x2="172" y2="258" />
+  <line x1="180" y1="265" x2="180" y2="258" />
+  <line x1="188" y1="265" x2="188" y2="258" />
+  <line x1="196" y1="265" x2="196" y2="258" />
+  <line x1="204" y1="265" x2="204" y2="258" />
+  <line x1="212" y1="265" x2="212" y2="258" />
+  <line x1="220" y1="265" x2="220" y2="258" />
+  <line x1="228" y1="265" x2="228" y2="258" />
+  <!-- Etage 2 -->
+  <rect x="98" y="280" width="16" height="28" />
+  <rect x="125" y="280" width="16" height="28" />
+  <rect x="155" y="280" width="16" height="28" />
+  <rect x="185" y="280" width="16" height="28" />
+  <rect x="215" y="280" width="16" height="28" />
+  <!-- Balcon forge ligne 2 -->
+  <line x1="92" y1="313" x2="230" y2="313" opacity=".7"/>
+  </g>
+
+  <!-- Facade 2 (centrale, plus haute) -->
+  <path d="M 260 400 L 260 150 L 470 150 L 470 400" />
+  <line x1="260" y1="190" x2="470" y2="190" />
+  <line x1="260" y1="240" x2="470" y2="240" />
+  <line x1="260" y1="290" x2="470" y2="290" />
+  <line x1="260" y1="340" x2="470" y2="340" />
+  <!-- Porte cocheere centrale -->
+  <path d="M 340 400 L 340 350 Q 340 340 350 340 L 380 340 Q 390 340 390 350 L 390 400" />
+  <!-- Toit decoratif -->
+  <path d="M 260 150 L 280 130 L 450 130 L 470 150" />
+  <line x1="280" y1="130" x2="280" y2="140" />
+  <line x1="450" y1="130" x2="450" y2="140" />
+  <!-- Fenetres -->
+  <g stroke-width="0.9">
+  <rect x="275" y="160" width="16" height="22" />
+  <rect x="305" y="160" width="16" height="22" />
+  <rect x="335" y="160" width="16" height="22" />
+  <rect x="365" y="160" width="16" height="22" />
+  <rect x="395" y="160" width="16" height="22" />
+  <rect x="425" y="160" width="16" height="22" />
+  <rect x="455" y="160" width="16" height="22" opacity=".5"/>
+  <rect x="275" y="200" width="16" height="28" />
+  <rect x="305" y="200" width="16" height="28" />
+  <rect x="335" y="200" width="16" height="28" />
+  <rect x="365" y="200" width="16" height="28" />
+  <rect x="395" y="200" width="16" height="28" />
+  <rect x="425" y="200" width="16" height="28" />
+  <!-- Balcon centrale -->
+  <line x1="265" y1="232" x2="455" y2="232" />
+  <line x1="265" y1="232" x2="265" y2="225" />
+  <line x1="275" y1="232" x2="275" y2="225" />
+  <line x1="285" y1="232" x2="285" y2="225" />
+  <line x1="295" y1="232" x2="295" y2="225" />
+  <line x1="305" y1="232" x2="305" y2="225" />
+  <line x1="315" y1="232" x2="315" y2="225" />
+  <line x1="325" y1="232" x2="325" y2="225" />
+  <line x1="335" y1="232" x2="335" y2="225" />
+  <line x1="345" y1="232" x2="345" y2="225" />
+  <line x1="355" y1="232" x2="355" y2="225" />
+  <line x1="365" y1="232" x2="365" y2="225" />
+  <line x1="375" y1="232" x2="375" y2="225" />
+  <line x1="385" y1="232" x2="385" y2="225" />
+  <line x1="395" y1="232" x2="395" y2="225" />
+  <line x1="405" y1="232" x2="405" y2="225" />
+  <line x1="415" y1="232" x2="415" y2="225" />
+  <line x1="425" y1="232" x2="425" y2="225" />
+  <line x1="435" y1="232" x2="435" y2="225" />
+  <line x1="445" y1="232" x2="445" y2="225" />
+  <line x1="455" y1="232" x2="455" y2="225" />
+  <rect x="275" y="250" width="16" height="28" />
+  <rect x="305" y="250" width="16" height="28" />
+  <rect x="335" y="250" width="16" height="28" />
+  <rect x="365" y="250" width="16" height="28" />
+  <rect x="395" y="250" width="16" height="28" />
+  <rect x="425" y="250" width="16" height="28" />
+  <rect x="275" y="300" width="16" height="28" />
+  <rect x="305" y="300" width="16" height="28" />
+  <rect x="335" y="300" width="16" height="28" />
+  <rect x="365" y="300" width="16" height="28" />
+  <rect x="395" y="300" width="16" height="28" />
+  <rect x="425" y="300" width="16" height="28" />
+  </g>
+
+  <!-- Facade 3 -->
+  <path d="M 470 400 L 470 180 L 700 180 L 700 400" />
+  <line x1="470" y1="220" x2="700" y2="220" />
+  <line x1="470" y1="270" x2="700" y2="270" />
+  <line x1="470" y1="320" x2="700" y2="320" />
+  <path d="M 555 400 L 555 340 Q 555 330 565 330 L 595 330 Q 605 330 605 340 L 605 400" />
+  <g stroke-width="0.9">
+  <rect x="485" y="190" width="16" height="22" />
+  <rect x="515" y="190" width="16" height="22" />
+  <rect x="545" y="190" width="16" height="22" />
+  <rect x="575" y="190" width="16" height="22" />
+  <rect x="605" y="190" width="16" height="22" />
+  <rect x="635" y="190" width="16" height="22" />
+  <rect x="665" y="190" width="16" height="22" opacity=".5"/>
+  <rect x="485" y="232" width="16" height="28" />
+  <rect x="515" y="232" width="16" height="28" />
+  <rect x="545" y="232" width="16" height="28" />
+  <rect x="575" y="232" width="16" height="28" />
+  <rect x="605" y="232" width="16" height="28" />
+  <rect x="635" y="232" width="16" height="28" />
+  <line x1="479" y1="265" x2="685" y2="265" opacity=".7"/>
+  <rect x="485" y="280" width="16" height="28" />
+  <rect x="515" y="280" width="16" height="28" />
+  <rect x="545" y="280" width="16" height="28" />
+  <rect x="575" y="280" width="16" height="28" />
+  <rect x="605" y="280" width="16" height="28" />
+  <rect x="635" y="280" width="16" height="28" />
+  </g>
+
+  <!-- Trottoir -->
+  <line x1="0" y1="400" x2="800" y2="400" />
+  <path d="M 0 425 L 800 425" stroke-dasharray="4 12" opacity=".4"/>
+
+  <!-- Element musical : note de musique decoratif -->
+  <path d="M 730 220 Q 736 215 740 220 L 740 195 L 754 192" stroke-width="1.5"/>
+  <circle cx="730" cy="220" r="6" fill="#F5EDE0" />
+</svg>
