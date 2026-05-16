@@ -2016,61 +2016,18 @@ function applyLang(lang) {
   localStorage.setItem(I18N_KEY, lang);
 }
 
-/* ============================================================
-   URL mapping FR <-> EN (pour le toggle de langue cross-page)
-   ============================================================ */
-const URL_MAP_FR_TO_EN = {
-  "/": "/en/",
-  "/index.html": "/en/index.html",
-  "/a-propos.html": "/en/about.html",
-  "/sejour-01.html": "/en/stay-01.html",
-  "/sejour-02.html": "/en/stay-02.html",
-  "/sejour-03.html": "/en/stay-03.html",
-  "/sejour-04.html": "/en/stay-04.html",
-  "/sejour-05.html": "/en/stay-05.html",
-  "/sejour-06.html": "/en/stay-06.html",
-  "/sejour-07.html": "/en/stay-07.html",
-  "/blog/": "/en/blog/",
-  "/blog/index.html": "/en/blog/index.html",
-  "/blog/meilleurs-quartiers-nice-ou-loger.html": "/en/blog/best-nice-neighbourhoods.html",
-  "/blog/que-faire-a-nice-en-3-jours.html": "/en/blog/3-days-in-nice.html",
-  "/mentions-legales.html": "/en/legal.html",
-  "/cgv.html": "/en/terms.html",
-  "/politique-confidentialite.html": "/en/privacy.html",
-};
-const URL_MAP_EN_TO_FR = Object.fromEntries(
-  Object.entries(URL_MAP_FR_TO_EN).map(([fr, en]) => [en, fr])
-);
-
-function navigateToLang(targetLang) {
-  const path = window.location.pathname;
-  const isEn = path.startsWith("/en/") || path === "/en";
-  // Si on est deja sur la bonne langue, ne rien faire (juste applyLang)
-  if (targetLang === "en" && isEn) { applyLang("en"); return; }
-  if (targetLang === "fr" && !isEn) { applyLang("fr"); return; }
-  // Sinon : trouve la version equivalente
-  const map = targetLang === "en" ? URL_MAP_FR_TO_EN : URL_MAP_EN_TO_FR;
-  const target = map[path] || (targetLang === "en" ? "/en/" : "/");
-  // Preserve hash et search
-  const hash = window.location.hash || "";
-  const search = window.location.search || "";
-  // Sauve la preference avant de naviguer
-  try { localStorage.setItem(I18N_KEY, targetLang); } catch(_) {}
-  window.location.href = target + search + hash;
-}
-
 function initI18n() {
-  // Detecte la langue depuis <html lang="X"> en priorite (page deja servie dans la bonne langue)
-  const htmlLang = document.documentElement.lang || "";
-  const fromHtml = htmlLang.toLowerCase().slice(0, 2);
+  // Detecte la langue : priorite localStorage > <html lang> > navigateur > FR
   const saved = localStorage.getItem(I18N_KEY);
-  const browser = (navigator.language || "fr").slice(0,2).toLowerCase();
-  // Priorite : HTML lang > localStorage > navigateur > defaut fr
-  const initial = (I18N[fromHtml] && fromHtml) || saved || (I18N[browser] ? browser : "fr");
+  const htmlLang = (document.documentElement.lang || "").toLowerCase().slice(0, 2);
+  const browser = (navigator.language || "fr").slice(0, 2).toLowerCase();
+  const initial = saved || (I18N[htmlLang] && htmlLang) || (I18N[browser] ? browser : "fr");
   applyLang(initial);
 
+  // Toggle FR/EN = swap immediat du contenu via applyLang (fluide, pas de reload)
+  // Les pages /en/ existent en parallele pour le SEO et le partage de liens directs
   document.querySelectorAll(".lang-switch [data-lang]").forEach(btn => {
-    btn.addEventListener("click", () => navigateToLang(btn.dataset.lang));
+    btn.addEventListener("click", () => applyLang(btn.dataset.lang));
   });
 }
 
