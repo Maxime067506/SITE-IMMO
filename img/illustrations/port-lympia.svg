@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+  <title>Port Lympia — bateaux et façades pastel</title>
+
+  <!-- Lune ou soleil -->
+  <circle cx="680" cy="100" r="32" opacity=".5"/>
+  <circle cx="680" cy="100" r="46" stroke-dasharray="3 6" opacity=".3"/>
+
+  <!-- Skyline batiments du port -->
+  <!-- Bat 1 -->
+  <path d="M 50 350 L 50 220 L 130 220 L 130 350" />
+  <line x1="50" y1="240" x2="130" y2="240" />
+  <line x1="50" y1="265" x2="130" y2="265" />
+  <line x1="50" y1="290" x2="130" y2="290" />
+  <line x1="50" y1="315" x2="130" y2="315" />
+  <rect x="60" y="245" width="8" height="14" />
+  <rect x="78" y="245" width="8" height="14" />
+  <rect x="96" y="245" width="8" height="14" />
+  <rect x="114" y="245" width="8" height="14" />
+  <rect x="60" y="270" width="8" height="14" />
+  <rect x="78" y="270" width="8" height="14" />
+  <rect x="96" y="270" width="8" height="14" />
+  <rect x="114" y="270" width="8" height="14" />
+  <rect x="60" y="295" width="8" height="14" />
+  <rect x="78" y="295" width="8" height="14" />
+  <rect x="96" y="295" width="8" height="14" />
+  <rect x="114" y="295" width="8" height="14" />
+
+  <!-- Bat 2 (plus haut) -->
+  <path d="M 130 350 L 130 200 L 220 200 L 220 350" />
+  <line x1="130" y1="220" x2="220" y2="220" />
+  <line x1="130" y1="245" x2="220" y2="245" />
+  <line x1="130" y1="270" x2="220" y2="270" />
+  <line x1="130" y1="295" x2="220" y2="295" />
+  <line x1="130" y1="320" x2="220" y2="320" />
+  <rect x="140" y="225" width="8" height="14" />
+  <rect x="158" y="225" width="8" height="14" />
+  <rect x="176" y="225" width="8" height="14" />
+  <rect x="194" y="225" width="8" height="14" />
+  <rect x="140" y="250" width="8" height="14" />
+  <rect x="158" y="250" width="8" height="14" />
+  <rect x="176" y="250" width="8" height="14" />
+  <rect x="194" y="250" width="8" height="14" />
+  <rect x="140" y="275" width="8" height="14" />
+  <rect x="158" y="275" width="8" height="14" />
+  <rect x="176" y="275" width="8" height="14" />
+  <rect x="194" y="275" width="8" height="14" />
+  <rect x="140" y="300" width="8" height="14" />
+  <rect x="158" y="300" width="8" height="14" />
+  <rect x="176" y="300" width="8" height="14" />
+  <rect x="194" y="300" width="8" height="14" />
+  <rect x="140" y="325" width="8" height="14" />
+  <rect x="158" y="325" width="8" height="14" />
+  <rect x="176" y="325" width="8" height="14" />
+  <rect x="194" y="325" width="8" height="14" />
+
+  <!-- Bat 3 -->
+  <path d="M 220 350 L 220 240 L 290 240 L 290 350" />
+  <rect x="232" y="260" width="8" height="14" />
+  <rect x="250" y="260" width="8" height="14" />
+  <rect x="268" y="260" width="8" height="14" />
+  <rect x="232" y="285" width="8" height="14" />
+  <rect x="250" y="285" width="8" height="14" />
+  <rect x="268" y="285" width="8" height="14" />
+  <rect x="232" y="310" width="8" height="14" />
+  <rect x="250" y="310" width="8" height="14" />
+  <rect x="268" y="310" width="8" height="14" />
+
+  <!-- Église silhouette (Notre-Dame du Port) -->
+  <path d="M 290 350 L 290 220 L 320 200 L 320 175 L 340 165 L 360 175 L 360 200 L 390 220 L 390 350" />
+  <!-- Tour -->
+  <line x1="340" y1="165" x2="340" y2="150" />
+  <line x1="336" y1="150" x2="344" y2="150" />
+  <line x1="340" y1="144" x2="340" y2="155" />
+  <!-- Cloches -->
+  <rect x="325" y="180" width="30" height="20" />
+  <line x1="340" y1="180" x2="340" y2="200" opacity=".5"/>
+  <!-- Fenêtres -->
+  <rect x="300" y="240" width="10" height="16" />
+  <rect x="370" y="240" width="10" height="16" />
+  <rect x="300" y="270" width="10" height="16" />
+  <rect x="370" y="270" width="10" height="16" />
+  <rect x="335" y="260" width="10" height="20" />
+
+  <!-- Bat 4-5-6 -->
+  <path d="M 390 350 L 390 230 L 470 230 L 470 350" />
+  <rect x="400" y="250" width="8" height="14" />
+  <rect x="418" y="250" width="8" height="14" />
+  <rect x="436" y="250" width="8" height="14" />
+  <rect x="454" y="250" width="8" height="14" />
+  <rect x="400" y="275" width="8" height="14" />
+  <rect x="418" y="275" width="8" height="14" />
+  <rect x="436" y="275" width="8" height="14" />
+  <rect x="454" y="275" width="8" height="14" />
+  <rect x="400" y="300" width="8" height="14" />
+  <rect x="418" y="300" width="8" height="14" />
+  <rect x="436" y="300" width="8" height="14" />
+  <rect x="454" y="300" width="8" height="14" />
+  <rect x="400" y="325" width="8" height="14" />
+  <rect x="418" y="325" width="8" height="14" />
+  <rect x="436" y="325" width="8" height="14" />
+  <rect x="454" y="325" width="8" height="14" />
+
+  <path d="M 470 350 L 470 210 L 555 210 L 555 350" />
+  <rect x="480" y="235" width="8" height="14" />
+  <rect x="498" y="235" width="8" height="14" />
+  <rect x="516" y="235" width="8" height="14" />
+  <rect x="534" y="235" width="8" height="14" />
+  <rect x="480" y="260" width="8" height="14" />
+  <rect x="498" y="260" width="8" height="14" />
+  <rect x="516" y="260" width="8" height="14" />
+  <rect x="534" y="260" width="8" height="14" />
+  <rect x="480" y="285" width="8" height="14" />
+  <rect x="498" y="285" width="8" height="14" />
+  <rect x="516" y="285" width="8" height="14" />
+  <rect x="534" y="285" width="8" height="14" />
+  <rect x="480" y="310" width="8" height="14" />
+  <rect x="498" y="310" width="8" height="14" />
+  <rect x="516" y="310" width="8" height="14" />
+  <rect x="534" y="310" width="8" height="14" />
+
+  <path d="M 555 350 L 555 240 L 630 240 L 630 350" />
+  <rect x="565" y="260" width="8" height="14" />
+  <rect x="583" y="260" width="8" height="14" />
+  <rect x="601" y="260" width="8" height="14" />
+  <rect x="619" y="260" width="8" height="14" />
+  <rect x="565" y="285" width="8" height="14" />
+  <rect x="583" y="285" width="8" height="14" />
+  <rect x="601" y="285" width="8" height="14" />
+  <rect x="619" y="285" width="8" height="14" />
+  <rect x="565" y="310" width="8" height="14" />
+  <rect x="583" y="310" width="8" height="14" />
+  <rect x="601" y="310" width="8" height="14" />
+  <rect x="619" y="310" width="8" height="14" />
+
+  <path d="M 630 350 L 630 270 L 720 270 L 720 350" />
+  <rect x="640" y="285" width="8" height="14" />
+  <rect x="658" y="285" width="8" height="14" />
+  <rect x="676" y="285" width="8" height="14" />
+  <rect x="694" y="285" width="8" height="14" />
+  <rect x="640" y="310" width="8" height="14" />
+  <rect x="658" y="310" width="8" height="14" />
+  <rect x="676" y="310" width="8" height="14" />
+  <rect x="694" y="310" width="8" height="14" />
+
+  <!-- Quai -->
+  <line x1="0" y1="350" x2="800" y2="350" />
+  <!-- Eau -->
+  <path d="M 0 380 Q 100 375 200 380 T 400 380 T 600 380 T 800 380" opacity=".5"/>
+  <path d="M 0 410 Q 100 405 200 410 T 400 410 T 600 410 T 800 410" opacity=".35"/>
+  <path d="M 0 440 Q 100 435 200 440 T 400 440 T 600 440 T 800 440" opacity=".25"/>
+
+  <!-- Bateaux -->
+  <!-- Voilier 1 -->
+  <line x1="200" y1="395" x2="200" y2="320" />
+  <path d="M 200 320 L 200 365 L 240 365 Z" opacity=".5"/>
+  <path d="M 200 320 L 200 365 L 240 365 Z"/>
+  <path d="M 178 380 L 222 380 L 217 395 L 183 395 Z"/>
+  <line x1="178" y1="380" x2="222" y2="380" />
+
+  <!-- Voilier 2 -->
+  <line x1="450" y1="395" x2="450" y2="340" />
+  <path d="M 450 340 L 450 372 L 480 372 Z" opacity=".5"/>
+  <path d="M 450 340 L 450 372 L 480 372 Z"/>
+  <path d="M 432 385 L 468 385 L 464 398 L 436 398 Z"/>
+
+  <!-- Bateau de pêche -->
+  <path d="M 580 388 L 640 388 L 633 405 L 587 405 Z" />
+  <line x1="595" y1="388" x2="595" y2="370" />
+  <rect x="600" y="370" width="20" height="18" />
+  <line x1="610" y1="370" x2="610" y2="355" />
+
+  <!-- Mouettes -->
+  <path d="M 250 130 Q 255 124 260 130 Q 265 124 270 130" opacity=".5"/>
+  <path d="M 400 90 Q 405 84 410 90 Q 415 84 420 90" opacity=".4"/>
+  <path d="M 530 110 Q 535 104 540 110 Q 545 104 550 110" opacity=".5"/>
+</svg>

@@ -40,78 +40,155 @@
     .hero-film-content .eyebrow{color:rgba(245,237,224,.8) !important}
     .hero-film-content h1,.hero-film-content .lede{color:#F5EDE0 !important;text-shadow:0 2px 14px rgba(0,0,0,.55)}
 
-    /* ===== Blog index : grille d'articles ===== */
+    /* ============================================================
+       BLOG INDEX — édition magazine premium avec illustrations SVG
+       ============================================================ */
     .blog-index{
-      padding:clamp(60px,8vw,120px) var(--gutter);
-      max-width:1240px;margin:0 auto;
+      padding:clamp(80px,10vw,140px) var(--gutter);
+      max-width:1320px;margin:0 auto;
     }
     .blog-index-grid{
-      display:grid;grid-template-columns:repeat(auto-fit, minmax(340px, 1fr));
-      gap:clamp(32px, 4vw, 56px);
-      margin-top:clamp(48px, 6vw, 80px);
+      display:grid;grid-template-columns:repeat(auto-fit, minmax(360px, 1fr));
+      gap:clamp(40px, 5vw, 64px);
+      margin-top:clamp(56px, 7vw, 96px);
     }
+
+    /* Card : carnet de voyage avec illustration SVG line-art */
     .blog-card{
       display:flex;flex-direction:column;
-      background:#F5EDE0;border:1px solid rgba(212,175,108,.3);
-      border-radius:6px;overflow:hidden;
-      transition:transform .35s ease, box-shadow .35s ease;
-      box-shadow:0 24px 56px -24px rgba(10,22,40,.45);
+      background:linear-gradient(180deg, #0A1628 0%, #14233D 100%);
+      border:1px solid rgba(212,175,108,.25);
+      border-radius:4px;overflow:hidden;
+      transition:transform .45s cubic-bezier(.22,1,.36,1), box-shadow .45s ease, border-color .45s ease;
+      box-shadow:0 28px 64px -28px rgba(0,0,0,.65);
       text-decoration:none;color:inherit;
+      position:relative;
+    }
+    .blog-card::before{
+      content:"";position:absolute;inset:0;
+      background:radial-gradient(circle at 30% 20%, rgba(212,175,108,.10) 0%, transparent 60%);
+      pointer-events:none;opacity:.8;
     }
     .blog-card:hover{
-      transform:translateY(-6px);
-      box-shadow:0 36px 80px -24px rgba(10,22,40,.55), 0 0 0 1px rgba(212,175,108,.35);
+      transform:translateY(-8px);
+      border-color:rgba(212,175,108,.5);
+      box-shadow:0 44px 88px -28px rgba(0,0,0,.75), 0 0 0 1px rgba(212,175,108,.3);
     }
-    .blog-card-img{
-      position:relative;aspect-ratio:16/9;overflow:hidden;
-      background:linear-gradient(135deg, #1a2c47, #0A1628);
+
+    /* Zone illustration SVG */
+    .blog-card-art{
+      position:relative;aspect-ratio:8/5;
+      background:linear-gradient(135deg, #14233D 0%, #0A1628 100%);
+      border-bottom:1px solid rgba(212,175,108,.2);
+      display:flex;align-items:center;justify-content:center;
+      overflow:hidden;
+      color:var(--accent-lt, #d4af6c);    /* couleur des lignes SVG via currentColor */
     }
-    .blog-card-img img{
-      width:100%;height:100%;object-fit:cover;display:block;
-      transition:transform 1.4s cubic-bezier(.22,1,.36,1);
+    .blog-card-art img,
+    .blog-card-art svg,
+    .blog-card-art object{
+      width:90%;height:90%;object-fit:contain;display:block;
+      transition:transform 1.8s cubic-bezier(.22,1,.36,1);
     }
-    .blog-card:hover .blog-card-img img{transform:scale(1.04)}
-    .blog-card-img::after{
-      content:"";position:absolute;inset:auto 0 0 0;height:50%;
-      background:linear-gradient(to top, rgba(10,22,40,.7) 0%, transparent 100%);
+    .blog-card:hover .blog-card-art img{transform:scale(1.04)}
+    /* Effet papier / grain decoratif */
+    .blog-card-art::after{
+      content:"";position:absolute;inset:0;pointer-events:none;
+      background:
+        radial-gradient(circle at 80% 20%, rgba(212,175,108,.06) 0%, transparent 50%),
+        radial-gradient(circle at 20% 80%, rgba(212,175,108,.04) 0%, transparent 50%);
+    }
+    /* Petits coins decoratifs */
+    .blog-card-art::before{
+      content:"";position:absolute;
+      top:18px;left:18px;width:24px;height:24px;
+      border-left:1px solid rgba(212,175,108,.5);
+      border-top:1px solid rgba(212,175,108,.5);
       pointer-events:none;
     }
+
     .blog-card-tag{
-      position:absolute;top:18px;left:18px;z-index:2;
-      padding:6px 14px;background:rgba(245,237,224,.94);
+      position:absolute;top:18px;right:18px;z-index:2;
+      padding:5px 13px;background:rgba(10,22,40,.7);
+      backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+      border:1px solid rgba(212,175,108,.4);
       border-radius:999px;
-      font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;
-      color:var(--accent-dk);font-weight:500;
+      font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;
+      color:var(--accent-lt);font-weight:500;
     }
+
     .blog-card-body{
-      padding:clamp(24px,3vw,36px) clamp(20px,2.5vw,30px);
+      padding:clamp(28px,3.5vw,40px) clamp(24px,3vw,36px);
       display:flex;flex-direction:column;flex:1;
+      position:relative;z-index:1;
     }
     .blog-card-meta{
-      font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
-      color:var(--ink-2);margin-bottom:12px;display:flex;gap:12px;
+      font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
+      color:rgba(245,237,224,.5);margin-bottom:14px;display:flex;flex-wrap:wrap;gap:12px;
     }
-    .blog-card-meta .sep{opacity:.4}
+    .blog-card-meta .sep{opacity:.35;color:var(--accent-lt)}
     .blog-card h2{
-      font-family:var(--serif);font-weight:400;line-height:1.2;
-      font-size:clamp(22px,2.4vw,30px);color:#0A1628;margin:0 0 14px;
+      font-family:var(--serif);font-weight:400;line-height:1.18;
+      font-size:clamp(24px,2.6vw,32px);
+      color:var(--cream, #F5EDE0);margin:0 0 16px;
+      letter-spacing:-.01em;
     }
-    .blog-card h2 em{font-style:italic;color:var(--accent-dk);font-weight:300}
+    .blog-card h2 em{font-style:italic;color:var(--accent-lt);font-weight:300}
     .blog-card-excerpt{
-      font-size:15.5px;line-height:1.75;color:#3a4456;
-      margin:0 0 24px;flex:1;
+      font-size:15px;line-height:1.78;
+      color:rgba(245,237,224,.78);
+      margin:0 0 28px;flex:1;
     }
     .blog-card-cta{
-      font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
-      color:var(--accent-dk);align-self:flex-start;
-      display:inline-flex;align-items:center;gap:8px;
-      padding-top:16px;border-top:1px solid rgba(212,175,108,.3);
-      width:100%;
+      font-family:var(--mono);font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;
+      color:var(--accent-lt);
+      display:inline-flex;align-items:center;gap:10px;
+      padding-top:18px;border-top:1px solid rgba(212,175,108,.25);
+      width:100%;font-weight:500;
     }
     .blog-card-cta::after{
-      content:"→";margin-left:auto;transition:transform .25s ease;
+      content:"→";margin-left:auto;color:var(--accent-lt);
+      transition:transform .3s cubic-bezier(.22,1,.36,1);
+      font-family:var(--mono);font-size:14px;
     }
-    .blog-card:hover .blog-card-cta::after{transform:translateX(6px)}
+    .blog-card:hover .blog-card-cta::after{transform:translateX(8px)}
+    .blog-card-cta::before{
+      content:"";display:inline-block;width:20px;height:1px;
+      background:var(--accent-lt);
+    }
+
+    /* Carte placeholder "Bientot" : style sobre */
+    .blog-card.is-placeholder{
+      opacity:.6;cursor:default;
+    }
+    .blog-card.is-placeholder:hover{
+      transform:none;border-color:rgba(212,175,108,.25);
+    }
+
+    /* Pull-quote editoriale entre les sections */
+    .blog-pullquote{
+      max-width:880px;margin:clamp(60px,8vw,120px) auto clamp(40px,5vw,72px);
+      padding:0 clamp(20px,4vw,40px);text-align:center;
+    }
+    .blog-pullquote q{
+      font-family:var(--serif);font-style:italic;font-weight:300;
+      font-size:clamp(22px,2.6vw,34px);
+      line-height:1.35;color:var(--cream);
+      quotes:"« " " »";display:block;
+      text-shadow:0 2px 24px rgba(0,0,0,.4);
+    }
+    .blog-pullquote q em{color:var(--accent-lt);font-style:italic;font-weight:400}
+    .blog-pullquote cite{
+      display:block;margin-top:24px;
+      font-family:var(--mono);font-size:11px;
+      letter-spacing:.22em;text-transform:uppercase;
+      color:var(--accent-lt);font-style:normal;
+    }
+    .blog-pullquote cite::before{
+      content:"";display:inline-block;width:32px;height:1px;
+      background:var(--accent-lt);
+      vertical-align:middle;margin-right:14px;
+    }
   </style>
 
   <!-- Schema.org : Blog + CollectionPage -->
@@ -236,41 +313,39 @@
 
       <!-- Article 1 : Meilleurs quartiers -->
       <a href="meilleurs-quartiers-nice-ou-loger.html" class="blog-card" aria-label="Lire : Les meilleurs quartiers de Nice où loger en 2026">
-        <div class="blog-card-img">
+        <div class="blog-card-art">
           <span class="blog-card-tag">Guide pratique</span>
-          <picture>
-            <source type="image/webp" srcset="../img/airbnb/01-amiral/photo-01_wm.webp?v=wmC" />
-            <img src="../img/airbnb/01-amiral/photo-01_wm.jpg?v=wmC" alt="Vue sur le Port Lympia depuis un balcon Delfosse Properties — guide des quartiers de Nice" loading="lazy" decoding="async" />
-          </picture>
+          <img src="../img/illustrations/vieux-nice.svg" alt="Illustration line-art du Vieux-Nice — ruelles ocres et cathédrale Sainte-Réparate" loading="lazy" />
         </div>
         <div class="blog-card-body">
           <div class="blog-card-meta">
             <span>15 mai 2026</span>
             <span class="sep">·</span>
             <span>12 min de lecture</span>
+            <span class="sep">·</span>
+            <span>Guide</span>
           </div>
           <h2>Les meilleurs quartiers de Nice où loger <em>en 2026.</em></h2>
           <p class="blog-card-excerpt">
             Comparatif honnête de 8 quartiers de Nice — Vieux-Nice, Carré d'Or, Musiciens, Port Lympia, Cimiez, Promenade des Anglais. Pour qui, à quel prix, à quelle distance de la mer. Sans langue de bois.
           </p>
-          <span class="blog-card-cta">Lire le guide complet</span>
+          <span class="blog-card-cta">Lire le guide</span>
         </div>
       </a>
 
       <!-- Article 2 : 3 jours à Nice -->
       <a href="que-faire-a-nice-en-3-jours.html" class="blog-card" aria-label="Lire : Que faire à Nice en 3 jours — Itinéraire complet 2026">
-        <div class="blog-card-img">
+        <div class="blog-card-art">
           <span class="blog-card-tag">Itinéraire</span>
-          <picture>
-            <source type="image/webp" srcset="../img/airbnb/03-basilique/photo-01_wm.webp?v=wmC" />
-            <img src="../img/airbnb/03-basilique/photo-01_wm.jpg?v=wmC" alt="Appartement avenue Notre-Dame Nice — itinéraire 3 jours Vieux-Nice, Promenade, Cimiez" loading="lazy" decoding="async" />
-          </picture>
+          <img src="../img/illustrations/castle-hill.svg" alt="Illustration line-art de la Colline du Château et la baie des Anges au crépuscule" loading="lazy" />
         </div>
         <div class="blog-card-body">
           <div class="blog-card-meta">
             <span>15 mai 2026</span>
             <span class="sep">·</span>
             <span>14 min de lecture</span>
+            <span class="sep">·</span>
+            <span>Itinéraire</span>
           </div>
           <h2>Que faire à Nice <em>en 3 jours.</em></h2>
           <p class="blog-card-excerpt">
@@ -280,29 +355,34 @@
         </div>
       </a>
 
-      <!-- Placeholder pour futurs articles : à dupliquer -->
-      <!-- Article 3 : à venir -->
-      <article class="blog-card" style="opacity:.55;pointer-events:none">
-        <div class="blog-card-img">
-          <span class="blog-card-tag">Prochainement</span>
-          <picture>
-            <source type="image/webp" srcset="../img/nice-sunset_wm.webp?v=wmC" />
-            <img src="../img/nice-sunset_wm.jpg?v=wmC" alt="Nice au crépuscule — prochain article du journal Delfosse Properties" loading="lazy" decoding="async" />
-          </picture>
+      <!-- Article 3 : à venir (placeholder) -->
+      <article class="blog-card is-placeholder">
+        <div class="blog-card-art">
+          <span class="blog-card-tag">À paraître</span>
+          <img src="../img/illustrations/port-lympia.svg" alt="Illustration line-art du Port Lympia — bateaux et façades pastel" loading="lazy" />
         </div>
         <div class="blog-card-body">
           <div class="blog-card-meta">
-            <span>À paraître</span>
+            <span>Bientôt · juin 2026</span>
+            <span class="sep">·</span>
+            <span>Gastronomie</span>
           </div>
           <h2>Où manger <em>à Nice — sans piège touristique.</em></h2>
           <p class="blog-card-excerpt">
-            Les vraies tables niçoises — celles où les Niçois mangent. Cantines, étoilés, bistrots de quartier. 24 adresses sélectionnées par Maxime Delfosse.
+            Les vraies tables niçoises — celles où les Niçois mangent. Cantines centenaires, étoilés, bistrots de quartier. 24 adresses sélectionnées personnellement par Maxime Delfosse.
           </p>
-          <span class="blog-card-cta">Bientôt</span>
+          <span class="blog-card-cta">Prochaine parution</span>
         </div>
       </article>
 
     </div>
+
+    <!-- Pull-quote editoriale -->
+    <aside class="blog-pullquote">
+      <q>Nous n'écrivons pas des guides — nous transmettons une <em>manière d'habiter Nice.</em></q>
+      <cite>Le journal Delfosse Properties · MMXXVI</cite>
+    </aside>
+
   </section>
 
   <!-- =================== FOOTER =================== -->
