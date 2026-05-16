@@ -51,20 +51,18 @@
       this.bookedRanges = [];   // array de { start: Date, end: Date }
       this.loading = true;
       this.error = false;
-      // IMPORTANT : on cache la section parente par defaut, jusqu'a ce que
-      // l'API confirme que tout est configure et que les donnees sont valides.
-      // Comme ca, pas de "carre bleu" visible tant que les env vars Airbnb
-      // ne sont pas en place.
+      // Section parente : TOUJOURS visible. Affiche un loader pendant le fetch,
+      // puis le calendrier sur succes OU un message d'erreur + CTA Airbnb sur echec.
       this.section = el.closest('.sejour-calendar') || el.parentElement;
-      if (this.section) {
-        this.section.style.display = 'none';
-      }
+      this.renderLoading();
       this.fetchData();
     }
 
     async fetchData() {
       try {
-        const res = await fetch('/api/calendar?id=' + encodeURIComponent(this.aptId));
+        // Note : trailing slash explicite pour eviter le 308 redirect Vercel
+        // (trailingSlash:true dans vercel.json redirige /api/calendar -> /api/calendar/).
+        const res = await fetch('/api/calendar/?id=' + encodeURIComponent(this.aptId));
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
         if (data.error) throw new Error(data.error);
@@ -75,17 +73,14 @@
           summary: e.summary || '',
         })).filter(r => r.start && r.end);
         this.loading = false;
-        // API OK : afficher la section parente et rendre le calendrier
-        if (this.section) this.section.style.display = '';
         this.render();
       } catch (err) {
         console.warn('[dp-calendar]', this.aptId, err);
         this.loading = false;
         this.error = true;
-        // API en erreur (ex: env vars non configurees) : on laisse la section
-        // CACHEE (display:none defini dans le constructor). L'utilisateur
-        // ne voit aucun "carre bleu" parasite.
-        // Le CTA "Reserver sur Airbnb" plus bas dans la page reste disponible.
+        // API en erreur : on affiche un message + le CTA Airbnb pour ne pas
+        // laisser un vide dans la page.
+        this.renderError();
       }
     }
 
