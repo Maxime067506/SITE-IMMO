@@ -54,6 +54,10 @@
       // Section parente : TOUJOURS visible. Affiche un loader pendant le fetch,
       // puis le calendrier sur succes OU un message d'erreur + CTA Airbnb sur echec.
       this.section = el.closest('.sejour-calendar') || el.parentElement;
+      // CRITIQUE : ajouter la classe .dp-cal sur l'element pour que le CSS
+      // s'applique (fond navy, padding, bordure, etc.). Sinon les contenus
+      // rendent sans container = quasi-invisibles sur fond video.
+      this.el.classList.add('dp-cal');
       this.renderLoading();
       this.fetchData();
     }
