@@ -9,10 +9,15 @@
    ============================================================ */
 (function () {
   'use strict';
+  try {
 
-  // Pas de curseur custom sur tactile ou si reduce-motion
-  if (matchMedia('(hover: none), (pointer: coarse)').matches) return;
+  // Pas de curseur custom sur tactile / mobile / reduce-motion / petit ecran
+  // Triple-check pour eviter tout cas problematique :
+  if (!window.matchMedia) return;
+  if (matchMedia('(hover: none)').matches) return;
+  if (matchMedia('(pointer: coarse)').matches) return;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.innerWidth < 900) return;  // safety net : pas de cursor en dessous de 900px
 
   // Crée les éléments
   const dot = document.createElement('div');
@@ -71,4 +76,13 @@
     ring.style.opacity = '';
     dot.style.opacity = '';
   });
+
+  } catch (e) {
+    // Si quoi que ce soit plante, on retire tout et on laisse le curseur natif
+    try {
+      document.documentElement.classList.remove('has-dp-cursor');
+      document.querySelectorAll('.dp-cursor-dot,.dp-cursor-ring').forEach(el => el.remove());
+    } catch (_) {}
+    console.warn('[dp-cursor] disabled', e);
+  }
 })();

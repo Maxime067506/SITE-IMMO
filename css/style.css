@@ -87,6 +87,43 @@ html{
   /* Améliore le rendu sur les écrans Retina */
   -webkit-tap-highlight-color:transparent;
 }
+
+/* ============================================================
+   MOBILE SAFETY NET — garantit la visibilite du contenu
+   sur tous les ecrans tactiles. Ne touche au comportement
+   desktop / tablette qu'au minimum strict.
+   ============================================================ */
+@media (max-width: 760px){
+  /* Force la visibilite du body et du contenu */
+  html, body{
+    min-height:100vh;
+    overflow-y:auto !important;
+    overflow-x:hidden;
+  }
+  /* Curseur custom : NEVER affiche sur mobile */
+  .dp-cursor-dot,
+  .dp-cursor-ring{display:none !important}
+  html.has-dp-cursor a,
+  html.has-dp-cursor button,
+  html.has-dp-cursor [role="button"],
+  html.has-dp-cursor .blog-card,
+  html.has-dp-cursor input,
+  html.has-dp-cursor textarea,
+  html.has-dp-cursor select{
+    cursor:auto !important;          /* Restaure le curseur natif sur mobile */
+  }
+  /* Hero film : autorise le scroll sur mobile (sinon iOS Safari peut bloquer) */
+  .hero-film{
+    min-height:auto !important;
+    min-height:100svh;
+  }
+  /* Vbg couches : pas de blur sur mobile (perf + risque rendu vide) */
+  .vbg-overlay,
+  .vbg-grain{
+    backdrop-filter:none !important;
+    -webkit-backdrop-filter:none !important;
+  }
+}
 body{
   margin:0;background:var(--bg);color:var(--ink);
   font-family:var(--f-sans);font-size:16px;line-height:1.65;
