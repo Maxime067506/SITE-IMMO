@@ -89,33 +89,13 @@ html{
 }
 
 /* ============================================================
-   MOBILE SAFETY NET — garantit la visibilite du contenu
-   sur tous les ecrans tactiles. Ne touche au comportement
-   desktop / tablette qu'au minimum strict.
+   MOBILE SAFETY NET — minimal
+   Garde tout le systeme video-bg desktop. Sur mobile, on masque
+   uniquement la section calendrier (nouvelle, cause des bugs) et
+   on retire le curseur custom (touch-only).
    ============================================================ */
 @media (max-width: 760px){
-  /* Force la visibilite du body et du contenu */
-  html, body{
-    min-height:100vh;
-    overflow-y:auto !important;
-    overflow-x:hidden;
-  }
-  /* OVERLAY VIDEO : FIX iOS Safari "carre bleu"
-     Les data-overlay=2 et 3 rendaient l'overlay quasi opaque (58% et 92%)
-     ce qui creait un "carre bleu" qui bloquait le contenu sur mobile.
-     On force toutes les variables d'overlay a un niveau leger sur mobile,
-     peu importe la section consultee. La video reste subtile en fond. */
-  html{
-    --video-ov:rgba(10,22,40,.12) !important;    /* tres leger */
-    --video-blur:0px !important;                  /* pas de blur */
-    --video-grain:0 !important;                   /* pas de grain */
-  }
-  .vbg-overlay,
-  .vbg-grain{
-    backdrop-filter:none !important;
-    -webkit-backdrop-filter:none !important;
-  }
-  /* Curseur custom : NEVER affiche sur mobile */
+  /* Curseur custom : NEVER affiche sur mobile (touch device) */
   .dp-cursor-dot,
   .dp-cursor-ring{display:none !important}
   html.has-dp-cursor a,
@@ -125,26 +105,14 @@ html{
   html.has-dp-cursor input,
   html.has-dp-cursor textarea,
   html.has-dp-cursor select{
-    cursor:auto !important;          /* Restaure le curseur natif sur mobile */
+    cursor:auto !important;
   }
-  /* Hero film : autorise le scroll sur mobile (sinon iOS Safari peut bloquer) */
-  .hero-film{
-    min-height:auto !important;
-    min-height:100svh;
-  }
-  /* Section calendrier sejour : pas de fond bleu sur mobile */
-  .sejour-calendar .dp-cal{
-    background:transparent !important;
-    border:none !important;
-    box-shadow:none !important;
-    backdrop-filter:none !important;
-    -webkit-backdrop-filter:none !important;
-    padding:clamp(16px,3vw,24px) !important;
-  }
-  /* Pareil pour les sections data-overlay=3 (CTA "Reservez") */
-  .sejour-cta{
-    background:rgba(10,22,40,.7) !important;
-  }
+  /* Section calendrier sejour : MASQUEE sur mobile.
+     Le widget calendrier (recemment ajoute) causait un "carre bleu"
+     sur iPhone Safari. Sur mobile, les voyageurs voient les
+     disponibilites directement sur Airbnb via le CTA en bas de page.
+     Sur desktop : le calendrier reste pleinement visible. */
+  .sejour-calendar{display:none !important}
 }
 body{
   margin:0;background:var(--bg);color:var(--ink);

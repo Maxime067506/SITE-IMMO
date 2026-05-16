@@ -23,15 +23,6 @@
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isTouch = matchMedia('(hover: none)').matches;
 
-  // ============================================================
-  // MOBILE : on desactive l'iframe YouTube + l'overlay piloté.
-  // Cause : iPhone Safari bugue avec position:sticky + iframe
-  // + backdrop-filter -> le "carre bleu" qui bloque le contenu.
-  // Sur mobile, on garde uniquement le POSTER (image nice-sunset)
-  // en fond statique, sans overlay. C'est plus fluide et fiable.
-  // ============================================================
-  const isMobile = matchMedia('(max-width: 760px)').matches;
-
   // Détection iOS Safari — fixed + iframe peut poser problème historique.
   // On détecte précisément iPhone/iPad non-Chrome pour activer le fallback sticky.
   const ua = navigator.userAgent;
@@ -85,12 +76,11 @@
       poster.classList.add('is-kenburns');
     }
 
-    // Iframe vidéo YouTube (sauf reduced-motion OU mobile).
+    // Iframe vidéo YouTube (sauf reduced-motion).
     // Note : Safari iOS avec "Prevent Cross-Site Tracking" peut bloquer cette iframe.
-    // Sur mobile, on skip pour eviter les bugs Safari + meilleure perf + LCP.
     // Try/catch dans boot() empêche qu'un échec ici bloque le reste du site.
     try {
-      if (!reducedMotion && !isMobile) {
+      if (!reducedMotion) {
         const frame = document.createElement('iframe');
         frame.className = 'vbg-frame';
         frame.title = 'Ambiance Nice — Delfosse Properties';
@@ -250,13 +240,6 @@
   }
 
   function attachObservers() {
-    // SUR MOBILE : pas d'overlay piloté. Le niveau reste a 0 (transparent)
-    // en permanence pour eviter le "carre bleu" iPhone Safari.
-    if (isMobile) {
-      setLevel(0, /*instant*/ true);
-      return;
-    }
-
     const sections = document.querySelectorAll('[data-overlay]');
     if (!sections.length) return;
 
