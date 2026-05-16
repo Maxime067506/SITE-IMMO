@@ -51,7 +51,13 @@
   ],
   "rewrites": [
     { "source": "/login",  "destination": "/login.html" },
-    { "source": "/espace", "destination": "/espace.html" }
+    { "source": "/espace", "destination": "/espace.html" },
+    { "source": "/blog",   "destination": "/blog/index.html" },
+    { "source": "/blog/",  "destination": "/blog/index.html" },
+    { "source": "/en",     "destination": "/en/index.html" },
+    { "source": "/en/",    "destination": "/en/index.html" },
+    { "source": "/en/blog","destination": "/en/blog/index.html" },
+    { "source": "/en/blog/","destination": "/en/blog/index.html" }
   ],
   "redirects": [
     { "source": "/port",         "destination": "/sejour-01.html", "permanent": true },
