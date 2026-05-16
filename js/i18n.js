@@ -1723,9 +1723,9 @@ const I18N = {
     "blog.q.mus.con1":         "Further from the sea (12-15 min walk).",
     "blog.q.mus.con2":         "Less \"postcard\" atmosphere than Old Nice.",
     "blog.q.mus.apts.intro":   "Three of our seven apartments are located here:",
-    "blog.q.mus.apt5":         "<a href=\"../sejour-05.html\">Ultra design apartment — 41 av. Georges Clemenceau</a> — New one-bedroom, 4.94/5 rating.",
-    "blog.q.mus.apt6":         "<a href=\"../sejour-06.html\">Renovated apartment — 24D rue Gounod</a> — Fully renovated, 5 min from the station.",
-    "blog.q.mus.apt7":         "<a href=\"../sejour-07.html\">Design apartment — 41 av. Georges Clemenceau</a> — New one-bedroom, modern decor.",
+    "blog.q.mus.apt5":         "<a href=\"../stay-05.html\">Ultra design apartment — 41 av. Georges Clemenceau</a> — New one-bedroom, 4.94/5 rating.",
+    "blog.q.mus.apt6":         "<a href=\"../stay-06.html\">Renovated apartment — 24D rue Gounod</a> — Fully renovated, 5 min from the station.",
+    "blog.q.mus.apt7":         "<a href=\"../stay-07.html\">Design apartment — 41 av. Georges Clemenceau</a> — New one-bedroom, modern decor.",
     "blog.q.mus.cta.eye":      "A quiet address",
     "blog.q.mus.cta.title":    "Looking for a rental in the Musiciens quarter?",
     "blog.q.mus.cta.body":     "Three of our seven apartments are located here. Modern one-bedrooms, fully equipped (high-speed Wi-Fi, air conditioning, fitted kitchen), 5 minutes from the station and 8 minutes from the centre.",
@@ -1742,8 +1742,8 @@ const I18N = {
     "blog.q.port.pro4":        "Pavillon beach accessible in 8 min.",
     "blog.q.port.con1":        "Further from the shopping centre (15 min walk).",
     "blog.q.port.con2":        "Watch out for yacht noise in high season.",
-    "blog.q.port.apt1":        "<a href=\"../sejour-01.html\">Port apartment — 5 rue Barla</a> — South-facing balcony with port view, 4.87/5 rating.",
-    "blog.q.port.apt2":        "<a href=\"../sejour-02.html\">Port apartment (twin) — 5 rue Barla</a> — Same building, same view, distinct atmosphere. 4.88/5 rating.",
+    "blog.q.port.apt1":        "<a href=\"../stay-01.html\">Port apartment — 5 rue Barla</a> — South-facing balcony with port view, 4.87/5 rating.",
+    "blog.q.port.apt2":        "<a href=\"../stay-02.html\">Port apartment (twin) — 5 rue Barla</a> — Same building, same view, distinct atmosphere. 4.88/5 rating.",
 
     /* V — Promenade */
     "blog.q.pa.eyebrow":       "Promenade des Anglais",
@@ -1790,8 +1790,8 @@ const I18N = {
     "blog.q.gare.pro3":        "Nice shopping centre (rue Jean Médecin) 3 min away.",
     "blog.q.gare.con1":        "No marked architectural charm.",
     "blog.q.gare.con2":        "Further from the sea (20 min walk).",
-    "blog.q.gare.apt4":        "<a href=\"../sejour-04.html\">Art Deco apartment — facing the station</a> — 1930s-style studio, 4.86/5 rating.",
-    "blog.q.gare.apt3":        "<a href=\"../sejour-03.html\">Notre-Dame apartment — Hyper centre</a> — Family-sized with mezzanine (6 guests), 5 min away.",
+    "blog.q.gare.apt4":        "<a href=\"../stay-04.html\">Art Deco apartment — facing the station</a> — 1930s-style studio, 4.86/5 rating.",
+    "blog.q.gare.apt3":        "<a href=\"../stay-03.html\">Notre-Dame apartment — Hyper centre</a> — Family-sized with mezzanine (6 guests), 5 min away.",
 
     /* Comparison */
     "blog.q.comp.eyebrow":     "Summary",
@@ -1955,11 +1955,11 @@ const I18N = {
     "blog.j.stay.eyebrow":     "Accommodation",
     "blog.j.stay.title":       "Where to stay: <em>our 7 apartments.</em>",
     "blog.j.stay.intro":       "Based on your itinerary, here are our most relevant apartments:",
-    "blog.j.stay.l1":          "To <strong>enjoy Old Nice</strong>: <a href=\"../sejour-01.html\">Port apartment</a> or <a href=\"../sejour-02.html\">its twin</a> (5 rue Barla, 7 min walk to Old Nice).",
-    "blog.j.stay.l2":          "For <strong>a family of 6</strong>: <a href=\"../sejour-03.html\">Notre-Dame apartment</a> with mezzanine in the hyper centre.",
-    "blog.j.stay.l3":          "To <strong>arrive by train</strong>: <a href=\"../sejour-04.html\">Art Deco apartment</a> facing Nice-Ville station.",
-    "blog.j.stay.l4":          "For the <strong>best value for money</strong>: <a href=\"../sejour-05.html\">ultra design</a>, <a href=\"../sejour-06.html\">renovated</a> or <a href=\"../sejour-07.html\">modern design</a> in the Musiciens quarter.",
-    "blog.j.stay.more":        "More details in our <a href=\"meilleurs-quartiers-nice-ou-loger.html\">complete guide to the best neighbourhoods in Nice</a>.",
+    "blog.j.stay.l1":          "To <strong>enjoy Old Nice</strong>: <a href=\"../stay-01.html\">Port apartment</a> or <a href=\"../stay-02.html\">its twin</a> (5 rue Barla, 7 min walk to Old Nice).",
+    "blog.j.stay.l2":          "For <strong>a family of 6</strong>: <a href=\"../stay-03.html\">Notre-Dame apartment</a> with mezzanine in the hyper centre.",
+    "blog.j.stay.l3":          "To <strong>arrive by train</strong>: <a href=\"../stay-04.html\">Art Deco apartment</a> facing Nice-Ville station.",
+    "blog.j.stay.l4":          "For the <strong>best value for money</strong>: <a href=\"../stay-05.html\">ultra design</a>, <a href=\"../stay-06.html\">renovated</a> or <a href=\"../stay-07.html\">modern design</a> in the Musiciens quarter.",
+    "blog.j.stay.more":        "More details in our <a href=\"best-nice-neighbourhoods.html\">complete guide to the best neighbourhoods in Nice</a>.",
 
     /* FAQ */
     "blog.j.faq.eyebrow":      "FAQ",
@@ -2016,14 +2016,61 @@ function applyLang(lang) {
   localStorage.setItem(I18N_KEY, lang);
 }
 
+/* ============================================================
+   URL mapping FR <-> EN (pour le toggle de langue cross-page)
+   ============================================================ */
+const URL_MAP_FR_TO_EN = {
+  "/": "/en/",
+  "/index.html": "/en/index.html",
+  "/a-propos.html": "/en/about.html",
+  "/sejour-01.html": "/en/stay-01.html",
+  "/sejour-02.html": "/en/stay-02.html",
+  "/sejour-03.html": "/en/stay-03.html",
+  "/sejour-04.html": "/en/stay-04.html",
+  "/sejour-05.html": "/en/stay-05.html",
+  "/sejour-06.html": "/en/stay-06.html",
+  "/sejour-07.html": "/en/stay-07.html",
+  "/blog/": "/en/blog/",
+  "/blog/index.html": "/en/blog/index.html",
+  "/blog/meilleurs-quartiers-nice-ou-loger.html": "/en/blog/best-nice-neighbourhoods.html",
+  "/blog/que-faire-a-nice-en-3-jours.html": "/en/blog/3-days-in-nice.html",
+  "/mentions-legales.html": "/en/legal.html",
+  "/cgv.html": "/en/terms.html",
+  "/politique-confidentialite.html": "/en/privacy.html",
+};
+const URL_MAP_EN_TO_FR = Object.fromEntries(
+  Object.entries(URL_MAP_FR_TO_EN).map(([fr, en]) => [en, fr])
+);
+
+function navigateToLang(targetLang) {
+  const path = window.location.pathname;
+  const isEn = path.startsWith("/en/") || path === "/en";
+  // Si on est deja sur la bonne langue, ne rien faire (juste applyLang)
+  if (targetLang === "en" && isEn) { applyLang("en"); return; }
+  if (targetLang === "fr" && !isEn) { applyLang("fr"); return; }
+  // Sinon : trouve la version equivalente
+  const map = targetLang === "en" ? URL_MAP_FR_TO_EN : URL_MAP_EN_TO_FR;
+  const target = map[path] || (targetLang === "en" ? "/en/" : "/");
+  // Preserve hash et search
+  const hash = window.location.hash || "";
+  const search = window.location.search || "";
+  // Sauve la preference avant de naviguer
+  try { localStorage.setItem(I18N_KEY, targetLang); } catch(_) {}
+  window.location.href = target + search + hash;
+}
+
 function initI18n() {
+  // Detecte la langue depuis <html lang="X"> en priorite (page deja servie dans la bonne langue)
+  const htmlLang = document.documentElement.lang || "";
+  const fromHtml = htmlLang.toLowerCase().slice(0, 2);
   const saved = localStorage.getItem(I18N_KEY);
   const browser = (navigator.language || "fr").slice(0,2).toLowerCase();
-  const initial = saved || (I18N[browser] ? browser : "fr");
+  // Priorite : HTML lang > localStorage > navigateur > defaut fr
+  const initial = (I18N[fromHtml] && fromHtml) || saved || (I18N[browser] ? browser : "fr");
   applyLang(initial);
 
   document.querySelectorAll(".lang-switch [data-lang]").forEach(btn => {
-    btn.addEventListener("click", () => applyLang(btn.dataset.lang));
+    btn.addEventListener("click", () => navigateToLang(btn.dataset.lang));
   });
 }
 
