@@ -22,6 +22,7 @@
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isTouch = matchMedia('(hover: none)').matches;
+  const isSmall = window.matchMedia('(max-width: 820px)').matches;
 
   // Détection iOS Safari — fixed + iframe peut poser problème historique.
   // On détecte précisément iPhone/iPad non-Chrome pour activer le fallback sticky.
@@ -31,6 +32,15 @@
   if (isIOSSafari) {
     document.documentElement.classList.add('ios-safari');
   }
+
+  // ====== STRATEGIE MOBILE / iOS SAFARI ======
+  // L'iframe YouTube cross-domain combinée a backdrop-filter + position:sticky
+  // declenche des bugs de rendu sur iPhone Safari (carre bleu, contenu masque,
+  // overlay opaque). Solution propre : sur mobile, on n'injecte JAMAIS l'iframe.
+  // On garde le poster (LCP) avec Ken Burns => effet cinematique identique,
+  // zero bandwidth video, zero bug de rendu cross-domain.
+  // Desktop : iframe + overlay system inchanges.
+  const usePosterOnly = reducedMotion || isIOSSafari || isTouch || isSmall;
 
   /* ------------------ Niveaux B — IDENTIQUES desktop ↔ mobile ------------------ */
   // Règle du brief : « Les overlays glassmorphism et leurs niveaux » ne changent jamais
@@ -76,11 +86,13 @@
       poster.classList.add('is-kenburns');
     }
 
-    // Iframe vidéo YouTube (sauf reduced-motion).
-    // Note : Safari iOS avec "Prevent Cross-Site Tracking" peut bloquer cette iframe.
+    // Iframe vidéo YouTube — DESKTOP UNIQUEMENT.
+    // Sur mobile / iOS Safari / reduced-motion : on garde uniquement le poster
+    // avec animation Ken Burns. Pas d'iframe = pas de carre bleu, pas de bug
+    // cross-domain, pas de surconsommation de data.
     // Try/catch dans boot() empêche qu'un échec ici bloque le reste du site.
     try {
-      if (!reducedMotion) {
+      if (!usePosterOnly) {
         const frame = document.createElement('iframe');
         frame.className = 'vbg-frame';
         frame.title = 'Ambiance Nice — Delfosse Properties';
