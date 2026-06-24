@@ -745,7 +745,7 @@ targets.forEach(el => io.observe(el));
 
     // aria-label du track
     track.setAttribute('aria-label',
-      `${ITEMS[active].name}, ${active + 1} sur ${TOTAL}. Sept adresses Delfosse Properties.`);
+      `${ITEMS[active].name}, ${active + 1} sur ${TOTAL}. Huit adresses Delfosse Properties.`);
   }
 
   function goTo(i) {
