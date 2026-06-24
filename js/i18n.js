@@ -13,6 +13,7 @@ const I18N = {
     "apt.5.short":            "Ultra design · Musiciens",
     "apt.6.short":            "Notre dernier-né",
     "apt.7.short":            "Appartement design",
+    "apt.8.short":            "Notre nouvel appartement",
     "apt.1.loc":              "Port · 4 voyageurs",
     "apt.2.loc":              "Port · 4 voyageurs",
     "apt.3.loc":              "Notre-Dame · 6 voyageurs",
@@ -20,6 +21,7 @@ const I18N = {
     "apt.5.loc":              "Musiciens · 4 voyageurs",
     "apt.6.loc":              "Musiciens · 4 voyageurs",
     "apt.7.loc":              "Musiciens · 4 voyageurs",
+    "apt.8.loc":              "Musiciens · 4 voyageurs",
     "apt.1.name":             "Notre appartement du port",
     "apt.2.name":             "Son jumeau du port",
     "apt.3.name":             "Notre appartement avenue Notre-Dame",
@@ -27,6 +29,7 @@ const I18N = {
     "apt.5.name":             "Notre appartement ultra design",
     "apt.6.name":             "Notre dernier appartement",
     "apt.7.name":             "Notre appartement design",
+    "apt.8.name":             "Notre nouvel appartement",
 
     /* ---- DISTANCE / PROXIMITÉ (pages séjour) ---- */
     "dist.faceApt":           "Face à l'appartement",
@@ -54,6 +57,7 @@ const I18N = {
     "tag.cf.5":               "ULTRA DESIGN",
     "tag.cf.6":               "DERNIER-NÉ",
     "tag.cf.7":               "DESIGN",
+    "tag.cf.8":               "NOUVEAU",
 
     /* ---- META LABELS (voyageurs / chambres) ---- */
     "meta.guests.2":          "2 voyageurs",
@@ -122,22 +126,22 @@ const I18N = {
     "hero.metaCity":"Nice · MMXXVI",
     "hero.eyebrow": "Séjours d'exception",
     "hero.title":   "L'art de recevoir,<br/><em>pensé pour vos voyages.</em>",
-    "hero.lede":    "Sept adresses d'exception à Nice, choisies avec soin sur la French Riviera.",
+    "hero.lede":    "Huit adresses d'exception à Nice, choisies avec soin sur la French Riviera.",
     "hero.cta1":    "Voir les séjours",
     "hero.cta2":    "Notre philosophie →",
     "hero.scroll":  "Découvrir",
-    "hero.credit":  "Sept adresses à Nice · Accueil orchestré",
+    "hero.credit":  "Huit adresses à Nice · Accueil orchestré",
 
     /* ---- ABOUT ---- */
     "about.eyebrow": "À propos",
     "about.title":   "Des lieux de caractère,<br/><em>un accueil sur mesure.</em>",
-    "about.p1":      "Sept appartements d'exception au cœur de Nice — du Port au quartier des Musiciens, en passant par Notre-Dame et la Gare. Chacun choisi pour son âme, son confort et l'art de recevoir qu'il incarne.",
+    "about.p1":      "Huit appartements d'exception au cœur de Nice — du Port au quartier des Musiciens, en passant par Notre-Dame et la Gare. Chacun choisi pour son âme, son confort et l'art de recevoir qu'il incarne.",
     "about.p2":      "De la remise des clés au départ, nous orchestrons votre séjour sur la French Riviera avec la même exigence que si nous étions vos hôtes.",
     "about.cta":     "Voir les adresses →",
 
     /* ---- STAYS STRIP ---- */
     "stays.eyebrow": "Nos séjours",
-    "stays.title":   "Sept adresses, <em>une seule Riviera.</em>",
+    "stays.title":   "Huit adresses, <em>une seule Riviera.</em>",
     "stay.cta":      "Voir sur Airbnb",
     "stay.detail":   "Voir la fiche",
     "sej.discover":  "Découvrir la fiche →",
@@ -196,12 +200,21 @@ const I18N = {
     "stay.7.loc":  "Quartier des Musiciens · 4 voyageurs",
     "stay.7.lede": "T2 design entièrement neuf, mobilier moderne et déco soignée.",
 
+    "stay.8.name":   "Notre nouvel appartement",
+    "stay.8.sub":    "Quartier des Musiciens",
+    "stay.8.addr":   "37 av. Georges Clemenceau · Nice",
+    "stay.8.meta":   "37 av. G. Clemenceau · Musiciens · 4 voyageurs · Nouveau",
+    "stay.8.loc":    "Quartier des Musiciens · 4 voyageurs",
+    "stay.8.lede":   "T2 moderne et lumineux au cœur du quartier des Musiciens, à deux pas de Jean Médecin et du tramway.",
+    "stay.8.mapTitle": "37 avenue Georges Clemenceau <em>— Musiciens.</em>",
+    "stay.8.mapMeta":  "Plan · 37 av. Georges Clemenceau, Nice",
+
     /* ---- MAP ---- */
     "map.eyebrow":  "Localisation",
     "map.title":    "Tout Nice, <em>à portée de pas.</em>",
-    "map.label":    "Plan · 7 adresses · Nice",
+    "map.label":    "Plan · 8 adresses · Nice",
     "map.hint":     "Survolez un point",
-    "map.hintSub":  "Les 7 adresses sont regroupées au cœur de Nice, toutes à pied des sites emblématiques.",
+    "map.hintSub":  "Les 8 adresses sont regroupées au cœur de Nice, toutes à pied des sites emblématiques.",
     "map.allStays": "Voir tous les séjours →",
 
     /* ---- EXPÉRIENCES NICE (scroll horizontal) ---- */
@@ -285,6 +298,7 @@ const I18N = {
     "apt.5.heroTitle":   "Notre appartement <em>ultra design.</em>",
     "apt.6.heroTitle":   "Notre <em>dernier appartement.</em>",
     "apt.7.heroTitle":   "Notre appartement <em>design.</em>",
+    "apt.8.heroTitle":   "Notre nouvel <em>appartement.</em>",
 
     "apt.1.title":       "Un balcon,<br/><em>la Riviera.</em>",
     "apt.1.intro":       "Idéalement situé à une minute du tramway, cet appartement au design soigné offre un emplacement de rêve à deux pas du port de Nice, de la place Garibaldi, de la Coulée Verte du Vieux-Nice et des plages.",
@@ -320,6 +334,12 @@ const I18N = {
     "apt.7.intro":       "T2 design entièrement neuf, mobilier moderne et déco soignée jusqu'aux détails. Avenue Georges Clemenceau, au cœur du quartier des Musiciens.",
     "apt.7.body":        "Jean-Médecin, tramway, gare SNCF, Masséna et Vieux-Nice : tout est à moins de 10 minutes à pied. Climatisation, cuisine équipée, literie premium.",
     "apt.7.cta":         "Réservez<br/><em>L'appartement design.</em>",
+
+    "apt.8.title":       "Musiciens,<br/><em>plein cœur.</em>",
+    "apt.8.intro":       "Appartement deux-pièces au design contemporain, dans le quartier prisé des Musiciens. Cuisine ouverte entièrement équipée, séjour baigné de lumière et chambre séparée au calme.",
+    "apt.8.body":        "À deux minutes de l'avenue Jean-Médecin et du tramway, cinq de la gare SNCF, dix de la place Masséna et du Vieux-Nice. Climatisation, Wi-Fi haut débit, literie premium.",
+    "apt.8.cta":         "Réservez<br/><em>notre nouvel appartement.</em>",
+    "fiche.new":         "Nouveau",
 
     /* ============== ESPACE PRIVATIF ============== */
     "espace.logout":           "Déconnexion",
@@ -1046,6 +1066,7 @@ const I18N = {
     "apt.5.short":            "Ultra design · Musiciens",
     "apt.6.short":            "Our newest apartment",
     "apt.7.short":            "Design apartment",
+    "apt.8.short":            "Our new apartment",
     "apt.1.loc":              "Harbour · 4 guests",
     "apt.2.loc":              "Harbour · 4 guests",
     "apt.3.loc":              "Notre-Dame · 6 guests",
@@ -1053,6 +1074,7 @@ const I18N = {
     "apt.5.loc":              "Musiciens · 4 guests",
     "apt.6.loc":              "Musiciens · 4 guests",
     "apt.7.loc":              "Musiciens · 4 guests",
+    "apt.8.loc":              "Musiciens · 4 guests",
     "apt.1.name":             "Our harbour apartment",
     "apt.2.name":             "Its harbour twin",
     "apt.3.name":             "Our Notre-Dame apartment",
@@ -1060,6 +1082,7 @@ const I18N = {
     "apt.5.name":             "Our ultra-design apartment",
     "apt.6.name":             "Our newest apartment",
     "apt.7.name":             "Our design apartment",
+    "apt.8.name":             "Our new apartment",
 
     /* ---- DISTANCE / PROXIMITY (stay pages) ---- */
     "dist.faceApt":           "Opposite the apartment",
@@ -1087,6 +1110,7 @@ const I18N = {
     "tag.cf.5":               "ULTRA DESIGN",
     "tag.cf.6":               "NEWEST",
     "tag.cf.7":               "DESIGN",
+    "tag.cf.8":               "NEW",
 
     /* ---- META LABELS (guests / bedrooms) ---- */
     "meta.guests.2":          "2 guests",
@@ -1155,22 +1179,22 @@ const I18N = {
     "hero.metaCity":"Nice · MMXXVI",
     "hero.eyebrow": "Exceptional stays",
     "hero.title":   "The art of welcoming,<br/><em>crafted for your travels.</em>",
-    "hero.lede":    "Seven curated addresses in Nice, carefully selected on the French Riviera.",
+    "hero.lede":    "Eight curated addresses in Nice, carefully selected on the French Riviera.",
     "hero.cta1":    "View the stays",
     "hero.cta2":    "Our philosophy →",
     "hero.scroll":  "Discover",
-    "hero.credit":  "Seven addresses in Nice · Orchestrated hospitality",
+    "hero.credit":  "Eight addresses in Nice · Orchestrated hospitality",
 
     /* ---- ABOUT ---- */
     "about.eyebrow": "About",
     "about.title":   "Places with character,<br/><em>a tailor-made welcome.</em>",
-    "about.p1":      "Seven exceptional apartments in the heart of Nice — from the Port to the Musicians district, via Notre-Dame and the station. Each chosen for its soul, comfort and the art of hosting it embodies.",
+    "about.p1":      "Eight exceptional apartments in the heart of Nice — from the Port to the Musicians district, via Notre-Dame and the station. Each chosen for its soul, comfort and the art of hosting it embodies.",
     "about.p2":      "From key handover to check-out, we orchestrate your stay on the French Riviera with the same rigour as if we were your own hosts.",
     "about.cta":     "See the addresses →",
 
     /* ---- STAYS STRIP ---- */
     "stays.eyebrow": "Our stays",
-    "stays.title":   "Seven addresses, <em>one single Riviera.</em>",
+    "stays.title":   "Eight addresses, <em>one single Riviera.</em>",
     "stay.cta":      "Book on Airbnb",
     "stay.detail":   "View listing",
     "sej.discover":  "Discover the listing →",
@@ -1229,12 +1253,21 @@ const I18N = {
     "stay.7.loc":  "Musicians district · 4 guests",
     "stay.7.lede": "Brand-new design-led two-room, contemporary furniture and carefully chosen décor.",
 
+    "stay.8.name":   "Our new apartment",
+    "stay.8.sub":    "Musicians district",
+    "stay.8.addr":   "37 Georges Clemenceau Ave · Nice",
+    "stay.8.meta":   "37 Clemenceau Ave · Musicians · 4 guests · New",
+    "stay.8.loc":    "Musicians district · 4 guests",
+    "stay.8.lede":   "Bright, modern one-bedroom in the heart of the Musicians district, steps from Jean Médecin and the tram.",
+    "stay.8.mapTitle": "37 avenue Georges Clemenceau <em>— Musiciens.</em>",
+    "stay.8.mapMeta":  "Plan · 37 av. Georges Clemenceau, Nice",
+
     /* ---- MAP ---- */
     "map.eyebrow":  "Location",
     "map.title":    "All of Nice, <em>within walking distance.</em>",
-    "map.label":    "Plan · 7 addresses · Nice",
+    "map.label":    "Plan · 8 addresses · Nice",
     "map.hint":     "Hover over a pin",
-    "map.hintSub":  "All seven addresses cluster in the heart of Nice, each a short walk from the city's landmarks.",
+    "map.hintSub":  "All eight addresses cluster in the heart of Nice, each a short walk from the city's landmarks.",
     "map.allStays": "View all stays →",
 
     /* ---- NICE EXPERIENCES (horizontal scroll) ---- */
@@ -1318,6 +1351,7 @@ const I18N = {
     "apt.5.heroTitle":   "Our ultra <em>design apartment.</em>",
     "apt.6.heroTitle":   "Our <em>newest apartment.</em>",
     "apt.7.heroTitle":   "Our design <em>apartment.</em>",
+    "apt.8.heroTitle":   "Our new <em>apartment.</em>",
 
     "apt.1.title":       "A balcony,<br/><em>the Riviera.</em>",
     "apt.1.intro":       "One minute from the tram, this carefully designed apartment offers a dream location — a stone's throw from the port of Nice, Place Garibaldi, the Coulée Verte promenade, the Old Town and the beaches.",
@@ -1353,6 +1387,12 @@ const I18N = {
     "apt.7.intro":       "Brand-new design-led two-room apartment, contemporary furniture and interiors crafted to the smallest detail. Avenue Georges Clemenceau, at the heart of the Musicians district.",
     "apt.7.body":        "Jean-Médecin, the tram, the station, Place Masséna and the Old Town: all under ten minutes on foot. Air-conditioning, fully equipped kitchen, premium bedding.",
     "apt.7.cta":         "Book<br/><em>The design apartment.</em>",
+
+    "apt.8.title":       "Musicians,<br/><em>at heart.</em>",
+    "apt.8.intro":       "Contemporary two-room apartment in the sought-after Musicians district. Fully equipped open kitchen, light-filled living room and a separate, quiet bedroom.",
+    "apt.8.body":        "Two minutes from avenue Jean-Médecin and the tram, five from the train station, ten from Place Masséna and the Old Town. Air-conditioning, high-speed Wi-Fi, premium bedding.",
+    "apt.8.cta":         "Book<br/><em>our new apartment.</em>",
+    "fiche.new":         "New",
 
     /* ============== GUEST AREA ============== */
     "espace.logout":           "Logout",

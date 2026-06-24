@@ -5,7 +5,7 @@
  * les dates reservees en JSON pour affichage cote client.
  *
  * Configuration : les URLs iCal Airbnb sont stockees comme
- * variables d'environnement Vercel (AIRBNB_ICAL_01 ... AIRBNB_ICAL_07).
+ * variables d'environnement Vercel (AIRBNB_ICAL_01 ... AIRBNB_ICAL_08).
  *
  * Cache : 1h CDN + 24h stale-while-revalidate (evite de hammer Airbnb).
  */
@@ -19,6 +19,7 @@ const ICAL_URLS = {
   '05': process.env.AIRBNB_ICAL_05,
   '06': process.env.AIRBNB_ICAL_06,
   '07': process.env.AIRBNB_ICAL_07,
+  '08': process.env.AIRBNB_ICAL_08,
 };
 
 export default async function handler(req, res) {
@@ -30,7 +31,7 @@ export default async function handler(req, res) {
 
   if (!ICAL_URLS[id]) {
     return res.status(400).json({
-      error: 'Invalid apartment id. Expected 01-07.',
+      error: 'Invalid apartment id. Expected 01-08.',
       id,
     });
   }

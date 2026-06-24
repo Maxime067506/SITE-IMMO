@@ -31,6 +31,7 @@ AIRBNB_ICAL_04 = https://www.airbnb.fr/calendar/ical/XXX.ics?s=XXX
 AIRBNB_ICAL_05 = https://www.airbnb.fr/calendar/ical/XXX.ics?s=XXX
 AIRBNB_ICAL_06 = https://www.airbnb.fr/calendar/ical/XXX.ics?s=XXX
 AIRBNB_ICAL_07 = https://www.airbnb.fr/calendar/ical/XXX.ics?s=XXX
+AIRBNB_ICAL_08 = https://www.airbnb.fr/calendar/ical/XXX.ics?s=XXX
 ```
 
 ### Étape 3 — Redéployer
@@ -50,6 +51,7 @@ Après avoir ajouté les variables, **redéploie** le projet :
 | Ultra design / Musiciens | `/sejour-05.html` | `/en/stay-05.html` | `AIRBNB_ICAL_05` |
 | Musiciens (rénové) | `/sejour-06.html` | `/en/stay-06.html` | `AIRBNB_ICAL_06` |
 | Design / Musiciens | `/sejour-07.html` | `/en/stay-07.html` | `AIRBNB_ICAL_07` |
+| Nouvel appartement (à compléter) | `/sejour-08.html` | `/en/stay-08.html` | `AIRBNB_ICAL_08` |
 
 ## Comportement
 

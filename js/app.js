@@ -428,6 +428,7 @@ targets.forEach(el => io.observe(el));
     { no:'05', name:'Notre appartement ultra design',      address:'41 av. G. Clemenceau, Nice',loc:'Musiciens',      lat:43.70179, lon:7.26055, img:'img/airbnb/06-scherzo/photo-01.jpg?v=e3',   meta:'4 voyageurs · ★ 4,94', airbnb:'https://www.airbnb.fr/rooms/1446914329011561138', detail:'sejour-05.html' },
     { no:'06', name:'Notre dernier appartement',           address:'24D rue Gounod, Nice',      loc:'Musiciens',      lat:43.70098, lon:7.26081, img:'img/airbnb/07-crescendo/photo-01.jpg', meta:'4 voyageurs · ★ 4,69', airbnb:'https://www.airbnb.fr/rooms/1361447215596892211', detail:'sejour-06.html' },
     { no:'07', name:'Notre appartement design',            address:'41 av. G. Clemenceau, Nice',loc:'Musiciens',      lat:43.70149, lon:7.26015, img:'img/airbnb/05-adagio/photo-01.jpg?v=d1',    meta:'4 voyageurs · ★ 4,81', airbnb:'https://www.airbnb.fr/rooms/1447097634568506909', detail:'sejour-07.html' },
+    { no:'08', name:'Notre nouvel appartement',            address:'37 av. G. Clemenceau, Nice', loc:'Musiciens',     lat:43.70130, lon:7.26095, img:'img/airbnb/08-symphonie/photo-01.jpg',  meta:'4 voyageurs · Nouveau', airbnb:'https://www.airbnb.fr/rooms/1705198304588120041', detail:'sejour-08.html' },
   ];
 
   // Si on est sur une fiche séjour (sejour-0X.html), ne conserver que
@@ -590,6 +591,7 @@ targets.forEach(el => io.observe(el));
     { no:'05', nameKey:'apt.5.short', tagKey:'tag.cf.5', locKey:'apt.5.loc', rating:'4,94', image:'img/airbnb/06-scherzo/photo-01.jpg?v=e3',         airbnb:'https://www.airbnb.fr/rooms/1446914329011561138' },
     { no:'06', nameKey:'apt.6.short', tagKey:'tag.cf.6', locKey:'apt.6.loc', rating:'4,69', image:'img/airbnb/07-crescendo/photo-01.jpg',       airbnb:'https://www.airbnb.fr/rooms/1361447215596892211' },
     { no:'07', nameKey:'apt.7.short', tagKey:'tag.cf.7', locKey:'apt.7.loc', rating:'4,81', image:'img/airbnb/05-adagio/photo-01.jpg?v=d1',          airbnb:'https://www.airbnb.fr/rooms/1447097634568506909' },
+    { no:'08', nameKey:'apt.8.short', tagKey:'tag.cf.8', locKey:'apt.8.loc', rating:'',     image:'img/airbnb/08-symphonie/photo-01.jpg',                airbnb:'https://www.airbnb.fr/rooms/1705198304588120041' },
   ];
   // Helper : traduction via DP_I18N avec fallback FR
   const tr = (key, fallback) => {
@@ -645,7 +647,7 @@ targets.forEach(el => io.observe(el));
       </picture>
       <div class="cf-card-bot">
         <h3 class="cf-card-name">${it.name}</h3>
-        <p class="cf-card-meta"><span>${it.loc.toUpperCase()}</span><span class="sep">·</span><span>★ ${it.rating}</span></p>
+        <p class="cf-card-meta"><span>${it.loc.toUpperCase()}</span><span class="sep">·</span><span>${it.rating ? '★ ' + it.rating : tr('fiche.new','Nouveau')}</span></p>
       </div>`;
     a.addEventListener('click', () => onCardClick(i));
     stage.appendChild(a);
