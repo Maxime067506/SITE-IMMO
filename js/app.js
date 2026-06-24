@@ -8,12 +8,12 @@ const _dpToWebp = (src) => src.replace(/\.(jpg|jpeg|png)(\?.*)?$/i, '.webp$2');
 /* Helper : retourne la version watermarkee d'une URL photo
    ex: img/airbnb/01-amiral/photo-01.jpg -> img/airbnb/01-amiral/photo-01_wm.jpg
    Preserve le ?v= eventuel. */
-// Insere "_wm" avant l'extension ET applique le cache-bust global "-wmC".
-// Bump le suffixe a chaque regeneration des watermarks (wmC -> wmC -> wmD...)
+// Insere "_wm" avant l'extension ET applique le cache-bust global "-wmD".
+// Bump le suffixe a chaque regeneration des watermarks (wmD -> wmE -> wmF...)
 const _dpWm = (src) => {
   const wm = src.replace(/(\.[a-z]+)(\?.*)?$/i, '_wm$1$2');
-  if (/\?v=/.test(wm)) return wm.replace(/\?v=([^&]+)/, '?v=$1-wmC');
-  return wm + '?v=wmC';
+  if (/\?v=/.test(wm)) return wm.replace(/\?v=([^&]+)/, '?v=$1-wmD');
+  return wm + '?v=wmD';
 };
 
 const header = document.getElementById('siteHeader');
@@ -867,10 +867,10 @@ targets.forEach(el => io.observe(el));
   const dir   = stage.dataset.photoDir;
   const count = parseInt(stage.dataset.photoCount || '8', 10);
   const ver   = stage.dataset.photoVersion || '';
-  // Cache-bust GLOBAL : on append "-wmC" a toutes les URLs pour forcer le
+  // Cache-bust GLOBAL : on append "-wmD" a toutes les URLs pour forcer le
   // navigateur a re-fetch les _wm.jpg/_wm.webp qui ont change cote serveur.
-  // Bump ce suffixe a chaque regeneration des watermarks (wmC -> wmC -> wmD...)
-  const verQs = ver ? `?v=${ver}-wmC` : '?v=wmC';
+  // Bump ce suffixe a chaque regeneration des watermarks (wmD -> wmE -> wmF...)
+  const verQs = ver ? `?v=${ver}-wmD` : '?v=wmD';
 
   if (!dir || !count) return;
 
