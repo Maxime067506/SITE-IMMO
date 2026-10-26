@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "type": "module",
+  "name": "delfosse-properties",
+  "description": "Site vitrine + reservation directe Delfosse Properties",
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  }
+}
