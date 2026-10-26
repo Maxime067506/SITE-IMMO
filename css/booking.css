@@ -1,0 +1,80 @@
+/* =====================================================================
+   booking.css — Widget de reservation en direct (pages sejour)
+   Carte ivoire posee sur la section calendrier (fond sombre).
+   Classes prefixees .dpb- pour ne rien toucher d'autre.
+   ===================================================================== */
+.dpb{max-width:560px;margin:0 auto}
+.dpb-card{
+  background:var(--bg,#F5EFE1);
+  color:var(--ink,#1A1512);
+  border:1px solid rgba(182,147,104,.4);
+  border-radius:4px;
+  padding:clamp(24px,4vw,40px);
+  box-shadow:0 40px 90px -50px rgba(0,0,0,.65);
+}
+.dpb-eyebrow{
+  font-family:var(--f-sans,sans-serif);font-weight:500;font-size:11px;
+  letter-spacing:.3em;text-transform:uppercase;color:var(--ink-muted,#8C7F72);
+  margin:0 0 10px;display:flex;align-items:center;gap:10px;
+}
+.dpb-eyebrow::before{content:"";width:22px;height:1px;background:var(--accent,#B69368)}
+.dpb-title{
+  font-family:var(--f-serif,serif);font-weight:300;font-style:italic;
+  font-size:clamp(26px,3.4vw,34px);line-height:1.1;margin:0 0 6px;color:var(--ink,#1A1512);
+}
+.dpb-sub{font-family:var(--f-sans,sans-serif);font-size:13.5px;color:var(--ink-soft,#4A403A);margin:0 0 22px;line-height:1.5}
+
+.dpb-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.dpb-row .dpb-guests{grid-column:1/-1}
+.dpb-field label{
+  display:block;font-family:var(--f-sans,sans-serif);font-size:10.5px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-muted,#8C7F72);margin-bottom:7px;
+}
+.dpb-field input,.dpb-field select{
+  width:100%;box-sizing:border-box;background:#fff;
+  border:1px solid rgba(26,21,18,.18);border-radius:3px;
+  font-family:var(--f-sans,sans-serif);font-size:15px;color:var(--ink,#1A1512);
+  padding:12px 13px;transition:border-color .2s ease;
+}
+.dpb-field input:focus,.dpb-field select:focus{outline:none;border-color:var(--accent,#B69368)}
+
+.dpb-btn{
+  width:100%;cursor:pointer;border:1px solid var(--ink,#1A1512);
+  background:var(--ink,#1A1512);color:var(--cream,#F5EFE1);
+  font-family:var(--f-sans,sans-serif);font-weight:500;font-size:11px;
+  letter-spacing:.28em;text-transform:uppercase;padding:15px 20px;border-radius:3px;
+  transition:all .3s var(--ease-out,ease);
+}
+.dpb-btn:hover{background:var(--accent,#B69368);border-color:var(--accent,#B69368);color:#fff}
+.dpb-btn:disabled{opacity:.5;cursor:default}
+.dpb-btn.gold{background:var(--accent,#B69368);border-color:var(--accent,#B69368);color:#fff}
+.dpb-btn.gold:hover{background:#C9A961;border-color:#C9A961}
+.dpb-btn.ghost{background:transparent;color:var(--ink,#1A1512)}
+.dpb-btn.ghost:hover{background:var(--ink,#1A1512);color:var(--cream,#F5EFE1)}
+
+.dpb-result{margin-top:22px;padding-top:22px;border-top:1px solid rgba(182,147,104,.3)}
+.dpb-line{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  font-family:var(--f-sans,sans-serif);font-size:14.5px;color:var(--ink-soft,#4A403A);padding:7px 0}
+.dpb-line .lbl small{display:block;font-size:11px;color:var(--ink-muted,#8C7F72);letter-spacing:.04em}
+.dpb-line .val{font-family:var(--f-mono,monospace);font-size:14px;color:var(--ink,#1A1512);white-space:nowrap}
+.dpb-total{border-top:1px solid rgba(26,21,18,.14);margin-top:8px;padding-top:14px}
+.dpb-total .lbl{font-family:var(--f-serif,serif);font-style:italic;font-size:20px;color:var(--ink,#1A1512)}
+.dpb-total .val{font-family:var(--f-serif,serif);font-size:24px;color:var(--ink,#1A1512)}
+.dpb-deposit{font-size:12px;color:var(--ink-muted,#8C7F72);margin:10px 0 0;line-height:1.5;font-style:italic}
+
+.dpb-msg{margin-top:14px;font-family:var(--f-sans,sans-serif);font-size:13.5px;min-height:18px;line-height:1.5}
+.dpb-msg.err{color:#9c4a42}
+.dpb-msg.ok{color:#3f6b43}
+.dpb-cta-row{margin-top:18px;display:grid;gap:10px}
+
+.dpb-spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.35);
+  border-top-color:#fff;border-radius:50%;animation:dpbSpin .7s linear infinite;vertical-align:-2px;margin-right:8px}
+@keyframes dpbSpin{to{transform:rotate(360deg)}}
+
+/* Formulaire voyageur (etape 2) */
+.dpb-guestform{margin-top:18px;display:grid;gap:12px}
+.dpb-guestform.hidden{display:none}
+
+@media(max-width:560px){
+  .dpb-row{grid-template-columns:1fr}
+}
