@@ -8,11 +8,13 @@
  *
  * Tous les montants sont en CENTIMES entiers.
  *
- * Taxe de sejour (Nice, meuble non classe) -- A CONFIRMER chaque annee :
- *   tarif proportionnel = tax_percent % du cout de la nuitee PAR PERSONNE,
- *   plafonne a tax_cap_cents_per_night par personne et par nuit,
- *   puis majore de tax_additional_percent % (taxes additionnelles
- *   departementale + regionale regroupees).
+ * Taxe de sejour (Nice, meuble non classe) -- source officielle Metropole
+ * Nice Cote d'Azur, tarifs 2026 (deliberation 21.19 du 10/07/2024) :
+ *   - taxe metropolitaine        = tax_percent % (5 %)
+ *   - taxe additionnelle (LNPCA) = tax_additional_percent % de la metropolitaine (34 %)
+ *   - total                      = 5 % x 1,34 = 6,70 % du cout HT/personne/nuit
+ *   - PLAFOND                    = tax_cap_cents_per_night sur le TOTAL (6,43 EUR/pers/nuit)
+ * => total/pers/nuit = min( prix_pers x 6,70 % , 6,43 EUR ).
  */
 
 const MS_DAY = 86400000;
@@ -138,9 +140,9 @@ export function computeQuote({
   let touristTax = 0;
   for (const night of breakdown) {
     const perPerson = night.price_cents / g;
-    let perPersonTax = Math.min(perPerson * taxPct, cap);
-    perPersonTax = perPersonTax * (1 + addPct);
-    touristTax += perPersonTax * g;
+    // Taux total (metropolitaine + additionnelle), PUIS plafond sur le total.
+    const perPersonTotal = perPerson * taxPct * (1 + addPct);
+    touristTax += Math.min(perPersonTotal, cap) * g;
   }
   touristTax = Math.round(touristTax);
 

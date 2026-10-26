@@ -71,7 +71,7 @@ test('devis simple 3 nuits a 80e', () => {
 });
 
 test('taxe de sejour plafonnee sur un prix eleve', () => {
-  // 1 personne, nuit a 300e : 5% = 15e > plafond 6,43e -> plafond applique.
+  // 1 personne, nuit a 300e : 6,70% = 20,10e > plafond 6,43e -> plafond total applique.
   const q = computeQuote({
     pricing: { ...pricing01, base_price_cents: 30000 },
     settings,
@@ -79,8 +79,17 @@ test('taxe de sejour plafonnee sur un prix eleve', () => {
     checkOut: '2026-06-16',
     guests: 1,
   });
-  // plafond 643 x 1.34 = 861,62 -> 862 c (arrondi)
-  assert.equal(q.tourist_tax_cents, 862);
+  // min(300 x 0,067 ; 6,43) = 6,43e = 643 c
+  assert.equal(q.tourist_tax_cents, 643);
+});
+
+test('taxe de sejour juste sous le plafond', () => {
+  // 1 personne, nuit a 90e : 90 x 6,70% = 6,03e < 6,43e -> pas de plafond.
+  const q = computeQuote({
+    pricing: { ...pricing01, base_price_cents: 9000 },
+    settings, checkIn: '2026-06-15', checkOut: '2026-06-16', guests: 1,
+  });
+  assert.equal(q.tourist_tax_cents, 603);
 });
 
 test('tarif week-end applique vendredi et samedi', () => {
