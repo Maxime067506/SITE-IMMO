@@ -26,7 +26,9 @@ export default async function handler(req, res) {
       status: r.status,
       booking: r.ok ? {
         apartment_code: b.apartment_code, check_in: b.check_in, check_out: b.check_out,
-        nights: b.nights, total_cents: b.total_cents, guest_name: b.guest_name,
+        nights: b.nights, guests_count: b.guests_count, total_cents: b.total_cents,
+        deposit_cents: b.deposit_cents, guest_name: b.guest_name,
+        ref: b.id ? String(b.id).slice(0, 8).toUpperCase() : null,
       } : undefined,
     });
   } catch (err) {

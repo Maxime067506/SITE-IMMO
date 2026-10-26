@@ -27,7 +27,13 @@
     .rc-spin{width:30px;height:30px;border:2px solid rgba(201,169,97,.25);border-top-color:#D4B77E;border-radius:50%;animation:rcSpin .8s linear infinite;margin:0 auto}
     @keyframes rcSpin{to{transform:rotate(360deg)}}
     .rc-muted{color:rgba(245,237,224,.5);font-size:13px;line-height:1.6}
+    .rc-logo{width:128px;height:auto;margin:0 auto 18px;display:block}
+    .rc-btns{display:flex;flex-direction:column;gap:11px;align-items:center;margin-top:4px}
+    .rc-btn{cursor:pointer}
+    .rc-btn.gold{background:#B69368;border-color:#B69368;color:#0A1628}
+    .rc-btn.gold:hover{background:#C9A961;border-color:#C9A961;color:#0A1628}
   </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body class="rc">
   <div class="rc-box" id="box">
@@ -51,17 +57,25 @@
         .then(function (j) {
           if (j.ok && j.status === 'confirmed') {
             var b = j.booking || {};
-            box.innerHTML = check +
-              '<p class="rc-eyebrow">Delfosse Properties</p>' +
+            box.innerHTML =
+              '<img class="rc-logo" src="/img/delfosse-properties-logo-white.svg" alt="Delfosse Properties" />' +
+              check +
               '<h1 class="rc-title">Réservation <em>confirmée.</em></h1>' +
               '<p class="rc-lede">Merci ' + esc(b.guest_name || '') + ' ! Votre séjour est réservé. Un e-mail de confirmation vous parvient sous peu.</p>' +
               '<div class="rc-det">' +
                 '<div class="row"><span>Appartement</span><span class="v">N° ' + esc(b.apartment_code || '') + '</span></div>' +
                 '<div class="row"><span>Arrivée</span><span class="v">' + fmt(b.check_in) + '</span></div>' +
                 '<div class="row"><span>Départ</span><span class="v">' + fmt(b.check_out) + '</span></div>' +
+                (b.guests_count ? '<div class="row"><span>Voyageurs</span><span class="v">' + esc(b.guests_count) + '</span></div>' : '') +
                 (b.total_cents != null ? '<div class="row"><span>Total réglé</span><span class="v">' + euros(b.total_cents) + ' €</span></div>' : '') +
+                (b.ref ? '<div class="row"><span>Référence</span><span class="v">' + esc(b.ref) + '</span></div>' : '') +
               '</div>' +
-              '<a class="rc-btn" href="index.html">Retour à l\'accueil</a>';
+              '<div class="rc-btns">' +
+                '<button type="button" class="rc-btn gold" id="pdfBtn">Télécharger la confirmation (PDF)</button>' +
+                '<a class="rc-btn" href="index.html">Retour à l\'accueil</a>' +
+              '</div>';
+            var pb = document.getElementById('pdfBtn');
+            if (pb) pb.addEventListener('click', function(){ genPDF(b); });
           } else if (j.status === 'pending') {
             box.innerHTML = fail('Paiement en cours de validation. Rechargez la page dans un instant.');
           } else {
@@ -69,6 +83,44 @@
           }
         })
         .catch(function () { box.innerHTML = fail('Erreur de connexion. Réessayez.'); });
+
+      function genPDF(b){
+        if(!window.jspdf){ return; }
+        var btn=document.getElementById('pdfBtn');
+        if(btn){ btn.disabled=true; btn.textContent='Génération…'; }
+        var img=new Image(); img.crossOrigin='anonymous';
+        img.onload=function(){ buildPDF(b,img); reset(btn); };
+        img.onerror=function(){ buildPDF(b,null); reset(btn); };
+        img.src='/img/delfosse-mark.png';
+      }
+      function reset(btn){ if(btn){ btn.disabled=false; btn.textContent='Télécharger la confirmation (PDF)'; } }
+      function buildPDF(b,img){
+        var doc=new window.jspdf.jsPDF({unit:'mm',format:'a4'});
+        var W=210, cx=W/2, ink=[26,21,18], muted=[140,127,114]; var y=26;
+        if(img){ var iw=40, ih=iw*(img.height/img.width); try{ doc.addImage(img,'PNG',cx-iw/2,y,iw,ih); y+=ih+9; }catch(e){ y+=6; } }
+        doc.setFont('times','italic'); doc.setFontSize(24); doc.setTextColor.apply(doc,ink);
+        doc.text('Confirmation de réservation', cx, y, {align:'center'}); y+=12;
+        doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor.apply(doc,muted);
+        doc.text('Merci ' + (b.guest_name||'') + ' — votre séjour est confirmé.', cx, y, {align:'center'}); y+=11;
+        doc.setDrawColor(201,169,97); doc.setLineWidth(0.3); doc.line(28,y,W-28,y); y+=11;
+        function row(l,v){ doc.setFont('helvetica','normal'); doc.setFontSize(11); doc.setTextColor.apply(doc,muted); doc.text(l,28,y); doc.setTextColor.apply(doc,ink); doc.text(String(v),W-28,y,{align:'right'}); y+=9; }
+        row('Appartement','N° '+(b.apartment_code||''));
+        row('Arrivée',fmt(b.check_in));
+        row('Départ',fmt(b.check_out));
+        if(b.guests_count) row('Voyageurs',b.guests_count);
+        if(b.total_cents!=null) row('Total réglé',euros(b.total_cents)+' EUR');
+        if(b.deposit_cents) row('Caution (empreinte, non débitée)',euros(b.deposit_cents)+' EUR');
+        if(b.ref) row('Référence',b.ref);
+        y+=3; doc.line(28,y,W-28,y); y+=12;
+        doc.setFont('helvetica','italic'); doc.setFontSize(9); doc.setTextColor.apply(doc,muted);
+        doc.text('La caution est une empreinte bancaire, non débitée sauf dégât constaté.', cx, y, {align:'center'}); y+=5;
+        doc.text('Une question ? reservation@delfosseproperties.com', cx, y, {align:'center'});
+        doc.setFont('times','normal'); doc.setFontSize(10); doc.setTextColor.apply(doc,ink);
+        doc.text('DELFOSSE PROPERTIES', cx, 281, {align:'center'});
+        doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor.apply(doc,muted);
+        doc.text('Nice · French Riviera · delfosseproperties.com', cx, 286, {align:'center'});
+        doc.save('confirmation-delfosse-'+(b.ref||b.apartment_code||'')+'.pdf');
+      }
 
       function fail(msg) {
         return '<p class="rc-eyebrow">Delfosse Properties</p>' +

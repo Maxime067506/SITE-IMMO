@@ -81,7 +81,10 @@ function shell(inner) {
   return '<div style="background:#0A1628;padding:32px 0;font-family:Arial,Helvetica,sans-serif">' +
     '<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">' +
     '<table role="presentation" width="520" cellpadding="0" cellspacing="0" style="width:520px;max-width:92%;background:#0d1b30;border:1px solid rgba(201,169,97,.28);border-radius:12px;overflow:hidden">' +
-    '<tr><td style="padding:28px 36px 8px"><div style="font-family:Georgia,serif;color:#F5EDE0;font-size:13px;letter-spacing:4px;text-transform:uppercase">Delfosse <span style="color:#D4B77E">Properties</span></div></td></tr>' +
+    '<tr><td style="padding:32px 36px 10px;text-align:center">' +
+      '<img src="https://delfosseproperties.com/img/delfosse-icon-white.png" width="52" height="52" alt="Delfosse Properties" style="display:inline-block;margin:0 auto 10px" />' +
+      '<div style="font-family:Georgia,serif;color:#F5EDE0;font-size:12px;letter-spacing:5px;text-transform:uppercase">Delfosse <span style="color:#D4B77E">Properties</span></div>' +
+    '</td></tr>' +
     inner +
     '<tr><td style="padding:18px 36px 30px;border-top:1px solid rgba(201,169,97,.18)"><p style="color:rgba(245,237,224,.45);font-size:12px;line-height:1.6;margin:14px 0 0">Delfosse Properties — Nice, French Riviera<br>delfosseproperties.com</p></td></tr>' +
     '</table></td></tr></table></div>';
