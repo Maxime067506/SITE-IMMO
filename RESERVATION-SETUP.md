@@ -37,11 +37,15 @@ E-mails (étape 3, optionnel au début) :
 
 1. Pousser la branche `reservation-directe` → Vercel crée une **URL de preview**.
 2. Tester le parcours sur cette URL (téléphone compris).
-3. Stripe → **Développeurs → Webhooks → Ajouter un endpoint** :
-   - URL : `https://<ton-url>/api/stripe/webhook`
-   - Événements : `checkout.session.completed` et `checkout.session.expired`
+3. Stripe → **Webhooks → Ajouter une destination** :
+   - URL : `https://<ton-url>/api/stripe/webhook/` — **avec le `/` final**
+     (obligatoire : le site redirige les URL sans slash, et Stripe ne suit pas
+     les redirections).
+   - Événements : `checkout.session.completed` et `checkout.session.expired`.
    - (Pas de « signing secret » à copier : la confirmation est sécurisée par
      re-vérification de la session côté serveur.)
+   - Fait pour la preview (destination « vibrant-glow »). Pour la production,
+     créer une nouvelle destination pointant sur le domaine réel.
 
 ---
 
