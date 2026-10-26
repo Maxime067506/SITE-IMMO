@@ -46,7 +46,7 @@
 
       if (!sid) { box.innerHTML = fail('Lien invalide.'); return; }
 
-      fetch('/api/booking/confirm?session_id=' + encodeURIComponent(sid))
+      fetch('/api/booking/confirm/?session_id=' + encodeURIComponent(sid))
         .then(function (r) { return r.json(); })
         .then(function (j) {
           if (j.ok && j.status === 'confirmed') {

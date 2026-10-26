@@ -110,7 +110,7 @@
       if (!ci || !co || co <= ci) { setMsg(t.badDates, 'err'); return; }
       if (clientClash(ci, co)) { setMsg(t.unavail, 'err'); return; }
       var btn = this; btn.disabled = true; setMsg(t.loading, '');
-      api('/api/booking/quote?apt=' + apt + '&check_in=' + ci + '&check_out=' + co + '&guests=' + guests)
+      api('/api/booking/quote/?apt=' + apt + '&check_in=' + ci + '&check_out=' + co + '&guests=' + guests)
         .then(function (r) {
           btn.disabled = false; setMsg('', '');
           var q = r.body || {};
@@ -170,7 +170,7 @@
       };
       var btn = gfEl.querySelector('[data-pay]'); btn.disabled = true; btn.innerHTML = '<span class="dpb-spin"></span>' + esc(t.loading);
       // Lot Stripe : POST /api/booking/checkout -> redirection Stripe.
-      api('/api/booking/checkout', { method: 'POST', body: body }).then(function (r) {
+      api('/api/booking/checkout/', { method: 'POST', body: body }).then(function (r) {
         if (r.body && r.body.url) { window.location.href = r.body.url; return; }
         btn.disabled = false; btn.textContent = t.confirm;
         setMsg((r.body && r.body.error) || 'Paiement indisponible.', 'err');
@@ -178,7 +178,7 @@
     }
 
     // Charge la dispo pour le pre-check client
-    api('/api/booking/availability?apt=' + apt).then(function (r) {
+    api('/api/booking/availability/?apt=' + apt).then(function (r) {
       if (r.body && Array.isArray(r.body.unavailable)) state.unavailable = r.body.unavailable;
     }).catch(function () {});
   }

@@ -73,7 +73,7 @@
   //  CHARGEMENT
   // ===================================================================
   function load() {
-    return api('/api/admin/data').then(function (r) {
+    return api('/api/admin/?resource=data').then(function (r) {
       if (r.status === 401) return false;
       if (r.status !== 200 || !r.body.ok) { msg('gateMsg', 'Erreur: ' + (r.body.error || r.status), 'err'); return true; }
       state.data = r.body;
@@ -131,7 +131,7 @@
     var body = { apartment_code: code, base_price_cents: base, min_nights: min,
       weekend_price_cents: wkRaw === '' ? null : toCents(wkRaw) };
     btn.disabled = true;
-    api('/api/admin/pricing', { method: 'POST', body: body }).then(function (r) {
+    api('/api/admin/?resource=pricing', { method: 'POST', body: body }).then(function (r) {
       btn.disabled = false;
       if (r.status === 200 && r.body.ok) { msg('pricingMsg', '✓ ' + aptName(code) + ' enregistré.', 'ok'); }
       else msg('pricingMsg', 'Erreur: ' + (r.body.error || r.status), 'err');
@@ -170,7 +170,7 @@
       body[k] = el.getAttribute('data-euro') === '1' ? toCents(raw) : Number(raw);
     });
     var btn = this; btn.disabled = true;
-    api('/api/admin/settings', { method: 'POST', body: body }).then(function (r) {
+    api('/api/admin/?resource=settings', { method: 'POST', body: body }).then(function (r) {
       btn.disabled = false;
       if (r.status === 200 && r.body.ok) { state.data.settings = r.body.settings; msg('settingsMsg', '✓ Réglages enregistrés.', 'ok'); }
       else msg('settingsMsg', 'Erreur: ' + (r.body.error || r.status), 'err');
@@ -208,7 +208,7 @@
         if (act === 'capture') { if (!confirm('Débiter la caution (dégât constaté) ?')) return; }
         if (act === 'preauth') { if (!confirm('Pré-autoriser la caution sur la carte du voyageur ?')) return; }
         btn.disabled = true; msg('bookingsMsg', 'Traitement…', '');
-        api('/api/admin/deposit', { method: 'POST', body: body }).then(function (r) {
+        api('/api/admin/?resource=deposit', { method: 'POST', body: body }).then(function (r) {
           if (r.status === 200 && r.body.ok) {
             msg('bookingsMsg', '✓ Caution : ' + r.body.status + '.', 'ok'); load();
           } else { btn.disabled = false; msg('bookingsMsg', r.body.error || ('Erreur ' + r.status), 'err'); }
@@ -238,7 +238,7 @@
       btn.addEventListener('click', function () {
         if (!confirm('Annuler cette réservation / ce blocage ? Les dates seront libérées.')) return;
         btn.disabled = true;
-        api('/api/admin/bookings', { method: 'POST', body: { action: 'cancel', id: btn.getAttribute('data-cancel') } }).then(function (r) {
+        api('/api/admin/?resource=bookings', { method: 'POST', body: { action: 'cancel', id: btn.getAttribute('data-cancel') } }).then(function (r) {
           if (r.status === 200 && r.body.ok) { msg('bookingsMsg', '✓ Annulé.', 'ok'); load(); }
           else { btn.disabled = false; msg('bookingsMsg', 'Erreur: ' + (r.body.error || r.status), 'err'); }
         });
@@ -251,7 +251,7 @@
       notes: document.getElementById('blkNote').value };
     if (!body.check_in || !body.check_out) { msg('bookingsMsg', 'Renseignez les dates.', 'err'); return; }
     var btn = this; btn.disabled = true;
-    api('/api/admin/bookings', { method: 'POST', body: body }).then(function (r) {
+    api('/api/admin/?resource=bookings', { method: 'POST', body: body }).then(function (r) {
       btn.disabled = false;
       if (r.status === 201 && r.body.ok) { msg('bookingsMsg', '✓ Dates bloquées.', 'ok'); document.getElementById('blkNote').value = ''; load(); }
       else msg('bookingsMsg', 'Erreur: ' + (r.body.error || r.status), 'err');
@@ -276,7 +276,7 @@
       btn.addEventListener('click', function () {
         if (!confirm('Supprimer cette saison ?')) return;
         btn.disabled = true;
-        api('/api/admin/seasons', { method: 'POST', body: { action: 'delete', id: btn.getAttribute('data-dels') } }).then(function (r) {
+        api('/api/admin/?resource=seasons', { method: 'POST', body: { action: 'delete', id: btn.getAttribute('data-dels') } }).then(function (r) {
           if (r.status === 200 && r.body.ok) { msg('seasonsMsg', '✓ Supprimée.', 'ok'); load(); }
           else { btn.disabled = false; msg('seasonsMsg', 'Erreur: ' + (r.body.error || r.status), 'err'); }
         });
@@ -290,7 +290,7 @@
     if (!body.date_start || !body.date_end) { msg('seasonsMsg', 'Renseignez les dates.', 'err'); return; }
     if (body.price_cents == null || body.price_cents < 1000) { msg('seasonsMsg', 'Prix invalide (≥ 10 €).', 'err'); return; }
     var btn = this; btn.disabled = true;
-    api('/api/admin/seasons', { method: 'POST', body: body }).then(function (r) {
+    api('/api/admin/?resource=seasons', { method: 'POST', body: body }).then(function (r) {
       btn.disabled = false;
       if (r.status === 201 && r.body.ok) { msg('seasonsMsg', '✓ Saison ajoutée.', 'ok'); document.getElementById('seaLabel').value = ''; document.getElementById('seaPrice').value = ''; load(); }
       else msg('seasonsMsg', 'Erreur: ' + (r.body.error || r.status), 'err');
