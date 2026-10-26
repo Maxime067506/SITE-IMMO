@@ -119,7 +119,7 @@ export default async function handler(req, res) {
         // Cree un client + enregistre la carte -> permet l'empreinte de
         // caution (pre-autorisation) plus tard depuis l'admin.
         customer_creation: 'always',
-        metadata: { booking_id: hold.id, apt: apt, check_in: checkIn, check_out: checkOut },
+        metadata: { booking_id: hold.id, apt: apt, check_in: checkIn, check_out: checkOut, lang: lang },
         payment_intent_data: { metadata: { booking_id: hold.id }, setup_future_usage: 'off_session' },
       });
     } catch (e) {
