@@ -6,8 +6,8 @@
  * actives/a venir. Les verrous perimes sont nettoyes au passage.
  */
 
-import { sbSelect, sbUpdate, supabaseConfigured, SupabaseError } from '../_lib/supabase.js';
-import { requireAdmin } from '../_lib/admin-auth.js';
+import { sbSelect, sbUpdate, supabaseConfigured, SupabaseError } from '../supabase.js';
+import { requireAdmin } from '../admin-auth.js';
 
 export default async function handler(req, res) {
   if (!requireAdmin(req, res)) return;

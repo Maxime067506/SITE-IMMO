@@ -5,8 +5,8 @@
  * Corps JSON : { apartment_code, base_price_cents, weekend_price_cents|null, min_nights }
  */
 
-import { sbUpdate, supabaseConfigured, SupabaseError } from '../_lib/supabase.js';
-import { requireAdmin } from '../_lib/admin-auth.js';
+import { sbUpdate, supabaseConfigured, SupabaseError } from '../supabase.js';
+import { requireAdmin } from '../admin-auth.js';
 
 function cents(v) {
   const n = Math.round(Number(v));

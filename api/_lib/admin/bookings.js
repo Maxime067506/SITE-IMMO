@@ -9,9 +9,9 @@
  * ligne source='manual' / status='confirmed' sans montant.
  */
 
-import { sbSelect, sbInsert, sbUpdate, supabaseConfigured, SupabaseError } from '../_lib/supabase.js';
-import { requireAdmin } from '../_lib/admin-auth.js';
-import { parseDate } from '../_lib/pricing.js';
+import { sbSelect, sbInsert, sbUpdate, supabaseConfigured, SupabaseError } from '../supabase.js';
+import { requireAdmin } from '../admin-auth.js';
+import { parseDate } from '../pricing.js';
 
 export default async function handler(req, res) {
   if (!requireAdmin(req, res)) return;

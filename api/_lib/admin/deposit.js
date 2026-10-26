@@ -11,11 +11,11 @@
  * a l'approche de l'arrivee (une pre-autorisation ne tient que ~7 jours).
  */
 
-import { sbSelect, sbUpdate, supabaseConfigured, SupabaseError } from '../_lib/supabase.js';
-import { requireAdmin } from '../_lib/admin-auth.js';
+import { sbSelect, sbUpdate, supabaseConfigured, SupabaseError } from '../supabase.js';
+import { requireAdmin } from '../admin-auth.js';
 import {
   getPaymentIntent, createPaymentIntent, capturePaymentIntent, cancelPaymentIntent, stripeConfigured,
-} from '../_lib/stripe.js';
+} from '../stripe.js';
 
 export default async function handler(req, res) {
   if (!requireAdmin(req, res)) return;
