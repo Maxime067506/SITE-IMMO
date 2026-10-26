@@ -27,7 +27,10 @@
     .rc-spin{width:30px;height:30px;border:2px solid rgba(201,169,97,.25);border-top-color:#D4B77E;border-radius:50%;animation:rcSpin .8s linear infinite;margin:0 auto}
     @keyframes rcSpin{to{transform:rotate(360deg)}}
     .rc-muted{color:rgba(245,237,224,.5);font-size:13px;line-height:1.6}
-    .rc-logo{width:128px;height:auto;margin:0 auto 18px;display:block}
+    .rc-lock{margin:0 auto 18px}
+    .rc-lock img{width:52px;height:52px;display:block;margin:0 auto 11px}
+    .rc-word{font-family:var(--f-serif);color:#F5EDE0;font-size:12px;letter-spacing:5px;text-transform:uppercase}
+    .rc-word span{color:#D4B77E}
     .rc-btns{display:flex;flex-direction:column;gap:11px;align-items:center;margin-top:4px}
     .rc-btn{cursor:pointer}
     .rc-btn.gold{background:#B69368;border-color:#B69368;color:#0A1628}
@@ -58,7 +61,7 @@
           if (j.ok && j.status === 'confirmed') {
             var b = j.booking || {};
             box.innerHTML =
-              '<img class="rc-logo" src="/img/delfosse-properties-logo-cream.svg" alt="Delfosse Properties" />' +
+              '<div class="rc-lock"><img src="/img/delfosse-icon-white.png" alt="Delfosse Properties" width="52" height="52" /><div class="rc-word">DELFOSSE <span>PROPERTIES</span></div></div>' +
               check +
               '<h1 class="rc-title">Booking <em>confirmed.</em></h1>' +
               '<p class="rc-lede">Thank you ' + esc(b.guest_name || '') + '! Your stay is booked. A confirmation email is on its way.</p>' +
