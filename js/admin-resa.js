@@ -178,6 +178,45 @@
   });
 
   // ---- RÉSERVATIONS ----
+  function actionsCell(b) {
+    var html = '<button class="rz-btn danger sm" data-cancel="' + esc(b.id) + '">Annuler</button>';
+    if (b.status === 'confirmed' && b.source === 'direct' && b.deposit_cents > 0) {
+      var ds = b.deposit_status;
+      html += '<div style="margin-top:9px;display:flex;flex-wrap:wrap;gap:6px;align-items:center">';
+      if (ds === 'authorized') {
+        html += '<span class="pill hold">Caution bloquée</span>' +
+          '<button class="rz-btn ghost sm" data-dep="release" data-id="' + esc(b.id) + '">Libérer</button>' +
+          '<button class="rz-btn danger sm" data-dep="capture" data-id="' + esc(b.id) + '">Débiter</button>';
+      } else if (ds === 'released') {
+        html += '<span class="pill manual">Caution libérée</span>';
+      } else if (ds === 'captured') {
+        html += '<span class="pill confirmed">Caution débitée</span>';
+      } else {
+        html += '<button class="rz-btn sm" data-dep="preauth" data-id="' + esc(b.id) + '">Pré-autoriser caution ' + eur(b.deposit_cents) + ' €</button>';
+      }
+      html += '</div>';
+    }
+    return html;
+  }
+
+  function wireDeposit(tb) {
+    tb.querySelectorAll('[data-dep]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var act = btn.getAttribute('data-dep'), id = btn.getAttribute('data-id');
+        var body = { action: act, booking_id: id };
+        if (act === 'release' && !confirm('Libérer l\'empreinte de caution ?')) return;
+        if (act === 'capture') { if (!confirm('Débiter la caution (dégât constaté) ?')) return; }
+        if (act === 'preauth') { if (!confirm('Pré-autoriser la caution sur la carte du voyageur ?')) return; }
+        btn.disabled = true; msg('bookingsMsg', 'Traitement…', '');
+        api('/api/admin/deposit', { method: 'POST', body: body }).then(function (r) {
+          if (r.status === 200 && r.body.ok) {
+            msg('bookingsMsg', '✓ Caution : ' + r.body.status + '.', 'ok'); load();
+          } else { btn.disabled = false; msg('bookingsMsg', r.body.error || ('Erreur ' + r.status), 'err'); }
+        });
+      });
+    });
+  }
+
   function renderBookings() {
     var tb = document.querySelector('#bookingsTbl tbody');
     var rows = state.data.bookings || [];
@@ -191,9 +230,10 @@
         '<td data-l="Statut"><span class="pill ' + esc(b.status) + '">' + esc(b.status) + '</span> <span class="pill ' + esc(b.source) + '">' + esc(b.source) + '</span></td>' +
         '<td data-l="Voyageur">' + who + '</td>' +
         '<td data-l="Total">' + (b.total_cents != null ? eur(b.total_cents) + ' €' : '—') + '</td>' +
-        '<td data-l=""><button class="rz-btn danger sm" data-cancel="' + esc(b.id) + '">Annuler</button></td>' +
+        '<td data-l="">' + actionsCell(b) + '</td>' +
         '</tr>';
     }).join('');
+    wireDeposit(tb);
     tb.querySelectorAll('[data-cancel]').forEach(function (btn) {
       btn.addEventListener('click', function () {
         if (!confirm('Annuler cette réservation / ce blocage ? Les dates seront libérées.')) return;

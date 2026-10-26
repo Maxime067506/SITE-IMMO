@@ -68,6 +68,7 @@ create table if not exists bookings (
   deposit_cents            int,
   stripe_payment_intent_id text,
   stripe_deposit_intent_id text,
+  deposit_status           text,                -- null | authorized | released | captured
   hold_expires_at          timestamptz,
   notes                    text,
   created_at               timestamptz not null default now(),
@@ -77,6 +78,9 @@ create table if not exists bookings (
 
 -- Empêche tout chevauchement de dates pour un même appart
 -- tant que la réservation est active (hold ou confirmée).
+-- Colonne ajoutee apres coup (pour les bases deja creees) : etat de la caution.
+alter table bookings add column if not exists deposit_status text;
+
 alter table bookings drop constraint if exists bookings_no_overlap;
 alter table bookings
   add constraint bookings_no_overlap

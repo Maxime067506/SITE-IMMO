@@ -71,3 +71,19 @@ export function getCheckoutSession(id) {
 export function getPaymentIntent(id) {
   return stripeRequest('GET', 'payment_intents/' + encodeURIComponent(id));
 }
+
+/** Cree un PaymentIntent (utilise pour l'empreinte de caution). */
+export function createPaymentIntent(params) {
+  return stripeRequest('POST', 'payment_intents', params);
+}
+
+/** Capture un PaymentIntent a capture manuelle (debite la caution). */
+export function capturePaymentIntent(id, amountCents) {
+  const params = amountCents != null ? { amount_to_capture: amountCents } : undefined;
+  return stripeRequest('POST', 'payment_intents/' + encodeURIComponent(id) + '/capture', params);
+}
+
+/** Annule un PaymentIntent (libere l'empreinte de caution). */
+export function cancelPaymentIntent(id) {
+  return stripeRequest('POST', 'payment_intents/' + encodeURIComponent(id) + '/cancel');
+}
