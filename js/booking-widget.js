@@ -11,7 +11,7 @@
    ===================================================================== */
 (function () {
   'use strict';
-  var PAYMENT_READY = false; // bascule a true une fois Stripe actif
+  var PAYMENT_READY = true; // Stripe actif (mode test tant que cles test)
 
   function lang() {
     try { if (window.DP_I18N && window.DP_I18N.lang) return window.DP_I18N.lang(); } catch (e) {}
