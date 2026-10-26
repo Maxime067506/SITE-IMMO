@@ -120,6 +120,12 @@ const I18N = {
     "nav.space": "Espace",
     "nav.allStays": "Tous les séjours",
     "nav.back": "← Retour aux séjours",
+    "nav.bookDirect": "Réserver en direct",
+
+    /* ---- RESERVER EN DIRECT ---- */
+    "rz.eyebrow": "Réservation en direct",
+    "rz.title": "Réservez <em>en direct.</em>",
+    "rz.lede": "Choisissez votre appartement, sélectionnez vos dates sur le calendrier, et réglez en ligne en toute sécurité — sans frais de service.",
 
     /* ---- HERO ---- */
     "hero.meta":    "Film N° I — Invitation",
@@ -1174,6 +1180,12 @@ const I18N = {
     "nav.space": "Guest area",
     "nav.allStays": "All stays",
     "nav.back": "← Back to stays",
+    "nav.bookDirect": "Book direct",
+
+    /* ---- BOOK DIRECT ---- */
+    "rz.eyebrow": "Book direct",
+    "rz.title": "Book <em>direct.</em>",
+    "rz.lede": "Pick your apartment, select your dates on the calendar, and pay online securely — no service fee.",
 
     /* ---- HERO ---- */
     "hero.meta":    "Film N° I — Invitation",
