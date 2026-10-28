@@ -286,26 +286,26 @@
 
   App.prototype.onBook = function(){
     var self=this, t=T(), gf=document.getElementById('rz2Gform');
-    gf.innerHTML =
-      '<input type="text" id="rz2Name" placeholder="'+esc(t.name)+'" autocomplete="name">' +
-      '<input type="email" id="rz2Email" placeholder="'+esc(t.email)+'" autocomplete="email">' +
-      '<input type="tel" id="rz2Phone" placeholder="'+esc(t.phone)+'" autocomplete="tel">' +
-      '<button class="rz2-btn" id="rz2Pay">'+esc(t.pay)+'</button>';
+    // Prénom, nom, e-mail et téléphone obligatoires et valides (js/guest-validate.js)
+    this.gform = window.DPGuest.mount(gf, {
+      lang: isEN()?'en':'fr', button: t.pay, buttonClass: 'rz2-btn',
+      onInvalid: function(hint){ self.setMsg(hint,'err'); },
+      onSubmit: function(guest, btn){ self.setMsg('',''); self.checkout(guest, btn); }
+    });
     gf.classList.remove('hidden');
-    document.getElementById('rz2Pay').addEventListener('click', function(){ self.checkout(); });
+    var book=document.getElementById('rz2Book'); if(book) book.style.display='none';
     gf.scrollIntoView({behavior:'smooth',block:'nearest'});
   };
 
-  App.prototype.checkout = function(){
+  App.prototype.checkout = function(guest, btn){
     var self=this, t=T();
-    var btn=document.getElementById('rz2Pay');
-    var body={ apt:this.apt.no, check_in:this.checkIn, check_out:this.checkOut, guests:this.guests,
-      guest_name:(document.getElementById('rz2Name')||{}).value, guest_email:(document.getElementById('rz2Email')||{}).value,
-      guest_phone:(document.getElementById('rz2Phone')||{}).value, lang:isEN()?'en':'fr' };
+    var body={ apt:this.apt.no, check_in:this.checkIn, check_out:this.checkOut, guests:this.guests, lang:isEN()?'en':'fr' };
+    Object.keys(guest).forEach(function(k){ body[k]=guest[k]; });
     btn.disabled=true; btn.innerHTML='<span class="rz2-spin"></span>'+esc(t.loading);
     apiPost('/api/booking/checkout/',body).then(function(r){
       if(r.body&&r.body.url){ window.location.href=r.body.url; return; }
       btn.disabled=false; btn.textContent=t.pay;
+      if(r.body&&r.body.code==='guest_invalid' && self.gform) self.gform.markInvalid(r.body.fields);
       self.setMsg((r.body&&r.body.error)||t.unavail,'err');
     }).catch(function(e){ btn.disabled=false; btn.textContent=t.pay; self.setMsg(String(e.message||e),'err'); });
   };

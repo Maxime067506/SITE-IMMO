@@ -2,8 +2,9 @@
  * POST /api/booking/checkout
  * ==========================
  * Cree un VERROU puis une session de paiement Stripe Checkout.
- * Corps JSON : apt, check_in, check_out, guests, guest_name, guest_email,
- * guest_phone, lang ('fr'|'en').
+ * Corps JSON : apt, check_in, check_out, guests, guest_first_name,
+ * guest_last_name, guest_email, guest_phone, lang ('fr'|'en').
+ * Prenom, nom, e-mail et telephone sont obligatoires et verifies (_lib/guest.js).
  * Retour : { ok, url } -> le client redirige vers Stripe.
  *
  * Le montant est recalcule cote serveur (jamais le client). Le verrou dure
@@ -16,6 +17,7 @@ import { fetchAirbnbBlocked } from '../_lib/ical.js';
 import { loadDayPrices } from '../_lib/day-prices.js';
 import { computeQuote, parseDate } from '../_lib/pricing.js';
 import { createCheckoutSession, stripeConfigured } from '../_lib/stripe.js';
+import { validateGuest } from '../_lib/guest.js';
 
 const HOLD_MIN = 35;
 const ICAL_URLS = {
@@ -48,6 +50,12 @@ export default async function handler(req, res) {
   const lang = p.lang === 'en' ? 'en' : 'fr';
   if (!/^0[1-8]$/.test(apt)) return res.status(400).json({ ok: false, error: 'apt invalide.' });
   if (!parseDate(checkIn) || !parseDate(checkOut)) return res.status(400).json({ ok: false, error: 'Dates invalides.' });
+  const check = validateGuest(p);
+  if (!check.ok) {
+    return res.status(400).json({ ok: false, code: 'guest_invalid', fields: check.fields,
+      error: lang === 'en' ? 'Please complete your details (first name, last name, email, phone).' : 'Complétez vos coordonnées (prénom, nom, e-mail, téléphone).' });
+  }
+  const guest = check.guest;
 
   try {
     const nowISO = new Date().toISOString();
@@ -84,7 +92,7 @@ export default async function handler(req, res) {
       const rows = await sbInsert('bookings', {
         apartment_code: apt, check_in: checkIn, check_out: checkOut,
         status: 'hold', source: 'direct',
-        guest_name: str(p.guest_name, 200), guest_email: str(p.guest_email, 200), guest_phone: str(p.guest_phone, 50),
+        guest_name: guest.name, guest_email: guest.email, guest_phone: guest.phone,
         guests_count: quote.guests, nights: quote.nights,
         nightly_total_cents: quote.nightly_total_cents, cleaning_fee_cents: quote.cleaning_fee_cents,
         tourist_tax_cents: quote.tourist_tax_cents, total_cents: quote.total_cents, deposit_cents: quote.deposit_cents,
@@ -114,7 +122,7 @@ export default async function handler(req, res) {
         line_items: lineItems,
         success_url: origin + okPage + '?session_id={CHECKOUT_SESSION_ID}',
         cancel_url: origin + koPage,
-        customer_email: str(p.guest_email, 200) || undefined,
+        customer_email: guest.email,
         locale: lang,
         expires_at: Math.floor(Date.now() / 1000) + HOLD_MIN * 60,
         // Cree un client + enregistre la carte -> permet l'empreinte de
@@ -136,7 +144,6 @@ export default async function handler(req, res) {
   }
 }
 
-function str(v, n) { return typeof v === 'string' && v ? v.slice(0, n) : null; }
 function lineItem(cents, name) {
   return { price_data: { currency: 'eur', unit_amount: cents, product_data: { name: name } }, quantity: 1 };
 }

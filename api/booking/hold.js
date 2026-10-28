@@ -25,6 +25,7 @@ import {
 import { fetchAirbnbBlocked } from '../_lib/ical.js';
 import { loadDayPrices } from '../_lib/day-prices.js';
 import { computeQuote, parseDate, nightsBetween } from '../_lib/pricing.js';
+import { validateGuest } from '../_lib/guest.js';
 
 const ICAL_URLS = {
   '01': process.env.AIRBNB_ICAL_01, '02': process.env.AIRBNB_ICAL_02,
@@ -54,6 +55,10 @@ export default async function handler(req, res) {
   }
   if (!parseDate(checkIn) || !parseDate(checkOut)) {
     return res.status(400).json({ ok: false, code: 'bad_dates', error: 'Dates invalides.' });
+  }
+  const check = validateGuest(p);
+  if (!check.ok) {
+    return res.status(400).json({ ok: false, code: 'guest_invalid', fields: check.fields, error: 'Coordonnees incompletes.' });
   }
 
   try {
@@ -108,9 +113,9 @@ export default async function handler(req, res) {
         check_out: checkOut,
         status: 'hold',
         source: 'direct',
-        guest_name: typeof p.guest_name === 'string' ? p.guest_name.slice(0, 200) : null,
-        guest_email: typeof p.guest_email === 'string' ? p.guest_email.slice(0, 200) : null,
-        guest_phone: typeof p.guest_phone === 'string' ? p.guest_phone.slice(0, 50) : null,
+        guest_name: check.guest.name,
+        guest_email: check.guest.email,
+        guest_phone: check.guest.phone,
         guests_count: quote.guests,
         nights: quote.nights,
         nightly_total_cents: quote.nightly_total_cents,

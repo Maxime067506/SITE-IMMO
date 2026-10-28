@@ -150,29 +150,27 @@
         }
         return;
       }
-      // Etape coordonnees -> paiement (branche au lot Stripe)
-      gfEl.innerHTML =
-        '<div class="dpb-field"><label>' + esc(t.name) + '</label><input type="text" data-gname autocomplete="name"></div>' +
-        '<div class="dpb-field"><label>' + esc(t.email) + '</label><input type="email" data-gemail autocomplete="email"></div>' +
-        '<div class="dpb-field"><label>' + esc(t.phone) + '</label><input type="tel" data-gphone autocomplete="tel"></div>' +
-        '<button class="dpb-btn gold" data-pay>' + esc(t.confirm) + '</button>';
+      // Etape coordonnees -> paiement : prenom, nom, e-mail et telephone
+      // obligatoires et valides (js/guest-validate.js).
+      gform = window.DPGuest.mount(gfEl, {
+        lang: lang(), button: t.confirm, buttonClass: 'dpb-btn gold',
+        onInvalid: function (hint) { setMsg(hint, 'err'); },
+        onSubmit: function (guest, btn) { setMsg('', ''); startCheckout(guest, btn); }
+      });
       gfEl.classList.remove('hidden');
-      gfEl.querySelector('[data-pay]').addEventListener('click', startCheckout);
     }
 
-    function startCheckout() {
+    var gform = null;
+    function startCheckout(guest, btn) {
       var q = state.quote; if (!q) return;
-      var body = {
-        apt: apt, check_in: q.check_in, check_out: q.check_out, guests: q.guests,
-        guest_name: (gfEl.querySelector('[data-gname]') || {}).value,
-        guest_email: (gfEl.querySelector('[data-gemail]') || {}).value,
-        guest_phone: (gfEl.querySelector('[data-gphone]') || {}).value,
-      };
-      var btn = gfEl.querySelector('[data-pay]'); btn.disabled = true; btn.innerHTML = '<span class="dpb-spin"></span>' + esc(t.loading);
+      var body = { apt: apt, check_in: q.check_in, check_out: q.check_out, guests: q.guests, lang: lang() };
+      Object.keys(guest).forEach(function (k) { body[k] = guest[k]; });
+      btn.disabled = true; btn.innerHTML = '<span class="dpb-spin"></span>' + esc(t.loading);
       // Lot Stripe : POST /api/booking/checkout -> redirection Stripe.
       api('/api/booking/checkout/', { method: 'POST', body: body }).then(function (r) {
         if (r.body && r.body.url) { window.location.href = r.body.url; return; }
         btn.disabled = false; btn.textContent = t.confirm;
+        if (r.body && r.body.code === 'guest_invalid' && gform) gform.markInvalid(r.body.fields);
         setMsg((r.body && r.body.error) || 'Paiement indisponible.', 'err');
       }).catch(function (e) { btn.disabled = false; btn.textContent = t.confirm; setMsg(String(e.message || e), 'err'); });
     }
