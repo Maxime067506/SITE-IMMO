@@ -76,6 +76,22 @@ export async function sendBookingEmails(booking, lang) {
   }
 }
 
+/** Envoie le code de verification a 6 chiffres. Jette en cas d'echec. */
+export async function sendVerificationCode(email, code, lang) {
+  if (!emailConfigured()) throw new Error('E-mails non configures.');
+  lang = lang === 'en' ? 'en' : 'fr';
+  const t = lang === 'en'
+    ? { subject: 'Your verification code — Delfosse Properties', title: 'Your <span style="color:#D4B77E">code.</span>', p: 'Enter this code on the booking page to confirm your email address. It is valid for 15 minutes.', p2: 'If you did not request this code, you can ignore this email.' }
+    : { subject: 'Votre code de vérification — Delfosse Properties', title: 'Votre <span style="color:#D4B77E">code.</span>', p: 'Saisissez ce code sur la page de réservation pour confirmer votre adresse e-mail. Il est valable 15 minutes.', p2: 'Si vous n\'êtes pas à l\'origine de cette demande, ignorez simplement cet e-mail.' };
+  const html = shell(
+    '<tr><td style="padding:10px 36px 0;text-align:center"><h1 style="font-family:Georgia,serif;font-weight:normal;font-style:italic;color:#F5EDE0;font-size:30px;margin:6px 0 14px">' + t.title + '</h1>' +
+    '<p style="color:rgba(245,237,224,.7);font-size:14px;line-height:1.65;margin:0 0 20px">' + t.p + '</p>' +
+    '<div style="display:inline-block;padding:16px 26px;border:1px solid rgba(201,169,97,.45);border-radius:10px;font-family:monospace;font-size:34px;letter-spacing:10px;color:#F5EDE0">' + esc(code) + '</div>' +
+    '<p style="color:rgba(245,237,224,.45);font-size:12px;line-height:1.6;margin:20px 0 0">' + t.p2 + '</p></td></tr>'
+  );
+  return resendSend({ from: FROM, to: [email], reply_to: REPLY_TO, subject: t.subject, html });
+}
+
 // --- gabarits HTML (styles inline, compatibles clients mail) ---
 function shell(inner) {
   return '<div style="background:#0A1628;padding:32px 0;font-family:Arial,Helvetica,sans-serif">' +

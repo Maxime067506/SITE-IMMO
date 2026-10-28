@@ -171,6 +171,7 @@
         if (r.body && r.body.url) { window.location.href = r.body.url; return; }
         btn.disabled = false; btn.textContent = t.confirm;
         if (r.body && r.body.code === 'guest_invalid' && gform) gform.markInvalid(r.body.fields);
+        if (r.body && /^code_/.test(r.body.code || '') && gform) gform.codeRejected(r.body.code === 'code_expired');
         setMsg((r.body && r.body.error) || 'Paiement indisponible.', 'err');
       }).catch(function (e) { btn.disabled = false; btn.textContent = t.confirm; setMsg(String(e.message || e), 'err'); });
     }

@@ -306,6 +306,7 @@
       if(r.body&&r.body.url){ window.location.href=r.body.url; return; }
       btn.disabled=false; btn.textContent=t.pay;
       if(r.body&&r.body.code==='guest_invalid' && self.gform) self.gform.markInvalid(r.body.fields);
+      if(r.body&&/^code_/.test(r.body.code||'') && self.gform) self.gform.codeRejected(r.body.code==='code_expired');
       self.setMsg((r.body&&r.body.error)||t.unavail,'err');
     }).catch(function(e){ btn.disabled=false; btn.textContent=t.pay; self.setMsg(String(e.message||e),'err'); });
   };

@@ -4,7 +4,8 @@
  * Cree un VERROU puis une session de paiement Stripe Checkout.
  * Corps JSON : apt, check_in, check_out, guests, guest_first_name,
  * guest_last_name, guest_email, guest_phone, lang ('fr'|'en').
- * Prenom, nom, e-mail et telephone sont obligatoires et verifies (_lib/guest.js).
+ * Prenom, nom, e-mail et telephone sont obligatoires et verifies (_lib/guest.js),
+ * et l'e-mail doit etre confirme par code : email_code + email_token (voir verify.js).
  * Retour : { ok, url } -> le client redirige vers Stripe.
  *
  * Le montant est recalcule cote serveur (jamais le client). Le verrou dure
@@ -18,6 +19,7 @@ import { loadDayPrices } from '../_lib/day-prices.js';
 import { computeQuote, parseDate } from '../_lib/pricing.js';
 import { createCheckoutSession, stripeConfigured } from '../_lib/stripe.js';
 import { validateGuest } from '../_lib/guest.js';
+import { checkCode } from '../_lib/email-verify.js';
 
 const HOLD_MIN = 35;
 const ICAL_URLS = {
@@ -56,6 +58,15 @@ export default async function handler(req, res) {
       error: lang === 'en' ? 'Please complete your details (first name, last name, email, phone).' : 'Complétez vos coordonnées (prénom, nom, e-mail, téléphone).' });
   }
   const guest = check.guest;
+  // L'adresse e-mail doit avoir ete confirmee par le code recu (/api/booking/verify).
+  const codeState = checkCode(guest.email, p.email_code, p.email_token);
+  if (codeState !== 'ok') {
+    const en = lang === 'en';
+    return res.status(400).json({ ok: false, code: codeState === 'expired' ? 'code_expired' : 'code_invalid',
+      error: codeState === 'expired'
+        ? (en ? 'Your code has expired. Please request a new one.' : 'Votre code a expiré. Demandez-en un nouveau.')
+        : (en ? 'Incorrect verification code.' : 'Code de vérification incorrect.') });
+  }
 
   try {
     const nowISO = new Date().toISOString();
