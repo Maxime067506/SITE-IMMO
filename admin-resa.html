@@ -15,7 +15,21 @@
   <style>
     body.rz{background:#0A1628;color:#F5EDE0;min-height:100dvh;font-family:var(--f-sans)}
     .rz-shell{max-width:1180px;margin:0 auto;padding:clamp(32px,5vw,64px) clamp(18px,4vw,40px) 120px}
-    .rz-top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:40px;flex-wrap:wrap}
+    .rz-top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:40px;flex-wrap:wrap;
+      /* Reste visible en haut de l'ecran : logo = retour a l'accueil */
+      position:sticky;top:0;z-index:20;margin-left:calc(-1 * clamp(18px,4vw,40px));margin-right:calc(-1 * clamp(18px,4vw,40px));
+      padding:14px clamp(18px,4vw,40px);background:rgba(10,22,40,.85);
+      -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,169,97,.14)}
+    .rz-home{display:flex;align-items:center;gap:12px;text-decoration:none}
+    .rz-home img{width:34px;height:34px;transition:transform .3s ease}
+    .rz-home:hover img{transform:scale(1.08)}
+    .rz-actions{display:flex;gap:10px;flex-wrap:wrap}
+    a.rz-btn{text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+    @media(max-width:720px){
+      .rz-top{gap:10px;padding-top:10px;padding-bottom:10px}
+      .rz-actions{flex-wrap:nowrap;overflow-x:auto;max-width:100%;scrollbar-width:none}
+      .rz-actions .rz-btn{padding:8px 11px;font-size:9.5px;letter-spacing:.12em;white-space:nowrap;flex:0 0 auto}
+    }
     .rz-top .brand-word{color:#F5EDE0}
     .rz-top .brand-word .brand-mono{color:#F5EDE0}.rz-top .brand-word .brand-sub{color:#D4B77E}
     .rz-btn{background:transparent;border:1px solid rgba(201,169,97,.45);color:#F5EDE0;font-family:var(--f-sans);
@@ -154,6 +168,10 @@
   <!-- ====== PORTE : mot de passe admin ====== -->
   <div class="rz-gate" id="gate">
     <div class="rz-gate-box">
+      <a href="index.html" class="rz-home" aria-label="Retour à l'accueil du site" style="margin-bottom:22px">
+        <img src="img/delfosse-icon-white.png" alt="" width="34" height="34" />
+        <span class="brand-word"><span class="brand-mono">Delfosse</span> <span class="brand-sub">Properties</span></span>
+      </a>
       <h1>Espace réservations</h1>
       <p>Accès réservé. Entrez le mot de passe administrateur.</p>
       <form id="gateForm">
@@ -170,10 +188,13 @@
   <!-- ====== TABLEAU DE BORD ====== -->
   <div class="rz-shell hidden" id="shell">
     <header class="rz-top">
-      <a href="index.html" class="brand-word" aria-label="Delfosse Properties">
-        <span class="brand-mono">Delfosse</span> <span class="brand-sub">Properties</span>
+      <a href="index.html" class="rz-home" aria-label="Delfosse Properties — accueil du site">
+        <img src="img/delfosse-icon-white.png" alt="" width="34" height="34" />
+        <span class="brand-word"><span class="brand-mono">Delfosse</span> <span class="brand-sub">Properties</span></span>
       </a>
-      <div style="display:flex;gap:10px">
+      <div class="rz-actions">
+        <a class="rz-btn ghost" href="admin.html"><span aria-hidden="true">←</span> Tableau de bord</a>
+        <a class="rz-btn ghost" href="index.html">Retour au site</a>
         <button class="rz-btn ghost" id="btnReload">Rafraîchir</button>
         <button class="rz-btn" id="btnLogout">Quitter</button>
       </div>

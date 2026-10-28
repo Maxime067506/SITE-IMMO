@@ -71,7 +71,16 @@
     this.elSum = document.getElementById('rz2Sum');
   }
   App.prototype.start = function(){
+    var self=this;
     this.renderApts();
+    // Flèches : appartement précédent / suivant (boucle)
+    [['rz2Prev',-1],['rz2Next',1]].forEach(function(p){
+      var b=document.getElementById(p[0]); if(!b) return;
+      b.addEventListener('click', function(){
+        var i=APTS.indexOf(self.apt), n=APTS.length;
+        self.selectApt(APTS[(i+p[1]+n)%n].no);
+      });
+    });
     this.renderSummary();
     this.selectApt(this.apt.no);
   };
@@ -97,7 +106,13 @@
     this.apt = a; this.guests = Math.min(2, a.g);
     this.checkIn = this.checkOut = null; this.quote = null; this.blocked = {};
     this.prices = {}; this.loaded = false; this.enter = 1;
-    this.elApts.querySelectorAll('.rz2-apt').forEach(function(el){ el.classList.toggle('is-active', el.getAttribute('data-apt')===no); });
+    var box=this.elApts;
+    box.querySelectorAll('.rz2-apt').forEach(function(el){
+      var on=el.getAttribute('data-apt')===no;
+      el.classList.toggle('is-active', on);
+      // amène la carte choisie au centre du bandeau (sans faire bouger la page)
+      if(on) box.scrollTo({ left: el.offsetLeft - (box.clientWidth - el.offsetWidth)/2, behavior:'smooth' });
+    });
     this.renderSummary();
     this.renderCalendar(true);
     this.loadAvailability();

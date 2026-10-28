@@ -45,9 +45,20 @@
 
     /* Header : brand + switcher éventuel */
     .admin-topbar{
-      display:flex;align-items:center;justify-content:space-between;
+      display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
       margin-bottom:clamp(56px,7vw,96px);
+      /* Reste visible en haut de l'ecran : logo = retour a l'accueil */
+      position:sticky;top:0;z-index:20;
+      margin-left:calc(-1 * var(--gutter));margin-right:calc(-1 * var(--gutter));
+      padding:14px var(--gutter);
+      background:rgba(10,22,40,.82);
+      -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(201,169,97,.14);
     }
+    .admin-home{display:flex;align-items:center;gap:12px;text-decoration:none}
+    .admin-home img{width:34px;height:34px;transition:transform .3s var(--ease-out)}
+    .admin-home:hover img{transform:scale(1.08)}
+    .admin-back{text-decoration:none;display:inline-flex;align-items:center;gap:8px}
     .admin-topbar .brand-word{color:#F5EDE0}
     .admin-topbar .brand-word .brand-mono{color:#F5EDE0}
     .admin-topbar .brand-word .brand-sub{color:#D4B77E}
@@ -276,11 +287,15 @@
 
     <!-- Top bar : brand + déconnexion + switcher de langue -->
     <header class="admin-topbar">
-      <a href="index.html" class="brand-word" aria-label="Delfosse Properties">
-        <span class="brand-mono">Delfosse</span>
-        <span class="brand-sub">Properties</span>
+      <a href="index.html" class="admin-home" aria-label="Delfosse Properties — accueil du site">
+        <img src="img/delfosse-icon-white.png" alt="" width="34" height="34" />
+        <span class="brand-word">
+          <span class="brand-mono">Delfosse</span>
+          <span class="brand-sub">Properties</span>
+        </span>
       </a>
-      <div style="display:flex;align-items:center;gap:16px">
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <a href="index.html" class="admin-foot-btn admin-back"><span aria-hidden="true">←</span> <span data-i18n="espace.foot.back">Retour au site</span></a>
         <div class="lang-switch" role="group" aria-label="Langue" data-i18n-attr="aria-label" data-i18n-attr-key="espace.aria.lang">
           <button type="button" data-lang="fr" class="is-active">FR</button>
           <span class="lang-sep">·</span>
