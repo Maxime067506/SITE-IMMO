@@ -148,7 +148,7 @@ const I18N = {
     /* ---- STAYS STRIP ---- */
     "stays.eyebrow": "Nos séjours",
     "stays.title":   "Huit adresses, <em>une seule Riviera.</em>",
-    "stay.cta":      "Voir sur Airbnb",
+    "stay.cta":      "Réserver en direct",
     "stay.detail":   "Voir la fiche",
     "sej.discover":  "Découvrir la fiche →",
 
@@ -241,7 +241,7 @@ const I18N = {
     "rev.3.c": "Famille Garnier — Appartement design",
 
     /* ---- CAROUSEL ---- */
-    "carousel.eyebrow": "Réserver sur Airbnb",
+    "carousel.eyebrow": "Réserver en direct",
     "carousel.title":   "Choisissez <em>votre adresse.</em>",
 
     /* ---- SÉJOURNER (formulaire niveau 3) ---- */
@@ -255,7 +255,7 @@ const I18N = {
     "book.note":     "Un mot d'intention <em>(facultatif)</em>",
     "book.cta":      "Proposez-moi une adresse",
     "book.reply":    "Réponse sous 24 h · Pas d'engagement · Annulation flexible",
-    "book.stickyCta":"Réserver sur Airbnb",
+    "book.stickyCta":"Réserver en direct",
 
     /* ---- FOOTER ---- */
     "foot.tag":         "Séjours d'exception, à Nice sur la French Riviera.",
@@ -278,7 +278,7 @@ const I18N = {
     "sec.gallery":       "Galerie",
     "sec.galleryTitle":  "Le lieu <em>en images.</em>",
     "sec.location":      "Localisation",
-    "sec.cta":           "Disponible sur Airbnb",
+    "sec.cta":           "Réservation en direct",
 
     "stat.guests":       "Voyageurs",
     "stat.bedroom":      "Chambre",
@@ -293,7 +293,7 @@ const I18N = {
 
     "desc.nearby":       "À proximité — tout est à pied",
 
-    "cta.bookAirbnb":    "Réserver sur Airbnb",
+    "cta.bookAirbnb":    "Réserver en direct",
     "cta.seeDates":      "Voir les disponibilités",
 
     /* ---- Fiches : titres héros, descriptions + CTAs ---- */
@@ -1208,7 +1208,7 @@ const I18N = {
     /* ---- STAYS STRIP ---- */
     "stays.eyebrow": "Our stays",
     "stays.title":   "Eight addresses, <em>one single Riviera.</em>",
-    "stay.cta":      "Book on Airbnb",
+    "stay.cta":      "Book direct",
     "stay.detail":   "View listing",
     "sej.discover":  "Discover the listing →",
 
@@ -1301,7 +1301,7 @@ const I18N = {
     "rev.3.c": "The Garniers — Design apartment",
 
     /* ---- CAROUSEL ---- */
-    "carousel.eyebrow": "Book on Airbnb",
+    "carousel.eyebrow": "Book direct",
     "carousel.title":   "Choose <em>your address.</em>",
 
     /* ---- STAY (booking form, level 3) ---- */
@@ -1315,7 +1315,7 @@ const I18N = {
     "book.note":     "A few words <em>(optional)</em>",
     "book.cta":      "Suggest me an address",
     "book.reply":    "Reply within 24h · No commitment · Flexible cancellation",
-    "book.stickyCta":"Book on Airbnb",
+    "book.stickyCta":"Book direct",
 
     /* ---- FOOTER ---- */
     "foot.tag":         "Exceptional stays, in Nice on the French Riviera.",
@@ -1338,7 +1338,7 @@ const I18N = {
     "sec.gallery":       "Gallery",
     "sec.galleryTitle":  "The place <em>in pictures.</em>",
     "sec.location":      "Location",
-    "sec.cta":           "Available on Airbnb",
+    "sec.cta":           "Book direct",
 
     "stat.guests":       "Guests",
     "stat.bedroom":      "Bedroom",
@@ -1353,7 +1353,7 @@ const I18N = {
 
     "desc.nearby":       "Nearby — everything within walking distance",
 
-    "cta.bookAirbnb":    "Book on Airbnb",
+    "cta.bookAirbnb":    "Book direct",
     "cta.seeDates":      "View availability",
 
     /* ---- Apartments ---- */

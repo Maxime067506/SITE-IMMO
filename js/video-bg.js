@@ -135,14 +135,14 @@
     `;
 
     // Sticky booking bar (mobile uniquement, cachée desktop via CSS)
-    // Pointe vers la section carousel (réservation Airbnb)
+    // Pointe vers le module de réservation de la page (séjour) ou le carrousel (accueil)
     const stickyBar = document.createElement('a');
     stickyBar.className = 'vbg-booking';
-    stickyBar.href = '#carousel';
-    stickyBar.setAttribute('aria-label', 'Réserver sur Airbnb');
+    stickyBar.href = document.getElementById('reserver') ? '#reserver' : '#carousel';
+    stickyBar.setAttribute('aria-label', 'Réserver en direct');
     stickyBar.innerHTML = `
       <span class="vbg-booking-mark"></span>
-      <span class="vbg-booking-label" data-i18n="book.stickyCta">Réserver sur Airbnb</span>
+      <span class="vbg-booking-label" data-i18n="book.stickyCta">Réserver en direct</span>
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
     `;
 

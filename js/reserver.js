@@ -72,6 +72,9 @@
   }
   App.prototype.start = function(){
     var self=this;
+    // ?apt=03 : ouvre directement la page sur cet appartement
+    var want=(location.search.match(/[?&]apt=(\d{1,2})/)||[])[1];
+    if(want){ var hit=APTS.filter(function(a){ return a.no===('0'+want).slice(-2); })[0]; if(hit) this.apt=hit; }
     this.renderApts();
     // Flèches : appartement précédent / suivant (boucle)
     [['rz2Prev',-1],['rz2Next',1]].forEach(function(p){

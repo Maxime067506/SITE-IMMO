@@ -764,12 +764,12 @@ targets.forEach(el => io.observe(el));
   }
 
   // Interactions
-  // Clic sur carte active = lien Airbnb direct (nouvel onglet).
+  // Clic sur carte active = page de réservation en direct de cet appartement.
   // Clic sur carte latérale = on la recentre d'abord.
   function onCardClick(i) {
     if (i === active) {
-      const url = ITEMS[active].airbnb;
-      if (url) window.open(url, '_blank', 'noopener,noreferrer');
+      const isEn = location.pathname.indexOf('/en/') === 0;
+      window.location.href = (isEn ? 'book.html' : 'reserver.html') + '?apt=' + ITEMS[active].no;
     } else {
       goTo(i);
     }

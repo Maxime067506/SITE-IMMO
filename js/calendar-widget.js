@@ -5,9 +5,9 @@
    appartement, en fetchant /api/calendar?id=XX.
 
    Usage HTML :
-     <div data-dp-calendar="01" data-airbnb-url="https://www.airbnb.fr/rooms/..."></div>
+     <div data-dp-calendar="01" [data-book-url="#reserver"]></div>
 
-   Le data-airbnb-url est utilise pour le CTA "Reserver sur Airbnb".
+   Le bouton "Reserver en direct" pointe vers data-book-url (defaut : #reserver).
 
    Auto-init : tous les elements [data-dp-calendar] sont detectes
    au DOMContentLoaded.
@@ -27,13 +27,13 @@
     const T = {
       title:        ['Calendrier · Disponibilités','Calendar · Availability'],
       status_loading: ['Chargement…','Loading…'],
-      status_live:   ['Live · synchronisé avec Airbnb','Live · synced with Airbnb'],
+      status_live:   ['Live · mis à jour en continu','Live · always up to date'],
       status_error:  ['Calendrier indisponible','Calendar unavailable'],
       legend_avail:  ['Disponible','Available'],
       legend_booked: ['Réservé','Booked'],
       legend_today:  ['Aujourd\'hui','Today'],
-      cta:           ['Voir les disponibilités précises sur Airbnb','See exact availability on Airbnb'],
-      error_msg:     ['Le calendrier sera disponible bientôt. En attendant, consultez les dates sur Airbnb.','Calendar coming soon. Meanwhile, check availability on Airbnb.'],
+      cta:           ['Réserver en direct','Book direct'],
+      error_msg:     ['Le calendrier sera disponible bientôt. Choisissez vos dates dans le module de réservation ci-dessous.','Calendar coming soon. Pick your dates in the booking module below.'],
       prev_aria:     ['Mois précédent','Previous month'],
       next_aria:     ['Mois suivant','Next month'],
     };
@@ -44,7 +44,7 @@
     constructor(el) {
       this.el = el;
       this.aptId = el.getAttribute('data-dp-calendar') || '01';
-      this.airbnbUrl = el.getAttribute('data-airbnb-url') || '#';
+      this.bookUrl = el.getAttribute('data-book-url') || '#reserver';
       // Etat
       this.now = new Date();
       this.viewMonth = new Date(this.now.getFullYear(), this.now.getMonth(), 1);
@@ -132,7 +132,7 @@
           ${t('error_msg')}
         </div>
         <div class="dp-cal-cta">
-          <a href="${this.airbnbUrl}" target="_blank" rel="noopener" class="btn">${t('cta')} →</a>
+          <a href="${this.bookUrl}" class="btn">${t('cta')} →</a>
         </div>
       `;
     }
@@ -165,7 +165,7 @@
         </div>
 
         <div class="dp-cal-cta">
-          <a href="${this.airbnbUrl}" target="_blank" rel="noopener" class="btn">${t('cta')} →</a>
+          <a href="${this.bookUrl}" class="btn">${t('cta')} →</a>
         </div>
       `;
       this.el.innerHTML = html;
