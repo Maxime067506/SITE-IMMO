@@ -133,3 +133,5 @@ alter table pricing         enable row level security;
 alter table pricing_seasons enable row level security;
 alter table bookings        enable row level security;
 alter table settings        enable row level security;
+
+-- 8) Prix au jour : voir db/pricing-days.sql (table pricing_days).

@@ -87,6 +87,7 @@
   function renderAll() {
     fillAptSelects();
     renderPricing();
+    pcInit();
     renderSettings();
     renderBookings();
     renderSeasons();
@@ -133,9 +134,179 @@
     btn.disabled = true;
     api('/api/admin/?resource=pricing', { method: 'POST', body: body }).then(function (r) {
       btn.disabled = false;
-      if (r.status === 200 && r.body.ok) { msg('pricingMsg', '✓ ' + aptName(code) + ' enregistré.', 'ok'); }
+      if (r.status === 200 && r.body.ok) { msg('pricingMsg', '✓ ' + aptName(code) + ' enregistré.', 'ok'); if (code === pc.apt) pcLoad(0); }
       else msg('pricingMsg', 'Erreur: ' + (r.body.error || r.status), 'err');
     });
+  }
+
+  // ---- CALENDRIER DES PRIX (prix au jour) ----
+  var MONTHS = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+  var pc = { apt: null, view: null, days: {}, booked: {}, sel: {}, drag: null, ready: false, seq: 0 };
+
+  function p2(n) { return (n < 10 ? '0' : '') + n; }
+  function ymd(y, m, d) { var x = new Date(y, m, d); return x.getFullYear() + '-' + p2(x.getMonth() + 1) + '-' + p2(x.getDate()); }
+  function todayYmd() { var t = new Date(); return ymd(t.getFullYear(), t.getMonth(), t.getDate()); }
+  function selDates() { return Object.keys(pc.sel).sort(); }
+
+  function pcInit() {
+    var sel = document.getElementById('pcApt');
+    var apts = state.data.apartments || [];
+    var keep = pc.apt || (apts[0] && apts[0].code);
+    sel.innerHTML = apts.map(function (a) {
+      return '<option value="' + a.code + '"' + (a.code === keep ? ' selected' : '') + '>' + a.code + ' — ' + esc(a.name) + '</option>';
+    }).join('');
+    pc.apt = keep;
+    if (!pc.view) { var t = new Date(); pc.view = new Date(t.getFullYear(), t.getMonth(), 1); }
+    if (!pc.ready) {
+      pc.ready = true;
+      sel.addEventListener('change', function () { pc.apt = sel.value; pc.sel = {}; pcLoad(0); });
+      document.getElementById('pcPrev').addEventListener('click', function () { pcMove(-1); });
+      document.getElementById('pcNext').addEventListener('click', function () { pcMove(1); });
+      document.getElementById('pcApply').addEventListener('click', pcApply);
+      document.getElementById('pcClear').addEventListener('click', pcClear);
+      document.getElementById('pcCancel').addEventListener('click', function () { pc.sel = {}; pcPaintSel(); });
+      document.getElementById('pcPrice').addEventListener('keydown', function (e) { if (e.key === 'Enter') pcApply(); });
+      pcWireDrag();
+    }
+    pcLoad(0);
+  }
+
+  function pcMove(dir) {
+    var t = new Date(), min = new Date(t.getFullYear(), t.getMonth(), 1);
+    var next = new Date(pc.view.getFullYear(), pc.view.getMonth() + dir, 1);
+    if (next < min) return;
+    pc.view = next; pc.sel = {};
+    pcLoad(dir);
+  }
+
+  function pcLoad(dir, flash) {
+    var y = pc.view.getFullYear(), m = pc.view.getMonth();
+    var from = ymd(y, m, 1), to = ymd(y, m + 1, 1), apt = pc.apt, seq = ++pc.seq;
+    pc.days = {}; pc.booked = {};
+    pcRender(dir, true);
+    Promise.all([
+      api('/api/admin/?resource=days&apt=' + apt + '&from=' + from + '&to=' + to),
+      fetch('/api/booking/availability/?apt=' + apt + '&from=' + from + '&to=' + to)
+        .then(function (r) { return r.json(); }).catch(function () { return {}; }),
+    ]).then(function (res) {
+      if (seq !== pc.seq) return; // l'utilisateur a change de mois / d'appart entre-temps
+      var r = res[0], av = res[1] || {};
+      if (r.status !== 200 || !r.body.ok) { msg('pcMsg', 'Erreur: ' + (r.body.error || r.status), 'err'); pcRender(0, false); return; }
+      r.body.days.forEach(function (d) { pc.days[d.date] = d; });
+      (av.unavailable || []).forEach(function (rg) {
+        Object.keys(pc.days).forEach(function (s) { if (s >= rg.start && s < rg.end) pc.booked[s] = true; });
+      });
+      pcRender(0, false, flash);
+    });
+  }
+
+  function pcRender(dir, skeleton, flash) {
+    var y = pc.view.getFullYear(), m = pc.view.getMonth();
+    document.getElementById('pcMonth').textContent = MONTHS[m] + ' ' + y;
+    var t = new Date();
+    document.getElementById('pcPrev').disabled = y === t.getFullYear() && m === t.getMonth();
+    var first = (new Date(y, m, 1).getDay() + 6) % 7, n = new Date(y, m + 1, 0).getDate(), today = todayYmd();
+    var html = '';
+    for (var i = 0; i < first; i++) html += '<div class="pc-day empty"></div>';
+    for (var d = 1; d <= n; d++) {
+      var s = ymd(y, m, d), info = pc.days[s], cl = ['pc-day'];
+      var past = s < today;
+      if (past) cl.push('past');
+      if (s === today) cl.push('today');
+      if (info) cl.push('k-' + info.kind);
+      if (pc.booked[s]) cl.push('booked');
+      if (pc.sel[s]) cl.push('sel');
+      if (skeleton) cl.push('skel');
+      if (flash && flash[s]) cl.push('flash');
+      html += '<div class="' + cl.join(' ') + '"' + (past ? '' : ' data-d="' + s + '"') + '>' +
+        '<span class="pc-n">' + d + '</span>' +
+        '<span class="pc-p">' + (info ? Math.round(info.price_cents / 100) + ' €' : '') + '</span></div>';
+    }
+    var grid = document.getElementById('pcGrid');
+    grid.innerHTML = html;
+    if (dir) {
+      grid.classList.remove('is-in', 'from-left'); void grid.offsetWidth;
+      grid.classList.add('is-in'); if (dir < 0) grid.classList.add('from-left');
+    }
+    pcPaintSel();
+  }
+
+  function pcPaintSel() {
+    document.querySelectorAll('#pcGrid [data-d]').forEach(function (el) {
+      el.classList.toggle('sel', !!pc.sel[el.getAttribute('data-d')]);
+    });
+    var dates = selDates(), box = document.getElementById('pcEdit');
+    box.classList.toggle('open', dates.length > 0);
+    if (!dates.length) return;
+    document.getElementById('pcCount').textContent = dates.length === 1
+      ? 'Le ' + fmtDate(dates[0])
+      : dates.length + ' jours sélectionnés';
+    var inp = document.getElementById('pcPrice');
+    if (document.activeElement !== inp) {
+      var info = pc.days[dates[0]];
+      inp.value = info ? Math.round(info.price_cents / 100) : '';
+    }
+  }
+
+  // Clic = ajoute/retire un jour ; glisser = selectionne une plage (souris ou doigt).
+  function pcWireDrag() {
+    var grid = document.getElementById('pcGrid');
+    function dayAt(e) {
+      var el = document.elementFromPoint(e.clientX, e.clientY);
+      el = el && el.closest ? el.closest('#pcGrid [data-d]') : null;
+      return el ? el.getAttribute('data-d') : null;
+    }
+    grid.addEventListener('pointerdown', function (e) {
+      var s = dayAt(e); if (!s) return;
+      pc.drag = { anchor: s, base: Object.assign({}, pc.sel), moved: false };
+    });
+    grid.addEventListener('pointermove', function (e) {
+      if (!pc.drag) return;
+      var s = dayAt(e); if (!s) return;
+      if (s === pc.drag.anchor && !pc.drag.moved) return;
+      pc.drag.moved = true;
+      var a = pc.drag.anchor < s ? pc.drag.anchor : s, b = pc.drag.anchor < s ? s : pc.drag.anchor;
+      pc.sel = Object.assign({}, pc.drag.base);
+      Object.keys(pc.days).forEach(function (k) { if (k >= a && k <= b && k >= todayYmd()) pc.sel[k] = true; });
+      pcPaintSel();
+    });
+    function end() {
+      if (!pc.drag) return;
+      if (!pc.drag.moved) {
+        var s = pc.drag.anchor;
+        if (pc.sel[s]) delete pc.sel[s]; else pc.sel[s] = true;
+        pcPaintSel();
+      }
+      pc.drag = null;
+    }
+    document.addEventListener('pointerup', end);
+    document.addEventListener('pointercancel', function () { pc.drag = null; });
+  }
+
+  function pcSend(body, okText) {
+    var dates = body.dates, flash = {};
+    dates.forEach(function (d) { flash[d] = true; });
+    ['pcApply', 'pcClear'].forEach(function (id) { document.getElementById(id).disabled = true; });
+    return api('/api/admin/?resource=days', { method: 'POST', body: body }).then(function (r) {
+      ['pcApply', 'pcClear'].forEach(function (id) { document.getElementById(id).disabled = false; });
+      if (r.status === 200 && r.body.ok) {
+        msg('pcMsg', okText, 'ok');
+        pc.sel = {}; pcLoad(0, flash);
+      } else msg('pcMsg', 'Erreur: ' + (r.body.error || r.status), 'err');
+    });
+  }
+  function pcApply() {
+    var dates = selDates(), price = toCents(document.getElementById('pcPrice').value);
+    if (!dates.length) return;
+    if (price == null || price < 1000) { msg('pcMsg', 'Prix invalide (≥ 10 €).', 'err'); return; }
+    pcSend({ action: 'set', apartment_code: pc.apt, dates: dates, price_cents: price },
+      '✓ ' + eur(price) + ' € appliqué sur ' + dates.length + ' jour' + (dates.length > 1 ? 's' : '') + '.');
+  }
+  function pcClear() {
+    var dates = selDates();
+    if (!dates.length) return;
+    pcSend({ action: 'clear', apartment_code: pc.apt, dates: dates },
+      '✓ Prix habituel rétabli sur ' + dates.length + ' jour' + (dates.length > 1 ? 's' : '') + '.');
   }
 
   // ---- RÉGLAGES ----

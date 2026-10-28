@@ -13,6 +13,7 @@
 
 import { sbSelect, sbInsert, sbUpdate, supabaseConfigured, SupabaseError } from '../_lib/supabase.js';
 import { fetchAirbnbBlocked } from '../_lib/ical.js';
+import { loadDayPrices } from '../_lib/day-prices.js';
 import { computeQuote, parseDate } from '../_lib/pricing.js';
 import { createCheckoutSession, stripeConfigured } from '../_lib/stripe.js';
 
@@ -73,7 +74,7 @@ export default async function handler(req, res) {
       return res.status(200).json({ ok: false, code: 'unavailable', error: 'Dates prises sur Airbnb.' });
     }
 
-    const quote = computeQuote({ pricing, settings, seasons: seasonRows, checkIn, checkOut, guests });
+    const quote = computeQuote({ pricing, settings, seasons: seasonRows, dayPrices: await loadDayPrices(apt, checkIn, checkOut), checkIn, checkOut, guests });
     if (!quote.ok) return res.status(200).json(quote);
 
     // 1) Verrou

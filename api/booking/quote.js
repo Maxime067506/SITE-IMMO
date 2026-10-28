@@ -11,6 +11,7 @@
 
 import { sbSelect, supabaseConfigured, SupabaseError } from '../_lib/supabase.js';
 import { fetchAirbnbBlocked } from '../_lib/ical.js';
+import { loadDayPrices } from '../_lib/day-prices.js';
 import { computeQuote, parseDate, nightsBetween } from '../_lib/pricing.js';
 
 const ICAL_URLS = {
@@ -105,6 +106,7 @@ export default async function handler(req, res) {
       pricing,
       settings,
       seasons: seasonRows,
+      dayPrices: await loadDayPrices(apt, checkIn, checkOut),
       checkIn,
       checkOut,
       guests,

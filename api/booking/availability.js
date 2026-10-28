@@ -14,6 +14,11 @@
 
 import { sbSelect, supabaseConfigured, SupabaseError } from '../_lib/supabase.js';
 import { fetchAirbnbBlocked } from '../_lib/ical.js';
+import { loadDayPrices } from '../_lib/day-prices.js';
+import { nightlyPrices, parseDate, fmtDate } from '../_lib/pricing.js';
+
+const MS_DAY = 86400000;
+const MAX_PRICE_DAYS = 400;
 
 const ICAL_URLS = {
   '01': process.env.AIRBNB_ICAL_01,
@@ -62,20 +67,48 @@ export default async function handler(req, res) {
 
     const unavailable = mergeRanges(dbRanges.concat(airbnbRanges));
 
+    // Prix par nuit (option ?prices=1) pour les afficher sous chaque jour.
+    const priceInfo = req.query.prices === '1' ? await loadPrices(apt, from, to) : null;
+
     res.setHeader(
       'Cache-Control',
       'public, max-age=0, s-maxage=300, stale-while-revalidate=3600'
     );
-    return res.status(200).json({
+    return res.status(200).json(Object.assign({
       apt,
       unavailable,
       count: unavailable.length,
       fetched: new Date().toISOString(),
-    });
+    }, priceInfo || {}));
   } catch (err) {
     const status = err instanceof SupabaseError ? 502 : 500;
     return res.status(status).json({ error: err.message, apt });
   }
+}
+
+/**
+ * Prix de chaque nuit de [from, to[ (par defaut : aujourd'hui -> +13 mois,
+ * 400 nuits max). Uniquement des prix publics, aucune donnee client.
+ */
+async function loadPrices(apt, from, to) {
+  const today = new Date();
+  const start = parseDate(from) || new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), 1, 12));
+  let end = parseDate(to) || new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth() + 13, 1, 12));
+  if (end - start > MAX_PRICE_DAYS * MS_DAY) end = new Date(start.getTime() + MAX_PRICE_DAYS * MS_DAY);
+  const f = fmtDate(start), t = fmtDate(end);
+
+  const [pricingRows, seasons, dayPrices] = await Promise.all([
+    sbSelect('pricing?apartment_code=eq.' + apt + '&select=*'),
+    sbSelect('pricing_seasons?or=(apartment_code.eq.' + apt + ',apartment_code.is.null)&select=*'),
+    loadDayPrices(apt, f, t),
+  ]);
+  const pricing = pricingRows[0];
+  if (!pricing) return null;
+  return {
+    prices: nightlyPrices({ pricing, seasons, dayPrices, from: f, to: t }),
+    min_nights: pricing.min_nights || 1,
+    currency: 'EUR',
+  };
 }
 
 /**

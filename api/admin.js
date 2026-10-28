@@ -2,7 +2,7 @@
  * Routeur admin — UNE seule fonction serverless pour toutes les actions
  * admin (plan Vercel Hobby limite a 12 fonctions).
  *
- * Appel : /api/admin/?resource=data|pricing|settings|bookings|seasons|deposit
+ * Appel : /api/admin/?resource=data|pricing|settings|bookings|seasons|deposit|days
  * (slash final + parametre, comme api/calendar.js, pour etre compatible avec
  * trailingSlash:true). Delegue au handler correspondant.
  */
@@ -13,8 +13,9 @@ import settings from './_lib/admin/settings.js';
 import bookings from './_lib/admin/bookings.js';
 import seasons from './_lib/admin/seasons.js';
 import deposit from './_lib/admin/deposit.js';
+import days from './_lib/admin/days.js';
 
-const HANDLERS = { data, pricing, settings, bookings, seasons, deposit };
+const HANDLERS = { data, pricing, settings, bookings, seasons, deposit, days };
 
 export default function handler(req, res) {
   const resource = String((req.query && req.query.resource) || '');

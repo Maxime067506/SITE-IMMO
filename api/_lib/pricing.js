@@ -62,10 +62,14 @@ export function eachNight(checkIn, checkOut) {
 
 /**
  * Prix d'UNE nuit donnee, en appliquant la priorite :
- *   saison appartement > saison globale > week-end > base.
+ *   prix du jour > saison appartement > saison globale > week-end > base.
  * @param {{date:string,dow:number}} night
+ * @param {Object<string,number>} dayPrices  { 'YYYY-MM-DD': cents } (table pricing_days)
  */
-function priceForNight(night, pricing, seasons, aptCode) {
+export function priceForNight(night, pricing, seasons, aptCode, dayPrices) {
+  // Prix fixe a la main pour ce jour precis (calendrier admin)
+  if (dayPrices && dayPrices[night.date] != null) return dayPrices[night.date];
+
   // Saisons applicables a cette date (apart specifique OU globale)
   let best = null; // { price, specific:boolean }
   for (const s of seasons) {
@@ -86,6 +90,28 @@ function priceForNight(night, pricing, seasons, aptCode) {
   return pricing.base_price_cents;
 }
 
+/** Lignes pricing_days [{date, price_cents}] -> { 'YYYY-MM-DD': cents }. */
+export function dayPriceMap(rows) {
+  const map = {};
+  for (const r of rows || []) {
+    if (r && r.date && Number.isFinite(r.price_cents)) map[String(r.date).slice(0, 10)] = r.price_cents;
+  }
+  return map;
+}
+
+/**
+ * Prix de chaque nuit sur une plage [from, to[ (pour afficher les prix
+ * dans les calendriers). Renvoie { 'YYYY-MM-DD': cents }.
+ */
+export function nightlyPrices({ pricing, seasons = [], dayPrices = {}, from, to }) {
+  const out = {};
+  if (!pricing) return out;
+  for (const night of eachNight(from, to)) {
+    out[night.date] = priceForNight(night, pricing, seasons, pricing.apartment_code, dayPrices);
+  }
+  return out;
+}
+
 /**
  * Calcule le devis complet.
  * @returns { ok:true, ... } ou { ok:false, error, code }
@@ -94,6 +120,7 @@ export function computeQuote({
   pricing,
   settings,
   seasons = [],
+  dayPrices = {},
   checkIn,
   checkOut,
   guests = 1,
@@ -125,7 +152,7 @@ export function computeQuote({
   const breakdown = [];
   let nightlyTotal = 0;
   for (const night of eachNight(checkIn, checkOut)) {
-    const price = priceForNight(night, pricing, seasons, aptCode);
+    const price = priceForNight(night, pricing, seasons, aptCode, dayPrices);
     nightlyTotal += price;
     breakdown.push({ date: night.date, price_cents: price });
   }

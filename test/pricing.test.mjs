@@ -10,6 +10,8 @@ import {
   nightsBetween,
   eachNight,
   parseDate,
+  nightlyPrices,
+  dayPriceMap,
 } from '../api/_lib/pricing.js';
 
 // Reglages de reference (= seeds du schema)
@@ -129,4 +131,44 @@ test('refus si sous le sejour minimum', () => {
   });
   assert.equal(q.ok, false);
   assert.equal(q.code, 'min_nights');
+});
+
+test('prix au jour prioritaire sur saison, week-end et base', () => {
+  const q = computeQuote({
+    pricing: { ...pricing01, weekend_price_cents: 12000 },
+    settings,
+    seasons: [
+      { apartment_code: '01', date_start: '2026-07-01', date_end: '2026-07-31', price_cents: 20000 },
+    ],
+    dayPrices: { '2026-07-10': 25000, '2026-07-12': 9000 },
+    checkIn: '2026-07-10', // ven, sam, dim
+    checkOut: '2026-07-13',
+    guests: 2,
+  });
+  assert.deepEqual(q.breakdown.map((n) => n.price_cents), [25000, 20000, 9000]);
+  assert.equal(q.nightly_total_cents, 54000);
+});
+
+test('nightlyPrices renvoie le prix de chaque nuit de la plage', () => {
+  const prices = nightlyPrices({
+    pricing: { ...pricing01, weekend_price_cents: 12000 },
+    dayPrices: { '2026-06-15': 7000 },
+    from: '2026-06-15', // lun
+    to: '2026-06-21',
+  });
+  assert.deepEqual(prices, {
+    '2026-06-15': 7000,
+    '2026-06-16': 8000,
+    '2026-06-17': 8000,
+    '2026-06-18': 8000,
+    '2026-06-19': 12000,
+    '2026-06-20': 12000,
+  });
+});
+
+test('dayPriceMap ignore les lignes invalides', () => {
+  assert.deepEqual(
+    dayPriceMap([{ date: '2026-06-15', price_cents: 9000 }, { date: null, price_cents: 1 }, null]),
+    { '2026-06-15': 9000 }
+  );
 });

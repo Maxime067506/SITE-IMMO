@@ -29,7 +29,7 @@
     name:'Nom complet', email:'E-mail', phone:'Téléphone', pay:'Continuer vers le paiement', loading:'Calcul…',
     minN:'Séjour minimum de {n} nuits.', tooSoon:'Réservez un peu plus à l\'avance.',
     unavail:'Ces dates ne sont pas disponibles.', months:['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
-    wk:['L','M','M','J','V','S','D'], noFee:'Réservez en direct, sans frais de service.'
+    wk:['L','M','M','J','V','S','D'], noFee:'Réservez en direct, sans frais de service.', from:'dès', priceNote:'Prix par nuit, sous chaque date'
   };
   var EN = {
     choose:'Choose your apartment', pick:'Select your dates on the calendar',
@@ -39,7 +39,7 @@
     name:'Full name', email:'Email', phone:'Phone', pay:'Continue to payment', loading:'Calculating…',
     minN:'Minimum stay of {n} nights.', tooSoon:'Please book a little further ahead.',
     unavail:'These dates are not available.', months:['January','February','March','April','May','June','July','August','September','October','November','December'],
-    wk:['M','T','W','T','F','S','S'], noFee:'Book direct, no service fee.'
+    wk:['M','T','W','T','F','S','S'], noFee:'Book direct, no service fee.', from:'from', priceNote:'Nightly price, under each date'
   };
   function T(){ return isEN() ? EN : FR; }
 
@@ -58,6 +58,11 @@
     this.apt = APTS[0];
     this.guests = 2;
     this.blocked = {};            // { 'YYYY-MM-DD': true }
+    this.prices = {};             // { 'YYYY-MM-DD': cents } (prix de la nuit)
+    this.loaded = false;
+    this.enter = 1;               // anime l'entree des mois (1 / -1 = sens, 0 = rien)
+    this.justSet = null;          // jour qui vient d'etre clique (petite animation)
+    this.sweep = false;           // anime le remplissage de la plage choisie
     this.view = new Date(); this.view.setDate(1);
     this.checkIn = null; this.checkOut = null;
     this.quote = null;
@@ -91,6 +96,7 @@
     var a = APTS.filter(function(x){return x.no===no;})[0]; if(!a) return;
     this.apt = a; this.guests = Math.min(2, a.g);
     this.checkIn = this.checkOut = null; this.quote = null; this.blocked = {};
+    this.prices = {}; this.loaded = false; this.enter = 1;
     this.elApts.querySelectorAll('.rz2-apt').forEach(function(el){ el.classList.toggle('is-active', el.getAttribute('data-apt')===no); });
     this.renderSummary();
     this.renderCalendar(true);
@@ -99,15 +105,25 @@
 
   App.prototype.loadAvailability = function(){
     var self=this, apt=this.apt.no;
-    api('/api/booking/availability/?apt='+apt).then(function(r){
+    api('/api/booking/availability/?apt='+apt+'&prices=1').then(function(r){
       if (self.apt.no!==apt) return;              // appart changé entre-temps
       var blocked={};
       ((r.body&&r.body.unavailable)||[]).forEach(function(rg){
         var d=fromISO(rg.start), end=fromISO(rg.end);
         while(d<end){ blocked[iso(d)]=true; d=addDays(d,1); }
       });
-      self.blocked=blocked; self.renderCalendar();
-    }).catch(function(){ self.renderCalendar(); });
+      self.blocked=blocked; self.prices=(r.body&&r.body.prices)||{}; self.loaded=true;
+      self.renderCalendar(); self.renderFrom();
+    }).catch(function(){ self.loaded=true; self.renderCalendar(); });
+  };
+
+  // "dès 80 € / nuit" : plus petit prix libre sur les 60 prochains jours.
+  App.prototype.renderFrom = function(){
+    var el=document.getElementById('rz2From'); if(!el) return;
+    var t=T(), d=new Date(), best=null;
+    for(var i=0;i<60;i++){ var s=iso(addDays(d,i)), p=this.prices[s]; if(p!=null && !this.blocked[s] && (best==null||p<best)) best=p; }
+    el.innerHTML = best==null ? '' : esc(t.from)+' <b>'+eur(best)+' €</b> '+esc(t.perNight);
+    el.classList.toggle('is-on', best!=null);
   };
 
   App.prototype.isPast = function(d){ var t=new Date(); t.setHours(0,0,0,0); return d<t; };
@@ -122,9 +138,11 @@
     else { // on a un checkIn, pas de checkOut
       if(s<=this.checkIn){ this.checkIn=s; }
       else if(this.rangeHasBlocked(this.checkIn,s)){ this.checkIn=s; }   // ne peut pas franchir un jour bloqué
-      else { this.checkOut=s; }
+      else { this.checkOut=s; this.sweep=true; }
     }
+    this.justSet=s;
     this.renderCalendar();
+    this.justSet=null; this.sweep=false;
     this.renderSummary();
     if(this.checkIn && this.checkOut) this.updateQuote();
   };
@@ -134,22 +152,26 @@
     var m1=new Date(this.view), m2=new Date(this.view.getFullYear(),this.view.getMonth()+1,1);
     var now=new Date(); now.setDate(1);
     var prevOk = this.view>now;
+    var enter = (!skeleton && this.enter) ? (this.enter<0?' is-enter from-left':' is-enter') : '';
     this.elCal.innerHTML =
       '<div class="rz2-cal-head"><h3>'+esc(t.pick)+'</h3>' +
         '<div class="rz2-cal-nav">' +
           '<button class="rz2-cal-navbtn" data-nav="-1" '+(prevOk?'':'disabled')+' aria-label="prev">‹</button>' +
           '<button class="rz2-cal-navbtn" data-nav="1" aria-label="next">›</button>' +
         '</div></div>' +
-      '<div class="rz2-months">'+this.month(m1)+this.month(m2)+'</div>' +
+      '<div class="rz2-months'+enter+(this.loaded?' has-prices':'')+'">'+this.month(m1,0)+this.month(m2,1)+'</div>' +
       '<div class="rz2-legend">' +
         '<span><i class="l-av"></i>'+esc(t.avail)+'</span>' +
         '<span><i class="l-bk"></i>'+esc(t.booked)+'</span>' +
         '<span><i class="l-sel"></i>'+esc(t.selected)+'</span>' +
+        '<span class="l-note">'+esc(t.priceNote)+'</span>' +
       '</div>';
+    if(!skeleton) this.enter=0;
     this.elCal.querySelectorAll('[data-nav]').forEach(function(b){
       b.addEventListener('click', function(){
-        self.view=new Date(self.view.getFullYear(), self.view.getMonth()+(+b.getAttribute('data-nav')),1);
-        self.renderCalendar();
+        var dir=+b.getAttribute('data-nav');
+        self.view=new Date(self.view.getFullYear(), self.view.getMonth()+dir,1);
+        self.enter=dir; self.renderCalendar();
       });
     });
     if(skeleton) return;
@@ -158,24 +180,32 @@
     });
   };
 
-  App.prototype.month = function(md){
+  App.prototype.month = function(md, idx){
     var t=T(), y=md.getFullYear(), m=md.getMonth();
     var firstJs=new Date(y,m,1).getDay(), firstMon=(firstJs+6)%7;
     var days=new Date(y,m+1,0).getDate();
-    var cells='';
+    var cells='', k=0;
     for(var i=0;i<firstMon;i++) cells+='<div class="rz2-day empty"></div>';
     for(var d=1;d<=days;d++){
-      var date=new Date(y,m,d), s=iso(date), cl=['rz2-day'], clickable=false;
+      var date=new Date(y,m,d), s=iso(date), cl=['rz2-day'], clickable=false, price='';
       if(this.isPast(date)){ cl.push('past'); }
       else if(this.blocked[s]){ cl.push('blocked'); }
-      else { cl.push('avail'); clickable=true; }
+      else {
+        cl.push('avail'); clickable=true;
+        if(this.prices[s]!=null) price='<span class="rz2-pr">'+eur(this.prices[s])+'&#8239;€</span>';
+      }
       // aujourd'hui
       var td=new Date(); if(y===td.getFullYear()&&m===td.getMonth()&&d===td.getDate()) cl.push('today');
       // sélection
       if(this.checkIn && s===this.checkIn) cl.push('sel-start');
       if(this.checkOut && s===this.checkOut) cl.push('sel-end');
-      if(this.checkIn && this.checkOut && s>this.checkIn && s<this.checkOut) cl.push('in-range');
-      cells+='<div class="'+cl.join(' ')+'"'+(clickable?' data-day="'+s+'"':'')+'>'+d+'</div>';
+      if(this.checkIn && this.checkOut && s>this.checkIn && s<this.checkOut){ cl.push('in-range'); if(this.sweep) cl.push('sweep'); }
+      if(this.justSet===s) cl.push('pop');
+      // --i : ordre d'apparition (entree en cascade, remplissage de la plage)
+      var order = this.sweep && this.checkIn ? Math.round((date-fromISO(this.checkIn))/86400000) : (idx*days+k);
+      k++;
+      cells+='<div class="'+cl.join(' ')+'" style="--i:'+order+'"'+(clickable?' data-day="'+s+'"':'')+'>' +
+        '<span class="rz2-dn">'+d+'</span>'+price+'</div>';
     }
     return '<div class="rz2-month"><div class="rz2-month-name">'+t.months[m]+' '+y+'</div>' +
       '<div class="rz2-wk">'+t.wk.map(function(w){return '<span>'+w+'</span>';}).join('')+'</div>' +
@@ -187,6 +217,7 @@
     var gOpts=''; for(var g=1;g<=a.g;g++) gOpts+='<option value="'+g+'"'+(g===this.guests?' selected':'')+'>'+g+'</option>';
     this.elSum.innerHTML =
       '<p class="rz2-sum-apt">'+esc(aName(a))+'</p><p class="rz2-sum-loc">N° '+a.no+' · '+esc(aLoc(a))+'</p>' +
+      '<p class="rz2-from" id="rz2From"></p>' +
       '<div class="rz2-dates">' +
         '<div class="rz2-datebox"><div class="d-lbl">'+esc(t.in)+'</div><div class="d-val'+(this.checkIn?'':' empty')+'">'+(this.checkIn?fmtDate(this.checkIn):'—')+'</div></div>' +
         '<div class="rz2-datebox"><div class="d-lbl">'+esc(t.out)+'</div><div class="d-val'+(this.checkOut?'':' empty')+'">'+(this.checkOut?fmtDate(this.checkOut):'—')+'</div></div>' +
@@ -198,6 +229,7 @@
     var gsel=document.getElementById('rz2Guests');
     gsel.addEventListener('change', function(){ self.guests=parseInt(gsel.value,10)||1; if(self.checkIn&&self.checkOut) self.updateQuote(); });
     this.renderQuote();
+    this.renderFrom();
   };
 
   App.prototype.setMsg = function(txt,kind){ var m=document.getElementById('rz2Msg'); if(m){ m.textContent=txt||''; m.className='rz2-msg'+(kind?' '+kind:''); } };
