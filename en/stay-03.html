@@ -26,11 +26,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../css/style.css?v=mob8" />
+  <link rel="stylesheet" href="../css/style.css?v=mob9" />
   <script src="../js/lazy-leaflet.js?v=mob1" defer></script>
   <link rel="stylesheet" href="../css/sejour.css?v=mob1" />
-  <link rel="stylesheet" href="../css/calendar.css?v=cal5" />
-  <link rel="stylesheet" href="../css/booking.css?v=bk1" />
+  <link rel="stylesheet" href="../css/reserver.css?v=rz6" />
 
   <!-- Schema.org JSON-LD : Apartment + Product/AggregateRating + Breadcrumb + FAQ -->
   <script type="application/ld+json">
@@ -312,18 +311,16 @@
     </div>
   </section>
 
-  <!-- Calendrier disponibilites iCal -->
-  <section class="sejour-calendar" data-overlay="2" style="padding:clamp(60px,8vw,120px) var(--gutter);max-width:1100px;margin:0 auto">
-    <header class="section-head center" style="margin-bottom:clamp(24px,3vw,40px)">
-      <p class="eyebrow light"><span class="eyebrow-num">∞</span> <span data-i18n="sec.calendar">Calendrier</span></p>
-      <h2 class="h-display light" data-i18n="calendar.title" data-i18n-html data-kinetic>Disponibilités <em>en direct.</em></h2>
-    </header>
-    <div data-dp-calendar="03"></div>
-  </section>
-
-  <!-- Reservation en direct -->
+  <!-- Reservation en direct : calendrier interactif (prix, dispo) + recap -->
   <section class="sejour-booking" id="reserver" style="scroll-margin-top:80px;background:#0A1628;padding:clamp(48px,7vw,100px) var(--gutter)">
-    <div data-booking-widget="03" data-max-guests="6"></div>
+    <header class="section-head center">
+      <p class="eyebrow light"><span class="eyebrow-num">∞</span> <span data-i18n="sec.calendar">Calendrier</span></p>
+      <h2 class="h-display light" data-i18n="calendar.title" data-i18n-html>Disponibilités <em>en direct.</em></h2>
+    </header>
+    <div class="rz2-main">
+      <div class="rz2-panel" id="rz2Cal" data-apt="03"></div>
+      <div class="rz2-panel rz2-summary" id="rz2Sum"></div>
+    </div>
   </section>
   <section class="sejour-cta" data-overlay="3">
     <div class="cta-wrap">
@@ -524,8 +521,7 @@
     </div>
     <div class="lightbox-thumbs" id="lbThumbs"></div>
   </div>
-  <script src="../js/calendar-widget.js?v=cal7" defer></script>
   <script src="../js/guest-validate.js?v=2" defer></script>
-  <script src="../js/booking-widget.js?v=bk4" defer></script>
+  <script src="../js/reserver.js?v=rz8" defer></script>
 </body>
 </html>

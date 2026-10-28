@@ -111,10 +111,6 @@ html{
   html.has-dp-cursor select{
     cursor:auto !important;
   }
-  /* Section calendrier : MASQUEE sur mobile (definitif).
-     Le widget cree un cadre bleu en interaction avec les overlays
-     video. Le CTA "Reserver sur Airbnb" en bas de page reste actif. */
-  .sejour-calendar{display:none !important}
 }
 body{
   margin:0;background:var(--bg);color:var(--ink);

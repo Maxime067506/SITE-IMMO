@@ -29,7 +29,8 @@
     name:'Nom complet', email:'E-mail', phone:'Téléphone', pay:'Continuer vers le paiement', loading:'Calcul…',
     minN:'Séjour minimum de {n} nuits.', tooSoon:'Réservez un peu plus à l\'avance.',
     unavail:'Ces dates ne sont pas disponibles.', months:['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
-    wk:['L','M','M','J','V','S','D'], noFee:'Réservez en direct, sans frais de service.', from:'dès', priceNote:'Prix par nuit, sous chaque date'
+    wk:['L','M','M','J','V','S','D'], noFee:'Réservez en direct, sans frais de service.', from:'dès', priceNote:'Prix par nuit, sous chaque date',
+    step1:'1. Touchez votre date d\'arrivée', step2:'2. Touchez votre date de départ', step3:'Votre séjour · {n}', reset:'Effacer', barBook:'Réserver'
   };
   var EN = {
     choose:'Choose your apartment', pick:'Select your dates on the calendar',
@@ -39,7 +40,8 @@
     name:'Full name', email:'Email', phone:'Phone', pay:'Continue to payment', loading:'Calculating…',
     minN:'Minimum stay of {n} nights.', tooSoon:'Please book a little further ahead.',
     unavail:'These dates are not available.', months:['January','February','March','April','May','June','July','August','September','October','November','December'],
-    wk:['M','T','W','T','F','S','S'], noFee:'Book direct, no service fee.', from:'from', priceNote:'Nightly price, under each date'
+    wk:['M','T','W','T','F','S','S'], noFee:'Book direct, no service fee.', from:'from', priceNote:'Nightly price, under each date',
+    step1:'1. Tap your check-in date', step2:'2. Tap your check-out date', step3:'Your stay · {n}', reset:'Clear', barBook:'Book'
   };
   function T(){ return isEN() ? EN : FR; }
 
@@ -64,6 +66,10 @@
     this.justSet = null;          // jour qui vient d'etre clique (petite animation)
     this.sweep = false;           // anime le remplissage de la plage choisie
     this.view = new Date(); this.view.setDate(1);
+    // Téléphone : un seul mois affiché ; si le mois en cours est presque fini, on commence au suivant.
+    this.mobile = window.matchMedia && window.matchMedia('(max-width: 620px)').matches;
+    var td=new Date(), left=new Date(td.getFullYear(), td.getMonth()+1, 0).getDate() - td.getDate();
+    if(this.mobile && left < 7) this.view = new Date(td.getFullYear(), td.getMonth()+1, 1);
     this.checkIn = null; this.checkOut = null;
     this.quote = null;
     this.elApts = document.getElementById('rz2Apts');
@@ -73,9 +79,11 @@
   App.prototype.start = function(){
     var self=this;
     // ?apt=03 : ouvre directement la page sur cet appartement
-    var want=(location.search.match(/[?&]apt=(\d{1,2})/)||[])[1];
+    // Page d'un appartement : data-apt sur le calendrier, pas de bandeau d'appartements
+    var want=this.elCal.getAttribute('data-apt') || (location.search.match(/[?&]apt=(\d{1,2})/)||[])[1];
     if(want){ var hit=APTS.filter(function(a){ return a.no===('0'+want).slice(-2); })[0]; if(hit) this.apt=hit; }
-    this.renderApts();
+    if(this.elApts) this.renderApts();
+    this.mountBar();
     // Flèches : appartement précédent / suivant (boucle)
     [['rz2Prev',-1],['rz2Next',1]].forEach(function(p){
       var b=document.getElementById(p[0]); if(!b) return;
@@ -109,7 +117,7 @@
     this.apt = a; this.guests = Math.min(2, a.g);
     this.checkIn = this.checkOut = null; this.quote = null; this.blocked = {};
     this.prices = {}; this.loaded = false; this.enter = 1;
-    var box=this.elApts;
+    var box=this.elApts || document.createElement('div');
     box.querySelectorAll('.rz2-apt').forEach(function(el){
       var on=el.getAttribute('data-apt')===no;
       el.classList.toggle('is-active', on);
@@ -144,6 +152,44 @@
     el.classList.toggle('is-on', best!=null);
   };
 
+  // Titre du calendrier = étape en cours (arrivée -> départ -> séjour choisi)
+  App.prototype.stepHtml = function(){
+    var t=T();
+    if(!this.checkIn) return esc(t.step1);
+    if(!this.checkOut) return esc(t.step2);
+    var n=Math.round((fromISO(this.checkOut)-fromISO(this.checkIn))/86400000);
+    return esc(t.step3.replace('{n}', fmtDate(this.checkIn)+' → '+fmtDate(this.checkOut)+' · '+n+' '+(n>1?t.nights:t.night))) +
+      ' <button type="button" class="rz2-reset" data-reset>'+esc(t.reset)+'</button>';
+  };
+
+  // Mobile : barre fixe en bas d'écran dès que les dates sont choisies
+  // (prix total + bouton qui amène au récapitulatif / formulaire).
+  App.prototype.mountBar = function(){
+    var self=this;
+    this.bar=document.createElement('div');
+    this.bar.className='rz2-mbar';
+    this.bar.innerHTML='<div class="rz2-mbar-info"></div><button type="button" class="rz2-mbar-btn"></button>';
+    document.body.appendChild(this.bar);
+    this.bar.querySelector('button').addEventListener('click', function(){
+      if(!document.querySelector('#rz2Gform .dpg')) self.onBook();
+      // juste sous le bandeau du haut (fixe)
+      var top=self.elSum.getBoundingClientRect().top + window.scrollY - 80;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    });
+  };
+  App.prototype.updateBar = function(){
+    if(!this.bar) return;
+    var t=T(), q=this.quote, show = !!(this.checkIn && this.checkOut && q && q.ok) && !document.querySelector('#rz2Gform .dpg');
+    if(show){
+      this.bar.querySelector('.rz2-mbar-info').innerHTML =
+        '<span class="d">'+fmtDate(this.checkIn)+' → '+fmtDate(this.checkOut)+' · '+q.nights+' '+(q.nights>1?t.nights:t.night)+'</span>' +
+        '<b>'+eur(q.total_cents)+' €</b>';
+      this.bar.querySelector('button').textContent=t.barBook;
+    }
+    this.bar.classList.toggle('is-on', show);
+    document.body.classList.toggle('has-rz2-mbar', show);
+  };
+
   App.prototype.isPast = function(d){ var t=new Date(); t.setHours(0,0,0,0); return d<t; };
   App.prototype.rangeHasBlocked = function(ci,co){
     var d=fromISO(ci), end=fromISO(co);
@@ -172,12 +218,12 @@
     var prevOk = this.view>now;
     var enter = (!skeleton && this.enter) ? (this.enter<0?' is-enter from-left':' is-enter') : '';
     this.elCal.innerHTML =
-      '<div class="rz2-cal-head"><h3>'+esc(t.pick)+'</h3>' +
+      '<div class="rz2-cal-head"><h3 class="rz2-step'+(this.checkIn&&this.checkOut?' is-done':'')+'">'+this.stepHtml()+'</h3>' +
         '<div class="rz2-cal-nav">' +
           '<button class="rz2-cal-navbtn" data-nav="-1" '+(prevOk?'':'disabled')+' aria-label="prev">‹</button>' +
           '<button class="rz2-cal-navbtn" data-nav="1" aria-label="next">›</button>' +
         '</div></div>' +
-      '<div class="rz2-months'+enter+(this.loaded?' has-prices':'')+'">'+this.month(m1,0)+this.month(m2,1)+'</div>' +
+      '<div class="rz2-months'+enter+(this.loaded?' has-prices':'')+'">'+this.month(m1,0)+(this.mobile?'':this.month(m2,1))+'</div>' +
       '<div class="rz2-legend">' +
         '<span><i class="l-av"></i>'+esc(t.avail)+'</span>' +
         '<span><i class="l-bk"></i>'+esc(t.booked)+'</span>' +
@@ -185,6 +231,11 @@
         '<span class="l-note">'+esc(t.priceNote)+'</span>' +
       '</div>';
     if(!skeleton) this.enter=0;
+    var rs=this.elCal.querySelector('[data-reset]');
+    if(rs) rs.addEventListener('click', function(){
+      self.checkIn=self.checkOut=null; self.quote=null;
+      self.renderCalendar(); self.renderSummary(); self.updateBar();
+    });
     this.elCal.querySelectorAll('[data-nav]').forEach(function(b){
       b.addEventListener('click', function(){
         var dir=+b.getAttribute('data-nav');
@@ -254,6 +305,7 @@
 
   App.prototype.renderQuote = function(){
     var t=T(), q=this.quote, box=document.getElementById('rz2Quote');
+    this.updateBar();
     if(!box) return;
     if(!this.checkIn || !this.checkOut){ box.innerHTML='<p class="rz2-hint">'+esc(t.pick)+'</p>'; return; }
     if(!q){ box.innerHTML='<p class="rz2-hint"><span class="rz2-spin" style="border-top-color:var(--ink);border-color:rgba(26,21,18,.2);border-top-color:var(--ink)"></span>'+esc(t.loading)+'</p>'; return; }
@@ -296,6 +348,7 @@
       onSubmit: function(guest, btn){ self.setMsg('',''); self.checkout(guest, btn); }
     });
     gf.classList.remove('hidden');
+    this.updateBar();
     var book=document.getElementById('rz2Book'); if(book) book.style.display='none';
     gf.scrollIntoView({behavior:'smooth',block:'nearest'});
   };
@@ -314,7 +367,7 @@
     }).catch(function(e){ btn.disabled=false; btn.textContent=t.pay; self.setMsg(String(e.message||e),'err'); });
   };
 
-  function boot(){ if(document.getElementById('rz2Apts')) new App().start(); }
+  function boot(){ if(document.getElementById('rz2Cal')) new App().start(); }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();
