@@ -3257,3 +3257,13 @@ body.has-video-bg .site-footer a:hover{color:var(--accent-lt)}
    L'ancienne keyframe breath-in reste comme fallback — déjà définie plus haut. */
 
 /* Si body.sejour-page a data-overlay ajouté par section : la carte du fiche reste lisible */
+
+/* Accueil : bouton « Réserver en direct » au-dessus de « Voir les séjours », sur téléphone uniquement */
+.hero-film-content .hero-actions .hero-book{display:none}
+@media (max-width:760px){
+  .hero-film-content .hero-actions{flex-direction:column;align-items:flex-start}
+  .hero-film-content .hero-actions .hero-book{display:inline-flex}
+  .hero-film-content .hero-actions .hero-book,
+  .hero-film-content .hero-actions .btn-primary-light{width:100%;max-width:280px;justify-content:center;box-sizing:border-box}
+  .hero-film-content .hero-actions .hero-book{background:var(--accent);border-color:var(--accent);color:#fff}
+}
