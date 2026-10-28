@@ -22,11 +22,11 @@
   <link rel="alternate" hreflang="en" href="https://delfosseproperties.com/en/stay-05.html" />
   <link rel="alternate" hreflang="x-default" href="https://delfosseproperties.com/sejour-05.html" />
 
-  <link rel="preload" as="image" href="../img/airbnb/06-scherzo/photo-01_wm.jpg" fetchpriority="high" />
+  <link rel="preload" as="image" href="../img/airbnb/06-scherzo/photo-01_wm.jpg?v=wmE" fetchpriority="high" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="../css/style.css?v=mob7" />
+  <link rel="stylesheet" href="../css/style.css?v=mob8" />
   <script src="../js/lazy-leaflet.js?v=mob1" defer></script>
   <link rel="stylesheet" href="../css/sejour.css?v=mob1" />
   <link rel="stylesheet" href="../css/calendar.css?v=cal5" />
@@ -44,9 +44,9 @@
         "description": "T2 neuf ultra design, 4 voyageurs, quartier Musiciens à Nice, décoration soignée, note 4,81/5. Location saisonnière Côte d'Azur.",
         "url": "https://delfosseproperties.com/sejour-05.html",
         "image": [
-          "https://delfosseproperties.com/img/airbnb/06-scherzo/photo-01_wm.jpg",
-          "https://delfosseproperties.com/img/airbnb/06-scherzo/photo-02_wm.jpg",
-          "https://delfosseproperties.com/img/airbnb/06-scherzo/photo-03_wm.jpg"
+          "https://delfosseproperties.com/img/airbnb/06-scherzo/photo-01_wm.jpg?v=wmE",
+          "https://delfosseproperties.com/img/airbnb/06-scherzo/photo-02_wm.jpg?v=wmE",
+          "https://delfosseproperties.com/img/airbnb/06-scherzo/photo-03_wm.jpg?v=wmE"
         ],
         "address": {
           "@type": "PostalAddress",
@@ -76,7 +76,7 @@
         "@id": "https://delfosseproperties.com/sejour-05.html#product",
         "name": "Location saisonnière Appartement ultra design Quartier Musiciens Nice — Delfosse Properties",
         "description": "Location saisonnière Quartier Musiciens, Côte d'Azur — T2 neuf ultra design, 4 voyageurs, décoration soignée, note 4,81.",
-        "image": "https://delfosseproperties.com/img/airbnb/06-scherzo/photo-01_wm.jpg",
+        "image": "https://delfosseproperties.com/img/airbnb/06-scherzo/photo-01_wm.jpg?v=wmE",
         "brand": { "@type": "Brand", "name": "Delfosse Properties" },
         "aggregateRating": {
           "@type": "AggregateRating",
@@ -360,7 +360,7 @@
   </footer>
 
   <script src="../js/i18n.js?v=r1"></script>
-  <script src="../js/app.js?v=r1"></script>
+  <script src="../js/app.js?v=r2"></script>
   <script src="../js/video-bg.js?v=mob7"></script>
   <script>
     /* Hero slideshow Ken Burns + progress bars */
@@ -410,7 +410,7 @@
         var dir = stage.dataset.photoDir;
         var count = parseInt(stage.dataset.photoCount || '8', 10);
         var ver = stage.dataset.photoVersion || '';
-        var verQs = ver ? '?v=' + ver + '-wmD' : '?v=wmD';
+        var verQs = ver ? '?v=' + ver + '-wmE' : '?v=wmE';
 
         var photos = [];
         for (var i = 1; i <= count; i++) {
@@ -524,7 +524,6 @@
     </div>
     <div class="lightbox-thumbs" id="lbThumbs"></div>
   </div>
-  <script src="../js/custom-cursor.js?v=mob1" defer></script>
   <script src="../js/calendar-widget.js?v=cal6" defer></script>
   <script src="../js/booking-widget.js?v=bk2" defer></script>
 </body>
