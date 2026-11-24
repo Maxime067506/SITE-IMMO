@@ -120,6 +120,38 @@ export async function sbDelete(table, filter) {
   return true;
 }
 
+/** Upload un fichier (Buffer/bytes) dans un bucket Storage prive. */
+export async function sbStorageUpload(bucket, path, bytes, contentType) {
+  const url = SUPABASE_URL.replace(/\/$/, '') + '/storage/v1/object/' + bucket + '/' + path;
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      apikey: SERVICE_KEY, Authorization: 'Bearer ' + SERVICE_KEY,
+      'Content-Type': contentType || 'application/octet-stream', 'x-upsert': 'true',
+    },
+    body: bytes,
+  });
+  if (!res.ok) { const body = await res.text(); throw new SupabaseError('storage-upload', res.status, body); }
+  return res.json().catch(() => ({}));
+}
+
+/** Supprime un objet d'un bucket Storage (404 traite comme deja supprime). */
+export async function sbStorageDelete(bucket, path) {
+  const url = SUPABASE_URL.replace(/\/$/, '') + '/storage/v1/object/' + bucket + '/' + path;
+  const res = await fetch(url, { method: 'DELETE', headers: { apikey: SERVICE_KEY, Authorization: 'Bearer ' + SERVICE_KEY } });
+  if (!res.ok && res.status !== 404) { const body = await res.text(); throw new SupabaseError('storage-delete', res.status, body); }
+  return true;
+}
+
+/** URL signee (lecture temporaire) d'un objet prive — pour la vue admin. */
+export async function sbStorageSignedUrl(bucket, path, expiresIn = 300) {
+  const url = SUPABASE_URL.replace(/\/$/, '') + '/storage/v1/object/sign/' + bucket + '/' + path;
+  const res = await fetch(url, { method: 'POST', headers: baseHeaders(), body: JSON.stringify({ expiresIn }) });
+  if (!res.ok) { const body = await res.text(); throw new SupabaseError('storage-sign', res.status, body); }
+  const j = await res.json();
+  return SUPABASE_URL.replace(/\/$/, '') + '/storage/v1' + j.signedURL;
+}
+
 export class SupabaseError extends Error {
   constructor(op, status, body) {
     super('Supabase ' + op + ' failed (' + status + '): ' + body);

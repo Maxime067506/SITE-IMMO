@@ -6,7 +6,7 @@
  * actives/a venir. Les verrous perimes sont nettoyes au passage.
  */
 
-import { sbSelect, sbUpdate, supabaseConfigured, SupabaseError } from '../supabase.js';
+import { sbSelect, sbUpdate, sbDelete, sbStorageDelete, supabaseConfigured, SupabaseError } from '../supabase.js';
 import { requireAdmin } from '../admin-auth.js';
 
 export default async function handler(req, res) {
@@ -22,6 +22,26 @@ export default async function handler(req, res) {
       'status=eq.hold&hold_expires_at=lt.' + encodeURIComponent(nowISO),
       { status: 'expired', updated_at: nowISO }
     );
+
+    // Minimisation RGPD : supprime les copies de piece d'identite des sejours
+    // termines (le depart est passe). Les DONNEES de fiche restent 6 mois.
+    try {
+      const today = nowISO.slice(0, 10);
+      const toClear = await sbSelect(
+        'booking_travelers?select=id,id_doc_path,bookings!inner(check_out)' +
+          '&id_doc_path=not.is.null&id_doc_deleted_at=is.null&bookings.check_out=lt.' + today
+      );
+      for (const t of toClear) {
+        if (t && t.id_doc_path) { try { await sbStorageDelete('guest-ids', t.id_doc_path); } catch (_) {} }
+        await sbUpdate('booking_travelers', 'id=eq.' + t.id, { id_doc_path: null, id_doc_deleted_at: nowISO });
+      }
+    } catch (_) { /* ne bloque jamais le dashboard */ }
+
+    // Conservation legale ecoulee : purge les fiches de plus de 6 mois.
+    try {
+      const sixMonthsAgo = new Date(Date.now() - 183 * 86400000).toISOString();
+      await sbDelete('booking_travelers', 'created_at=lt.' + encodeURIComponent(sixMonthsAgo));
+    } catch (_) { /* no-op */ }
 
     const [apartments, pricing, settings, seasons, bookings] = await Promise.all([
       sbSelect('apartments?select=*&order=code'),

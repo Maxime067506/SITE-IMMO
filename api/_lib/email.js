@@ -14,6 +14,8 @@
  * reste confirmee, seules les notifications sont sautees (retour {sent:false}).
  */
 
+import { ficheToken } from './fiche-token.js';
+
 const API_KEY = process.env.RESEND_API_KEY;
 const FROM = process.env.EMAIL_FROM || 'Delfosse Properties <onboarding@resend.dev>';
 const HOST_EMAIL = process.env.HOST_EMAIL || 'delfossemaximepro@gmail.com';
@@ -119,6 +121,19 @@ function detailRows(b, lang) {
     (b.deposit_cents ? row(L.dep, eur(b.deposit_cents) + ' €') : '') +
     '</table>';
 }
+function siteBase() { return (process.env.SITE_URL || 'https://delfosseproperties.com').replace(/\/$/, ''); }
+function ficheCta(b, lang) {
+  if (!b || !b.id) return '';
+  const link = siteBase() + '/fiche-voyageur.html?booking=' + b.id + '&token=' + ficheToken(b.id);
+  const t = lang === 'en'
+    ? { h: 'Before your arrival', p: 'Please complete the traveller details for every guest — a legal requirement for tourist accommodation.', btn: 'Complete the traveller form' }
+    : { h: 'Avant votre arrivée', p: 'Merci de renseigner l\'identité de chaque voyageur — une obligation légale pour les hébergements touristiques.', btn: 'Remplir la fiche voyageur' };
+  return '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:18px 0 0"><tr><td style="padding:14px 0 0">' +
+    '<p style="color:#F5EDE0;font-size:14px;font-weight:bold;margin:0 0 4px">' + t.h + '</p>' +
+    '<p style="color:rgba(245,237,224,.68);font-size:13px;line-height:1.6;margin:0 0 12px">' + t.p + '</p>' +
+    '<a href="' + link + '" style="display:inline-block;background:#B69368;color:#0A1628;text-decoration:none;font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:bold;letter-spacing:.04em;padding:12px 22px;border-radius:6px">' + t.btn + '</a>' +
+    '</td></tr></table>';
+}
 function guestHtml(b, lang) {
   const t = lang === 'en'
     ? { title: 'Booking <span style="color:#D4B77E">confirmed.</span>', hi: 'Dear ' + esc(b.guest_name || 'guest') + ',', p1: 'Thank you — your stay is confirmed. We look forward to welcoming you. You will receive your check-in details (keybox code, Wi-Fi, directions) a few days before arrival.', p2: 'Any question? Simply reply to this email.' }
@@ -128,6 +143,7 @@ function guestHtml(b, lang) {
     '<p style="color:rgba(245,237,224,.78);font-size:15px;line-height:1.6;margin:0 0 6px">' + t.hi + '</p>' +
     '<p style="color:rgba(245,237,224,.68);font-size:14px;line-height:1.65;margin:0 0 18px">' + t.p1 + '</p>' +
     detailRows(b, lang) +
+    ficheCta(b, lang) +
     '<p style="color:rgba(245,237,224,.6);font-size:13px;line-height:1.6;margin:16px 0 0">' + t.p2 + '</p></td></tr>'
   );
 }
