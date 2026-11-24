@@ -14,8 +14,9 @@ import bookings from './_lib/admin/bookings.js';
 import seasons from './_lib/admin/seasons.js';
 import deposit from './_lib/admin/deposit.js';
 import days from './_lib/admin/days.js';
+import travelers from './_lib/admin/travelers.js';
 
-const HANDLERS = { data, pricing, settings, bookings, seasons, deposit, days };
+const HANDLERS = { data, pricing, settings, bookings, seasons, deposit, days, travelers };
 
 export default function handler(req, res) {
   const resource = String((req.query && req.query.resource) || '');

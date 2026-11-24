@@ -350,7 +350,9 @@
 
   // ---- RÉSERVATIONS ----
   function actionsCell(b) {
-    var html = '<button class="rz-btn danger sm" data-cancel="' + esc(b.id) + '">Annuler</button>';
+    var html = '';
+    if (b.notes !== 'block') html += '<button class="rz-btn ghost sm" data-fiche="' + esc(b.id) + '">Fiche voyageur</button> ';
+    html += '<button class="rz-btn danger sm" data-cancel="' + esc(b.id) + '">Annuler</button>';
     if (b.status === 'confirmed' && b.source === 'direct' && b.deposit_cents > 0) {
       var ds = b.deposit_status;
       html += '<div style="margin-top:9px;display:flex;flex-wrap:wrap;gap:6px;align-items:center">';
@@ -405,6 +407,9 @@
         '</tr>';
     }).join('');
     wireDeposit(tb);
+    tb.querySelectorAll('[data-fiche]').forEach(function (btn) {
+      btn.addEventListener('click', function () { showFiche(btn.getAttribute('data-fiche')); });
+    });
     tb.querySelectorAll('[data-cancel]').forEach(function (btn) {
       btn.addEventListener('click', function () {
         if (!confirm('Annuler cette réservation / ce blocage ? Les dates seront libérées.')) return;
@@ -428,6 +433,95 @@
       else msg('bookingsMsg', 'Erreur: ' + (r.body.error || r.status), 'err');
     });
   });
+
+  // ---- FICHE VOYAGEUR (vue hôte / contrôle police) ----
+  var ficheEl = null;
+  function ficheModal() {
+    if (ficheEl) return ficheEl;
+    ficheEl = document.createElement('div');
+    ficheEl.id = 'ficheOverlay';
+    ficheEl.style.cssText = 'position:fixed;inset:0;z-index:100;background:rgba(5,10,20,.72);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);display:none;align-items:flex-start;justify-content:center;overflow:auto;padding:28px 14px';
+    ficheEl.innerHTML = '<div id="ficheCard" style="width:640px;max-width:100%;background:#0d1b30;border:1px solid rgba(201,169,97,.28);border-radius:14px;padding:22px 22px 26px;margin:auto"></div>';
+    ficheEl.addEventListener('click', function (e) { if (e.target === ficheEl) hideFiche(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hideFiche(); });
+    document.body.appendChild(ficheEl);
+    return ficheEl;
+  }
+  function hideFiche() { if (ficheEl) ficheEl.style.display = 'none'; }
+  function ficheHead(b) {
+    return '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:6px">' +
+      '<div><div class="rz-apt" style="font-size:20px">Fiche voyageur</div>' +
+      '<div style="color:rgba(245,237,224,.55);font-size:12.5px;margin-top:2px">N° ' + esc(b.apartment_code) + ' · ' + fmtDate(b.check_in) + ' → ' + fmtDate(b.check_out) + (b.guest_name ? ' · ' + esc(b.guest_name) : '') + '</div></div>' +
+      '<button class="rz-btn ghost sm" id="ficheClose">Fermer</button></div>';
+  }
+  function bindClose() { var c = document.getElementById('ficheClose'); if (c) c.addEventListener('click', hideFiche); }
+  function showFiche(id) {
+    var b = (state.data.bookings || []).find(function (x) { return x.id === id; }) || { id: id, apartment_code: '', check_in: '', check_out: '' };
+    var ov = ficheModal(); ov.style.display = 'flex';
+    var card = document.getElementById('ficheCard');
+    card.innerHTML = ficheHead(b) + '<div style="text-align:center;color:rgba(245,237,224,.5);padding:28px 0">Chargement…</div>';
+    bindClose();
+    api('/api/admin/?resource=travelers&booking=' + encodeURIComponent(id)).then(function (r) {
+      if (r.status !== 200 || !r.body.ok) {
+        card.innerHTML = ficheHead(b) + '<div class="rz-msg err" style="padding:18px 0">Erreur : ' + esc(r.body.error || r.status) + '</div>';
+        bindClose(); return;
+      }
+      renderFiche(b, r.body);
+    }).catch(function (err) {
+      card.innerHTML = ficheHead(b) + '<div class="rz-msg err" style="padding:18px 0">Erreur réseau : ' + esc(err.message) + '</div>';
+      bindClose();
+    });
+  }
+  function fRow(label, val) {
+    if (!val) return '';
+    return '<div style="display:flex;gap:10px;font-size:13.5px;line-height:1.5;margin-top:3px"><span style="color:rgba(245,237,224,.5);min-width:118px">' + label + '</span><span style="color:#F5EDE0">' + esc(val) + '</span></div>';
+  }
+  function renderFiche(b, data) {
+    var travs = data.travelers || [];
+    var body;
+    if (data.uninitialized) {
+      body = '<div class="rz-msg" style="padding:18px 0;color:rgba(245,237,224,.6)">La table des fiches n\'est pas encore initialisée (exécuter <code>db/travelers.sql</code> dans Supabase).</div>';
+    } else if (!travs.length) {
+      body = '<div class="rz-msg" style="padding:18px 0;color:rgba(245,237,224,.6)">Aucune fiche remplie par le voyageur pour l\'instant.</div>';
+    } else {
+      body = travs.map(function (t, i) {
+        var idLine;
+        if (t.has_id && t.id_url) idLine = '<a class="rz-btn gold sm" href="' + esc(t.id_url) + '" target="_blank" rel="noopener" style="margin-top:10px">Voir la pièce d\'identité</a>';
+        else if (t.id_deleted) idLine = '<div style="color:rgba(245,237,224,.4);font-size:12px;margin-top:10px">Pièce d\'identité supprimée (après le séjour)</div>';
+        else idLine = '<div style="color:rgba(245,237,224,.4);font-size:12px;margin-top:10px">Aucune pièce d\'identité fournie</div>';
+        var bn = [fmtDate(t.birth_date) !== '—' ? fmtDate(t.birth_date) : '', t.birth_place].filter(Boolean).join(' · ');
+        return '<div style="border:1px solid rgba(201,169,97,.2);border-radius:10px;padding:14px 15px;margin-top:12px">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:5px">' +
+          '<span style="font-family:var(--f-serif);font-style:italic;font-size:18px;color:#F5EDE0">' + esc(((t.first_name || '') + ' ' + (t.last_name || '')).trim()) + '</span>' +
+          (t.is_lead ? '<span class="pill hold">Réservataire</span>' : '<span style="color:rgba(245,237,224,.4);font-size:12px;white-space:nowrap">Voyageur ' + (i + 1) + '</span>') + '</div>' +
+          fRow('Naissance', bn) + fRow('Nationalité', t.nationality) + fRow('Domicile', t.home_address) + idLine + '</div>';
+      }).join('');
+    }
+    var card = document.getElementById('ficheCard');
+    card.innerHTML = ficheHead(b) + '<div id="ficheBody">' + body + '</div>' +
+      (travs.length ? '<div style="margin-top:16px;color:rgba(245,237,224,.4);font-size:11.5px;line-height:1.5">Fiche individuelle de police (art. R814-1 et s. CESEDA). Données conservées 6 mois. Lien pièce d\'identité valable 5 minutes.</div>' +
+        '<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px"><button class="rz-btn sm" id="fichePrint">Imprimer la liste</button></div>' : '');
+    bindClose();
+    var pb = document.getElementById('fichePrint');
+    if (pb) pb.addEventListener('click', function () { printFiche(b, travs); });
+  }
+  function printFiche(b, travs) {
+    var rows = travs.map(function (t, i) {
+      var bits = [];
+      if (fmtDate(t.birth_date) !== '—') bits.push('Né(e) le ' + fmtDate(t.birth_date));
+      if (t.birth_place) bits.push('à ' + t.birth_place);
+      var line2 = [t.nationality ? 'Nationalité : ' + t.nationality : '', t.home_address ? 'Domicile : ' + t.home_address : ''].filter(Boolean).join(' — ');
+      return '<tr><td>' + (i + 1) + (t.is_lead ? ' (réservataire)' : '') + '</td><td><strong>' + esc(((t.first_name || '') + ' ' + (t.last_name || '')).trim()) + '</strong>' +
+        (bits.length ? '<br>' + esc(bits.join(' ')) : '') + (line2 ? '<br>' + esc(line2) : '') + '</td></tr>';
+    }).join('');
+    var html = '<!doctype html><meta charset="utf-8"><title>Fiche voyageur — N° ' + esc(b.apartment_code) + '</title>' +
+      '<style>body{font-family:Arial,Helvetica,sans-serif;color:#111;margin:32px}h1{font-size:18px;margin:0}h2{font-size:12.5px;color:#555;font-weight:normal;margin:4px 0 0}table{border-collapse:collapse;width:100%;margin-top:18px}td{border:1px solid #ccc;padding:8px 10px;font-size:13px;vertical-align:top}td:first-child{width:92px;color:#555}small{color:#888}</style>' +
+      '<h1>Fiche individuelle de police</h1><h2>Delfosse Properties — Appartement N° ' + esc(b.apartment_code) + ' · séjour du ' + fmtDate(b.check_in) + ' au ' + fmtDate(b.check_out) + '</h2>' +
+      '<table>' + rows + '</table><p><small>Art. R814-1 et s. du CESEDA. Liste établie le ' + fmtDate(new Date().toISOString()) + '.</small></p>';
+    var w = window.open('', '_blank');
+    if (!w) { alert('Autorisez les fenêtres pop-up pour imprimer.'); return; }
+    w.document.write(html); w.document.close(); w.focus(); setTimeout(function () { try { w.print(); } catch (e) {} }, 350);
+  }
 
   // ---- SAISONS ----
   function renderSeasons() {
