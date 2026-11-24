@@ -173,8 +173,13 @@ export function computeQuote({
   }
   touristTax = Math.round(touristTax);
 
-  // --- Caution (pre-autorisation separee, non additionnee au total a payer) ---
-  const deposit = settings.deposit_cents || 0;
+  // --- Caution a paliers (pre-autorisation separee, non additionnee au total) ---
+  // 300 EUR pour les courts sejours, 600 EUR a partir du seuil (defaut 7 nuits).
+  // Surchargeable via settings.deposit_short_cents / deposit_long_cents / deposit_threshold_nights.
+  const depThreshold = settings.deposit_threshold_nights || 7;
+  const depShort = settings.deposit_short_cents || 30000;
+  const depLong = settings.deposit_long_cents || 60000;
+  const deposit = nights >= depThreshold ? depLong : depShort;
 
   const total = nightlyTotal + cleaning + touristTax;
 

@@ -52,6 +52,17 @@
       function fmt(d){if(!d)return'';var p=String(d).slice(0,10).split('-');return p[2]+'/'+p[1]+'/'+p[0];}
       function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];});}
       var check = '<div class="rc-mark"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></div>';
+      // Per-apartment info for the rental agreement (address + tourist registration number).
+      var APT = {
+        '01': { reg:'06088034969WF', addr:'5 rue Barla, 06300 Nice', cap:4 },
+        '02': { reg:'06088034969WF', addr:'5 rue Barla, 06300 Nice', cap:4 },
+        '03': { reg:'06088033084SB', addr:'27 avenue Notre-Dame, 06000 Nice', cap:6 },
+        '04': { reg:'06088034968SB', addr:'38 avenue Auber, 06000 Nice', cap:4 },
+        '05': { reg:'', addr:'Musiciens district, Nice', cap:4 },
+        '06': { reg:'', addr:'Musiciens district, Nice', cap:4 },
+        '07': { reg:'', addr:'Musiciens district, Nice', cap:4 },
+        '08': { reg:'06088041847DP', addr:'37 avenue Georges Clemenceau, 06000 Nice', cap:4 }
+      };
 
       if (!sid) { box.innerHTML = fail('Invalid link.'); return; }
 
@@ -75,10 +86,13 @@
               '</div>' +
               '<div class="rc-btns">' +
                 '<button type="button" class="rc-btn gold" id="pdfBtn">Download confirmation (PDF)</button>' +
+                '<button type="button" class="rc-btn" id="contractBtn">Download rental agreement (PDF)</button>' +
                 '<a class="rc-btn" href="index.html">Back to home</a>' +
               '</div>';
             var pb = document.getElementById('pdfBtn');
             if (pb) pb.addEventListener('click', function(){ genPDF(b); });
+            var cb = document.getElementById('contractBtn');
+            if (cb) cb.addEventListener('click', function(){ genContract(b); });
           } else if (j.status === 'pending') {
             box.innerHTML = fail('Payment is being validated. Please reload in a moment.');
           } else {
@@ -131,6 +145,60 @@
         doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor.apply(doc,muted);
         doc.text('Nice · French Riviera · delfosseproperties.com', cx, 286, {align:'center'});
         doc.save('booking-delfosse-'+(b.ref||b.apartment_code||'')+'.pdf');
+      }
+
+      function genContract(b){
+        if(!window.jspdf){ return; }
+        var btn=document.getElementById('contractBtn');
+        if(btn){ btn.disabled=true; btn.textContent='Generating…'; }
+        var img=new Image(); img.crossOrigin='anonymous';
+        img.onload=function(){ buildContract(b,shrink(img)); resetC(btn); };
+        img.onerror=function(){ buildContract(b,null); resetC(btn); };
+        img.src='/img/delfosse-mark.png';
+      }
+      function resetC(btn){ if(btn){ btn.disabled=false; btn.textContent='Download rental agreement (PDF)'; } }
+      function buildContract(b,logo){
+        var doc=new window.jspdf.jsPDF({unit:'mm',format:'a4'});
+        var W=210, L=24, R=W-24, cx=W/2, ink=[26,21,18], muted=[110,100,90], gold=[150,120,70];
+        var apt=APT[String(b.apartment_code||'')]||{};
+        var y=16;
+        if(logo){ var iw=26, ih=iw*logo.ratio; try{ doc.addImage(logo.data,'JPEG',cx-iw/2,y,iw,ih); y+=ih+6; }catch(e){ y+=4; } }
+        doc.setFont('times','italic'); doc.setFontSize(20); doc.setTextColor.apply(doc,ink);
+        doc.text('Short-term rental agreement', cx, y, {align:'center'}); y+=7;
+        doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor.apply(doc,muted);
+        doc.text('Registered tourist accommodation — direct booking', cx, y, {align:'center'}); y+=8;
+        doc.setDrawColor.apply(doc,gold); doc.setLineWidth(0.3); doc.line(L,y,R,y); y+=8;
+        function h(t){ doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor.apply(doc,gold); doc.text(t.toUpperCase(),L,y); y+=5; }
+        function p(t){ doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor.apply(doc,ink); var lines=doc.splitTextToSize(t,R-L); doc.text(lines,L,y); y+=lines.length*4.6; }
+        function sp(n){ y+=(n||3); }
+        h('Between the parties');
+        p('The Host: Maxime Delfosse, sole trader (non-professional furnished-rental landlord), SIRET 893 745 851 00020, 5 rue Barla, 06300 Nice — reservation@delfosseproperties.com. Hereinafter "the Host".');
+        sp(2);
+        p('The Guest: ' + (b.guest_name||'—') + '. Hereinafter "the Guest".');
+        sp(4);
+        h('The property');
+        p('Furnished apartment No. ' + (b.apartment_code||'') + (apt.addr?(' — '+apt.addr):'') + '.');
+        p('Tourist registration No.: ' + (apt.reg||'[pending]') + '.');
+        p('Maximum capacity: ' + (apt.cap||b.guests_count||'') + ' guests.');
+        sp(4);
+        h('The stay');
+        p('Check-in: ' + fmt(b.check_in) + ' (from 4:00 pm) — Check-out: ' + fmt(b.check_out) + ' (before 11:00 am).');
+        p('Duration: ' + (b.nights||'') + ' night(s) — ' + (b.guests_count||'') + ' guest(s).');
+        sp(4);
+        h('Financial terms');
+        p('Total paid: ' + euros(b.total_cents) + ' EUR (nights + cleaning fee + tourist tax), paid online by card via Stripe at the time of booking.');
+        p('Security deposit: card hold (pre-authorisation) of ' + euros(b.deposit_cents) + ' EUR, not charged, taken shortly before arrival and released after departure unless damage is noted.');
+        sp(4);
+        h('Key terms');
+        p('As payment has been collected in full, the booking is firm. Under Article L221-28 12° of the French Consumer Code, this accommodation service provided on specific dates carries no right of withdrawal. The cancellation terms, house rules (non-smoking, no parties, maximum capacity) and the obligations of the parties are set out in the General Terms available at delfosseproperties.com/en/terms, accepted by the Guest at booking. Foreign travellers complete an individual police record (CESEDA art. R814-1 et seq.).');
+        sp(4);
+        doc.setDrawColor.apply(doc,gold); doc.line(L,y,R,y); y+=6;
+        doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor.apply(doc,muted);
+        var t=new Date(); var td=('0'+t.getDate()).slice(-2)+'/'+('0'+(t.getMonth()+1)).slice(-2)+'/'+t.getFullYear();
+        p('Done in Nice, on ' + td + '. Agreement accepted electronically at the time of online booking' + (b.ref?(' (reference ' + b.ref + ')'):'') + '.');
+        doc.setFont('times','normal'); doc.setFontSize(9); doc.setTextColor.apply(doc,ink);
+        doc.text('DELFOSSE PROPERTIES — Nice, French Riviera', cx, 288, {align:'center'});
+        doc.save('rental-agreement-delfosse-'+(b.ref||b.apartment_code||'')+'.pdf');
       }
 
       function fail(msg) {
