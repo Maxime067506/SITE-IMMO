@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0A1628" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Guest details — Delfosse Properties</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Jost:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root{--navy:#0A1628;--card:#0d1b30;--cream:#F5EDE0;--gold:#D4B77E;--gold2:#B69368;--line:rgba(201,169,97,.28);--f-serif:'Cormorant Garamond',Georgia,serif;--f-sans:'Jost',system-ui,sans-serif;--f-mono:'JetBrains Mono',monospace}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--navy);color:var(--cream);font-family:var(--f-sans);min-height:100dvh;padding:24px 16px 60px}
+    .wrap{max-width:680px;margin:0 auto}
+    .lock{text-align:center;margin:12px 0 22px}
+    .lock img{width:46px;height:46px;display:inline-block}
+    .lock .word{font-family:var(--f-serif);font-size:12px;letter-spacing:5px;text-transform:uppercase;margin-top:8px}
+    .lock .word span{color:var(--gold)}
+    h1{font-family:var(--f-serif);font-weight:300;font-style:italic;font-size:clamp(30px,6vw,44px);line-height:1.06;margin:0 0 8px;text-align:center}
+    h1 em{color:var(--gold)}
+    .lede{color:rgba(245,237,224,.68);font-size:15px;line-height:1.6;text-align:center;max-width:54ch;margin:0 auto 22px}
+    .summary{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 18px;margin:0 0 22px;font-size:14px;color:rgba(245,237,224,.82);display:flex;flex-wrap:wrap;gap:6px 22px;justify-content:center}
+    .summary b{font-family:var(--f-mono);color:var(--cream)}
+    .trav{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px;margin:0 0 16px;position:relative}
+    .trav-head{display:flex;justify-content:space-between;align-items:center;margin:0 0 14px}
+    .trav-head .t{font-family:var(--f-serif);font-style:italic;font-size:20px}
+    .trav-head .lead{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);border:1px solid var(--line);border-radius:999px;padding:3px 9px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+    @media(max-width:520px){.grid{grid-template-columns:1fr}}
+    .field{display:flex;flex-direction:column;gap:5px}
+    .field.full{grid-column:1/-1}
+    label{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,237,224,.55)}
+    label .req{color:var(--gold)}
+    input{width:100%;background:#0a1526;border:1px solid rgba(245,237,224,.16);border-radius:6px;color:var(--cream);font-family:var(--f-sans);font-size:15px;padding:11px 12px}
+    input:focus{outline:none;border-color:var(--gold)}
+    input[type=file]{padding:9px 12px;font-size:13px;color:rgba(245,237,224,.7)}
+    .id-row{grid-column:1/-1;border-top:1px solid rgba(245,237,224,.08);margin-top:4px;padding-top:12px}
+    .id-note{font-size:12px;color:rgba(245,237,224,.5);margin:6px 0 0;line-height:1.5}
+    .id-ok{font-size:12px;color:#8fce98;margin:6px 0 0}
+    .rm{background:transparent;border:1px solid rgba(245,237,224,.2);color:rgba(245,237,224,.7);border-radius:6px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:6px 12px;cursor:pointer}
+    .rm:hover{border-color:#9c4a42;color:#e88}
+    .add{width:100%;background:transparent;border:1px dashed var(--line);color:var(--cream);border-radius:8px;padding:13px;font-family:var(--f-sans);font-size:12px;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;margin:0 0 20px}
+    .add:hover{border-color:var(--gold);color:var(--gold)}
+    .save{width:100%;background:var(--gold2);border:1px solid var(--gold2);color:var(--navy);font-family:var(--f-sans);font-weight:600;font-size:12px;letter-spacing:.22em;text-transform:uppercase;padding:16px;border-radius:8px;cursor:pointer;transition:all .2s}
+    .save:hover:not(:disabled){background:var(--gold)}
+    .save:disabled{opacity:.5;cursor:default}
+    .msg{margin-top:14px;font-size:14px;line-height:1.5;text-align:center;min-height:18px}
+    .msg.err{color:#f0a9a0}
+    .msg.ok{color:#8fce98}
+    .rgpd{margin-top:26px;font-size:12px;line-height:1.6;color:rgba(245,237,224,.5);border-top:1px solid rgba(245,237,224,.1);padding-top:16px}
+    .spin{width:28px;height:28px;border:2px solid rgba(201,169,97,.25);border-top-color:var(--gold);border-radius:50%;animation:s .8s linear infinite;margin:40px auto}
+    @keyframes s{to{transform:rotate(360deg)}}
+    .center{text-align:center}
+  </style>
+</head>
+<body>
+  <div class="wrap" id="wrap">
+    <div class="spin"></div>
+    <p class="center" style="color:rgba(245,237,224,.5)">Loading…</p>
+  </div>
+
+  <script>
+  (function(){
+    var qs = new URLSearchParams(location.search);
+    var BOOKING = qs.get('booking') || '';
+    var TOKEN = qs.get('token') || '';
+    var wrap = document.getElementById('wrap');
+    var MAX = 12;
+    var state = [];      // guests {first_name,...,_file,_id,_hasId}
+    var MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];});}
+    function fmt(d){if(!d)return'';var p=String(d).slice(0,10).split('-');return parseInt(p[2],10)+' '+(MONTHS[parseInt(p[1],10)-1]||'')+' '+p[0];}
+    function api(method, bodyObj){
+      var opt = { method:method, headers:{'Content-Type':'application/json'} };
+      if(method==='GET'){
+        return fetch('/api/booking/fiche/?booking='+encodeURIComponent(BOOKING)+'&token='+encodeURIComponent(TOKEN)).then(function(r){return r.json();});
+      }
+      bodyObj.booking = BOOKING; bodyObj.token = TOKEN;
+      opt.body = JSON.stringify(bodyObj);
+      return fetch('/api/booking/fiche/', opt).then(function(r){return r.json();});
+    }
+
+    if(!BOOKING || !TOKEN){ fail('Invalid link. Please use the link from your confirmation email.'); return; }
+
+    api('GET').then(function(j){
+      if(!j.ok){ fail(j.error || 'Invalid link or booking not found.'); return; }
+      var b = j.booking || {};
+      state = (j.travelers && j.travelers.length) ? j.travelers.map(function(t){ return {first_name:t.first_name,last_name:t.last_name,birth_date:t.birth_date,birth_place:t.birth_place,nationality:t.nationality,home_address:t.home_address,_id:t.id,_hasId:t.has_id,_file:null}; }) : seed(b);
+      render(b);
+    }).catch(function(){ fail('Connection error. Please try again.'); });
+
+    function seed(b){
+      var n = Math.max(1, b.guests_count||1);
+      var arr = [];
+      var name = (b.guest_name||'').trim().split(/\s+/);
+      for(var i=0;i<n;i++){
+        arr.push({ first_name:i===0?(name[0]||''):'', last_name:i===0?(name.slice(1).join(' ')||''):'', birth_date:'', birth_place:'', nationality:'', home_address:'', _file:null, _id:null, _hasId:false });
+      }
+      return arr;
+    }
+
+    function render(b){
+      var html = ''+
+        '<div class="lock"><img src="/img/delfosse-icon-white.png" alt="Delfosse Properties" width="46" height="46" /><div class="word">DELFOSSE <span>PROPERTIES</span></div></div>'+
+        '<h1>Guest <em>details.</em></h1>'+
+        '<p class="lede">Before your arrival, please provide the identity of each guest. This is a legal requirement for tourist accommodation in France (individual police registration form for foreign travellers).</p>'+
+        '<div class="summary"><span>Apartment <b>No. '+esc(b.apartment_code||'')+'</b></span><span>Check-in <b>'+fmt(b.check_in)+'</b></span><span>Check-out <b>'+fmt(b.check_out)+'</b></span></div>'+
+        '<div id="travs"></div>'+
+        '<button type="button" class="add" id="addBtn">+ Add a guest</button>'+
+        '<button type="button" class="save" id="saveBtn">Save my details</button>'+
+        '<div class="msg" id="msg"></div>'+
+        '<p class="rgpd">This information is collected by Delfosse Properties to meet the legal obligation to keep an individual police registration form (art. R814-1 et seq. of the French CESEDA) and to manage your stay. It is kept for 6 months and then deleted. Any ID document copy is stored securely and <strong>deleted automatically after your departure</strong>. You have a right of access and rectification at reservation@delfosseproperties.com. See our <a href="privacy.html" style="color:var(--gold)">privacy policy</a>.</p>';
+      wrap.innerHTML = html;
+      renderTravs();
+      document.getElementById('addBtn').addEventListener('click', function(){ if(state.length>=MAX) return; state.push({first_name:'',last_name:'',birth_date:'',birth_place:'',nationality:'',home_address:'',_file:null,_id:null,_hasId:false}); renderTravs(); });
+      document.getElementById('saveBtn').addEventListener('click', save);
+    }
+
+    function renderTravs(){
+      var c = document.getElementById('travs'); c.innerHTML='';
+      state.forEach(function(t, idx){
+        var el = document.createElement('div'); el.className='trav';
+        el.innerHTML = ''+
+          '<div class="trav-head"><span class="t">Guest '+(idx+1)+'</span>'+(idx===0?'<span class="lead">Lead guest</span>':'<button type="button" class="rm" data-rm="'+idx+'">Remove</button>')+'</div>'+
+          '<div class="grid">'+
+            fld(idx,'first_name','First name(s)',t.first_name,true)+
+            fld(idx,'last_name','Last name',t.last_name,true)+
+            fld(idx,'birth_date','Date of birth',t.birth_date,false,'date')+
+            fld(idx,'birth_place','Place of birth',t.birth_place)+
+            fld(idx,'nationality','Nationality',t.nationality)+
+            fld(idx,'home_address','Home address',t.home_address)+
+            '<div class="id-row field full"><label>ID document (optional) — passport or national ID</label>'+
+              '<input type="file" accept="image/jpeg,image/png,application/pdf" data-file="'+idx+'" />'+
+              (t._hasId?'<p class="id-ok">✓ An ID document is already on file.</p>':'')+
+              '<p class="id-note">JPEG, PNG or PDF file (5 MB max). Deleted automatically after your departure.</p>'+
+            '</div>'+
+          '</div>';
+        c.appendChild(el);
+      });
+      c.querySelectorAll('[data-k]').forEach(function(inp){ inp.addEventListener('input', function(){ state[+inp.dataset.i][inp.dataset.k]=inp.value; }); });
+      c.querySelectorAll('[data-file]').forEach(function(inp){ inp.addEventListener('change', function(){ state[+inp.dataset.file]._file = inp.files && inp.files[0] ? inp.files[0] : null; }); });
+      c.querySelectorAll('[data-rm]').forEach(function(btn){ btn.addEventListener('click', function(){ state.splice(+btn.dataset.rm,1); renderTravs(); }); });
+    }
+
+    function fld(i,k,label,val,req,type){
+      return '<div class="field'+(k==='home_address'||k==='birth_place'?' full':'')+'"><label>'+label+(req?' <span class="req">*</span>':'')+'</label><input type="'+(type||'text')+'" data-i="'+i+'" data-k="'+k+'" value="'+esc(val||'')+'" '+(k==='nationality'?'placeholder="e.g. French"':'')+' /></div>';
+    }
+
+    function setMsg(t,cls){ var m=document.getElementById('msg'); m.textContent=t; m.className='msg '+(cls||''); }
+
+    function fileToPayload(file){
+      return new Promise(function(resolve){
+        if(file.type==='application/pdf'){
+          var fr=new FileReader(); fr.onload=function(){ resolve({content_type:'application/pdf', data:String(fr.result).split(',')[1]}); }; fr.onerror=function(){resolve(null);}; fr.readAsDataURL(file); return;
+        }
+        var img=new Image(); var url=URL.createObjectURL(file);
+        img.onload=function(){
+          var max=1600, w=img.width, h=img.height; if(w>max||h>max){ var r=Math.min(max/w,max/h); w=Math.round(w*r); h=Math.round(h*r); }
+          var cv=document.createElement('canvas'); cv.width=w; cv.height=h; cv.getContext('2d').drawImage(img,0,0,w,h);
+          URL.revokeObjectURL(url);
+          resolve({content_type:'image/jpeg', data:cv.toDataURL('image/jpeg',0.82).split(',')[1]});
+        };
+        img.onerror=function(){ URL.revokeObjectURL(url); resolve(null); };
+        img.src=url;
+      });
+    }
+
+    async function save(){
+      var btn=document.getElementById('saveBtn');
+      // validation
+      for(var i=0;i<state.length;i++){ if(!(state[i].first_name||'').trim()||!(state[i].last_name||'').trim()){ setMsg('Please enter the first and last name of each guest.','err'); return; } }
+      btn.disabled=true; btn.textContent='Saving…'; setMsg('');
+      try{
+        var payload = state.map(function(t){ return {first_name:t.first_name,last_name:t.last_name,birth_date:t.birth_date,birth_place:t.birth_place,nationality:t.nationality,home_address:t.home_address}; });
+        var r = await api('POST',{action:'save',travelers:payload});
+        if(!r.ok){ setMsg(r.error||'Error.','err'); btn.disabled=false; btn.textContent='Save my details'; return; }
+        var ids = (r.travelers||[]).map(function(t){return t.id;});
+        var uploads=0;
+        for(var i=0;i<state.length;i++){
+          if(state[i]._file && ids[i]){
+            btn.textContent='Uploading ID documents…';
+            var pl = await fileToPayload(state[i]._file);
+            if(pl){ var u = await api('POST',{action:'upload',traveler_id:ids[i],content_type:pl.content_type,data:pl.data}); if(u.ok) uploads++; }
+            state[i]._id=ids[i];
+          }
+        }
+        setMsg('Thank you! Your details have been saved'+(uploads?' ('+uploads+' ID document(s) received)':'')+'. See you very soon in Nice.','ok');
+        btn.textContent='Details saved ✓';
+      }catch(e){ setMsg('Connection error. Please try again.','err'); btn.disabled=false; btn.textContent='Save my details'; }
+    }
+
+    function fail(msg){ wrap.innerHTML='<div class="lock"><img src="/img/delfosse-icon-white.png" width="46" height="46" /><div class="word">DELFOSSE <span>PROPERTIES</span></div></div><h1>Guest <em>details.</em></h1><p class="lede">'+esc(msg)+'</p>'; }
+  })();
+  </script>
+</body>
+</html>

@@ -124,7 +124,8 @@ function detailRows(b, lang) {
 function siteBase() { return (process.env.SITE_URL || 'https://delfosseproperties.com').replace(/\/$/, ''); }
 function ficheCta(b, lang) {
   if (!b || !b.id) return '';
-  const link = siteBase() + '/fiche-voyageur.html?booking=' + b.id + '&token=' + ficheToken(b.id);
+  const page = lang === 'en' ? '/en/guest-form.html' : '/fiche-voyageur.html';
+  const link = siteBase() + page + '?booking=' + b.id + '&token=' + ficheToken(b.id);
   const t = lang === 'en'
     ? { h: 'Before your arrival', p: 'Please complete the traveller details for every guest — a legal requirement for tourist accommodation.', btn: 'Complete the traveller form' }
     : { h: 'Avant votre arrivée', p: 'Merci de renseigner l\'identité de chaque voyageur — une obligation légale pour les hébergements touristiques.', btn: 'Remplir la fiche voyageur' };
