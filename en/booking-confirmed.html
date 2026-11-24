@@ -168,8 +168,9 @@
         doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor.apply(doc,muted);
         doc.text('Registered tourist accommodation — direct booking', cx, y, {align:'center'}); y+=8;
         doc.setDrawColor.apply(doc,gold); doc.setLineWidth(0.3); doc.line(L,y,R,y); y+=8;
-        function h(t){ doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor.apply(doc,gold); doc.text(t.toUpperCase(),L,y); y+=5; }
-        function p(t){ doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor.apply(doc,ink); var lines=doc.splitTextToSize(t,R-L); doc.text(lines,L,y); y+=lines.length*4.6; }
+        function brk(){ if(y>266){ doc.addPage(); y=20; } }
+        function h(t){ brk(); doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor.apply(doc,gold); doc.text(t.toUpperCase(),L,y); y+=5; }
+        function p(t){ doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor.apply(doc,ink); var lines=doc.splitTextToSize(t,R-L); for(var i=0;i<lines.length;i++){ brk(); doc.text(lines[i],L,y); y+=4.6; } }
         function sp(n){ y+=(n||3); }
         h('Between the parties');
         p('The Host: Maxime Delfosse, sole trader (non-professional furnished-rental landlord), SIRET 893 745 851 00020, 5 rue Barla, 06300 Nice — reservation@delfosseproperties.com. Hereinafter "the Host".');
@@ -179,19 +180,27 @@
         h('The property');
         p('Furnished apartment No. ' + (b.apartment_code||'') + (apt.addr?(' — '+apt.addr):'') + '.');
         p('Tourist registration No.: ' + (apt.reg||'[pending]') + '.');
-        p('Maximum capacity: ' + (apt.cap||b.guests_count||'') + ' guests.');
+        p('Maximum capacity: ' + (apt.cap||b.guests_count||'') + ' guests — this number may not be exceeded.');
         sp(4);
         h('The stay');
-        p('Check-in: ' + fmt(b.check_in) + ' (from 4:00 pm) — Check-out: ' + fmt(b.check_out) + ' (before 11:00 am).');
-        p('Duration: ' + (b.nights||'') + ' night(s) — ' + (b.guests_count||'') + ' guest(s).');
+        p('Check-in: ' + fmt(b.check_in) + ' from 4:00 pm. Check-out: ' + fmt(b.check_out) + ' before 11:00 am.');
+        p('Duration: ' + (b.nights||'') + ' night(s) — ' + (b.guests_count||'') + ' guest(s). Key handover: secure lockbox or KeyNest concierge, details sent by email before arrival.');
         sp(4);
         h('Financial terms');
-        p('Total paid: ' + euros(b.total_cents) + ' EUR (nights + cleaning fee + tourist tax), paid online by card via Stripe at the time of booking.');
-        p('Security deposit: card hold (pre-authorisation) of ' + euros(b.deposit_cents) + ' EUR, not charged, taken shortly before arrival and released after departure unless damage is noted.');
+        p('Total paid: ' + euros(b.total_cents) + ' EUR (nights + cleaning fee + tourist tax), paid online by card via Stripe at the time of booking. The Métropole Nice Côte d\'Azur tourist tax is collected by the Host on behalf of the local authority.');
         sp(4);
-        h('Key terms');
-        p('As payment has been collected in full, the booking is firm. Under Article L221-28 12° of the French Consumer Code, this accommodation service provided on specific dates carries no right of withdrawal. The cancellation terms, house rules (non-smoking, no parties, maximum capacity) and the obligations of the parties are set out in the General Terms available at delfosseproperties.com/en/terms, accepted by the Guest at booking. Foreign travellers complete an individual police record (CESEDA art. R814-1 et seq.).');
+        h('Security deposit');
+        p('A card hold (pre-authorisation) of ' + euros(b.deposit_cents) + ' EUR is placed on the Guest\'s card shortly before arrival. It is not charged: it is a temporary hold, released after departure provided there is no damage and the house rules are respected. In the event of damage or breach, all or part of the amount may be charged, on presentation of supporting evidence, up to the pre-authorised amount.');
         sp(4);
+        h('Cancellation');
+        p('Cancellation by the Guest: more than 14 days before arrival, full refund of the nights; between 14 and 7 days, 50% of the nights; less than 7 days, nights are non-refundable. The cleaning fee and tourist tax are refunded in full in all cases. In the event of early departure by the Guest, unused nights are not refunded (travel insurance is recommended). In the event of force majeure or breach by the Host, a pro-rata refund applies.');
+        sp(4);
+        h('House rules');
+        p('Non-smoking accommodation. No pets unless agreed in writing beforehand. Parties and events are prohibited. Subletting is prohibited. Quiet hours between 10:00 pm and 8:00 am and compliance with the building rules. The Guest returns the accommodation in the condition in which it was handed over.');
+        sp(4);
+        h('Withdrawal, identity and general terms');
+        p('Under Article L221-28 12° of the French Consumer Code, this accommodation service provided on specific dates carries no right of withdrawal; the booking is firm upon payment. Foreign travellers complete an individual police record (CESEDA art. R814-1 et seq.). This agreement is governed by the General Terms available at delfosseproperties.com/en/terms, accepted by the Guest at booking, and by French law.');
+        sp(4); brk();
         doc.setDrawColor.apply(doc,gold); doc.line(L,y,R,y); y+=6;
         doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor.apply(doc,muted);
         var t=new Date(); var td=('0'+t.getDate()).slice(-2)+'/'+('0'+(t.getMonth()+1)).slice(-2)+'/'+t.getFullYear();

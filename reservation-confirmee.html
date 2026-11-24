@@ -168,8 +168,9 @@
         doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor.apply(doc,muted);
         doc.text('Meublé de tourisme — réservation en direct', cx, y, {align:'center'}); y+=8;
         doc.setDrawColor.apply(doc,gold); doc.setLineWidth(0.3); doc.line(L,y,R,y); y+=8;
-        function h(t){ doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor.apply(doc,gold); doc.text(t.toUpperCase(),L,y); y+=5; }
-        function p(t){ doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor.apply(doc,ink); var lines=doc.splitTextToSize(t,R-L); doc.text(lines,L,y); y+=lines.length*4.6; }
+        function brk(){ if(y>266){ doc.addPage(); y=20; } }
+        function h(t){ brk(); doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor.apply(doc,gold); doc.text(t.toUpperCase(),L,y); y+=5; }
+        function p(t){ doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor.apply(doc,ink); var lines=doc.splitTextToSize(t,R-L); for(var i=0;i<lines.length;i++){ brk(); doc.text(lines[i],L,y); y+=4.6; } }
         function sp(n){ y+=(n||3); }
         h('Entre les parties');
         p('Le Loueur : Maxime Delfosse, entrepreneur individuel (loueur en meublé non professionnel), SIRET 893 745 851 00020, 5 rue Barla, 06300 Nice — reservation@delfosseproperties.com. Ci-après « le Loueur ».');
@@ -179,19 +180,27 @@
         h('Le logement');
         p('Appartement meublé n° ' + (b.apartment_code||'') + (apt.addr?(' — '+apt.addr):'') + '.');
         p('N° d\'enregistrement (meublé de tourisme) : ' + (apt.reg||'[en cours de déclaration]') + '.');
-        p('Capacité maximale : ' + (apt.cap||b.guests_count||'') + ' voyageurs.');
+        p('Capacité maximale : ' + (apt.cap||b.guests_count||'') + ' voyageurs — ce nombre ne peut être dépassé.');
         sp(4);
         h('Le séjour');
-        p('Arrivée : ' + fmt(b.check_in) + ' (à partir de 16h00) — Départ : ' + fmt(b.check_out) + ' (avant 11h00).');
-        p('Durée : ' + (b.nights||'') + ' nuit(s) — ' + (b.guests_count||'') + ' voyageur(s).');
+        p('Arrivée : ' + fmt(b.check_in) + ' à partir de 16h00. Départ : ' + fmt(b.check_out) + ' avant 11h00.');
+        p('Durée : ' + (b.nights||'') + ' nuit(s) — ' + (b.guests_count||'') + ' voyageur(s). Remise des clés : boîtier sécurisé ou conciergerie KeyNest, modalités communiquées par e-mail avant l\'arrivée.');
         sp(4);
         h('Conditions financières');
-        p('Montant total réglé : ' + euros(b.total_cents) + ' EUR (nuitées + frais de ménage + taxe de séjour), encaissé en ligne par carte bancaire via Stripe au moment de la réservation.');
-        p('Caution : empreinte bancaire (pré-autorisation) de ' + euros(b.deposit_cents) + ' EUR, non débitée, réalisée à l\'approche de l\'arrivée et libérée après le départ sauf dégât constaté.');
+        p('Montant total réglé : ' + euros(b.total_cents) + ' EUR (nuitées + frais de ménage + taxe de séjour), encaissé en ligne par carte bancaire via Stripe au moment de la réservation. La taxe de séjour de la Métropole Nice Côte d\'Azur est collectée par le Loueur pour le compte de la collectivité.');
         sp(4);
-        h('Conditions essentielles');
-        p('Le paiement intégral ayant été encaissé, la réservation est ferme. Conformément à l\'article L221-28 12° du Code de la consommation, cette prestation d\'hébergement à dates déterminées n\'ouvre pas de droit de rétractation. Les conditions d\'annulation, le règlement intérieur (logement non-fumeur, pas de fête, capacité à ne pas dépasser) et les obligations des parties figurent dans les Conditions Générales de Location, disponibles sur delfosseproperties.com/cgv, que le Voyageur a acceptées lors de la réservation. Les voyageurs étrangers renseignent une fiche individuelle de police (art. R814-1 et s. du CESEDA).');
+        h('Caution (dépôt de garantie)');
+        p('Une empreinte bancaire (pré-autorisation) de ' + euros(b.deposit_cents) + ' EUR est réalisée sur la carte du Voyageur à l\'approche de l\'arrivée. Elle n\'est pas débitée : il s\'agit d\'un blocage temporaire, libéré après le départ en l\'absence de dommage et dans le respect du règlement intérieur. En cas de dommage ou de manquement constaté, tout ou partie de la somme pourra être débité, sur présentation d\'un justificatif, dans la limite du montant pré-autorisé.');
         sp(4);
+        h('Annulation');
+        p('Annulation par le Voyageur : plus de 14 jours avant l\'arrivée, remboursement intégral des nuitées ; entre 14 et 7 jours, 50 % des nuitées ; moins de 7 jours, nuitées non remboursables. Les frais de ménage et la taxe de séjour sont dans tous les cas intégralement remboursés. En cas de départ anticipé du fait du Voyageur, les nuitées non consommées ne sont pas remboursées (une assurance voyage est recommandée). En cas de force majeure ou de manquement du Loueur, remboursement au prorata.');
+        sp(4);
+        h('Règlement intérieur');
+        p('Logement non-fumeur. Animaux non admis sauf accord écrit préalable. Fêtes et événements interdits. Sous-location interdite. Respect du calme entre 22h00 et 8h00 et du règlement de copropriété. Le Voyageur restitue le logement dans l\'état de remise.');
+        sp(4);
+        h('Rétractation, identité et conditions générales');
+        p('Conformément à l\'article L221-28 12° du Code de la consommation, cette prestation d\'hébergement à dates déterminées n\'ouvre pas de droit de rétractation ; la réservation est ferme dès le paiement. Les voyageurs étrangers renseignent une fiche individuelle de police (art. R814-1 et s. du CESEDA). Le présent contrat est régi par les Conditions Générales de Location disponibles sur delfosseproperties.com/cgv, acceptées par le Voyageur lors de la réservation, et par le droit français.');
+        sp(4); brk();
         doc.setDrawColor.apply(doc,gold); doc.line(L,y,R,y); y+=6;
         doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor.apply(doc,muted);
         var t=new Date(); var td=('0'+t.getDate()).slice(-2)+'/'+('0'+(t.getMonth()+1)).slice(-2)+'/'+t.getFullYear();
