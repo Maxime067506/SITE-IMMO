@@ -41,11 +41,6 @@ export function build(jsPDF, b, logo, signature, lang) {
   var aptCode = b.apartment_code || '';
   var name = b.guest_name || (EN ? 'the Guest' : 'le Voyageur');
 
-  // --- Filigrane horizontal centré (derrière le contenu) ---
-  doc.setFont('times', 'normal'); doc.setFontSize(40); doc.setTextColor(231, 225, 215);
-  doc.text('DELFOSSE PROPERTIES', cx, 148.5, { align: 'center', baseline: 'middle' });
-  doc.setTextColor.apply(doc, ink);
-
   // --- En-tête : logo + titres ---
   var y = 20;
   if (logo) { var iw = 34, ih = iw * logo.ratio; try { doc.addImage(logo.data, 'JPEG', cx - iw / 2, y, iw, ih); y += ih + 8; } catch (e) { y += 10; } }
