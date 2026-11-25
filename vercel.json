@@ -57,6 +57,8 @@
     { "source": "/espace", "destination": "/espace.html" },
     { "source": "/admin-resa", "destination": "/admin-resa.html" },
     { "source": "/reserver", "destination": "/reserver.html" },
+    { "source": "/contact", "destination": "/contact.html" },
+    { "source": "/en/contact", "destination": "/en/contact.html" },
     { "source": "/en/book",  "destination": "/en/book.html" },
     { "source": "/blog",   "destination": "/blog/index.html" },
     { "source": "/blog/",  "destination": "/blog/index.html" },

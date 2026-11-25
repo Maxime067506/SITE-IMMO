@@ -181,6 +181,34 @@ export async function sendCancellationEmails(booking, lang) {
   catch (e) { return { sent: false, reason: e.message }; }
 }
 
+// Noms des appartements pour le formulaire de contact.
+const CONTACT_APT = {
+  '01': 'Le Port', '02': 'Le Jumeau (Port)', '03': 'Avenue Notre-Dame', '04': 'Art Déco (Gare)',
+  '05': 'Ultra Design (Musiciens)', '06': 'Rue Gounod (Musiciens)', '07': 'Design (Musiciens)', '08': 'Les Musiciens (Clemenceau)',
+};
+
+/** Envoie un message du formulaire de contact a l'hote. Ne jette jamais. */
+export async function sendContactMessage(data) {
+  if (!emailConfigured()) return { sent: false, reason: 'no_api_key' };
+  data = data || {};
+  const code = /^0[1-8]$/.test(String(data.apartment || '')) ? String(data.apartment) : '';
+  const apt = code ? ('N° ' + code + ' — ' + CONTACT_APT[code]) : 'Aucun en particulier';
+  function row(k, v) { return '<tr><td style="padding:7px 0;color:rgba(245,237,224,.6);font-size:13px;width:120px;vertical-align:top">' + k + '</td><td style="padding:7px 0;color:#F5EDE0;font-size:14px">' + v + '</td></tr>'; }
+  const html = shell(
+    '<tr><td style="padding:10px 36px 0"><h1 style="font-family:Georgia,serif;font-weight:normal;font-style:italic;color:#F5EDE0;font-size:26px;margin:6px 0 14px;text-align:center">Nouveau <span style="color:#D4B77E">message.</span></h1>' +
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid rgba(201,169,97,.2);border-bottom:1px solid rgba(201,169,97,.2);margin:6px 0 14px">' +
+    row('Nom', esc(data.name || '—')) + row('E-mail', esc(data.email || '—')) + (data.phone ? row('Téléphone', esc(data.phone)) : '') + row('Appartement', esc(apt)) +
+    '</table>' +
+    '<p style="color:rgba(245,237,224,.85);font-size:14px;line-height:1.65;white-space:pre-wrap;margin:0">' + esc(data.message || '') + '</p>' +
+    '<p style="color:rgba(245,237,224,.4);font-size:12px;margin:16px 0 0">Répondez simplement à cet e-mail pour écrire au voyageur.</p></td></tr>'
+  );
+  try {
+    const r = await resendSend({ from: FROM, to: [HOST_EMAIL], reply_to: data.email || REPLY_TO,
+      subject: 'Contact site — ' + (data.name || '') + (code ? (' · appart ' + code) : ''), html });
+    return { sent: !!(r && r.id), id: r && r.id };
+  } catch (e) { return { sent: false, reason: e.message }; }
+}
+
 // --- gabarits HTML (styles inline, compatibles clients mail) ---
 function shell(inner) {
   return '<div style="background:#0A1628;padding:32px 0;font-family:Arial,Helvetica,sans-serif">' +
