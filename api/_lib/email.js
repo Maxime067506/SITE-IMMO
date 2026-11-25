@@ -118,6 +118,32 @@ export async function sendVerificationCode(email, code, lang) {
   return resendSend({ from: FROM, to: [email], reply_to: REPLY_TO, subject: t.subject, html });
 }
 
+/** Rappel de fiche voyageur (J-7 / J-3 / J-1). Ne jette jamais. */
+export async function sendFicheReminder(booking, daysLeft, lang) {
+  if (!emailConfigured()) return { sent: false, reason: 'no_api_key' };
+  if (!booking || !booking.id || !booking.guest_email) return { sent: false, reason: 'no_email' };
+  lang = lang === 'en' ? 'en' : 'fr';
+  const link = siteBase() + (lang === 'en' ? '/en/guest-form.html' : '/fiche-voyageur.html') + '?booking=' + booking.id + '&token=' + ficheToken(booking.id);
+  const t = lang === 'en'
+    ? { subject: 'Reminder: complete your guest form — Delfosse Properties',
+        title: 'Guest form <span style="color:#D4B77E">reminder.</span>', hi: 'Dear ' + esc(booking.guest_name || 'guest') + ',',
+        p1: 'Your arrival is in ' + daysLeft + ' day(s). Please complete the guest registration form — the identity and ID document number of every occupant — before you arrive. This is a legal requirement for tourist accommodation.',
+        p2: 'Without a completed form before arrival, key handover may be refused and the booking cancelled.', btn: 'Complete the guest form' }
+    : { subject: 'Rappel : complétez votre fiche voyageur — Delfosse Properties',
+        title: 'Rappel <span style="color:#D4B77E">fiche voyageur.</span>', hi: 'Bonjour ' + esc(booking.guest_name || '') + ',',
+        p1: 'Votre arrivée est dans ' + daysLeft + ' jour(s). Merci de compléter la fiche voyageur — identité et numéro de pièce d\'identité de chaque occupant — avant votre arrivée. C\'est une obligation légale pour les hébergements touristiques.',
+        p2: 'Sans fiche complète avant l\'arrivée, la remise des clés pourra être refusée et la réservation annulée.', btn: 'Remplir la fiche voyageur' };
+  const html = shell(
+    '<tr><td style="padding:10px 36px 0"><h1 style="font-family:Georgia,serif;font-weight:normal;font-style:italic;color:#F5EDE0;font-size:26px;margin:6px 0 16px;text-align:center">' + t.title + '</h1>' +
+    '<p style="color:#F5EDE0;font-size:15px;margin:0 0 12px">' + t.hi + '</p>' +
+    '<p style="color:rgba(245,237,224,.78);font-size:14px;line-height:1.65;margin:0 0 12px">' + t.p1 + '</p>' +
+    '<p style="color:rgba(245,237,224,.58);font-size:13px;line-height:1.6;margin:0 0 20px">' + t.p2 + '</p>' +
+    '<div style="text-align:center;margin:2px 0 6px"><a href="' + link + '" style="display:inline-block;background:#B69368;color:#0A1628;text-decoration:none;font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:bold;letter-spacing:.04em;padding:13px 26px;border-radius:6px">' + t.btn + '</a></div></td></tr>'
+  );
+  try { const r = await resendSend({ from: FROM, to: [booking.guest_email], reply_to: REPLY_TO, subject: t.subject, html }); return { sent: !!(r && r.id), id: r && r.id }; }
+  catch (e) { return { sent: false, reason: e.message }; }
+}
+
 // --- gabarits HTML (styles inline, compatibles clients mail) ---
 function shell(inner) {
   return '<div style="background:#0A1628;padding:32px 0;font-family:Arial,Helvetica,sans-serif">' +
