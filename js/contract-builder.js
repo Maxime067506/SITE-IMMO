@@ -44,6 +44,17 @@ export function build(jsPDF, b, logo, lang) {
   var W = 210, L = 24, R = W - 24, cx = W / 2, ink = [26, 21, 18], muted = [110, 100, 90], gold = [150, 120, 70];
   var apt = APT[String(b.apartment_code || '')] || {};
 
+  // --- Filigrane : marque « DELFOSSE PROPERTIES » en diagonale, gris tres clair,
+  //     dessine AVANT le contenu => reste derriere le texte. Appele sur chaque page. ---
+  function stamp() {
+    var _pf = doc.getFont(), _ps = doc.getFontSize();            // sauvegarde police + taille courantes
+    doc.setFont('times', 'normal'); doc.setFontSize(40); doc.setTextColor(231, 225, 215);
+    // filigrane horizontal, centre H+V au centre exact de la page (105 x 148.5 mm) ; align center => centrage garanti.
+    doc.text('DELFOSSE PROPERTIES', W / 2, 148.5, { align: 'center', baseline: 'middle' });
+    doc.setFont(_pf.fontName, _pf.fontStyle); doc.setFontSize(_ps); doc.setTextColor.apply(doc, ink); // RESTAURE (evite le texte geant apres saut de page)
+  }
+  stamp(); // page de garde
+
   // --- PAGE 1 : page de garde (logo + titres uniquement) ---
   var y = 78;
   if (logo) { var iw = 44, ih = iw * logo.ratio; try { doc.addImage(logo.data, 'JPEG', cx - iw / 2, y, iw, ih); y += ih + 14; } catch (e) { y += 10; } }
@@ -55,12 +66,12 @@ export function build(jsPDF, b, logo, lang) {
   doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.setTextColor.apply(doc, muted);
   doc.text(T('Meublé de tourisme — réservation en direct', 'Registered tourist accommodation — direct booking'), cx, y, { align: 'center' });
   doc.setFontSize(9); doc.text('Nice · French Riviera · delfosseproperties.com', cx, 280, { align: 'center' });
-  doc.addPage(); y = 20;
+  doc.addPage(); y = 20; stamp();
 
-  function brk() { if (y > 266) { doc.addPage(); y = 20; } }
+  function brk() { if (y > 266) { doc.addPage(); y = 20; stamp(); } }
   function h(t) { brk(); doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor.apply(doc, gold); doc.text(t.toUpperCase(), L, y); y += 5; }
   function jline(line, last) { if (last) { doc.text(line, L, y); return; } var words = line.split(' ').filter(function (w) { return w.length; }); if (words.length < 2) { doc.text(line, L, y); return; } var ws = 0, k; for (k = 0; k < words.length; k++) { ws += doc.getTextWidth(words[k]); } var gap = ((R - L) - ws) / (words.length - 1); if (!(gap > 0)) { doc.text(line, L, y); return; } var x = L; for (k = 0; k < words.length; k++) { doc.text(words[k], x, y); x += doc.getTextWidth(words[k]) + gap; } }
-  function p(t) { doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor.apply(doc, ink); var lines = doc.splitTextToSize(t, R - L); for (var i = 0; i < lines.length; i++) { brk(); jline(lines[i], i === lines.length - 1); y += 4.9; } }
+  function p(t) { doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor.apply(doc, ink); var lines = doc.splitTextToSize(t, R - L); for (var i = 0; i < lines.length; i++) { brk(); doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor.apply(doc, ink); jline(lines[i], i === lines.length - 1); y += 4.9; } }
   function sp(n) { y += (n || 3); }
 
   h(T('Entre les parties', 'Between the parties'));
