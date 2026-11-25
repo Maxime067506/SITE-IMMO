@@ -38,22 +38,24 @@ export function build(jsPDF, b, logo, lang) {
   }
   var EN = lang === 'en';
   function T(fr, en) { return EN ? en : fr; }
-  function money(c) { if (typeof c === 'string') return c; return (Number(c || 0) / 100).toLocaleString(EN ? 'en-GB' : 'fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function money(c) { if (typeof c === 'string') return c; var s = (Number(c || 0) / 100).toFixed(2).split('.'); var ip = s[0].replace(/\B(?=(\d{3})+(?!\d))/g, EN ? ',' : ' '); return ip + (EN ? '.' : ',') + s[1]; }
 
   var doc = new jsPDF({ unit: 'mm', format: 'a4' });
   var W = 210, L = 20, R = W - 20, cx = W / 2, ink = [26, 21, 18], muted = [110, 100, 90], gold = [150, 120, 70];
   var apt = APT[String(b.apartment_code || '')] || {};
 
-  // --- En-tete compact (pas de page de garde separee : le contrat tient en 3 pages) ---
-  var y = 15;
-  if (logo) { var iw = 19, ih = iw * logo.ratio; try { doc.addImage(logo.data, 'JPEG', cx - iw / 2, y, iw, ih); y += ih + 2.5; } catch (e) { y += 4; } }
-  doc.setFont('times', 'normal'); doc.setFontSize(12); doc.setTextColor.apply(doc, ink);
-  doc.text('DELFOSSE PROPERTIES', cx, y, { align: 'center' }); y += 6;
-  doc.setFont('times', 'italic'); doc.setFontSize(17); doc.setTextColor.apply(doc, ink);
-  doc.text(T('Contrat de location saisonnière', 'Short-term rental agreement'), cx, y, { align: 'center' }); y += 5;
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor.apply(doc, muted);
-  doc.text(T('Meublé de tourisme — réservation en direct · Nice · delfosseproperties.com', 'Registered tourist accommodation — direct booking · Nice · delfosseproperties.com'), cx, y, { align: 'center' }); y += 4;
-  doc.setDrawColor.apply(doc, gold); doc.setLineWidth(0.4); doc.line(L, y, R, y); y += 6;
+  // --- PAGE 1 : page de garde (logo + titres uniquement), comme demande ---
+  var y = 76;
+  if (logo) { var iw = 44, ih = iw * logo.ratio; try { doc.addImage(logo.data, 'JPEG', cx - iw / 2, y, iw, ih); y += ih + 14; } catch (e) { y += 10; } }
+  doc.setFont('times', 'normal'); doc.setFontSize(15); doc.setTextColor.apply(doc, ink);
+  doc.text('DELFOSSE PROPERTIES', cx, y, { align: 'center' }); y += 7;
+  doc.setDrawColor.apply(doc, gold); doc.setLineWidth(0.5); doc.line(cx - 22, y, cx + 22, y); y += 18;
+  doc.setFont('times', 'italic'); doc.setFontSize(24); doc.setTextColor.apply(doc, ink);
+  doc.text(T('Contrat de location saisonnière', 'Short-term rental agreement'), cx, y, { align: 'center' }); y += 12;
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.setTextColor.apply(doc, muted);
+  doc.text(T('Meublé de tourisme — réservation en direct', 'Registered tourist accommodation — direct booking'), cx, y, { align: 'center' });
+  doc.setFontSize(9); doc.text('Nice · French Riviera · delfosseproperties.com', cx, 280, { align: 'center' });
+  doc.addPage(); y = 15;
 
   function brk() { if (y > 282) { doc.addPage(); y = 15; } }
   function h(t) { brk(); doc.setFont('helvetica', 'bold'); doc.setFontSize(8.5); doc.setTextColor.apply(doc, gold); doc.text(t.toUpperCase(), L, y); y += 4; }
@@ -79,8 +81,8 @@ export function build(jsPDF, b, logo, lang) {
   sp(4);
 
   h(T('Le séjour', 'The stay'));
-  p(T('Arrivée : ' + fmt(b.check_in) + ' à partir de 16h00. Départ : ' + fmt(b.check_out) + ' avant 11h00.',
-      'Check-in: ' + fmt(b.check_in) + ' from 4:00 pm. Check-out: ' + fmt(b.check_out) + ' before 11:00 am.'));
+  p(T('Arrivée : ' + fmt(b.check_in) + ' à partir de 15h00. Départ : ' + fmt(b.check_out) + ' avant 11h00.',
+      'Check-in: ' + fmt(b.check_in) + ' from 3:00 pm. Check-out: ' + fmt(b.check_out) + ' before 11:00 am.'));
   p(T('Durée : ' + (b.nights || '') + ' nuit(s) — ' + (b.guests_count || '') + ' voyageur(s). Remise des clés : boîtier sécurisé ou conciergerie KeyNest, modalités communiquées par e-mail avant l\'arrivée.',
       'Duration: ' + (b.nights || '') + ' night(s) — ' + (b.guests_count || '') + ' guest(s). Key handover: secure lockbox or KeyNest concierge, details sent by email before arrival.'));
   sp(4);
