@@ -172,7 +172,8 @@
         doc.setDrawColor.apply(doc,gold); doc.setLineWidth(0.4); doc.line(L,y,R,y); y+=8;
         function brk(){ if(y>266){ doc.addPage(); y=20; } }
         function h(t){ brk(); doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor.apply(doc,gold); doc.text(t.toUpperCase(),L,y); y+=5; }
-        function p(t){ doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor.apply(doc,ink); var lines=doc.splitTextToSize(t,R-L); for(var i=0;i<lines.length;i++){ brk(); if(i<lines.length-1 && lines[i].indexOf(' ')>=0){ doc.text(lines[i],L,y,{maxWidth:R-L,align:'justify'}); } else { doc.text(lines[i],L,y); } y+=4.9; } }
+        function jline(line,last){ if(last){ doc.text(line,L,y); return; } var words=line.split(' ').filter(function(w){return w.length;}); if(words.length<2){ doc.text(line,L,y); return; } var ws=0,k; for(k=0;k<words.length;k++){ ws+=doc.getTextWidth(words[k]); } var gap=((R-L)-ws)/(words.length-1); if(!(gap>0)){ doc.text(line,L,y); return; } var x=L; for(k=0;k<words.length;k++){ doc.text(words[k],x,y); x+=doc.getTextWidth(words[k])+gap; } }
+        function p(t){ doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor.apply(doc,ink); var lines=doc.splitTextToSize(t,R-L); for(var i=0;i<lines.length;i++){ brk(); jline(lines[i], i===lines.length-1); y+=4.9; } }
         function sp(n){ y+=(n||3); }
         h('Entre les parties');
         p('Le Loueur : Maxime Delfosse, entrepreneur individuel (loueur en meublé non professionnel), SIRET 893 745 851 00020, 5 rue Barla, 06300 Nice — reservation@delfosseproperties.com. Ci-après « le Loueur ».');
