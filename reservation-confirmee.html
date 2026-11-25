@@ -161,16 +161,18 @@
         var doc=new window.jspdf.jsPDF({unit:'mm',format:'a4'});
         var W=210, L=24, R=W-24, cx=W/2, ink=[26,21,18], muted=[110,100,90], gold=[150,120,70];
         var apt=APT[String(b.apartment_code||'')]||{};
-        var y=16;
-        if(logo){ var iw=26, ih=iw*logo.ratio; try{ doc.addImage(logo.data,'JPEG',cx-iw/2,y,iw,ih); y+=ih+6; }catch(e){ y+=4; } }
-        doc.setFont('times','italic'); doc.setFontSize(20); doc.setTextColor.apply(doc,ink);
-        doc.text('Contrat de location saisonnière', cx, y, {align:'center'}); y+=7;
+        var y=18;
+        if(logo){ var iw=30, ih=iw*logo.ratio; try{ doc.addImage(logo.data,'JPEG',cx-iw/2,y,iw,ih); y+=ih+6; }catch(e){ y+=2; } }
+        doc.setFont('times','normal'); doc.setFontSize(12.5); doc.setTextColor.apply(doc,ink);
+        doc.text('DELFOSSE PROPERTIES', cx, y, {align:'center'}); y+=9;
+        doc.setFont('times','italic'); doc.setFontSize(21); doc.setTextColor.apply(doc,ink);
+        doc.text('Contrat de location saisonnière', cx, y, {align:'center'}); y+=6.5;
         doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor.apply(doc,muted);
-        doc.text('Meublé de tourisme — réservation en direct', cx, y, {align:'center'}); y+=8;
-        doc.setDrawColor.apply(doc,gold); doc.setLineWidth(0.3); doc.line(L,y,R,y); y+=8;
+        doc.text('Meublé de tourisme — réservation en direct', cx, y, {align:'center'}); y+=7;
+        doc.setDrawColor.apply(doc,gold); doc.setLineWidth(0.4); doc.line(L,y,R,y); y+=8;
         function brk(){ if(y>266){ doc.addPage(); y=20; } }
         function h(t){ brk(); doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor.apply(doc,gold); doc.text(t.toUpperCase(),L,y); y+=5; }
-        function p(t){ doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor.apply(doc,ink); var lines=doc.splitTextToSize(t,R-L); for(var i=0;i<lines.length;i++){ brk(); doc.text(lines[i],L,y); y+=4.6; } }
+        function p(t){ doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor.apply(doc,ink); var lines=doc.splitTextToSize(t,R-L); for(var i=0;i<lines.length;i++){ brk(); if(i<lines.length-1 && lines[i].indexOf(' ')>=0){ doc.text(lines[i],L,y,{maxWidth:R-L,align:'justify'}); } else { doc.text(lines[i],L,y); } y+=4.9; } }
         function sp(n){ y+=(n||3); }
         h('Entre les parties');
         p('Le Loueur : Maxime Delfosse, entrepreneur individuel (loueur en meublé non professionnel), SIRET 893 745 851 00020, 5 rue Barla, 06300 Nice — reservation@delfosseproperties.com. Ci-après « le Loueur ».');
