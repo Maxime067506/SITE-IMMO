@@ -41,27 +41,25 @@ export function build(jsPDF, b, logo, lang) {
   function money(c) { if (typeof c === 'string') return c; return (Number(c || 0) / 100).toLocaleString(EN ? 'en-GB' : 'fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
 
   var doc = new jsPDF({ unit: 'mm', format: 'a4' });
-  var W = 210, L = 24, R = W - 24, cx = W / 2, ink = [26, 21, 18], muted = [110, 100, 90], gold = [150, 120, 70];
+  var W = 210, L = 20, R = W - 20, cx = W / 2, ink = [26, 21, 18], muted = [110, 100, 90], gold = [150, 120, 70];
   var apt = APT[String(b.apartment_code || '')] || {};
 
-  // --- PAGE 1 : page de garde (logo + titres uniquement) ---
-  var y = 78;
-  if (logo) { var iw = 44, ih = iw * logo.ratio; try { doc.addImage(logo.data, 'JPEG', cx - iw / 2, y, iw, ih); y += ih + 14; } catch (e) { y += 10; } }
-  doc.setFont('times', 'normal'); doc.setFontSize(15); doc.setTextColor.apply(doc, ink);
-  doc.text('DELFOSSE PROPERTIES', cx, y, { align: 'center' }); y += 7;
-  doc.setDrawColor.apply(doc, gold); doc.setLineWidth(0.5); doc.line(cx - 22, y, cx + 22, y); y += 18;
-  doc.setFont('times', 'italic'); doc.setFontSize(24); doc.setTextColor.apply(doc, ink);
-  doc.text(T('Contrat de location saisonnière', 'Short-term rental agreement'), cx, y, { align: 'center' }); y += 12;
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(11); doc.setTextColor.apply(doc, muted);
-  doc.text(T('Meublé de tourisme — réservation en direct', 'Registered tourist accommodation — direct booking'), cx, y, { align: 'center' });
-  doc.setFontSize(9); doc.text('Nice · French Riviera · delfosseproperties.com', cx, 280, { align: 'center' });
-  doc.addPage(); y = 20;
+  // --- En-tete compact (pas de page de garde separee : le contrat tient en 3 pages) ---
+  var y = 15;
+  if (logo) { var iw = 19, ih = iw * logo.ratio; try { doc.addImage(logo.data, 'JPEG', cx - iw / 2, y, iw, ih); y += ih + 2.5; } catch (e) { y += 4; } }
+  doc.setFont('times', 'normal'); doc.setFontSize(12); doc.setTextColor.apply(doc, ink);
+  doc.text('DELFOSSE PROPERTIES', cx, y, { align: 'center' }); y += 6;
+  doc.setFont('times', 'italic'); doc.setFontSize(17); doc.setTextColor.apply(doc, ink);
+  doc.text(T('Contrat de location saisonnière', 'Short-term rental agreement'), cx, y, { align: 'center' }); y += 5;
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor.apply(doc, muted);
+  doc.text(T('Meublé de tourisme — réservation en direct · Nice · delfosseproperties.com', 'Registered tourist accommodation — direct booking · Nice · delfosseproperties.com'), cx, y, { align: 'center' }); y += 4;
+  doc.setDrawColor.apply(doc, gold); doc.setLineWidth(0.4); doc.line(L, y, R, y); y += 6;
 
-  function brk() { if (y > 266) { doc.addPage(); y = 20; } }
-  function h(t) { brk(); doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor.apply(doc, gold); doc.text(t.toUpperCase(), L, y); y += 5; }
+  function brk() { if (y > 282) { doc.addPage(); y = 15; } }
+  function h(t) { brk(); doc.setFont('helvetica', 'bold'); doc.setFontSize(8.5); doc.setTextColor.apply(doc, gold); doc.text(t.toUpperCase(), L, y); y += 4; }
   function jline(line, last) { if (last) { doc.text(line, L, y); return; } var words = line.split(' ').filter(function (w) { return w.length; }); if (words.length < 2) { doc.text(line, L, y); return; } var ws = 0, k; for (k = 0; k < words.length; k++) { ws += doc.getTextWidth(words[k]); } var gap = ((R - L) - ws) / (words.length - 1); if (!(gap > 0)) { doc.text(line, L, y); return; } var x = L; for (k = 0; k < words.length; k++) { doc.text(words[k], x, y); x += doc.getTextWidth(words[k]) + gap; } }
-  function p(t) { doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor.apply(doc, ink); var lines = doc.splitTextToSize(t, R - L); for (var i = 0; i < lines.length; i++) { brk(); jline(lines[i], i === lines.length - 1); y += 4.9; } }
-  function sp(n) { y += (n || 3); }
+  function p(t) { doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor.apply(doc, ink); var lines = doc.splitTextToSize(t, R - L); for (var i = 0; i < lines.length; i++) { brk(); jline(lines[i], i === lines.length - 1); y += 4.2; } }
+  function sp(n) { y += Math.min(n || 2.4, 2.4); }
 
   h(T('Entre les parties', 'Between the parties'));
   p(T('Le Loueur : Maxime Delfosse, entrepreneur individuel (loueur en meublé non professionnel), SIRET 893 745 851 00020, 5 rue Barla, 06300 Nice — delfosseproperties@gmail.com. Ci-après « le Loueur ».',
@@ -140,13 +138,23 @@ export function build(jsPDF, b, logo, lang) {
   sp(4);
 
   h(T('Règlement intérieur', 'House rules'));
-  p(T('Logement non-fumeur (tabac et cannabis interdits). Animaux non admis sauf accord écrit préalable. Fêtes et événements interdits ; la capacité concerne les personnes qui dorment sur place, pas les visiteurs supplémentaires. Sous-location interdite (art. 1717 du Code civil). Respect du calme entre 22h00 et 8h00, de la jouissance paisible du voisinage et du règlement de copropriété. Le Voyageur trie et évacue les déchets et restitue le logement dans l\'état de remise.',
-      'Non-smoking accommodation (tobacco and cannabis prohibited). No pets unless agreed in writing beforehand. Parties and events are prohibited; the capacity concerns overnight guests, not additional visitors. Subletting is prohibited (art. 1717 of the French Civil Code). Quiet hours between 10:00 pm and 8:00 am, peaceful enjoyment for the neighbourhood and compliance with the building rules. The Guest sorts and removes waste and returns the accommodation in the condition in which it was handed over.'));
+  p(T('Logement non-fumeur (tabac et cannabis interdits). Fêtes et événements interdits ; la capacité concerne les personnes qui dorment sur place, pas les visiteurs supplémentaires. Sous-location interdite (art. 1717 du Code civil). Respect du calme entre 22h00 et 8h00, de la jouissance paisible du voisinage et du règlement de copropriété. Le Voyageur trie et évacue les déchets et restitue le logement dans l\'état de remise.',
+      'Non-smoking accommodation (tobacco and cannabis prohibited). Parties and events are prohibited; the capacity concerns overnight guests, not additional visitors. Subletting is prohibited (art. 1717 of the French Civil Code). Quiet hours between 10:00 pm and 8:00 am, peaceful enjoyment for the neighbourhood and compliance with the building rules. The Guest sorts and removes waste and returns the accommodation in the condition in which it was handed over.'));
+  sp(4);
+
+  h(T('Animaux de compagnie', 'Pets'));
+  p(T('La présence de tout animal doit obligatoirement être déclarée lors de la réservation. Lorsqu\'un animal a été déclaré, une autorisation écrite a été délivrée et transmise avec la confirmation, au moment du paiement. Tout animal non déclaré constitue un manquement pouvant entraîner la résiliation immédiate de la location, sans remboursement, ainsi que des frais de remise en état.',
+      'The presence of any animal must be declared at the time of booking. Where a pet has been declared, a written authorisation has been issued and sent with the confirmation, at the time of payment. Any undeclared animal constitutes a breach that may lead to immediate termination of the rental, without refund, and to restoration charges.'));
+  sp(4);
+
+  h(T('Fiche voyageur (obligation légale)', 'Guest registration (legal requirement)'));
+  p(T('Avant l\'arrivée, le Voyageur renseigne obligatoirement l\'identité de chaque occupant, numéro de pièce d\'identité compris, via le lien reçu par e-mail (fiche individuelle de police, art. R814-1 et s. du CESEDA). Des rappels sont adressés 7 jours, 3 jours puis 24 heures avant l\'arrivée. À défaut de fiche complète avant l\'arrivée, le Loueur peut refuser la remise des clés, résilier la location sans remboursement et conserver le dépôt de garantie au titre du préjudice subi.',
+      'Before arrival, the Guest must complete the identity details of every occupant, including the ID document number, via the link received by email (individual police record, CESEDA art. R814-1 et seq.). Reminders are sent 7 days, 3 days and 24 hours before arrival. Failing a complete form before arrival, the Host may refuse to hand over the keys, terminate the rental without refund and retain the security deposit for the loss incurred.'));
   sp(4);
 
   h(T('Rétractation, identité et conditions générales', 'Withdrawal, identity and general terms'));
-  p(T('Conformément à l\'article L221-28 12° du Code de la consommation, cette prestation d\'hébergement à dates déterminées n\'ouvre pas de droit de rétractation ; la réservation est ferme dès le paiement. Les voyageurs étrangers renseignent une fiche individuelle de police (art. R814-1 et s. du CESEDA). Toute somme due au titre d\'une pénalité est exigible après mise en demeure restée sans effet, sauf dommage définitivement constaté. Les données personnelles sont traitées uniquement pour gérer le séjour et satisfaire aux obligations légales (voir la Politique de confidentialité sur delfosseproperties.com/politique-confidentialite.html). En cas de litige non résolu, le Voyageur peut recourir gratuitement au médiateur de la consommation compétent. Le présent contrat est régi par les Conditions Générales de Location disponibles sur delfosseproperties.com/cgv, acceptées par le Voyageur lors de la réservation, et par le droit français.',
-      'Under Article L221-28 12° of the French Consumer Code, this accommodation service provided on specific dates carries no right of withdrawal; the booking is firm upon payment. Foreign travellers complete an individual police record (CESEDA art. R814-1 et seq.). Any sum due as a contractual penalty is payable after a formal notice has remained without effect, save for definitively established damage. Personal data is processed solely to manage the stay and to meet legal obligations (see the Privacy Policy at delfosseproperties.com/en/privacy). In the event of an unresolved dispute, the Guest may refer the matter, free of charge, to the competent consumer mediator. This agreement is governed by the General Terms available at delfosseproperties.com/en/terms, accepted by the Guest at booking, and by French law.'));
+  p(T('Conformément à l\'article L221-28 12° du Code de la consommation, cette prestation d\'hébergement à dates déterminées n\'ouvre pas de droit de rétractation ; la réservation est ferme dès le paiement. Toute somme due au titre d\'une pénalité est exigible après mise en demeure restée sans effet, sauf dommage définitivement constaté. Les données personnelles sont traitées uniquement pour gérer le séjour et satisfaire aux obligations légales (voir la Politique de confidentialité sur delfosseproperties.com/politique-confidentialite.html). En cas de litige non résolu, le Voyageur peut recourir gratuitement au médiateur de la consommation compétent. Le présent contrat est régi par les Conditions Générales de Location disponibles sur delfosseproperties.com/cgv, acceptées par le Voyageur lors de la réservation, et par le droit français.',
+      'Under Article L221-28 12° of the French Consumer Code, this accommodation service provided on specific dates carries no right of withdrawal; the booking is firm upon payment. Any sum due as a contractual penalty is payable after a formal notice has remained without effect, save for definitively established damage. Personal data is processed solely to manage the stay and to meet legal obligations (see the Privacy Policy at delfosseproperties.com/en/privacy). In the event of an unresolved dispute, the Guest may refer the matter, free of charge, to the competent consumer mediator. This agreement is governed by the General Terms available at delfosseproperties.com/en/terms, accepted by the Guest at booking, and by French law.'));
   sp(4); brk();
 
   doc.setDrawColor.apply(doc, gold); doc.line(L, y, R, y); y += 6;
