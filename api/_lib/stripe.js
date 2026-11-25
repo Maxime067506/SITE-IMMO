@@ -87,3 +87,10 @@ export function capturePaymentIntent(id, amountCents) {
 export function cancelPaymentIntent(id) {
   return stripeRequest('POST', 'payment_intents/' + encodeURIComponent(id) + '/cancel');
 }
+
+/** Rembourse un PaymentIntent encaisse (caution). Montant optionnel (total si omis). */
+export function createRefund(paymentIntentId, amountCents) {
+  const params = { payment_intent: paymentIntentId };
+  if (amountCents != null) params.amount = amountCents;
+  return stripeRequest('POST', 'refunds', params);
+}

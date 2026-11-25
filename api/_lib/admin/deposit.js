@@ -5,16 +5,22 @@
  *   { action:'preauth',  booking_id }          -> pre-autorise (empreinte)
  *   { action:'release',  booking_id }          -> libere l'empreinte
  *   { action:'capture',  booking_id, amount? } -> debite (degat), total ou partiel
+ *   { action:'charge',   booking_id }          -> ENCAISSE la caution (long sejour)
+ *   { action:'refund',   booking_id, amount? } -> REMBOURSE la caution encaissee
  *
  * L'empreinte est un PaymentIntent a capture manuelle, cree off_session a
  * partir de la carte enregistree lors du paiement du sejour. A declencher
  * a l'approche de l'arrivee (une pre-autorisation ne tient que ~7 jours).
+ *
+ * Pour les LONGS SEJOURS (>= 15 nuits), une empreinte ne peut pas couvrir
+ * toute la periode : on ENCAISSE reellement la caution (charge) puis on la
+ * REMBOURSE (refund) a la fin, total ou partiel (retenue pour degat).
  */
 
 import { sbSelect, sbUpdate, supabaseConfigured, SupabaseError } from '../supabase.js';
 import { requireAdmin } from '../admin-auth.js';
 import {
-  getPaymentIntent, createPaymentIntent, capturePaymentIntent, cancelPaymentIntent, stripeConfigured,
+  getPaymentIntent, createPaymentIntent, capturePaymentIntent, cancelPaymentIntent, createRefund, stripeConfigured,
 } from '../stripe.js';
 
 export default async function handler(req, res) {
@@ -35,6 +41,8 @@ export default async function handler(req, res) {
     if (action === 'preauth') return preauth(res, b);
     if (action === 'release') return release(res, b);
     if (action === 'capture') return capture(res, b, p.amount);
+    if (action === 'charge') return charge(res, b);
+    if (action === 'refund') return refund(res, b, p.amount);
     return res.status(400).json({ ok: false, error: 'action inconnue.' });
   } catch (err) {
     const status = err instanceof SupabaseError ? 502 : 500;
@@ -105,4 +113,59 @@ async function capture(res, b, amount) {
   }
   const upd = await sbUpdate('bookings', 'id=eq.' + b.id, { deposit_status: 'captured', updated_at: new Date().toISOString() });
   return res.status(200).json({ ok: true, status: 'captured', booking: upd[0] });
+}
+
+// --- Caution ENCAISSEE (long sejour : une empreinte ne tient que ~7 jours) ---
+// On preleve reellement la caution, puis on la rembourse (total/partiel) a la fin.
+async function charge(res, b) {
+  if (b.status !== 'confirmed') return res.status(400).json({ ok: false, error: 'Reservation non confirmee.' });
+  if (!b.deposit_cents || b.deposit_cents <= 0) return res.status(400).json({ ok: false, error: 'Aucune caution a prendre.' });
+  if (b.deposit_status === 'charged' && b.stripe_deposit_intent_id) {
+    return res.status(200).json({ ok: true, status: 'charged', already: true });
+  }
+  if (!b.stripe_payment_intent_id) return res.status(400).json({ ok: false, error: 'Paiement initial introuvable.' });
+
+  const rentPI = await getPaymentIntent(b.stripe_payment_intent_id);
+  const customer = rentPI.customer;
+  const pm = rentPI.payment_method;
+  if (!customer || !pm) return res.status(400).json({ ok: false, error: 'Carte non enregistree pour cette reservation.' });
+
+  let pi;
+  try {
+    pi = await createPaymentIntent({
+      amount: b.deposit_cents, currency: 'eur', customer: customer, payment_method: pm,
+      capture_method: 'automatic', confirm: true, off_session: true,
+      description: 'Caution encaissee Delfosse Properties — appart ' + b.apartment_code,
+      metadata: { booking_id: b.id, kind: 'deposit_charge' },
+    });
+  } catch (e) {
+    return res.status(200).json({ ok: false, status: 'failed', error: 'Encaissement refuse : ' + e.message });
+  }
+  if (pi.status !== 'succeeded') {
+    return res.status(200).json({ ok: false, status: pi.status, error: 'Caution non encaissee (' + pi.status + ').' });
+  }
+  const upd = await sbUpdate('bookings', 'id=eq.' + b.id, {
+    stripe_deposit_intent_id: pi.id, deposit_status: 'charged', updated_at: new Date().toISOString(),
+  });
+  return res.status(200).json({ ok: true, status: 'charged', booking: upd[0] });
+}
+
+// Rembourse une caution encaissee. `amount` (centimes) = montant a REMBOURSER
+// (total si omis ; partiel = caution - montant retenu pour degat).
+async function refund(res, b, amount) {
+  if (!b.stripe_deposit_intent_id) return res.status(400).json({ ok: false, error: 'Aucune caution encaissee a rembourser.' });
+  let amt = null;
+  if (amount != null && amount !== '') {
+    amt = Math.round(Number(amount));
+    if (!Number.isFinite(amt) || amt <= 0 || amt > b.deposit_cents) {
+      return res.status(400).json({ ok: false, error: 'Montant a rembourser invalide.' });
+    }
+  }
+  try {
+    await createRefund(b.stripe_deposit_intent_id, amt);
+  } catch (e) {
+    return res.status(502).json({ ok: false, error: e.message });
+  }
+  const upd = await sbUpdate('bookings', 'id=eq.' + b.id, { deposit_status: 'refunded', updated_at: new Date().toISOString() });
+  return res.status(200).json({ ok: true, status: 'refunded', booking: upd[0] });
 }

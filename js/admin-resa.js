@@ -349,6 +349,9 @@
   });
 
   // ---- RÉSERVATIONS ----
+  function nightsOf(b) {
+    try { var a = new Date(b.check_in + 'T00:00:00'), c = new Date(b.check_out + 'T00:00:00'); return Math.round((c - a) / 86400000); } catch (e) { return 0; }
+  }
   function actionsCell(b) {
     var html = '';
     if (b.notes !== 'block') html += '<button class="rz-btn ghost sm" data-fiche="' + esc(b.id) + '">Fiche voyageur</button> ';
@@ -364,6 +367,14 @@
         html += '<span class="pill manual">Caution libérée</span>';
       } else if (ds === 'captured') {
         html += '<span class="pill confirmed">Caution débitée</span>';
+      } else if (ds === 'charged') {
+        html += '<span class="pill hold">Caution encaissée</span>' +
+          '<button class="rz-btn ghost sm" data-dep="refund" data-id="' + esc(b.id) + '">Rembourser</button>' +
+          '<button class="rz-btn danger sm" data-dep="refund_partial" data-id="' + esc(b.id) + '">Retenir (dégât)</button>';
+      } else if (ds === 'refunded') {
+        html += '<span class="pill manual">Caution remboursée</span>';
+      } else if (nightsOf(b) >= 15) {
+        html += '<button class="rz-btn sm" data-dep="charge" data-id="' + esc(b.id) + '">Encaisser la caution ' + eur(b.deposit_cents) + ' € <small style="opacity:.7">(long séjour)</small></button>';
       } else {
         html += '<button class="rz-btn sm" data-dep="preauth" data-id="' + esc(b.id) + '">Pré-autoriser caution ' + eur(b.deposit_cents) + ' €</button>';
       }
@@ -380,6 +391,20 @@
         if (act === 'release' && !confirm('Libérer l\'empreinte de caution ?')) return;
         if (act === 'capture') { if (!confirm('Débiter la caution (dégât constaté) ?')) return; }
         if (act === 'preauth') { if (!confirm('Pré-autoriser la caution sur la carte du voyageur ?')) return; }
+        if (act === 'charge') { if (!confirm('ENCAISSER réellement la caution sur la carte du voyageur ? (séjour long — à rembourser à la fin)')) return; }
+        if (act === 'refund') { if (!confirm('Rembourser la TOTALITÉ de la caution ?')) return; }
+        if (act === 'refund_partial') {
+          var bk = (state.data.bookings || []).find(function (x) { return x.id === id; });
+          var dep = bk ? bk.deposit_cents : 0;
+          var raw = prompt('Montant à RETENIR pour dégât (en €, max ' + (dep / 100) + ') :');
+          if (raw == null) return;
+          var keep = toCents(raw);
+          if (keep == null || keep <= 0 || keep > dep) { msg('bookingsMsg', 'Montant invalide.', 'err'); return; }
+          var refundAmt = dep - keep;
+          if (refundAmt <= 0) { msg('bookingsMsg', 'Tout est retenu : aucun remboursement (la caution reste encaissée).', 'err'); return; }
+          if (!confirm('Retenir ' + (keep / 100) + ' € et rembourser ' + (refundAmt / 100) + ' € ?')) return;
+          body = { action: 'refund', booking_id: id, amount: refundAmt };
+        }
         btn.disabled = true; msg('bookingsMsg', 'Traitement…', '');
         api('/api/admin/?resource=deposit', { method: 'POST', body: body }).then(function (r) {
           if (r.status === 200 && r.body.ok) {

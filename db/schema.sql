@@ -68,7 +68,7 @@ create table if not exists bookings (
   deposit_cents            int,
   stripe_payment_intent_id text,
   stripe_deposit_intent_id text,
-  deposit_status           text,                -- null | authorized | released | captured
+  deposit_status           text,                -- null | authorized | released | captured | charged | refunded
   hold_expires_at          timestamptz,
   notes                    text,
   created_at               timestamptz not null default now(),
