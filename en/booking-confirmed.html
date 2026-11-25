@@ -139,7 +139,7 @@
         y+=3; doc.line(28,y,W-28,y); y+=12;
         doc.setFont('helvetica','italic'); doc.setFontSize(9); doc.setTextColor.apply(doc,muted);
         doc.text('The deposit is a card hold, not charged unless damage is noted.', cx, y, {align:'center'}); y+=5;
-        doc.text('Any question? reservation@delfosseproperties.com', cx, y, {align:'center'});
+        doc.text('Any question? delfosseproperties@gmail.com', cx, y, {align:'center'});
         doc.setFont('times','normal'); doc.setFontSize(10); doc.setTextColor.apply(doc,ink);
         doc.text('DELFOSSE PROPERTIES', cx, 281, {align:'center'});
         doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor.apply(doc,muted);
@@ -184,7 +184,7 @@
         function p(t){ doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor.apply(doc,ink); var lines=doc.splitTextToSize(t,R-L); for(var i=0;i<lines.length;i++){ brk(); jline(lines[i], i===lines.length-1); y+=4.9; } }
         function sp(n){ y+=(n||3); }
         h('Between the parties');
-        p('The Host: Maxime Delfosse, sole trader (non-professional furnished-rental landlord), SIRET 893 745 851 00020, 5 rue Barla, 06300 Nice — reservation@delfosseproperties.com. Hereinafter "the Host".');
+        p('The Host: Maxime Delfosse, sole trader (non-professional furnished-rental landlord), SIRET 893 745 851 00020, 5 rue Barla, 06300 Nice — delfosseproperties@gmail.com. Hereinafter "the Host".');
         sp(2);
         p('The Guest: ' + (b.guest_name||'—') + (b.guest_email?(' — '+b.guest_email):'') + '. Hereinafter "the Guest", responsible for the stay on behalf of all occupants.');
         sp(4);

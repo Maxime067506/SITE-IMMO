@@ -75,8 +75,8 @@ export function build(jsPDF, b, logo, lang) {
   function sp(n) { y += (n || 3); }
 
   h(T('Entre les parties', 'Between the parties'));
-  p(T('Le Loueur : Maxime Delfosse, entrepreneur individuel (loueur en meublé non professionnel), SIRET 893 745 851 00020, 5 rue Barla, 06300 Nice — reservation@delfosseproperties.com. Ci-après « le Loueur ».',
-      'The Host: Maxime Delfosse, sole trader (non-professional furnished-rental landlord), SIRET 893 745 851 00020, 5 rue Barla, 06300 Nice — reservation@delfosseproperties.com. Hereinafter "the Host".'));
+  p(T('Le Loueur : Maxime Delfosse, entrepreneur individuel (loueur en meublé non professionnel), SIRET 893 745 851 00020, 5 rue Barla, 06300 Nice — delfosseproperties@gmail.com. Ci-après « le Loueur ».',
+      'The Host: Maxime Delfosse, sole trader (non-professional furnished-rental landlord), SIRET 893 745 851 00020, 5 rue Barla, 06300 Nice — delfosseproperties@gmail.com. Hereinafter "the Host".'));
   sp(2);
   p(T('Le Voyageur : ' + (b.guest_name || '—') + (b.guest_email ? (' — ' + b.guest_email) : '') + '. Ci-après « le Voyageur », responsable du séjour pour l\'ensemble des occupants.',
       'The Guest: ' + (b.guest_name || '—') + (b.guest_email ? (' — ' + b.guest_email) : '') + '. Hereinafter "the Guest", responsible for the stay on behalf of all occupants.'));

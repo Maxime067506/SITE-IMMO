@@ -8,7 +8,7 @@
  * Config (env Vercel) :
  *   RESEND_API_KEY   cle API Resend (SECRET)
  *   EMAIL_FROM       ex: "Delfosse Properties <reservation@delfosseproperties.com>"
- *   HOST_EMAIL       ou recevoir les notifs hote (ex: delfossemaximepro@gmail.com)
+ *   HOST_EMAIL       ou recevoir les notifs hote (ex: delfosseproperties@gmail.com)
  *
  * Si RESEND_API_KEY n'est pas defini, on NE jette PAS : la reservation
  * reste confirmee, seules les notifications sont sautees (retour {sent:false}).
@@ -19,7 +19,7 @@ import { generateContractPdf } from './contract-pdf.js';
 
 const API_KEY = process.env.RESEND_API_KEY;
 const FROM = process.env.EMAIL_FROM || 'Delfosse Properties <onboarding@resend.dev>';
-const HOST_EMAIL = process.env.HOST_EMAIL || 'delfossemaximepro@gmail.com';
+const HOST_EMAIL = process.env.HOST_EMAIL || 'delfosseproperties@gmail.com';
 const REPLY_TO = process.env.EMAIL_REPLY_TO || HOST_EMAIL;
 
 export function emailConfigured() { return Boolean(API_KEY); }

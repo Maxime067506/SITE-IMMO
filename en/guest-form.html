@@ -112,7 +112,7 @@
         '<button type="button" class="add" id="addBtn">+ Add a guest</button>'+
         '<button type="button" class="save" id="saveBtn">Save my details</button>'+
         '<div class="msg" id="msg"></div>'+
-        '<p class="rgpd">This information is collected by Delfosse Properties to meet the legal obligation to keep an individual police registration form (art. R814-1 et seq. of the French CESEDA) and to manage your stay. It is kept for 6 months and then deleted. Any ID document copy is stored securely and <strong>deleted automatically after your departure</strong>. You have a right of access and rectification at reservation@delfosseproperties.com. See our <a href="privacy.html" style="color:var(--gold)">privacy policy</a>.</p>';
+        '<p class="rgpd">This information is collected by Delfosse Properties to meet the legal obligation to keep an individual police registration form (art. R814-1 et seq. of the French CESEDA) and to manage your stay. It is kept for 6 months and then deleted. Any ID document copy is stored securely and <strong>deleted automatically after your departure</strong>. You have a right of access and rectification at delfosseproperties@gmail.com. See our <a href="privacy.html" style="color:var(--gold)">privacy policy</a>.</p>';
       wrap.innerHTML = html;
       renderTravs();
       document.getElementById('addBtn').addEventListener('click', function(){ if(state.length>=MAX) return; state.push({first_name:'',last_name:'',birth_date:'',birth_place:'',nationality:'',home_address:'',_file:null,_id:null,_hasId:false}); renderTravs(); });

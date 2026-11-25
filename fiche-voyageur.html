@@ -111,7 +111,7 @@
         '<button type="button" class="add" id="addBtn">+ Ajouter un voyageur</button>'+
         '<button type="button" class="save" id="saveBtn">Enregistrer ma fiche</button>'+
         '<div class="msg" id="msg"></div>'+
-        '<p class="rgpd">Ces données sont collectées par Delfosse Properties pour satisfaire à l\'obligation légale de tenue d\'une fiche individuelle de police (art. R814-1 et s. du CESEDA) et gérer votre séjour. Elles sont conservées 6 mois, puis supprimées. La copie éventuelle de pièce d\'identité est stockée de façon sécurisée et <strong>supprimée automatiquement après votre départ</strong>. Vous disposez d\'un droit d\'accès et de rectification à reservation@delfosseproperties.com. Voir notre <a href="politique-confidentialite.html" style="color:var(--gold)">politique de confidentialité</a>.</p>';
+        '<p class="rgpd">Ces données sont collectées par Delfosse Properties pour satisfaire à l\'obligation légale de tenue d\'une fiche individuelle de police (art. R814-1 et s. du CESEDA) et gérer votre séjour. Elles sont conservées 6 mois, puis supprimées. La copie éventuelle de pièce d\'identité est stockée de façon sécurisée et <strong>supprimée automatiquement après votre départ</strong>. Vous disposez d\'un droit d\'accès et de rectification à delfosseproperties@gmail.com. Voir notre <a href="politique-confidentialite.html" style="color:var(--gold)">politique de confidentialité</a>.</p>';
       wrap.innerHTML = html;
       renderTravs();
       document.getElementById('addBtn').addEventListener('click', function(){ if(state.length>=MAX) return; state.push({first_name:'',last_name:'',birth_date:'',birth_place:'',nationality:'',home_address:'',_file:null,_id:null,_hasId:false}); renderTravs(); });
