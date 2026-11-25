@@ -73,7 +73,9 @@
       resend: 'Renvoyer le code', resendIn: 'Renvoyer le code ({s} s)', change: 'Modifier l\'e-mail',
       note: 'Nous vérifions votre adresse : votre confirmation de réservation y sera envoyée.',
       cgvBefore: 'J\'ai lu et j\'accepte les ', cgvLink: 'conditions générales de location', cgvAfter: ' et le contrat de location.',
-      cgvErr: 'Veuillez accepter les conditions générales pour payer.'
+      cgvErr: 'Veuillez accepter les conditions générales pour payer.',
+      petLabel: 'Je voyage avec un animal de compagnie',
+      petPh: 'Précisez : type et nombre (ex : 1 chat, 1 petit chien)'
     },
     en: {
       first: 'First name', last: 'Last name', email: 'Email', phone: 'Phone', phonePh: '7911 123456',
@@ -88,7 +90,9 @@
       resend: 'Resend code', resendIn: 'Resend code ({s} s)', change: 'Change email',
       note: 'We verify your address: your booking confirmation will be sent there.',
       cgvBefore: 'I have read and accept the ', cgvLink: 'general rental terms', cgvAfter: ' and the rental agreement.',
-      cgvErr: 'Please accept the terms to pay.'
+      cgvErr: 'Please accept the terms to pay.',
+      petLabel: 'I am travelling with a pet',
+      petPh: 'Specify: type and number (e.g. 1 cat, 1 small dog)'
     }
   };
 
@@ -131,6 +135,10 @@
     '.dpg-cgv a{color:var(--accent-dk,#7A5A28);text-underline-offset:2px}' +
     '.dpg-cgv.is-bad{color:#9c4a42}' +
     '.dpg-cgv.is-bad input{outline:2px solid #b5574d;outline-offset:1px}' +
+    '.dpg-pet{display:grid;gap:10px}' +
+    '.dpg-petck{display:flex;align-items:center;gap:9px;font-family:var(--f-sans,sans-serif);font-size:13px;line-height:1.4;color:var(--ink,#1a1512);cursor:pointer}' +
+    '.dpg-petck input{flex:0 0 auto;width:17px;height:17px;margin:0;accent-color:var(--accent,#B69368);cursor:pointer}' +
+    '.dpg-petf[hidden]{display:none}' +
     '.dpg-btn[aria-disabled="true"]{opacity:.45;cursor:not-allowed}';
 
   function injectCss() {
@@ -169,6 +177,10 @@
             input('phone', 'tel', 'tel-national', ' inputmode="tel" placeholder="' + esc(t.phonePh) + '"') +
             '<div class="dpg-menu" role="dialog"><input type="search" placeholder="' + esc(t.search) + '" aria-label="' + esc(t.search) + '"><ul class="dpg-list" role="listbox"></ul></div>' +
           '</div>', t.errPhone) +
+        '<div class="dpg-pet">' +
+          '<label class="dpg-petck"><input type="checkbox" id="dpg-pet"><span>' + esc(t.petLabel) + '</span></label>' +
+          '<div class="dpg-f dpg-petf" data-f="petinfo" hidden><input id="dpg-petinfo" type="text" maxlength="80" autocomplete="off" placeholder="' + esc(t.petPh) + '"></div>' +
+        '</div>' +
         '<div class="dpg-code">' +
           '<p class="dpg-sent"></p>' +
           field('code', t.code, input('code', 'text', 'one-time-code', ' class="dpg-otp" inputmode="numeric" maxlength="6" pattern="[0-9]*"'), t.codeErr) +
@@ -184,6 +196,9 @@
     var cgv = box.querySelector('#dpg-cgv');
     function cgvChecked() { return !!(cgv && cgv.checked); }
     if (cgv) cgv.addEventListener('change', function () { box.querySelector('.dpg-cgv').classList.remove('is-bad'); paint(false); });
+    // Animal de compagnie (facultatif) : la case revele un champ « type et nombre ».
+    var petck = box.querySelector('#dpg-pet'), petf = box.querySelector('.dpg-petf'), petinfo = box.querySelector('#dpg-petinfo');
+    if (petck) petck.addEventListener('change', function () { petf.hidden = !petck.checked; if (petck.checked && petinfo) petinfo.focus(); });
     var cc = box.querySelector('.dpg-cc'), menu = box.querySelector('.dpg-menu');
     var search = menu.querySelector('input'), list = menu.querySelector('.dpg-list');
     var $ = function (k) { return box.querySelector('#dpg-' + k); };
@@ -306,7 +321,9 @@
       opts.onSubmit({
         guest_first_name: cleanName(v.first), guest_last_name: cleanName(v.last),
         guest_email: cleanEmail(v.email), guest_phone: fullPhone(country[1], v.phone),
-        email_code: $('code').value, email_token: token
+        email_code: $('code').value, email_token: token,
+        has_pet: !!(petck && petck.checked),
+        pet_info: (petck && petck.checked && petinfo) ? String(petinfo.value || '').trim().slice(0, 80) : ''
       }, btn);
     });
     paint(false);

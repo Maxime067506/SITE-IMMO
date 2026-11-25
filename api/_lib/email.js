@@ -16,6 +16,7 @@
 
 import { ficheToken } from './fiche-token.js';
 import { generateContractPdf } from './contract-pdf.js';
+import { generatePetAuthPdf } from './pet-auth-pdf.js';
 
 const API_KEY = process.env.RESEND_API_KEY;
 const FROM = process.env.EMAIL_FROM || 'Delfosse Properties <onboarding@resend.dev>';
@@ -61,6 +62,14 @@ export async function sendBookingEmails(booking, lang) {
     const pdf = generateContractPdf(booking, lang);
     attachments = [{ filename: pdf.filename, content: pdf.content }];
   } catch (e) { attachments = undefined; } // ne bloque jamais l'envoi de l'e-mail
+  // Autorisation d'animal (si declaree a la reservation) : piece jointe supplementaire.
+  if (booking && booking.has_pet) {
+    try {
+      const pet = generatePetAuthPdf(booking, lang);
+      if (!attachments) attachments = [];
+      attachments.push({ filename: pet.filename, content: pet.content });
+    } catch (e) { /* ne bloque jamais l'envoi */ }
+  }
   const tasks = [];
   if (booking.guest_email) {
     tasks.push(resendSend({

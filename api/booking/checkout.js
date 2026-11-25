@@ -50,6 +50,8 @@ export default async function handler(req, res) {
   const checkOut = typeof p.check_out === 'string' ? p.check_out : null;
   const guests = parseInt(p.guests, 10) || 1;
   const lang = p.lang === 'en' ? 'en' : 'fr';
+  const hasPet = p.has_pet === true || p.has_pet === 'true';
+  const petInfo = hasPet ? String(p.pet_info || '').trim().slice(0, 80) : '';
   if (!/^0[1-8]$/.test(apt)) return res.status(400).json({ ok: false, error: 'apt invalide.' });
   if (!parseDate(checkIn) || !parseDate(checkOut)) return res.status(400).json({ ok: false, error: 'Dates invalides.' });
   const check = validateGuest(p);
@@ -104,6 +106,7 @@ export default async function handler(req, res) {
         apartment_code: apt, check_in: checkIn, check_out: checkOut,
         status: 'hold', source: 'direct',
         guest_name: guest.name, guest_email: guest.email, guest_phone: guest.phone,
+        has_pet: hasPet, pet_info: petInfo || null,
         guests_count: quote.guests, nights: quote.nights,
         nightly_total_cents: quote.nightly_total_cents, cleaning_fee_cents: quote.cleaning_fee_cents,
         tourist_tax_cents: quote.tourist_tax_cents, total_cents: quote.total_cents, deposit_cents: quote.deposit_cents,
