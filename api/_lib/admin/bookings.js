@@ -12,7 +12,7 @@
 import { sbSelect, sbInsert, sbUpdate, supabaseConfigured, SupabaseError } from '../supabase.js';
 import { requireAdmin } from '../admin-auth.js';
 import { parseDate } from '../pricing.js';
-import { sendBookingEmails } from '../email.js';
+import { sendBookingEmails, sendCancellationEmails } from '../email.js';
 
 export default async function handler(req, res) {
   if (!requireAdmin(req, res)) return;
@@ -97,7 +97,12 @@ async function cancelBooking(req, res) {
     updated_at: new Date().toISOString(),
   });
   if (!rows.length) return res.status(404).json({ ok: false, error: 'Reservation introuvable.' });
-  return res.status(200).json({ ok: true, booking: rows[0] });
+  const b = rows[0];
+  // Notifie le voyageur + l'hote, sauf pour un simple blocage de dates.
+  if (b && b.notes !== 'block' && b.guest_email) {
+    try { await sendCancellationEmails(b, 'fr'); } catch (_) {}
+  }
+  return res.status(200).json({ ok: true, booking: b });
 }
 
 // Renvoie tous les e-mails lies a une reservation (confirmation voyageur + hote,

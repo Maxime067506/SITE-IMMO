@@ -144,6 +144,43 @@ export async function sendFicheReminder(booking, daysLeft, lang) {
   catch (e) { return { sent: false, reason: e.message }; }
 }
 
+/** Envoie les e-mails d'annulation (voyageur + hote). Ne jette jamais. */
+export async function sendCancellationEmails(booking, lang) {
+  if (!emailConfigured()) return { sent: false, reason: 'no_api_key' };
+  if (!booking) return { sent: false, reason: 'no_booking' };
+  lang = lang === 'en' ? 'en' : 'fr';
+  const tasks = [];
+  if (booking.guest_email) {
+    const t = lang === 'en'
+      ? { subject: 'Your booking has been cancelled — Delfosse Properties', title: 'Booking <span style="color:#D4B77E">cancelled.</span>',
+          hi: 'Dear ' + esc(booking.guest_name || 'guest') + ',', p1: 'We confirm that your booking has been cancelled. The dates below are now released.',
+          p2: 'Any refund due will be processed according to the cancellation terms of your rental agreement (more than 14 days before arrival: full refund of the nights; 7 to 14 days: 50%; less than 7 days: non-refundable; the cleaning fee and tourist tax are always refunded).',
+          p3: 'Any question? Simply reply to this email.' }
+      : { subject: 'Votre réservation a été annulée — Delfosse Properties', title: 'Réservation <span style="color:#D4B77E">annulée.</span>',
+          hi: 'Bonjour ' + esc(booking.guest_name || '') + ',', p1: 'Nous confirmons l\'annulation de votre réservation. Les dates ci-dessous sont désormais libérées.',
+          p2: 'Tout remboursement éventuel sera traité selon les conditions d\'annulation de votre contrat de location (plus de 14 jours avant l\'arrivée : remboursement intégral des nuitées ; 7 à 14 jours : 50 % ; moins de 7 jours : non remboursable ; les frais de ménage et la taxe de séjour sont toujours remboursés).',
+          p3: 'Une question ? Répondez simplement à cet e-mail.' };
+    const html = shell(
+      '<tr><td style="padding:10px 36px 0"><h1 style="font-family:Georgia,serif;font-weight:normal;font-style:italic;color:#F5EDE0;font-size:28px;margin:6px 0 14px;text-align:center">' + t.title + '</h1>' +
+      '<p style="color:#F5EDE0;font-size:15px;margin:0 0 12px">' + t.hi + '</p>' +
+      '<p style="color:rgba(245,237,224,.78);font-size:14px;line-height:1.65;margin:0 0 10px">' + t.p1 + '</p>' +
+      detailRows(booking, lang) +
+      '<p style="color:rgba(245,237,224,.6);font-size:13px;line-height:1.6;margin:14px 0 12px">' + t.p2 + '</p>' +
+      '<p style="color:rgba(245,237,224,.6);font-size:13px;line-height:1.6;margin:0">' + t.p3 + '</p></td></tr>'
+    );
+    tasks.push(resendSend({ from: FROM, to: [booking.guest_email], reply_to: REPLY_TO, subject: t.subject, html }));
+  }
+  const htmlHost = shell(
+    '<tr><td style="padding:10px 36px 0"><h1 style="font-family:Georgia,serif;font-weight:normal;font-style:italic;color:#F5EDE0;font-size:26px;margin:6px 0 12px;text-align:center">Réservation <span style="color:#D4B77E">annulée.</span></h1>' +
+    '<p style="color:rgba(245,237,224,.78);font-size:14px;line-height:1.6;margin:0 0 8px">' + esc(booking.guest_name || '—') + (booking.guest_email ? ' — ' + esc(booking.guest_email) : '') + '</p>' +
+    detailRows(booking, 'fr') + '</td></tr>'
+  );
+  tasks.push(resendSend({ from: FROM, to: [HOST_EMAIL], reply_to: booking.guest_email || REPLY_TO,
+    subject: 'Réservation annulée — appart ' + booking.apartment_code + ' (' + fmtDate(booking.check_in, 'fr') + ')', html: htmlHost }));
+  try { const r = await Promise.allSettled(tasks); return { sent: r.some(function (x) { return x.status === 'fulfilled'; }) }; }
+  catch (e) { return { sent: false, reason: e.message }; }
+}
+
 // --- gabarits HTML (styles inline, compatibles clients mail) ---
 function shell(inner) {
   return '<div style="background:#0A1628;padding:32px 0;font-family:Arial,Helvetica,sans-serif">' +
