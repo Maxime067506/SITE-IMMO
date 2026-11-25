@@ -71,7 +71,9 @@
       sent: 'Un code à 6 chiffres vient d\'être envoyé à {email}. Pensez à regarder dans vos spams.',
       code: 'Code reçu par e-mail', codeErr: 'Saisissez les 6 chiffres du code.',
       resend: 'Renvoyer le code', resendIn: 'Renvoyer le code ({s} s)', change: 'Modifier l\'e-mail',
-      note: 'Nous vérifions votre adresse : votre confirmation de réservation y sera envoyée.'
+      note: 'Nous vérifions votre adresse : votre confirmation de réservation y sera envoyée.',
+      cgvBefore: 'J\'ai lu et j\'accepte les ', cgvLink: 'conditions générales de location', cgvAfter: ' et le contrat de location.',
+      cgvErr: 'Veuillez accepter les conditions générales pour payer.'
     },
     en: {
       first: 'First name', last: 'Last name', email: 'Email', phone: 'Phone', phonePh: '7911 123456',
@@ -84,7 +86,9 @@
       sent: 'A 6-digit code has just been sent to {email}. Please check your spam folder.',
       code: 'Code received by email', codeErr: 'Enter the 6-digit code.',
       resend: 'Resend code', resendIn: 'Resend code ({s} s)', change: 'Change email',
-      note: 'We verify your address: your booking confirmation will be sent there.'
+      note: 'We verify your address: your booking confirmation will be sent there.',
+      cgvBefore: 'I have read and accept the ', cgvLink: 'general rental terms', cgvAfter: ' and the rental agreement.',
+      cgvErr: 'Please accept the terms to pay.'
     }
   };
 
@@ -121,6 +125,12 @@
     '.dpg-link{background:none;border:none;padding:0;cursor:pointer;font-family:var(--f-sans,sans-serif);font-size:12.5px;color:var(--accent-dk,#7A5A28);text-decoration:underline;text-underline-offset:3px}' +
     '.dpg-link:disabled{color:var(--ink-muted,#8C7F72);text-decoration:none;cursor:default}' +
     '.dpg-note{font-family:var(--f-sans,sans-serif);font-size:11.5px;color:var(--ink-muted,#8C7F72);font-style:italic;margin:0;line-height:1.45}' +
+    '.dpg-cgv{display:none;align-items:flex-start;gap:9px;font-family:var(--f-sans,sans-serif);font-size:12.5px;line-height:1.45;color:var(--ink,#1a1512);cursor:pointer}' +
+    '.dpg.step-code .dpg-cgv{display:flex}' +
+    '.dpg-cgv input{flex:0 0 auto;width:17px;height:17px;margin-top:1px;accent-color:var(--accent,#B69368);cursor:pointer}' +
+    '.dpg-cgv a{color:var(--accent-dk,#7A5A28);text-underline-offset:2px}' +
+    '.dpg-cgv.is-bad{color:#9c4a42}' +
+    '.dpg-cgv.is-bad input{outline:2px solid #b5574d;outline-offset:1px}' +
     '.dpg-btn[aria-disabled="true"]{opacity:.45;cursor:not-allowed}';
 
   function injectCss() {
@@ -165,11 +175,15 @@
           '<div class="dpg-links"><button type="button" class="dpg-link" data-resend></button><button type="button" class="dpg-link" data-change>' + esc(t.change) + '</button></div>' +
         '</div>' +
         '<p class="dpg-note">' + esc(t.note) + '</p>' +
+        '<label class="dpg-cgv"><input type="checkbox" id="dpg-cgv" aria-required="true"><span>' + esc(t.cgvBefore) + '<a href="' + (lang === 'en' ? '/en/terms.html' : '/cgv.html') + '" target="_blank" rel="noopener">' + esc(t.cgvLink) + '</a>' + esc(t.cgvAfter) + '</span></label>' +
         '<button type="button" class="dpg-btn ' + esc(opts.buttonClass || '') + '"></button>' +
       '</div>';
 
     var root = box.querySelector('.dpg');
     var btn = box.querySelector('.dpg-btn');
+    var cgv = box.querySelector('#dpg-cgv');
+    function cgvChecked() { return !!(cgv && cgv.checked); }
+    if (cgv) cgv.addEventListener('change', function () { box.querySelector('.dpg-cgv').classList.remove('is-bad'); paint(false); });
     var cc = box.querySelector('.dpg-cc'), menu = box.querySelector('.dpg-menu');
     var search = menu.querySelector('input'), list = menu.querySelector('.dpg-list');
     var $ = function (k) { return box.querySelector('#dpg-' + k); };
@@ -230,7 +244,7 @@
       var ok = detailsOk(showAll);
       var codeStep = !!token;
       btn.textContent = codeStep ? opts.button : t.send;
-      btn.setAttribute('aria-disabled', ok && (!codeStep || codeOk()) ? 'false' : 'true');
+      btn.setAttribute('aria-disabled', ok && (!codeStep || (codeOk() && cgvChecked())) ? 'false' : 'true');
       return ok;
     }
     Object.keys(CHECK).forEach(function (k) {
@@ -287,6 +301,7 @@
       }
       if (!token) { sendCode(); return; }
       if (!codeOk()) { box.querySelector('[data-f="code"]').classList.add('is-bad'); $('code').focus(); return; }
+      if (!cgvChecked()) { box.querySelector('.dpg-cgv').classList.add('is-bad'); if (opts.onInvalid) opts.onInvalid(t.cgvErr); cgv.focus(); return; }
       var v = values();
       opts.onSubmit({
         guest_first_name: cleanName(v.first), guest_last_name: cleanName(v.last),
