@@ -158,6 +158,11 @@
       }
       function resetC(btn){ if(btn){ btn.disabled=false; btn.textContent='Télécharger le contrat de location (PDF)'; } }
       function buildContract(b,logo){
+        // Contrat généré par le module partagé js/contract-builder.js (identique à la pièce jointe e-mail).
+        if(!window.jspdf){ return; }
+        import('/js/contract-builder.js').then(function(m){ var doc=m.build(window.jspdf.jsPDF,b,logo,'fr'); doc.save(m.filename(b)); }).catch(function(){});
+        return;
+        // --- code historique conservé mais INACTIF (ne pas éditer ; modifier le contrat dans js/contract-builder.js) ---
         var doc=new window.jspdf.jsPDF({unit:'mm',format:'a4'});
         var W=210, L=24, R=W-24, cx=W/2, ink=[26,21,18], muted=[110,100,90], gold=[150,120,70];
         var apt=APT[String(b.apartment_code||'')]||{};

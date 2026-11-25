@@ -15,6 +15,7 @@
  */
 
 import { ficheToken } from './fiche-token.js';
+import { generateContractPdf } from './contract-pdf.js';
 
 const API_KEY = process.env.RESEND_API_KEY;
 const FROM = process.env.EMAIL_FROM || 'Delfosse Properties <onboarding@resend.dev>';
@@ -54,6 +55,12 @@ async function resendSend(msg) {
 export async function sendBookingEmails(booking, lang) {
   if (!emailConfigured()) return { sent: false, reason: 'no_api_key' };
   lang = lang === 'en' ? 'en' : 'fr';
+  // Contrat de location en piece jointe (meme PDF que le telechargement du site).
+  let attachments;
+  try {
+    const pdf = generateContractPdf(booking, lang);
+    attachments = [{ filename: pdf.filename, content: pdf.content }];
+  } catch (e) { attachments = undefined; } // ne bloque jamais l'envoi de l'e-mail
   const tasks = [];
   if (booking.guest_email) {
     tasks.push(resendSend({
@@ -61,12 +68,14 @@ export async function sendBookingEmails(booking, lang) {
       subject: lang === 'en' ? 'Your booking is confirmed — Delfosse Properties'
                              : 'Votre réservation est confirmée — Delfosse Properties',
       html: guestHtml(booking, lang),
+      attachments: attachments,
     }));
   }
   tasks.push(resendSend({
     from: FROM, to: [HOST_EMAIL], reply_to: booking.guest_email || REPLY_TO,
     subject: 'Nouvelle réservation directe — appart ' + booking.apartment_code + ' (' + fmtDate(booking.check_in, 'fr') + ')',
     html: hostHtml(booking),
+    attachments: attachments,
   }));
   try {
     const r = await Promise.allSettled(tasks);
