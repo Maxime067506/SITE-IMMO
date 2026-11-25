@@ -356,6 +356,7 @@
     var html = '';
     if (b.notes !== 'block') html += '<button class="rz-btn ghost sm" data-fiche="' + esc(b.id) + '">Fiche voyageur</button> ';
     html += '<button class="rz-btn danger sm" data-cancel="' + esc(b.id) + '">Annuler</button>';
+    if (b.notes !== 'block' && b.guest_email) html += ' <button class="rz-btn ghost sm" data-resend="' + esc(b.id) + '">Renvoyer les e-mails</button>';
     if (b.status === 'confirmed' && b.source === 'direct' && b.deposit_cents > 0) {
       var ds = b.deposit_status;
       html += '<div style="margin-top:9px;display:flex;flex-wrap:wrap;gap:6px;align-items:center">';
@@ -442,6 +443,17 @@
         api('/api/admin/?resource=bookings', { method: 'POST', body: { action: 'cancel', id: btn.getAttribute('data-cancel') } }).then(function (r) {
           if (r.status === 200 && r.body.ok) { msg('bookingsMsg', '✓ Annulé.', 'ok'); load(); }
           else { btn.disabled = false; msg('bookingsMsg', 'Erreur: ' + (r.body.error || r.status), 'err'); }
+        });
+      });
+    });
+    tb.querySelectorAll('[data-resend]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (!confirm('Renvoyer tous les e-mails de cette réservation (confirmation + contrat, et l\'autorisation animal si déclaré) au voyageur et à l\'hôte ?')) return;
+        btn.disabled = true; msg('bookingsMsg', 'Envoi…', '');
+        api('/api/admin/?resource=bookings', { method: 'POST', body: { action: 'resend', id: btn.getAttribute('data-resend') } }).then(function (r) {
+          btn.disabled = false;
+          if (r.status === 200 && r.body.ok) { msg('bookingsMsg', '✓ E-mails renvoyés au voyageur et à l\'hôte.', 'ok'); }
+          else { msg('bookingsMsg', 'Erreur: ' + (r.body.error || r.status), 'err'); }
         });
       });
     });

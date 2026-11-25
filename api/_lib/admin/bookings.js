@@ -12,6 +12,7 @@
 import { sbSelect, sbInsert, sbUpdate, supabaseConfigured, SupabaseError } from '../supabase.js';
 import { requireAdmin } from '../admin-auth.js';
 import { parseDate } from '../pricing.js';
+import { sendBookingEmails } from '../email.js';
 
 export default async function handler(req, res) {
   if (!requireAdmin(req, res)) return;
@@ -22,6 +23,7 @@ export default async function handler(req, res) {
     if (req.method === 'POST') {
       const action = (req.body && req.body.action) || 'create';
       if (action === 'cancel') return cancelBooking(req, res);
+      if (action === 'resend') return resendEmails(req, res);
       return createBooking(req, res, action);
     }
     return res.status(405).json({ ok: false, error: 'Methode non supportee.' });
@@ -96,4 +98,22 @@ async function cancelBooking(req, res) {
   });
   if (!rows.length) return res.status(404).json({ ok: false, error: 'Reservation introuvable.' });
   return res.status(200).json({ ok: true, booking: rows[0] });
+}
+
+// Renvoie tous les e-mails lies a une reservation (confirmation voyageur + hote,
+// avec contrat et, si un animal est declare, l'autorisation). Utile pour renvoyer
+// une confirmation perdue ou tester le flux.
+async function resendEmails(req, res) {
+  const id = req.body && req.body.id;
+  if (!id || !/^[0-9a-f-]{36}$/i.test(String(id))) {
+    return res.status(400).json({ ok: false, error: 'id invalide.' });
+  }
+  const rows = await sbSelect('bookings?id=eq.' + id + '&select=*');
+  const b = rows[0];
+  if (!b) return res.status(404).json({ ok: false, error: 'Reservation introuvable.' });
+  if (!b.guest_email) return res.status(400).json({ ok: false, error: 'Pas d\'e-mail voyageur sur cette reservation.' });
+  const lang = req.body && req.body.lang === 'en' ? 'en' : 'fr';
+  const r = await sendBookingEmails(b, lang);
+  if (!r.sent) return res.status(502).json({ ok: false, error: r.reason || (r.errors && r.errors.join('; ')) || 'Envoi echoue.' });
+  return res.status(200).json({ ok: true, sent: true, errors: r.errors });
 }
