@@ -161,15 +161,18 @@
         var doc=new window.jspdf.jsPDF({unit:'mm',format:'a4'});
         var W=210, L=24, R=W-24, cx=W/2, ink=[26,21,18], muted=[110,100,90], gold=[150,120,70];
         var apt=APT[String(b.apartment_code||'')]||{};
-        var y=18;
-        if(logo){ var iw=30, ih=iw*logo.ratio; try{ doc.addImage(logo.data,'JPEG',cx-iw/2,y,iw,ih); y+=ih+6; }catch(e){ y+=2; } }
-        doc.setFont('times','normal'); doc.setFontSize(12.5); doc.setTextColor.apply(doc,ink);
-        doc.text('DELFOSSE PROPERTIES', cx, y, {align:'center'}); y+=9;
-        doc.setFont('times','italic'); doc.setFontSize(21); doc.setTextColor.apply(doc,ink);
-        doc.text('Short-term rental agreement', cx, y, {align:'center'}); y+=6.5;
-        doc.setFont('helvetica','normal'); doc.setFontSize(9); doc.setTextColor.apply(doc,muted);
-        doc.text('Registered tourist accommodation — direct booking', cx, y, {align:'center'}); y+=7;
-        doc.setDrawColor.apply(doc,gold); doc.setLineWidth(0.4); doc.line(L,y,R,y); y+=8;
+        // --- PAGE 1 : page de garde (logo + titres uniquement) ---
+        var y=78;
+        if(logo){ var iw=44, ih=iw*logo.ratio; try{ doc.addImage(logo.data,'JPEG',cx-iw/2,y,iw,ih); y+=ih+14; }catch(e){ y+=10; } }
+        doc.setFont('times','normal'); doc.setFontSize(15); doc.setTextColor.apply(doc,ink);
+        doc.text('DELFOSSE PROPERTIES', cx, y, {align:'center'}); y+=7;
+        doc.setDrawColor.apply(doc,gold); doc.setLineWidth(0.5); doc.line(cx-22,y,cx+22,y); y+=18;
+        doc.setFont('times','italic'); doc.setFontSize(24); doc.setTextColor.apply(doc,ink);
+        doc.text('Short-term rental agreement', cx, y, {align:'center'}); y+=12;
+        doc.setFont('helvetica','normal'); doc.setFontSize(11); doc.setTextColor.apply(doc,muted);
+        doc.text('Registered tourist accommodation — direct booking', cx, y, {align:'center'});
+        doc.setFontSize(9); doc.text('Nice · French Riviera · delfosseproperties.com', cx, 280, {align:'center'});
+        doc.addPage(); y=20;
         function brk(){ if(y>266){ doc.addPage(); y=20; } }
         function h(t){ brk(); doc.setFont('helvetica','bold'); doc.setFontSize(9); doc.setTextColor.apply(doc,gold); doc.text(t.toUpperCase(),L,y); y+=5; }
         function jline(line,last){ if(last){ doc.text(line,L,y); return; } var words=line.split(' ').filter(function(w){return w.length;}); if(words.length<2){ doc.text(line,L,y); return; } var ws=0,k; for(k=0;k<words.length;k++){ ws+=doc.getTextWidth(words[k]); } var gap=((R-L)-ws)/(words.length-1); if(!(gap>0)){ doc.text(line,L,y); return; } var x=L; for(k=0;k<words.length;k++){ doc.text(words[k],x,y); x+=doc.getTextWidth(words[k])+gap; } }
