@@ -52,24 +52,30 @@ async function resendSend(msg) {
   return res.json();
 }
 
+/** Ajoute un suffixe -FR / -EN au nom de fichier PDF. */
+function suffixLang(name, lang) {
+  return String(name).replace(/\.pdf$/i, '') + '-' + (lang === 'en' ? 'EN' : 'FR') + '.pdf';
+}
+
 /** Envoie les e-mails voyageur + hote. Ne jette jamais. */
 export async function sendBookingEmails(booking, lang) {
   if (!emailConfigured()) return { sent: false, reason: 'no_api_key' };
   lang = lang === 'en' ? 'en' : 'fr';
-  // Contrat de location en piece jointe (meme PDF que le telechargement du site).
-  let attachments;
-  try {
-    const pdf = generateContractPdf(booking, lang);
-    attachments = [{ filename: pdf.filename, content: pdf.content }];
-  } catch (e) { attachments = undefined; } // ne bloque jamais l'envoi de l'e-mail
-  // Autorisation d'animal (si declaree a la reservation) : piece jointe supplementaire.
-  if (booking && booking.has_pet) {
-    try {
-      const pet = generatePetAuthPdf(booking, lang);
-      if (!attachments) attachments = [];
-      attachments.push({ filename: pet.filename, content: pet.content });
-    } catch (e) { /* ne bloque jamais l'envoi */ }
+  // Pieces jointes : contrat de location en FR ET EN (systematiquement) ; et, si
+  // un animal est declare, l'autorisation en FR ET EN. L'e-mail lui-meme reste
+  // dans la langue du site utilise (variable `lang`).
+  let attachments = [];
+  for (const L of ['fr', 'en']) {
+    try { const pdf = generateContractPdf(booking, L); attachments.push({ filename: suffixLang(pdf.filename, L), content: pdf.content }); }
+    catch (e) { /* ne bloque jamais l'envoi de l'e-mail */ }
   }
+  if (booking && booking.has_pet) {
+    for (const L of ['fr', 'en']) {
+      try { const pet = generatePetAuthPdf(booking, L); attachments.push({ filename: suffixLang(pet.filename, L), content: pet.content }); }
+      catch (e) { /* ne bloque jamais l'envoi */ }
+    }
+  }
+  if (!attachments.length) attachments = undefined;
   const tasks = [];
   if (booking.guest_email) {
     tasks.push(resendSend({

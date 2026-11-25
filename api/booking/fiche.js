@@ -42,7 +42,7 @@ export default async function handler(req, res) {
     }
 
     if (req.method === 'GET') {
-      const travelers = await sbSelect('booking_travelers?booking_id=eq.' + bookingId + '&select=id,first_name,last_name,birth_date,birth_place,nationality,home_address,is_lead,id_doc_path&order=created_at');
+      const travelers = await sbSelect('booking_travelers?booking_id=eq.' + bookingId + '&select=id,first_name,last_name,birth_date,birth_place,nationality,home_address,id_document_number,is_lead,id_doc_path&order=created_at');
       return res.status(200).json({
         ok: true,
         booking: {
@@ -53,6 +53,7 @@ export default async function handler(req, res) {
           return {
             id: t.id, first_name: t.first_name, last_name: t.last_name, birth_date: t.birth_date,
             birth_place: t.birth_place, nationality: t.nationality, home_address: t.home_address,
+            id_document_number: t.id_document_number,
             is_lead: t.is_lead, has_id: Boolean(t.id_doc_path),
           };
         }),
@@ -73,10 +74,14 @@ export default async function handler(req, res) {
           booking_id: bookingId, first_name: fn, last_name: ln,
           birth_date: isDate(t.birth_date) ? t.birth_date : null,
           birth_place: str(t.birth_place, 200), nationality: str(t.nationality, 100),
-          home_address: str(t.home_address, 300), is_lead: clean.length === 0,
+          home_address: str(t.home_address, 300), id_document_number: str(t.id_document_number, 50),
+          is_lead: clean.length === 0,
         });
       }
       if (!clean.length) return res.status(400).json({ ok: false, error: 'Renseignez au moins un voyageur (nom et prénom).' });
+      if (clean.some(function (c) { return !c.id_document_number; })) {
+        return res.status(400).json({ ok: false, error: 'Numéro de pièce d\'identité obligatoire pour chaque voyageur.' });
+      }
       // Remplace les anciennes fiches + supprime leurs pieces d'identite stockees.
       const old = await sbSelect('booking_travelers?booking_id=eq.' + bookingId + '&select=id_doc_path');
       for (const o of old) { if (o && o.id_doc_path) { try { await sbStorageDelete(BUCKET, o.id_doc_path); } catch (_) {} } }

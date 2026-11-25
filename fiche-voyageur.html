@@ -87,7 +87,7 @@
     api('GET').then(function(j){
       if(!j.ok){ fail(j.error || 'Lien invalide ou réservation introuvable.'); return; }
       var b = j.booking || {};
-      state = (j.travelers && j.travelers.length) ? j.travelers.map(function(t){ return {first_name:t.first_name,last_name:t.last_name,birth_date:t.birth_date,birth_place:t.birth_place,nationality:t.nationality,home_address:t.home_address,_id:t.id,_hasId:t.has_id,_file:null}; }) : seed(b);
+      state = (j.travelers && j.travelers.length) ? j.travelers.map(function(t){ return {first_name:t.first_name,last_name:t.last_name,birth_date:t.birth_date,birth_place:t.birth_place,nationality:t.nationality,home_address:t.home_address,id_document_number:t.id_document_number,_id:t.id,_hasId:t.has_id,_file:null}; }) : seed(b);
       render(b);
     }).catch(function(){ fail('Erreur de connexion. Réessayez.'); });
 
@@ -96,7 +96,7 @@
       var arr = [];
       var name = (b.guest_name||'').trim().split(/\s+/);
       for(var i=0;i<n;i++){
-        arr.push({ first_name:i===0?(name[0]||''):'', last_name:i===0?(name.slice(1).join(' ')||''):'', birth_date:'', birth_place:'', nationality:'', home_address:'', _file:null, _id:null, _hasId:false });
+        arr.push({ first_name:i===0?(name[0]||''):'', last_name:i===0?(name.slice(1).join(' ')||''):'', birth_date:'', birth_place:'', nationality:'', home_address:'', id_document_number:'', _file:null, _id:null, _hasId:false });
       }
       return arr;
     }
@@ -114,7 +114,7 @@
         '<p class="rgpd">Ces données sont collectées par Delfosse Properties pour satisfaire à l\'obligation légale de tenue d\'une fiche individuelle de police (art. R814-1 et s. du CESEDA) et gérer votre séjour. Elles sont conservées 6 mois, puis supprimées. La copie éventuelle de pièce d\'identité est stockée de façon sécurisée et <strong>supprimée automatiquement après votre départ</strong>. Vous disposez d\'un droit d\'accès et de rectification à delfosseproperties@gmail.com. Voir notre <a href="politique-confidentialite.html" style="color:var(--gold)">politique de confidentialité</a>.</p>';
       wrap.innerHTML = html;
       renderTravs();
-      document.getElementById('addBtn').addEventListener('click', function(){ if(state.length>=MAX) return; state.push({first_name:'',last_name:'',birth_date:'',birth_place:'',nationality:'',home_address:'',_file:null,_id:null,_hasId:false}); renderTravs(); });
+      document.getElementById('addBtn').addEventListener('click', function(){ if(state.length>=MAX) return; state.push({first_name:'',last_name:'',birth_date:'',birth_place:'',nationality:'',home_address:'',id_document_number:'',_file:null,_id:null,_hasId:false}); renderTravs(); });
       document.getElementById('saveBtn').addEventListener('click', save);
     }
 
@@ -131,7 +131,8 @@
             fld(idx,'birth_place','Lieu de naissance',t.birth_place)+
             fld(idx,'nationality','Nationalité',t.nationality)+
             fld(idx,'home_address','Domicile habituel',t.home_address)+
-            '<div class="id-row field full"><label>Pièce d\'identité (facultatif) — passeport ou CNI</label>'+
+            fld(idx,'id_document_number','N° de passeport ou de carte d\'identité',t.id_document_number,true)+
+            '<div class="id-row field full"><label>Copie de la pièce d\'identité (facultatif) — passeport ou CNI</label>'+
               '<input type="file" accept="image/jpeg,image/png,application/pdf" data-file="'+idx+'" />'+
               (t._hasId?'<p class="id-ok">✓ Une pièce est déjà enregistrée.</p>':'')+
               '<p class="id-note">Fichier JPEG, PNG ou PDF (5 Mo max). Supprimé automatiquement après votre départ.</p>'+
@@ -170,10 +171,10 @@
     async function save(){
       var btn=document.getElementById('saveBtn');
       // validation
-      for(var i=0;i<state.length;i++){ if(!(state[i].first_name||'').trim()||!(state[i].last_name||'').trim()){ setMsg('Renseignez le prénom et le nom de chaque voyageur.','err'); return; } }
+      for(var i=0;i<state.length;i++){ if(!(state[i].first_name||'').trim()||!(state[i].last_name||'').trim()){ setMsg('Renseignez le prénom et le nom de chaque voyageur.','err'); return; } if(!(state[i].id_document_number||'').trim()){ setMsg('Le numéro de passeport ou de carte d\'identité est obligatoire pour chaque voyageur.','err'); return; } }
       btn.disabled=true; btn.textContent='Enregistrement…'; setMsg('');
       try{
-        var payload = state.map(function(t){ return {first_name:t.first_name,last_name:t.last_name,birth_date:t.birth_date,birth_place:t.birth_place,nationality:t.nationality,home_address:t.home_address}; });
+        var payload = state.map(function(t){ return {first_name:t.first_name,last_name:t.last_name,birth_date:t.birth_date,birth_place:t.birth_place,nationality:t.nationality,home_address:t.home_address,id_document_number:t.id_document_number}; });
         var r = await api('POST',{action:'save',travelers:payload});
         if(!r.ok){ setMsg(r.error||'Erreur.','err'); btn.disabled=false; btn.textContent='Enregistrer ma fiche'; return; }
         var ids = (r.travelers||[]).map(function(t){return t.id;});
