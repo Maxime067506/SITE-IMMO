@@ -456,8 +456,13 @@ targets.forEach(el => io.observe(el));
       fadeAnimation: true,
       zoomAnimation: true,
     });
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
+    // Tuiles CARTO (fiable en production, contrairement au serveur OSM direct
+    // qui bloque/limite ce type d'usage -> carte vide/sombre sur certains reseaux).
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      maxZoom: 20,
+      subdomains: 'abcd',
+      detectRetina: true,
+      attribution: '© OpenStreetMap contributors © CARTO',
     }).addTo(map);
 
     if (isSingleApt) {
