@@ -456,13 +456,15 @@ targets.forEach(el => io.observe(el));
       fadeAnimation: true,
       zoomAnimation: true,
     });
-    // Tuiles CARTO (fiable en production, contrairement au serveur OSM direct
-    // qui bloque/limite ce type d'usage -> carte vide/sombre sur certains reseaux).
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      maxZoom: 20,
-      subdomains: 'abcd',
-      detectRetina: true,
-      attribution: '© OpenStreetMap contributors © CARTO',
+    // Tuiles Esri "Light Gray Canvas" : fond epure, fiable en production,
+    // sans cle API (contrairement a CARTO qui exige desormais une cle ->
+    // tuiles "API KEY REQUIRED", et a OSM direct qui limite l'usage prod).
+    // maxNativeZoom 16 (max du fond Esri) + maxZoom 19 => les fiches sejour
+    // (zoom 17) affichent le z16 agrandi au lieu d'un vide.
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 19,
+      maxNativeZoom: 16,
+      attribution: '© Esri, © OpenStreetMap contributors',
     }).addTo(map);
 
     if (isSingleApt) {
