@@ -429,6 +429,7 @@ targets.forEach(el => io.observe(el));
     { no:'06', name:'Notre dernier appartement',           address:'24D rue Gounod, Nice',      loc:'Musiciens',      lat:43.70098, lon:7.26081, img:'img/airbnb/07-crescendo/photo-01.jpg', meta:'4 voyageurs · ★ 4,65', airbnb:'https://www.airbnb.fr/rooms/1361447215596892211', detail:'sejour-06.html' },
     { no:'07', name:'Notre appartement design',            address:'41 av. G. Clemenceau, Nice',loc:'Musiciens',      lat:43.70149, lon:7.26015, img:'img/airbnb/05-adagio/photo-01.jpg?v=d1',    meta:'4 voyageurs · ★ 4,66', airbnb:'https://www.airbnb.fr/rooms/1447097634568506909', detail:'sejour-07.html' },
     { no:'08', name:'Notre nouvel appartement',            address:'37 av. G. Clemenceau, Nice', loc:'Musiciens',     lat:43.70130, lon:7.26095, img:'img/airbnb/08-symphonie/photo-01.jpg',  meta:'4 voyageurs · ★ 4,73', airbnb:'https://www.airbnb.fr/rooms/1705198304588120041', detail:'sejour-08.html' },
+    { no:'09', name:'Le Carré d\'Or',                      address:'27 rue Alphonse Karr, Nice', loc:'Carré d\'Or',   lat:43.6988, lon:7.2659, img:'img/airbnb/09-carre-dor/photo-01.jpg',  meta:'4 voyageurs · Studio 20 m²', airbnb:'', detail:'sejour-09.html' },
   ];
 
   // Si on est sur une fiche séjour (sejour-0X.html), ne conserver que
@@ -592,6 +593,7 @@ targets.forEach(el => io.observe(el));
     { no:'06', nameKey:'apt.6.short', tagKey:'tag.cf.6', locKey:'apt.6.loc', rating:'4,65', image:'img/airbnb/07-crescendo/photo-01.jpg',       airbnb:'https://www.airbnb.fr/rooms/1361447215596892211' },
     { no:'07', nameKey:'apt.7.short', tagKey:'tag.cf.7', locKey:'apt.7.loc', rating:'4,66', image:'img/airbnb/05-adagio/photo-01.jpg?v=d1',          airbnb:'https://www.airbnb.fr/rooms/1447097634568506909' },
     { no:'08', nameKey:'apt.8.short', tagKey:'tag.cf.8', locKey:'apt.8.loc', rating:'4,73', image:'img/airbnb/08-symphonie/photo-01.jpg',                airbnb:'https://www.airbnb.fr/rooms/1705198304588120041' },
+    { no:'09', nameKey:'apt.9.short', tagKey:'tag.cf.9', locKey:'apt.9.loc', rating:'', image:'img/airbnb/09-carre-dor/photo-01.jpg',                airbnb:'' },
   ];
   // Helper : traduction via DP_I18N avec fallback FR
   const tr = (key, fallback) => {

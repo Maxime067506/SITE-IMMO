@@ -52,7 +52,7 @@ export default async function handler(req, res) {
   const lang = p.lang === 'en' ? 'en' : 'fr';
   const hasPet = p.has_pet === true || p.has_pet === 'true';
   const petInfo = hasPet ? String(p.pet_info || '').trim().slice(0, 80) : '';
-  if (!/^0[1-8]$/.test(apt)) return res.status(400).json({ ok: false, error: 'apt invalide.' });
+  if (!/^0[1-9]$/.test(apt)) return res.status(400).json({ ok: false, error: 'apt invalide.' });
   if (!parseDate(checkIn) || !parseDate(checkOut)) return res.status(400).json({ ok: false, error: 'Dates invalides.' });
   const check = validateGuest(p);
   if (!check.ok) {

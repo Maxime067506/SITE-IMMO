@@ -36,8 +36,8 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'GET');
 
   const apt = String(req.query.apt || req.query.id || '').padStart(2, '0');
-  if (!/^0[1-8]$/.test(apt)) {
-    return res.status(400).json({ error: 'apt invalide (01-08).', apt });
+  if (!/^0[1-9]$/.test(apt)) {
+    return res.status(400).json({ error: 'apt invalide (01-09).', apt });
   }
   if (!supabaseConfigured()) {
     return res.status(503).json({ error: 'Base de donnees non configuree.' });

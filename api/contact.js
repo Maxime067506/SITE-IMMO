@@ -20,7 +20,7 @@ export default async function handler(req, res) {
   const email = str(p.email, 120).toLowerCase();
   const message = str(p.message, 4000);
   const phone = str(p.phone, 30);
-  const apartment = /^0[1-8]$/.test(String(p.apartment || '')) ? String(p.apartment) : '';
+  const apartment = /^0[1-9]$/.test(String(p.apartment || '')) ? String(p.apartment) : '';
 
   if (name.length < 2 || !EMAIL.test(email) || message.length < 5) {
     return res.status(400).json({ ok: false, error: 'Nom, e-mail valide et message requis.' });

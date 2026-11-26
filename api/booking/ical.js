@@ -22,10 +22,10 @@ function fold(line) {
 
 export default async function handler(req, res) {
   const apt = String((req.query && (req.query.apt || req.query.id)) || '').padStart(2, '0');
-  if (!/^0[1-8]$/.test(apt)) {
+  if (!/^0[1-9]$/.test(apt)) {
     res.status(400);
     res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-    return res.end('apt invalide (01-08).');
+    return res.end('apt invalide (01-09).');
   }
   if (!supabaseConfigured()) {
     res.status(503);

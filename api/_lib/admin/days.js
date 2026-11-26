@@ -36,7 +36,7 @@ export default async function handler(req, res) {
     if (req.method === 'GET') {
       const q = req.query || {};
       const apt = String(q.apt || '').padStart(2, '0');
-      if (!/^0[1-8]$/.test(apt)) return res.status(400).json({ ok: false, error: 'apt invalide.' });
+      if (!/^0[1-9]$/.test(apt)) return res.status(400).json({ ok: false, error: 'apt invalide.' });
       const from = parseDate(q.from), to = parseDate(q.to);
       if (!from || !to || to <= from || to - from > MAX_DAYS * 86400000) {
         return res.status(400).json({ ok: false, error: 'Plage de dates invalide.' });
@@ -65,7 +65,7 @@ export default async function handler(req, res) {
     if (req.method === 'POST') {
       const p = req.body || {};
       const apt = String(p.apartment_code || '').padStart(2, '0');
-      if (!/^0[1-8]$/.test(apt)) return res.status(400).json({ ok: false, error: 'apartment_code invalide.' });
+      if (!/^0[1-9]$/.test(apt)) return res.status(400).json({ ok: false, error: 'apartment_code invalide.' });
       const dates = cleanDates(p.dates);
       if (!dates) return res.status(400).json({ ok: false, error: 'Dates invalides (1 a ' + MAX_DAYS + ').' });
 

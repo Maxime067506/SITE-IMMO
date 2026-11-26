@@ -35,8 +35,8 @@ export default async function handler(req, res) {
   const checkOut = typeof p.check_out === 'string' ? p.check_out : null;
   const guests = parseInt(p.guests, 10) || 1;
 
-  if (!/^0[1-8]$/.test(apt)) {
-    return res.status(400).json({ ok: false, code: 'bad_apt', error: 'apt invalide (01-08).' });
+  if (!/^0[1-9]$/.test(apt)) {
+    return res.status(400).json({ ok: false, code: 'bad_apt', error: 'apt invalide (01-09).' });
   }
   if (!parseDate(checkIn) || !parseDate(checkOut)) {
     return res.status(400).json({ ok: false, code: 'bad_dates', error: 'Dates invalides (format YYYY-MM-DD).' });

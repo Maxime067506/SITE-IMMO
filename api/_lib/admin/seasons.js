@@ -34,7 +34,7 @@ export default async function handler(req, res) {
       // create
       const p = req.body || {};
       let apt = p.apartment_code == null || p.apartment_code === '' ? null : String(p.apartment_code).padStart(2, '0');
-      if (apt != null && !/^0[1-8]$/.test(apt)) return res.status(400).json({ ok: false, error: 'apartment_code invalide.' });
+      if (apt != null && !/^0[1-9]$/.test(apt)) return res.status(400).json({ ok: false, error: 'apartment_code invalide.' });
       if (!parseDate(p.date_start) || !parseDate(p.date_end) || p.date_end < p.date_start) {
         return res.status(400).json({ ok: false, error: 'Dates de saison invalides.' });
       }

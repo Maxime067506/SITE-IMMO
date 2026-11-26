@@ -20,7 +20,7 @@ export default async function handler(req, res) {
 
   const p = req.body || {};
   const apt = String(p.apartment_code || '').padStart(2, '0');
-  if (!/^0[1-8]$/.test(apt)) return res.status(400).json({ ok: false, error: 'apartment_code invalide.' });
+  if (!/^0[1-9]$/.test(apt)) return res.status(400).json({ ok: false, error: 'apartment_code invalide.' });
 
   const base = cents(p.base_price_cents);
   if (base == null || base < 1000) {

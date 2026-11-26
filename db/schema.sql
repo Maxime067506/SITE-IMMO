@@ -117,13 +117,15 @@ insert into apartments (code, name, airbnb_room_id, max_guests, bedrooms, bathro
  ('05','Appartement ultra design',      '1446914329011561138',4,1,1),
  ('06','Appartement rue Gounod',        '1361447215596892211',4,1,1),
  ('07','Appartement design',            '1447097634568506909',4,1,1),
- ('08','Nouvel appartement Musiciens',  '1705198304588120041',4,1,1)
+ ('08','Nouvel appartement Musiciens',  '1705198304588120041',4,1,1),
+ ('09','Le Carré d''Or',                NULL,4,0,1)
 on conflict (code) do nothing;
 
 -- Tarifs de départ = min Airbnb (tu les ajusteras dans l'admin)
 insert into pricing (apartment_code, base_price_cents, min_nights) values
  ('01',8000,1),('02',8000,1),('03',9800,1),('04',7500,1),
- ('05',8000,1),('06',6000,1),('07',8000,1),('08',9800,1)
+ ('05',8000,1),('06',6000,1),('07',8000,1),('08',9800,1),
+ ('09',6900,1)
 on conflict (apartment_code) do nothing;
 
 -- 7) Sécurité : RLS activé, AUCUN accès public.

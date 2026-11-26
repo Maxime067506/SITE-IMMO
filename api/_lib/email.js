@@ -187,13 +187,14 @@ export async function sendCancellationEmails(booking, lang) {
 const CONTACT_APT = {
   '01': 'Le Port', '02': 'Le Jumeau (Port)', '03': 'Avenue Notre-Dame', '04': 'Art Déco (Gare)',
   '05': 'Ultra Design (Musiciens)', '06': 'Rue Gounod (Musiciens)', '07': 'Design (Musiciens)', '08': 'Les Musiciens (Clemenceau)',
+  '09': 'Le Carré d\'Or (Alphonse Karr)',
 };
 
 /** Envoie un message du formulaire de contact a l'hote. Ne jette jamais. */
 export async function sendContactMessage(data) {
   if (!emailConfigured()) return { sent: false, reason: 'no_api_key' };
   data = data || {};
-  const code = /^0[1-8]$/.test(String(data.apartment || '')) ? String(data.apartment) : '';
+  const code = /^0[1-9]$/.test(String(data.apartment || '')) ? String(data.apartment) : '';
   const apt = code ? ('N° ' + code + ' — ' + CONTACT_APT[code]) : 'Aucun en particulier';
   function row(k, v) { return '<tr><td style="padding:7px 0;color:rgba(245,237,224,.6);font-size:13px;width:120px;vertical-align:top">' + k + '</td><td style="padding:7px 0;color:#F5EDE0;font-size:14px">' + v + '</td></tr>'; }
   const html = shell(

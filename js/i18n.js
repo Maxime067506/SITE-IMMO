@@ -30,6 +30,22 @@ const I18N = {
     "apt.6.name":             "Notre dernier appartement",
     "apt.7.name":             "Notre appartement design",
     "apt.8.name":             "Notre nouvel appartement",
+    "apt.9.short":            "Le Carré d'Or",
+    "apt.9.loc":              "Carré d'Or · 4 voyageurs",
+    "apt.9.name":             "Le Carré d'Or",
+    "apt.9.heroTitle":        "Le Carré <em>d'Or.</em>",
+    "apt.9.title":            "Carré d'Or,<br/><em>plein centre.</em>",
+    "apt.9.intro":            "Studio au design contemporain au cœur du Carré d'Or, le quartier le plus prisé du centre de Nice. Coin cuisine entièrement équipé, séjour lumineux et espace nuit séparé par une verrière.",
+    "apt.9.body":             "À deux minutes de l'avenue Jean Médecin, des boutiques et du tramway ; cinq de la place Masséna ; dix de la Promenade des Anglais et du Vieux-Nice. Climatisation réversible, Wi-Fi haut débit, literie premium.",
+    "apt.9.cta":              "Réservez<br/><em>Le Carré d'Or.</em>",
+    "stay.9.loc":             "Carré d'Or · 4 voyageurs",
+    "stay.9.sub":             "Carré d'Or · Centre de Nice",
+    "stay.9.addr":            "27 rue Alphonse Karr · Nice",
+    "stay.9.lede":            "La dernière pépite du Carré d'Or : un studio au design soigné, à deux pas de l'avenue Jean Médecin, des boutiques et de la Promenade.",
+    "stay.9.mapTitle":        "27 rue Alphonse Karr <em>— Carré d'Or.</em>",
+    "stay.9.mapMeta":         "Plan · 27 rue Alphonse Karr, Nice",
+    "tag.cf.9":               "CARRÉ D'OR",
+    "stat.surface":           "Surface",
 
     /* ---- DISTANCE / PROXIMITÉ (pages séjour) ---- */
     "dist.faceApt":           "Face à l'appartement",
@@ -218,9 +234,9 @@ const I18N = {
     /* ---- MAP ---- */
     "map.eyebrow":  "Localisation",
     "map.title":    "Tout Nice, <em>à portée de pas.</em>",
-    "map.label":    "Plan · 8 adresses · Nice",
+    "map.label":    "Plan · 9 adresses · Nice",
     "map.hint":     "Survolez un point",
-    "map.hintSub":  "Les 8 adresses sont regroupées au cœur de Nice, toutes à pied des sites emblématiques.",
+    "map.hintSub":  "Les 9 adresses sont regroupées au cœur de Nice, toutes à pied des sites emblématiques.",
     "map.allStays": "Voir tous les séjours →",
 
     /* ---- EXPÉRIENCES NICE (scroll horizontal) ---- */
@@ -1090,6 +1106,22 @@ const I18N = {
     "apt.6.name":             "Our newest apartment",
     "apt.7.name":             "Our design apartment",
     "apt.8.name":             "Our new apartment",
+    "apt.9.short":            "Le Carré d'Or",
+    "apt.9.loc":              "Carré d'Or · 4 guests",
+    "apt.9.name":             "Le Carré d'Or",
+    "apt.9.heroTitle":        "Le Carré <em>d'Or.</em>",
+    "apt.9.title":            "Carré d'Or,<br/><em>right in the heart.</em>",
+    "apt.9.intro":            "A contemporary studio in the heart of the Carré d'Or, the most sought-after district in central Nice. Fully equipped kitchenette, light-filled living area and a sleeping nook set apart by a glass partition.",
+    "apt.9.body":             "Two minutes from avenue Jean Médecin, the boutiques and the tram; five from Place Masséna; ten from the Promenade des Anglais and the Old Town. Reversible air-conditioning, high-speed Wi-Fi, premium bedding.",
+    "apt.9.cta":              "Book<br/><em>Le Carré d'Or.</em>",
+    "stay.9.loc":             "Carré d'Or · 4 guests",
+    "stay.9.sub":             "Carré d'Or · Central Nice",
+    "stay.9.addr":            "27 rue Alphonse Karr · Nice",
+    "stay.9.lede":            "The latest gem of the Carré d'Or: a beautifully designed studio, steps from avenue Jean Médecin, the boutiques and the Promenade.",
+    "stay.9.mapTitle":        "27 rue Alphonse Karr <em>— Carré d'Or.</em>",
+    "stay.9.mapMeta":         "Map · 27 rue Alphonse Karr, Nice",
+    "tag.cf.9":               "CARRÉ D'OR",
+    "stat.surface":           "Area",
 
     /* ---- DISTANCE / PROXIMITY (stay pages) ---- */
     "dist.faceApt":           "Opposite the apartment",
@@ -1278,9 +1310,9 @@ const I18N = {
     /* ---- MAP ---- */
     "map.eyebrow":  "Location",
     "map.title":    "All of Nice, <em>within walking distance.</em>",
-    "map.label":    "Plan · 8 addresses · Nice",
+    "map.label":    "Plan · 9 addresses · Nice",
     "map.hint":     "Hover over a pin",
-    "map.hintSub":  "All eight addresses cluster in the heart of Nice, each a short walk from the city's landmarks.",
+    "map.hintSub":  "All nine addresses cluster in the heart of Nice, each a short walk from the city's landmarks.",
     "map.allStays": "View all stays →",
 
     /* ---- NICE EXPERIENCES (horizontal scroll) ---- */

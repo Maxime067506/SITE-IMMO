@@ -15,7 +15,8 @@
     { no:'05', name:'Ultra design',         nameEn:'Ultra-design',         loc:'Musiciens',     locEn:'Musicians',       g:4, img:'/img/airbnb/06-scherzo/photo-01.jpg?v=e3',   airbnb:'https://www.airbnb.fr/rooms/1446914329011561138' },
     { no:'06', name:'Rue Gounod',           nameEn:'Rue Gounod',           loc:'Musiciens',     locEn:'Musicians',       g:4, img:'/img/airbnb/07-crescendo/photo-01.jpg',      airbnb:'https://www.airbnb.fr/rooms/1361447215596892211' },
     { no:'07', name:'Design',               nameEn:'Design',               loc:'Musiciens',     locEn:'Musicians',       g:4, img:'/img/airbnb/05-adagio/photo-01.jpg?v=d1',    airbnb:'https://www.airbnb.fr/rooms/1447097634568506909' },
-    { no:'08', name:'Les Musiciens',        nameEn:'The Musicians',        loc:'Musiciens',     locEn:'Musicians',       g:4, img:'/img/airbnb/08-symphonie/photo-01.jpg',      airbnb:'https://www.airbnb.fr/rooms/1705198304588120041' }
+    { no:'08', name:'Les Musiciens',        nameEn:'The Musicians',        loc:'Musiciens',     locEn:'Musicians',       g:4, img:'/img/airbnb/08-symphonie/photo-01.jpg',      airbnb:'https://www.airbnb.fr/rooms/1705198304588120041' },
+    { no:'09', name:'Le Carré d\'Or',       nameEn:'Le Carré d\'Or',       loc:'Carré d\'Or',   locEn:'Carré d\'Or',     g:4, img:'/img/airbnb/09-carre-dor/photo-01.jpg',      airbnb:'' }
   ];
   function aName(a){ return isEN() && a.nameEn ? a.nameEn : a.name; }
   function aLoc(a){ return isEN() && a.locEn ? a.locEn : a.loc; }

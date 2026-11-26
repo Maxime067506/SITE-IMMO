@@ -36,7 +36,7 @@ export default async function handler(req, res) {
 async function listBookings(req, res) {
   const q = req.query || {};
   const parts = ['select=*', 'order=check_in'];
-  if (/^0[1-8]$/.test(String(q.apt || ''))) parts.push('apartment_code=eq.' + q.apt);
+  if (/^0[1-9]$/.test(String(q.apt || ''))) parts.push('apartment_code=eq.' + q.apt);
   if (typeof q.status === 'string' && q.status) {
     parts.push('status=in.(' + q.status.split(',').filter(Boolean).join(',') + ')');
   } else {
@@ -54,7 +54,7 @@ async function createBooking(req, res, action) {
   const apt = String(p.apt || p.apartment_code || '').padStart(2, '0');
   const checkIn = p.check_in;
   const checkOut = p.check_out;
-  if (!/^0[1-8]$/.test(apt)) return res.status(400).json({ ok: false, error: 'apt invalide.' });
+  if (!/^0[1-9]$/.test(apt)) return res.status(400).json({ ok: false, error: 'apt invalide.' });
   if (!parseDate(checkIn) || !parseDate(checkOut) || checkOut <= checkIn) {
     return res.status(400).json({ ok: false, error: 'Dates invalides.' });
   }
