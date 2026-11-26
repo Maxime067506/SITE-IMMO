@@ -1622,7 +1622,15 @@ body.has-video-bg .carte-canvas .leaflet-tile-pane{
 /* Responsive */
 @media (max-width: 960px){
   .carte-wrap{grid-template-columns:1fr;gap:var(--s-3)}
-  .carte-3d{aspect-ratio:1/1}
+  /* Carte plus haute + marqueurs plus petits : les appartements du centre
+     (Musiciens / Carré d'Or) sont tres proches, ils se chevauchaient sur
+     l'ecran etroit du mobile. */
+  .carte-3d{aspect-ratio:4/5}
+  .dp-marker{width:34px;height:34px;font-size:13px;border-width:1.5px}
+}
+@media (max-width: 560px){
+  .carte-3d{aspect-ratio:3/4}
+  .dp-marker{width:30px;height:30px;font-size:12px}
 }
 
 @media (prefers-reduced-motion: reduce){
