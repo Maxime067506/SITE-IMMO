@@ -22,6 +22,8 @@ const API_KEY = process.env.RESEND_API_KEY;
 const FROM = process.env.EMAIL_FROM || 'Delfosse Properties <onboarding@resend.dev>';
 const HOST_EMAIL = process.env.HOST_EMAIL || 'delfosseproperties@gmail.com';
 const REPLY_TO = process.env.EMAIL_REPLY_TO || HOST_EMAIL;
+// Adresse qui recoit les messages du formulaire de contact (boite pro par defaut).
+const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'delfosseproperties@gmail.com';
 
 export function emailConfigured() { return Boolean(API_KEY); }
 
@@ -203,7 +205,7 @@ export async function sendContactMessage(data) {
     '<p style="color:rgba(245,237,224,.4);font-size:12px;margin:16px 0 0">Répondez simplement à cet e-mail pour écrire au voyageur.</p></td></tr>'
   );
   try {
-    const r = await resendSend({ from: FROM, to: [HOST_EMAIL], reply_to: data.email || REPLY_TO,
+    const r = await resendSend({ from: FROM, to: [CONTACT_EMAIL], reply_to: data.email || REPLY_TO,
       subject: 'Contact site — ' + (data.name || '') + (code ? (' · appart ' + code) : ''), html });
     return { sent: !!(r && r.id), id: r && r.id };
   } catch (e) { return { sent: false, reason: e.message }; }
