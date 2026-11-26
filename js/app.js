@@ -425,10 +425,10 @@ targets.forEach(el => io.observe(el));
     { no:'02', name:'Son jumeau du port',                  address:'5 rue Barla, Nice',         loc:'Port de Nice',   lat:43.70268, lon:7.28178, img:'img/airbnb/02-commodore/photo-01.jpg?v=c1', meta:'4 voyageurs · ★ 4,88', airbnb:'https://www.airbnb.fr/rooms/1361686663866337495', detail:'sejour-02.html' },
     { no:'03', name:'Notre appartement avenue Notre-Dame', address:'27 avenue Notre-Dame, Nice', loc:'Hyper centre', lat:43.70362, lon:7.26709, img:'img/airbnb/03-basilique/photo-01.jpg',    meta:'6 voyageurs · ★ 4,63',  airbnb:'https://www.airbnb.fr/rooms/1563266584925477319', detail:'sejour-03.html' },
     { no:'04', name:'Notre appartement Art Déco',          address:'Face à la gare, Nice',      loc:'Quartier gare',  lat:43.70378, lon:7.26190, img:'img/airbnb/04-transatlantique/photo-01.jpg', meta:'4 voyageurs · ★ 4,84', airbnb:'https://www.airbnb.fr/rooms/1361628609886141688', detail:'sejour-04.html' },
-    { no:'05', name:'Notre appartement ultra design',      address:'41 av. G. Clemenceau, Nice',loc:'Musiciens',      lat:43.70179, lon:7.26055, img:'img/airbnb/06-scherzo/photo-01.jpg?v=e3',   meta:'4 voyageurs · ★ 4,81', airbnb:'https://www.airbnb.fr/rooms/1446914329011561138', detail:'sejour-05.html' },
-    { no:'06', name:'Notre dernier appartement',           address:'24D rue Gounod, Nice',      loc:'Musiciens',      lat:43.70098, lon:7.26081, img:'img/airbnb/07-crescendo/photo-01.jpg', meta:'4 voyageurs · ★ 4,65', airbnb:'https://www.airbnb.fr/rooms/1361447215596892211', detail:'sejour-06.html' },
-    { no:'07', name:'Notre appartement design',            address:'41 av. G. Clemenceau, Nice',loc:'Musiciens',      lat:43.70149, lon:7.26015, img:'img/airbnb/05-adagio/photo-01.jpg?v=d1',    meta:'4 voyageurs · ★ 4,66', airbnb:'https://www.airbnb.fr/rooms/1447097634568506909', detail:'sejour-07.html' },
-    { no:'08', name:'Notre nouvel appartement',            address:'37 av. G. Clemenceau, Nice', loc:'Musiciens',     lat:43.70130, lon:7.26095, img:'img/airbnb/08-symphonie/photo-01.jpg',  meta:'4 voyageurs · ★ 4,73', airbnb:'https://www.airbnb.fr/rooms/1705198304588120041', detail:'sejour-08.html' },
+    { no:'05', name:'Notre appartement ultra design',      address:'41 av. G. Clemenceau, Nice',loc:'Musiciens',      lat:43.70200, lon:7.26055, img:'img/airbnb/06-scherzo/photo-01.jpg?v=e3',   meta:'4 voyageurs · ★ 4,81', airbnb:'https://www.airbnb.fr/rooms/1446914329011561138', detail:'sejour-05.html' },
+    { no:'06', name:'Notre dernier appartement',           address:'24D rue Gounod, Nice',      loc:'Musiciens',      lat:43.70080, lon:7.26055, img:'img/airbnb/07-crescendo/photo-01.jpg', meta:'4 voyageurs · ★ 4,65', airbnb:'https://www.airbnb.fr/rooms/1361447215596892211', detail:'sejour-06.html' },
+    { no:'07', name:'Notre appartement design',            address:'41 av. G. Clemenceau, Nice',loc:'Musiciens',      lat:43.70140, lon:7.25980, img:'img/airbnb/05-adagio/photo-01.jpg?v=d1',    meta:'4 voyageurs · ★ 4,66', airbnb:'https://www.airbnb.fr/rooms/1447097634568506909', detail:'sejour-07.html' },
+    { no:'08', name:'Notre nouvel appartement',            address:'37 av. G. Clemenceau, Nice', loc:'Musiciens',     lat:43.70140, lon:7.26130, img:'img/airbnb/08-symphonie/photo-01.jpg',  meta:'4 voyageurs · ★ 4,73', airbnb:'https://www.airbnb.fr/rooms/1705198304588120041', detail:'sejour-08.html' },
     { no:'09', name:'Le Carré d\'Or',                      address:'27 rue Alphonse Karr, Nice', loc:'Carré d\'Or',   lat:43.6988, lon:7.2659, img:'img/airbnb/09-carre-dor/photo-01.jpg',  meta:'4 voyageurs · Studio 20 m²', airbnb:'', detail:'sejour-09.html' },
   ];
 
@@ -747,7 +747,7 @@ targets.forEach(el => io.observe(el));
 
     // aria-label du track
     track.setAttribute('aria-label',
-      `${ITEMS[active].name}, ${active + 1} sur ${TOTAL}. Huit adresses Delfosse Properties.`);
+      `${ITEMS[active].name}, ${active + 1} sur ${TOTAL}. Neuf adresses Delfosse Properties.`);
   }
 
   function goTo(i) {
