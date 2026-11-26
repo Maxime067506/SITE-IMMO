@@ -1304,13 +1304,13 @@ const I18N = {
     "stay.8.meta":   "37 Clemenceau Ave · Musicians · 4 guests · ★ 4.73",
     "stay.8.loc":    "Musicians district · 4 guests",
     "stay.8.lede":   "Bright, modern one-bedroom in the heart of the Musicians district, steps from Jean Médecin and the tram.",
-    "stay.8.mapTitle": "37 avenue Georges Clemenceau <em>— Musiciens.</em>",
-    "stay.8.mapMeta":  "Plan · 37 av. Georges Clemenceau, Nice",
+    "stay.8.mapTitle": "37 avenue Georges Clemenceau <em>— Musicians.</em>",
+    "stay.8.mapMeta":  "Map · 37 av. Georges Clemenceau, Nice",
 
     /* ---- MAP ---- */
     "map.eyebrow":  "Location",
     "map.title":    "All of Nice, <em>within walking distance.</em>",
-    "map.label":    "Plan · 9 addresses · Nice",
+    "map.label":    "Map · 9 addresses · Nice",
     "map.hint":     "Hover over a pin",
     "map.hintSub":  "All nine addresses cluster in the heart of Nice, each a short walk from the city's landmarks.",
     "map.allStays": "View all stays →",
@@ -1345,7 +1345,7 @@ const I18N = {
     "book.guests":   "Guests",
     "book.contact":  "Contact",
     "book.note":     "A few words <em>(optional)</em>",
-    "book.cta":      "Suggest me an address",
+    "book.cta":      "Suggest an address for me",
     "book.reply":    "Reply within 24h · No commitment · Flexible cancellation",
     "book.stickyCta":"Book direct",
 
@@ -2178,11 +2178,9 @@ function applyLang(lang) {
     if (!attr || !key || !(key in dict)) return;
     el.setAttribute(attr, dict[key]);
   });
-  // Titre de page
-  if (dict["hero.eyebrow"]) {
-    const baseTitle = "Delfosse Properties — ";
-    document.title = baseTitle + dict["hero.eyebrow"];
-  }
+  // Titre de page : on NE touche PAS a document.title — chaque page a son
+  // <title> propre (et localise : pages FR vs pages en/). L'ancien override
+  // ecrasait tous les titres par un generique, nefaste au SEO.
   // Chips actifs
   document.querySelectorAll(".lang-switch [data-lang]").forEach(b => {
     b.classList.toggle("is-active", b.dataset.lang === lang);
