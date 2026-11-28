@@ -274,7 +274,7 @@ const I18N = {
     "book.stickyCta":"Réserver en direct",
 
     /* ---- FOOTER ---- */
-    "foot.tag":         "Séjours d'exception, à Nice sur la French Riviera.",
+    "foot.tag":         "Neuf adresses d'exception à Nice, sur la French Riviera.",
     "foot.navTitle":    "Navigation",
     "foot.socialTitle": "Suivez-nous",
     "foot.book":        "Réserver",
@@ -282,6 +282,17 @@ const I18N = {
     "foot.legal":       "Mentions légales",
     "foot.tos":         "CGV",
     "foot.privacy":     "Confidentialité",
+    "foot.col.discover":"Découvrir",
+    "foot.col.book":    "Réserver",
+    "foot.col.journal": "Le journal",
+    "foot.contact":     "Contact",
+    "foot.guestArea":   "Espace voyageur",
+    "foot.blog1":       "Meilleurs quartiers de Nice",
+    "foot.blog2":       "Que faire à Nice en 3 jours",
+    "foot.allArticles": "Tous les articles",
+    "foot.cookies":     "Cookies",
+    "foot.odr":         "Règlement des litiges en ligne",
+    "foot.mediator":    "Médiateur de la consommation : [à compléter] — saisine gratuite en cas de litige.",
 
     /* ============== FICHE (sejour-XX.html) ============== */
     "fiche.backLink":    "← Retour aux séjours",
@@ -1350,7 +1361,7 @@ const I18N = {
     "book.stickyCta":"Book direct",
 
     /* ---- FOOTER ---- */
-    "foot.tag":         "Exceptional stays, in Nice on the French Riviera.",
+    "foot.tag":         "Nine exceptional addresses in Nice, on the French Riviera.",
     "foot.navTitle":    "Navigation",
     "foot.socialTitle": "Follow us",
     "foot.book":        "Book",
@@ -1358,6 +1369,17 @@ const I18N = {
     "foot.legal":       "Legal notice",
     "foot.tos":         "Terms",
     "foot.privacy":     "Privacy",
+    "foot.col.discover":"Discover",
+    "foot.col.book":    "Book",
+    "foot.col.journal": "The Journal",
+    "foot.contact":     "Contact",
+    "foot.guestArea":   "Guest area",
+    "foot.blog1":       "Best neighbourhoods in Nice",
+    "foot.blog2":       "What to do in Nice in 3 days",
+    "foot.allArticles": "All articles",
+    "foot.cookies":     "Cookies",
+    "foot.odr":         "Online dispute resolution",
+    "foot.mediator":    "Consumer ombudsman: [to be completed] — free referral in case of dispute.",
 
     /* ============== FICHE ============== */
     "fiche.backLink":    "← Back to stays",

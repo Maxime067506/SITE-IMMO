@@ -1366,7 +1366,7 @@ body.has-video-bg .btn-connect:hover,
 .site-footer{background:var(--bg);padding:var(--s-8) var(--gutter) var(--s-4);border-top:1px solid var(--line)}
 .foot-grid{
   max-width:var(--container);margin:0 auto;
-  display:grid;grid-template-columns:2fr 1fr;gap:var(--s-6);
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:var(--s-6);
   padding-bottom:var(--s-6);border-bottom:1px solid var(--line);
 }
 .foot-grid h4{
@@ -1383,6 +1383,18 @@ body.has-video-bg .btn-connect:hover,
   max-width:var(--container);margin:0 auto;padding-top:var(--s-3);
   display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
   font-size:12px;color:var(--ink-muted);letter-spacing:.06em;
+}
+.foot-bottom a{border-bottom:1px solid transparent;transition:border-color var(--t-fast) var(--ease)}
+.foot-bottom a:hover{color:var(--ink);border-bottom-color:var(--ink)}
+.foot-linkbtn{
+  background:none;border:0;padding:0;margin:0;font:inherit;font-size:12px;
+  letter-spacing:.06em;color:var(--ink-muted);cursor:pointer;
+  border-bottom:1px solid transparent;transition:border-color var(--t-fast) var(--ease);
+}
+.foot-linkbtn:hover{color:var(--ink);border-bottom-color:var(--ink)}
+.foot-mediator{
+  max-width:var(--container);margin:12px auto 0;
+  font-size:11px;color:var(--ink-muted);letter-spacing:.04em;line-height:1.6;
 }
 
 /* ============== RESPONSIVE ============== */
@@ -1433,14 +1445,16 @@ body.has-video-bg .btn-connect:hover,
   /* Body lock lorsque le menu est ouvert */
   body.nav-open{overflow:hidden}
   .about,.contact-card{grid-template-columns:1fr}
-  .foot-grid{grid-template-columns:1fr 1fr;gap:var(--s-4)}
+  .foot-grid{grid-template-columns:repeat(3,1fr);gap:var(--s-5) var(--s-4)}
+  .foot-brand{grid-column:1 / -1;margin-bottom:var(--s-2)}
   .feature{border-right:0 !important}
   .hero-film-meta{top:78px;font-size:11.5px}
   .hero-film-credit{display:none}
 }
 @media (max-width: 520px){
   .header-cta .btn-ghost{display:none}
-  .foot-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr 1fr;gap:var(--s-5) var(--s-4)}
+  .foot-brand{grid-column:1 / -1;margin-bottom:0}
   /* Hero title : calibré pour entrer sur 2 lignes à 375px sans débordement */
   .display{
     font-size:clamp(40px, 12vw, 60px);
@@ -3157,6 +3171,10 @@ body.has-video-bg .foot-grid li,
 body.has-video-bg .foot-tag{color:rgba(245,237,224,.75)}
 body.has-video-bg .site-footer a{color:rgba(245,237,224,.75)}
 body.has-video-bg .site-footer a:hover{color:var(--accent-lt)}
+body.has-video-bg .foot-bottom{color:rgba(245,237,224,.6)}
+body.has-video-bg .foot-linkbtn{color:rgba(245,237,224,.75)}
+body.has-video-bg .foot-linkbtn:hover{color:var(--accent-lt);border-bottom-color:var(--accent-lt)}
+body.has-video-bg .foot-mediator{color:rgba(245,237,224,.5)}
 
 /* ============================================================
    SCROLL-DRIVEN CHOREOGRAPHY (progressive enhancement)
